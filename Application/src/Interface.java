@@ -9,14 +9,13 @@
 
 import java.io.*;
 
-
-//import com.mongodb.MongoClient;
-//import com.mongodb.MongoClientURI;
-
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 
 /*
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.conversions.Bson;
@@ -64,16 +63,16 @@ public class Interface {
 	 * Do NOT change the connection string declared at the top of the main function
 	*/
 	public static void main(String[] args) throws IOException {
-		/*
-		// Connect to database using a connection String - DO NOT CHANGE THIS
+		
+		//Connect to database using a connection String - DO NOT CHANGE THIS
 		String connString = "mongodb+srv://JAMBL:se420@clusterjambl.4bnlbcs.mongodb.net/test";
 		/*
 		 * Getting a MongoClient using a Client URI and the connection string
 		 * Used for retrieving info from DB
 		 */
-		//MongoClientURI clientURI = getURI(connString);
-		//MongoClient client = getClient(clientURI);
-		
+		MongoClientURI clientURI = getURI(connString);
+		MongoClient client = getClient(clientURI);
+		System.out.print("Success");
 	}
 	
 	/*
@@ -82,10 +81,10 @@ public class Interface {
 	 * @param conn	The connection string used to connect to the database
 	 * @return A new Mongo Client URI
 	 */
-	//public static MongoClientURI getURI(String conn)
-	//{
-		//return new MongoClientURI(conn);
-	//}
+	public static MongoClientURI getURI(String conn)
+	{
+		return new MongoClientURI(conn);
+	}
 
 	/*
 	 * @name getClient
@@ -93,8 +92,8 @@ public class Interface {
 	 * @param uri	The client URI used to get the client
 	 * @return A new Mongo Client
 	 */
-	//public static MongoClient getClient(MongoClientURI uri)
-	//{
-		//return new MongoClient(uri);
-	//}
+	public static MongoClient getClient(MongoClientURI uri)
+	{
+		return new MongoClient(uri);
+	}
 }
