@@ -8,6 +8,7 @@
 
 
 import java.io.*;
+import java.util.Scanner;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -64,6 +65,15 @@ public class Interface {
 	*/
 	public static void main(String[] args) throws IOException {
 		
+		// prompts user and stores input in variable (command)
+		System.out.println("Welcome to JAMBL UML!");
+        System.out.println("If you're just starting out enter help to get started!");
+        Scanner console = new Scanner(System.in);
+        System.out.print("JAMBL> ");
+		String command = console.nextLine();
+		console.close();
+
+
 		//Connect to database using a connection String - DO NOT CHANGE THIS
 		String connString = "mongodb+srv://JAMBL:se420@clusterjambl.4bnlbcs.mongodb.net/test";
 		/*
