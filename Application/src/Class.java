@@ -4,11 +4,25 @@ public class Class {
 
     private String className;
     private HashSet<Attribute> attributes = new HashSet<Attribute>();
-    private HashSet<Relationship> relationships = new HashSet<Relationship>();
+    private HashSet<Relationship> relationships = new HashSet<Relationship>()
 
-    //code for constructor method needed
+    //constructor with name as parameter
+    public Class(name){
+        this.className = name;
+    }
 
-    //code for Attribute methods
+   //get Class Name
+    public String getClassName(){
+
+        return className;
+    }
+    
+    // set class Name
+    public void setClassName(String name){
+    
+        this.className = name;
+    }
+
 
     // This method adds a Class to relationships with the Class added being the destination
     // parameter Relationship
@@ -20,6 +34,6 @@ public class Class {
            relationships.add(newRel);
         }
 
-    }
-    
+    }       
+
 }
