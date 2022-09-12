@@ -7,7 +7,7 @@ Stores the Class that is the destination of a relationship between two classes
     private Class destination;
 
     // Constructor thats takes a Class as a parameter to set destination
-    public class Relationship (Class destination) {
+    public Relationship (Class destination) {
 
         this.destination = destination;
 
