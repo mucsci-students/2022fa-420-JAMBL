@@ -24,7 +24,7 @@ public class Class {
     }
 
 
-    // This method adds a Class to relationships with the Class added being the destination
+    // This method adds a Relationship to relationships
     // parameter Relationship
     public void addRelationship (Relationship newRel) {
 
@@ -34,6 +34,16 @@ public class Class {
            relationships.add(newRel);
         }
 
-    }       
+    } 
+
+    // This method removes a Relationship from the HashSet relationships
+    // Parameter Relationship
+    public void deleteRelationship (Relationship toBeRemoved) {
+       
+        if (relationships.remove(toBeRemoved) == false) {
+            System.out.println ("Relationship not present in this Class");
+        }
+
+    }
 
 }
