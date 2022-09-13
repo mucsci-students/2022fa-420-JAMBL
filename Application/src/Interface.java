@@ -60,17 +60,6 @@ public class Interface {
 	}
 	
 	/*
-	 * @name deleteClass
-	 * @description	RDeletes a class of the specified name
-	 * @param className The name of the class to be deleted
-	 * @note command to delete class will be 'deletec'
-	 */
-	public static void deleteClass(String className) {
-		System.out.println("Entered deleteClass!");
-		return;
-	}
-	
-	/*
 	 * @name getURI
 	 * @description	Returns a Mongo Client URI using a connection string
 	 * @param conn	The connection string used to connect to the database
