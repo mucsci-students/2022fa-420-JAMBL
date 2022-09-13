@@ -51,6 +51,32 @@ public class Model {
 
     
 
+    public void renameClass (String oldName, String newName) {
+        // finds the class
+        Class foundClass = getClass(oldName);
+        // to check in class name already exists
+        Class checkClass = getClass(newName);
+        //if class is found with the same name as newName 
+        if(checkClass != null){
+            // notifies user
+            System.out.println("Class already exists! Name change failed");
+            //exits method
+            return;
+        }
+        // checks if foundClass does not exist
+        if(foundClass == null){
+            //Notifies user
+            System.out.println("Class does not exist! Name change failed!");
+            // exits method
+            return;
+        }
+        // change class name
+        foundClass.setClassName(newName);
+        System.out.println( oldName + " class changed to " + newName + "!");
+    }
+
+
+    
     public Class getClass(String name){
         // Creates an iterator
         Iterator<Class> itClasses = classes.iterator();

@@ -4,10 +4,10 @@ public class Class {
 
     private String className;
     private HashSet<Attribute> attributes = new HashSet<Attribute>();
-    private HashSet<Relationship> relationships = new HashSet<Relationship>()
+    private HashSet<Relationship> relationships = new HashSet<Relationship>();
 
     //constructor with name as parameter
-    public Class(name){
+    public Class(String name){
         this.className = name;
     }
 
