@@ -12,6 +12,7 @@
     String attName; 
 
     //Constructor that takes String parameter and sets it as name
+
     public Attribute(String name) {
 
         attName = name;
