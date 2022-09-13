@@ -25,7 +25,45 @@ public class Model {
         Class newClass = new Class(className);
         classes.add(newClass);
         // notifies user
-        System.out.println("Class " + className + " added!");
-            
+        System.out.println("Class " + className + " added!");       
     }
+
+
+    public void deleteClass (String className) {
+        // finds the class
+        Class foundClass = getClass(className);
+        // checks if foundClass does not exist
+        if(foundClass == null){
+            //Notifies user
+            System.out.println("Class does not exist!");
+            // exits method
+            return;
+        }
+        // removes class from set
+        System.out.println ("Class removed!");
+        // remove the class from the classes set
+        classes.remove(foundClass);
+    }
+
+
+    public Class getClass(String name){
+        // Creates an iterator
+        Iterator<Class> itClasses = classes.iterator();
+        // Initialized the class to be found
+        Class found;
+        // Iteratates through classes and returns the found class
+        while(itClasses.hasNext()){
+            // sets the current class to be compared
+            found = itClasses.next();
+            // compares the current class name with the one to be found
+            if(found.getClassName().equals(name)){
+                // returns found class
+                return found;
+            }     
+        }
+        // if class was not found returns null
+        return null;
+    }
+
+    
 }
