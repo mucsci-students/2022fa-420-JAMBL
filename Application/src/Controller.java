@@ -70,6 +70,7 @@ public class Controller {
         String name3;
         Class class1;
         Class class2;
+        String fileName;
         
 
         switch (currentCmd) {
@@ -179,12 +180,33 @@ public class Controller {
                 break;
             
             case SAVE:
-                //save function to be added
+                //Prompts user for file
+                System.out.println("Input file you want to save to or enter DEFAULT");
+                fileName = scanner.nextLine();
+                // Checks if user wants default file
+                if(fileName.equals("DEFAULT") || fileName.equals("default")){
+                    
+                    save(model, "JAMBL.json");
+                }else{
+                    // else save to inputted file
+                    save(model, fileName);
+                }
+                
                 break;
 
 
             case LOAD:
-                //load function to be added
+                
+                //prompts user for file
+                System.out.println("Input file you want loaded or input DEFAULT.");
+                fileName = scanner.nextLine();
+                // checks of its default
+                if(fileName.equals("DEFAULT") || fileName.equals("default")){
+                    load("JAMBL.json");
+                }else{
+                    // otherwise loads file into current model
+                    load(fileName);
+                }
                 break;
 
             case LISTCLS:
@@ -259,77 +281,7 @@ public class Controller {
         System.out.println();
     }
 
-
-
-
-
-    public void save(Model model){
-        JSONObject obj1 = new JSONObject();
-        JSONObject obj2;
-
-        HashSet<Class> classes = model.classes;
-        HashSet<Attribute> atts;
-        HashSet<Relationship> rels;
-        HashSet<String> attSet = new HashSet<String>();
-        HashSet<String> relSet = new HashSet<String>();
-        Class curr;
-        Relationship relationship;
-        Attribute attribute;
-        Iterator<Class> itClasses = classes.iterator();
-        Iterator<Attribute> itAtts;
-        Iterator<Relationship> itRels;
-        String classStr = "";
-        String attStr = "";
-        String relsStr = "";
-        
-
-        while(itClasses.hasNext()){
-            curr = (Class) itClasses.next();
-            classStr = curr.getClassName();
-            atts = curr.attributes;
-            rels = curr.relationships;
-            itRels = rels.iterator();
-            itAtts = atts.iterator();
-            
-
-            // iterate through relationship HashSet
-            
-            while(itRels.hasNext()){
-                relationship = (Relationship) itRels.next();
-                relSet.add(relationship.getDestination().getClassName());
-                //relsStr = relationship.getDestination().getClassName() + ", " + relsStr;
-            }
-            relsStr = String.join(", ", relSet);
-            relSet.clear();
-            
-            while(itAtts.hasNext()){
-                attribute = (Attribute) itAtts.next();
-                attSet.add(attribute.getAttName());
-                //attStr = attStr + ", " + attribute.getAttName();
-            }
-            attStr = String.join(", ", attSet);
-            attSet.clear();
-            obj2 = new  JSONObject();
-            obj2.put( "Attributes", attStr);
-            obj2.put("Relationships", relsStr);
-            obj1.put(classStr, obj2);
-        }
-
-        try{
-
-            FileWriter file = new FileWriter("JAMBL.json");
-            file.write(obj1.toJSONString());
-            file.close();
-            System.out.println("UML Diagram Saved!");
-        }catch(Exception e){
-            System.out.println("Could not write file" + e);
-        }
-        
-    }
-    
-
-
-    
+ 
     /*
    	 * @name listRelationship	
    	 * @description	Lists all of the relationships between classes
@@ -460,5 +412,160 @@ public class Controller {
 
 		System.out.println("***************************************************************************************");
     }
+
+
+
+    
+    public void save(Model model, String fileName){
+        JSONObject obj1 = new JSONObject();
+        JSONObject obj2;
+        HashSet<Class> classes = model.classes;
+        HashSet<Attribute> atts;
+        HashSet<Relationship> rels;
+        HashSet<String> attSet = new HashSet<String>();
+        HashSet<String> relSet = new HashSet<String>();
+        Class curr;
+        Relationship relationship;
+        Attribute attribute;
+        Iterator<Class> itClasses = classes.iterator();
+        Iterator<Attribute> itAtts;
+        Iterator<Relationship> itRels;
+        String classStr = "";
+        String attStr = "";
+        String relsStr = "";
+        
+        //iterates through classes
+        while(itClasses.hasNext()){
+            curr = (Class) itClasses.next();
+            classStr = curr.getClassName();
+            atts = curr.attributes;
+            rels = curr.relationships;
+            itRels = rels.iterator();
+            itAtts = atts.iterator();
+            
+
+            // iterate through relationship HashSet
+            // Iterates through a class' relationships
+            while(itRels.hasNext()){
+                relationship = (Relationship) itRels.next();
+                relSet.add(relationship.getDestination().getClassName());
+                //relsStr = relationship.getDestination().getClassName() + ", " + relsStr;
+            }
+            // joins them into a string
+            relsStr = String.join(", ", relSet);
+            // cleared set for next class iteration
+            relSet.clear();
+            
+            // Iterates through a class' attributes
+            while(itAtts.hasNext()){
+                attribute = (Attribute) itAtts.next();
+                attSet.add(attribute.getAttName());
+                //attStr = attStr + ", " + attribute.getAttName();
+            }
+            // joins into a string
+            attStr = String.join(", ", attSet);
+            // clears for next class iteration
+            attSet.clear();
+            //adds attributes and relationship to new object
+            obj2 = new  JSONObject();
+            obj2.put( "Attributes", attStr);
+            obj2.put("Relationships", relsStr);
+            // adds class and rel/att object to a new object
+            obj1.put(classStr, obj2);
+        }
+
+        try{
+            // creates new file  if ther is not one
+            FileWriter file = new FileWriter(fileName);
+            // turns object to string and save to file
+            file.write(obj1.toJSONString());
+            file.close();
+            System.out.println("UML Diagram Saved!");
+        }catch(Exception e){
+            System.out.println("Could not write file" + e);
+        }
+        
+    }
+
+
+        public Model load(String file){
+        Model lModel = new Model();
+        JSONObject obj1;
+        JSONObject obj2;
+        JSONParser parser;
+        Object fileContent;
+        Set<Object> classesSet;
+        Iterator<Object> itClasses;
+        String currClass;
+        String classAtts;
+        String classRels;
+
+        File checkContent = new File(file);
+        if(checkContent.length() == 0){
+            return lModel;
+
+        }else{
+            // JSON object that will hold the Model Content
+            obj1 = new JSONObject();
+            // parser to scan through the file
+            parser = new JSONParser();
+
+            try{
+                // gets file content
+                fileContent = parser.parse(new FileReader(file));
+                // sets the file content to a json object
+                obj1 = (JSONObject) fileContent;
+                classesSet = obj1.keySet();
+                itClasses = classesSet.iterator();
+                // creates the classes and adds to Model
+                while(itClasses.hasNext()){
+                    currClass = itClasses.next().toString();
+                    model.addClass(currClass);
+                }
+                 for(Class aClass : model.classes){
+                    // gets the object key value
+                    obj2 = (JSONObject) obj1.get(aClass.getClassName());
+                    classAtts = obj2.get("Attributes").toString();
+                    classRels = obj2.get("Relationships").toString();
+
+                   // System.out.println(classA);
+                    // Splits obj2 strings into string arrays
+                    String attArray[] = classAtts.split(", ");
+                    String relArray[] = classRels.split(", ");
+                    
+                    // for every attribute in array adds it to current class
+                    if(attArray.length > 0){
+                        // for every element in the array add attribute if not empty
+                        for(String att : attArray){
+                            if(att.equals("")){
+                            // do nothing
+                            }else{
+                                //add attribute to current class
+                                aClass.addAttribute(att);
+                            } 
+                        }
+                    }
+                    
+                    // for every relationship in array adds it to current class
+                    if(relArray.length > 0){
+                        // for every relationship add it to current class unless empty
+                        for(String rel : relArray){
+                            if(rel.equals("")){
+                                //do nothing
+                            }else{
+                                // add relationship to current class
+                                aClass.addRelationship(model.getClass(rel));
+                            }
+                            // finds the destination class and adds relationshi   
+                        } 
+                    }  
+                 }
+                
+            }catch(Exception e){
+                System.out.println("Could not read file" + e);
+            }
+        }
+        return lModel;
+    } 
 
 }
