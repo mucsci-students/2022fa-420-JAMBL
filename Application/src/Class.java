@@ -14,6 +14,7 @@ public class Class {
     public HashSet<Attribute> attributes = new HashSet<Attribute>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
 
+
     //constructor with name as parameter
     public Class(String name){
         this.className = name;
