@@ -7,6 +7,9 @@ public class Model {
         // when load() is working it will taking ins a HashSet
         classes = new HashSet<Class>();
     }
+
+
+
     public void addClass (String className) {
        
         Iterator<Class> itClasses = classes.iterator();
@@ -29,6 +32,7 @@ public class Model {
     }
 
 
+
     public void deleteClass (String className) {
         // finds the class
         Class foundClass = getClass(className);
@@ -45,6 +49,7 @@ public class Model {
         classes.remove(foundClass);
     }
 
+    
 
     public Class getClass(String name){
         // Creates an iterator
@@ -63,7 +68,5 @@ public class Model {
         }
         // if class was not found returns null
         return null;
-    }
-
-    
+    }  
 }
