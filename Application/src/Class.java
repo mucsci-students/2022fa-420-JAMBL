@@ -1,17 +1,38 @@
+/*
+ * @projectDescription	A program for adding classes to a database
+ * 
+ * @authors	John Shenk, Benjamin Slinghoff, Lauryn Simmons, Alex Peiffer, Meba Shimelis
+ * @version 0.0.1
+ * @dateLastModified September 8, 2022
+ */
+ 
 import java.util.*;
 
 public class Class {
 
-    private String className;
-    private HashSet<Attribute> attributes = new HashSet<Attribute>();
-    private HashSet<Relationship> relationships = new HashSet<Relationship>();
+    private String className = "DEFAULT";
+    public HashSet<Attribute> attributes = new HashSet<Attribute>();
+    public HashSet<Relationship> relationships = new HashSet<Relationship>();
+
 
     //constructor with name as parameter
     public Class(String name){
         this.className = name;
+        this.attributes = new HashSet<Attribute>();
+        this.relationships = new HashSet<Relationship>();
     }
 
-   //get Class Name
+    //get Attribute set
+    public HashSet<Attribute> getAttributes() {
+        return attributes;
+    }
+
+    //get Relationship set
+    public HashSet<Relationship> getRelationships() {
+        return relationships;
+    }
+
+    //get Class Name
     public String getClassName(){
 
         return className;
@@ -26,22 +47,103 @@ public class Class {
 
     // This method adds a Relationship to relationships
     // parameter Relationship
-    public void addRelationship (Relationship newRel) {
-
-        if (relationships.contains(newRel)) {
-            System.out.println ("Relationship already exists!");
+    public void addRelationship (Class destination) {
+        if (relationships.isEmpty()) {
+            relationships.add(new Relationship(destination));
+            System.out.println("Relationship added from " + className + " to " + destination.className + "!");
         } else {
-           relationships.add(newRel);
+        boolean isExist = false;
+        for(Relationship ele: relationships) {
+           
+            if ((ele.getDestination()).getClassName().equals(destination.getClassName())) {
+                System.out.println("Relationship already exists!");
+                isExist = true;
+            }
+            if (!isExist) {
+                relationships.add(new Relationship(destination));
+                System.out.println("Relationship added from " + className + " to " + destination.className + "!");
+            }
         }
-
-    } 
+        }
+    }
+       
+     
 
     // This method removes a Relationship from the HashSet relationships
     // Parameter Relationship
-    public void deleteRelationship (Relationship toBeRemoved) {
-       
-        if (relationships.remove(toBeRemoved) == false) {
-            System.out.println ("Relationship not present in this Class");
+    public void deleteRelationship (String name) {
+        Iterator<Relationship> relItr = relationships.iterator();
+        boolean removed = false;
+        while (relItr.hasNext()) {
+            Relationship ele = relItr.next();
+            if ((ele.getDestination()).getClassName().equals(name)) {
+                relItr.remove();
+                removed = true;
+            }
+        }
+        
+        if (!removed) {
+            System.out.println("Relation does not exist! Removal Failed!");
+        }
+
+    }
+
+    public void addAttribute (String name) {
+        if(attributes.isEmpty()) {
+            attributes.add(new Attribute (name));
+            System.out.println("Attribute added to " + className + " called " + name + "!");
+
+        }else {
+            boolean isExist = false;
+            for (Attribute ele: attributes) {
+                if(ele.getAttName().equals(name)) {
+                    System.out.println("Attribute already exists!");
+                    isExist = true;
+                }
+            }
+            if(!isExist) {
+              this.attributes.add(new Attribute(name));
+              System.out.println("Attribute added to " + className + " called " + name + "!");
+            }
+            
+                
+       }
+    } 
+
+    public void deleteAttribute (String name) {
+        Iterator<Attribute> attItr = attributes.iterator();
+        boolean removed = false;
+        while (attItr.hasNext()) {
+            Attribute ele = attItr.next();
+            if (ele.getAttName().equals(name)) {
+                attItr.remove();
+                removed = true;
+            }
+        }
+        
+        if (removed) {
+            System.out.println ("Attribute " + name + " removed from " + this.getClassName() + "!");
+        } else {
+            System.out.println("Atrribute " + name + " does not exist!");
+        }
+
+    }
+
+    public void renameAttribute (String oldName, String newName) {
+        Iterator<Attribute> attItr = attributes.iterator();
+        boolean changed = false;
+        while (attItr.hasNext()) {
+            Attribute ele = attItr.next();
+            if (ele.getAttName().equals(oldName)) {
+                ele.setAttName(newName);
+                changed = true;
+                break;
+            }
+        }
+        if (!changed) {
+            System.out.println("Attribute does not exist! Name change failed!");
+        } else {
+            System.out.println("Attribute " + oldName + " changed to " + newName + "!");
         }
 
     }
