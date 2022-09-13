@@ -88,25 +88,25 @@ public class Class {
     }
 
     public void addAttribute (String name) {
-        if (attributes.isEmpty()) {
+        if(attributes.isEmpty()) {
             attributes.add(new Attribute (name));
             System.out.println("Attribute added to " + className + " called " + name + "!");
 
         }else {
             boolean isExist = false;
             for (Attribute ele: attributes) {
-                if (ele.getAttName().equals(name)) {
+                if(ele.getAttName().equals(name)) {
                     System.out.println("Attribute already exists!");
                     isExist = true;
                 }
             }
-                if (!isExist) {
-                this.attributes.add(new Attribute(name));
-                System.out.println("Attribute added to " + className + " called " + name + "!");
-                }
+            if(!isExist) {
+              this.attributes.add(new Attribute(name));
+              System.out.println("Attribute added to " + className + " called " + name + "!");
+            }
             
                 
-    }
+       }
     } 
 
     public void deleteAttribute (String name) {
