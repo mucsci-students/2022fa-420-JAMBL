@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/shenk/OneDrive/Documents/GitHub/2022fa-420-JAMBL/Application/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/shenk/OneDrive/Documents/GitHub/2022fa-420-JAMBL/Application/mongo-java-driver-3.12.7.jar"/>
+	<classpathentry kind="lib" path="C:\Users\Alex\Documents\420project\2022fa-420-JAMBL\Application\json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -14,7 +14,8 @@ public class Main {
         Controller controller = new Controller(model);
         System.out.println();
         System.out.println("Welcome to JAMBL UML Diagram Creator!");
-        System.out.println("Please enter your first command. Enter HELP for list of commands.");
+        System.out.println("Please enter your first command. Enter LOAD to load an existing file.");
+        System.out.println("Or enter HELP for list of commands.");
         System.out.print("JAMBL>  ");
         Scanner scanner = new Scanner(System.in);
         String userCmd = scanner.nextLine().toUpperCase();
