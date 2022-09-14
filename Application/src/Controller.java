@@ -81,13 +81,21 @@ public class Controller {
             case ADDCL:
                 System.out.println("Name of Class to be added: ");
                 name1 = scanner.nextLine();
+                if (!name1.isBlank()) {
                 model.addClass(name1);
+                } else {
+                    System.out.println("Invalid name! Try again!");
+                }
                 break;
 
             case DELCL:
                 System.out.println("Name of Class to be deleted: ");
                 name1 = scanner.nextLine();
+                if (!name1.isBlank()) {
                 model.deleteClass(name1);
+                } else {
+                    System.out.println("Invalid name! Try again!");
+                }
                 break;
 
             case RENCL:
@@ -95,7 +103,11 @@ public class Controller {
                 name1 = scanner.nextLine();
                 System.out.println("New name: ");
                 name2 = scanner.nextLine();
+                if (!name2.isBlank()) {
                 model.renameClass(name1, name2);
+                } else {
+                    System.out.println("Invalid name! Try again!");
+                }
                 break;
 
             case ADDREL:
@@ -140,11 +152,15 @@ public class Controller {
                 System.out.println("Name of Attribute: ");
                 name2 = scanner.nextLine();
                 
-                if (model.getClass(name1) == null) {
-                    System.out.println("Class does not exists! Addition of Attribute failed!");
-                    break;
-                }
+                if (!name2.isBlank()) {
+                    if (model.getClass(name1) == null) {
+                        System.out.println("Class does not exists! Addition of Attribute failed!");
+                        break;
+                    }
                     model.getClass(name1).addAttribute(name2);
+                } else {
+                    System.out.println("Invalid name! Try again!");
+                }
                 
                 break;
                 
@@ -170,12 +186,15 @@ public class Controller {
                 System.out.println("New name of Attribute: ");
                 name3 = scanner.nextLine();
                 class1 = model.getClass(name1);
-                
-                if (class1 == null) {
-                    System.out.println("Class does not exists! Removal of Attribute failed!");
-                    break;
+                if (!name3.isBlank()) {
+                    if (class1 == null) {
+                        System.out.println("Class does not exists! Removal of Attribute failed!");
+                        break;
+                    } else {
+                        class1. renameAttribute(name2, name3);
+                    }
                 } else {
-                    class1. renameAttribute(name2, name3);
+                    System.out.println("Invalid name! Try again!");
                 } 
                 break;
             
@@ -201,7 +220,7 @@ public class Controller {
                 System.out.println("Input file you want loaded or input DEFAULT.");
                 fileName = scanner.nextLine();
                 // checks of its default
-                if(fileName.equals("DEFAULT") || fileName.equals("default")){
+                if(fileName.toUpperCase().equals("DEFAULT")){
                     load("JAMBL.json");
                 }else{
                     // otherwise loads file into current model
@@ -216,6 +235,7 @@ public class Controller {
             case LISTCLA:
                 System.out.println("Name of Class to be listed: ");
                 name1 = scanner.nextLine();
+                System.out.println();
                 if (model.getClass(name1) == null) {
                     System.out.println("Class does not exist!");
                     break;
@@ -233,6 +253,21 @@ public class Controller {
                 break;
 
             case EXIT:
+            System.out.println("Would you like to SAVE before quitting? (YES/NO)");
+            name1 = scanner.nextLine();
+            if (name1.toUpperCase().equals("YES")) {
+                  //Prompts user for file
+                  System.out.println("Name file you want to save to or enter DEFAULT");
+                  fileName = scanner.nextLine();
+                  // Checks if user wants default file
+                  if(fileName.toUpperCase().equals("DEFAULT")) {
+                      
+                      save(model, "JAMBL.json");
+                  }else{
+                      // else save to inputted file
+                      save(model, fileName);
+                  }
+            }
             break;
 
         }
@@ -250,7 +285,7 @@ public class Controller {
         System.out.println("CLASSES");
         System.out.println("===============");
         for (Class ele: model.classes) {
-            System.out.print("    * ");
+            System.out.print("     ");
             listClass(ele);
         }
     }
@@ -262,22 +297,22 @@ public class Controller {
    	*/
     public void listClass (Class cls) {
         String className = cls.getClassName();
-        //System.out.println();
         System.out.println(className);
         System.out.println("     ===============");
         System.out.println("     Attributes:");
         
         for (Attribute ele: cls.getAttributes()) {
             String att = ele.getAttName();
-            System.out.println("         * " + att);
+            System.out.println("     * " + att);
         }
         System.out.println();
         System.out.println("     Relationships:");
         
         for (Relationship ele: cls.getRelationships()) {
             String rel = ele.getDestination().getClassName();
-            System.out.println("         * " + className + " ---> " + rel);
+            System.out.println("     * " + className + " ---> " + rel);
         }
+        System.out.println();
         System.out.println();
     }
 
@@ -329,8 +364,6 @@ public class Controller {
 		System.out.println("******** Description of Commands ********");
 
 		System.out.println("***************************************************************************************");
-
-		// System.out.println(DELCL.toString() + " - This command removes a Class ");
 
 		System.out.println("ADDCL   - This command adds a Class. You will be prompted for the name of the class.");
 

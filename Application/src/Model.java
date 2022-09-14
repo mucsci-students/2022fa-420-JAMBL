@@ -15,11 +15,13 @@ public class Model {
        
         Iterator<Class> itClasses = classes.iterator();
         Class aClass;
+
         // iterates through the HashSet
         while (itClasses.hasNext()) {
             aClass = (Class) itClasses.next();
             // if any of the class names match the notifies user
-            if (aClass.getClassName().equals(className)) {
+            
+            if ((aClass.getClassName().toUpperCase()).equals(className.toUpperCase())) {
                 System.out.println("Class already exists!");
                 // if class already exists exits method
                 return;
@@ -44,6 +46,13 @@ public class Model {
             // exits method
             return;
         }
+        for (Class ele: classes) {
+            for (Relationship rel: ele.getRelationships()) {
+                if (rel.getDestination().getClassName().toUpperCase().equals(className.toUpperCase())) {
+                    ele.deleteRelationship(className);
+                }
+            }
+        }
         // removes class from set
         System.out.println ("Class removed!");
         // remove the class from the classes set
@@ -60,7 +69,7 @@ public class Model {
         //if class is found with the same name as newName 
         if(checkClass != null){
             // notifies user
-            System.out.println("Class already exists! Name change failed");
+            System.out.println("Class already exists! Name change failed!");
             //exits method
             return;
         }
@@ -88,7 +97,7 @@ public class Model {
             // sets the current class to be compared
             found = itClasses.next();
             // compares the current class name with the one to be found
-            if(found.getClassName().equals(name)){
+            if(found.getClassName().toUpperCase().equals(name.toUpperCase())){
                 // returns found class
                 return found;
             }     

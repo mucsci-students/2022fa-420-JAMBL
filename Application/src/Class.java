@@ -46,7 +46,7 @@ public class Class {
 
 
     // This method adds a Relationship to relationships
-    // parameter Relationship
+    // parameter Class
     public void addRelationship (Class destination) {
         if (relationships.isEmpty()) {
             relationships.add(new Relationship(destination));
@@ -70,7 +70,7 @@ public class Class {
      
 
     // This method removes a Relationship from the HashSet relationships
-    // Parameter Relationship
+    // Parameter String
     public void deleteRelationship (String name) {
         Iterator<Relationship> relItr = relationships.iterator();
         boolean removed = false;
@@ -124,28 +124,33 @@ public class Class {
         if (removed) {
             System.out.println ("Attribute " + name + " removed from " + this.getClassName() + "!");
         } else {
-            System.out.println("Atrribute " + name + " does not exist!");
+            System.out.println("Attribute " + name + " does not exist!");
         }
 
     }
 
     public void renameAttribute (String oldName, String newName) {
         Iterator<Attribute> attItr = attributes.iterator();
-        boolean changed = false;
+        boolean oldMatch = false;
+        boolean newMatch = false;
+        Attribute old = null;
         while (attItr.hasNext()) {
             Attribute ele = attItr.next();
-            if (ele.getAttName().equals(oldName)) {
-                ele.setAttName(newName);
-                changed = true;
-                break;
+            if (ele.getAttName().toUpperCase().equals(oldName.toUpperCase())) {
+                oldMatch = true;
+                old = ele;
+            } else if ( ele.getAttName().toUpperCase().equals(newName.toUpperCase())) {
+                newMatch = true;
             }
         }
-        if (!changed) {
+        if (!oldMatch) {
             System.out.println("Attribute does not exist! Name change failed!");
+        } else if (newMatch) {
+            System.out.println("New Attribute name already exists! Name change failed!");
         } else {
+            old.setAttName(newName);
             System.out.println("Attribute " + oldName + " changed to " + newName + "!");
         }
-
     }
 
 }
