@@ -34,7 +34,7 @@ public class Controller {
     RENATT ("RENATT"), //rename attribute
     SAVE ("SAVE"), //save diagram
     LOAD ("LOAD"), //load diagram
-    LISTCLS ("LISTCLS"), //list all classes
+    LISTALL ("LISTALL"), //list all classes
     LISTCLA ("LISTCLA"), //list all attributes of a class
     LISTREL ("LISTREL"), //list all relationships between classes
     HELP ("HELP"), //shows the command list and how to use them
@@ -174,7 +174,7 @@ public class Controller {
                     System.out.println("Class does not exists! Removal of Attribute failed!");
                     break;
                 } else {
-                    model.getClass(name1).addAttribute(name2);
+                    model.getClass(name1).deleteAttribute(name2);
                 } 
                 break;
 
@@ -228,7 +228,7 @@ public class Controller {
                 }
                 break;
 
-            case LISTCLS:
+            case LISTALL:
                 listAllClasses(model);
                 break;
 
@@ -423,7 +423,7 @@ public class Controller {
 
 		System.out.println("***************************************************************************************");
 
-		System.out.println("LISTCLS - This command prints a list of all classes and their contents.");
+		System.out.println("LISTALL - This command prints a list of all classes and their contents.");
 
 		System.out.println("***************************************************************************************");
 
