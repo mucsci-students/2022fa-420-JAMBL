@@ -331,7 +331,6 @@ public class Controller {
         System.out.println("CLASSES");
         System.out.println("===============");
         for (Class ele: model.classes) {
-            System.out.print("     ");
             listClass(ele);
         }
     }
@@ -343,7 +342,7 @@ public class Controller {
    	*/
     public void listClass (Class cls) {
         String className = cls.getClassName();
-        System.out.println(className);
+        System.out.println("     " + className);
         System.out.println("     ===============");
         System.out.println("     Attributes:");
         
