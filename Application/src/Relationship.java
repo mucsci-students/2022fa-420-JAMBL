@@ -30,7 +30,7 @@ public class Relationship {
         // a method to get the Class that is the destination of a Relationship
         // returns Class
         public Class getDestination () {
-    
+            // returns the destination of the current class relationship
             return this.destination;
     
         }
