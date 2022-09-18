@@ -51,8 +51,10 @@ public class Model {
             // exits method
 
             return delete;
+            
+        }else{
 
-        }
+        
         for (Class ele: classes) {
             for (Relationship rel: ele.getRelationships()) {
                 if (rel.getDestination().getClassName().toUpperCase().equals(className.toUpperCase())) {
@@ -60,13 +62,15 @@ public class Model {
                 }
             }
         }
+        
     
         // remove the class from the classes set
         classes.remove(foundClass);
 
-        return true;
+       // return true;
 
         delete = true;
+    }
         return delete;
 
     }
