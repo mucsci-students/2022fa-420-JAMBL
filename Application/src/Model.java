@@ -36,7 +36,7 @@ public class Model {
 
 
 
-    public void deleteClass (String className) {
+    public boolean deleteClass (String className) {
         // finds the class
         Class foundClass = getClass(className);
         // checks if foundClass does not exist
@@ -44,7 +44,7 @@ public class Model {
             //Notifies user
             System.out.println("Class does not exist!");
             // exits method
-            return;
+            return false;
         }
         for (Class ele: classes) {
             for (Relationship rel: ele.getRelationships()) {
@@ -57,6 +57,7 @@ public class Model {
         System.out.println ("Class removed!");
         // remove the class from the classes set
         classes.remove(foundClass);
+        return true;
     }
 
     
