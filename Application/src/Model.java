@@ -11,8 +11,8 @@ public class Model {
 
 
 
-    public void addClass (String className) {
-       
+    public boolean addClass (String className) {
+       boolean add;
         Iterator<Class> itClasses = classes.iterator();
         Class aClass;
 
@@ -22,29 +22,32 @@ public class Model {
             // if any of the class names match the notifies user
             
             if ((aClass.getClassName().toUpperCase()).equals(className.toUpperCase())) {
-                System.out.println("Class already exists!");
+                // sets boolean to false
+                add = false;
                 // if class already exists exits method
-                return;
+                return add;
             }
         }
         // creates new class and addes it to the classes set
         Class newClass = new Class(className);
         classes.add(newClass);
         // notifies user
-        System.out.println("Class " + className + " added!");       
+        add = true;
+        return add;       
     }
 
 
 
-    public void deleteClass (String className) {
+    public boolean deleteClass (String className) {
+        boolean delete = true;
         // finds the class
         Class foundClass = getClass(className);
         // checks if foundClass does not exist
         if(foundClass == null){
-            //Notifies user
-            System.out.println("Class does not exist!");
+            // sets boolean to false
+            delete = false;
             // exits method
-            return;
+            return delete;
         }
         for (Class ele: classes) {
             for (Relationship rel: ele.getRelationships()) {
@@ -53,10 +56,11 @@ public class Model {
                 }
             }
         }
-        // removes class from set
-        System.out.println ("Class removed!");
+    
         // remove the class from the classes set
         classes.remove(foundClass);
+        delete = true;
+        return delete;
     }
 
     

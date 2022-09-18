@@ -1,1 +1,1 @@
-{"MOVIE":{"Relationships":"","Attributes":"RATING, NAME"},"DIRECTOR":{"Relationships":"","Attributes":""}}
+{"Biology":{"Relationships":"Physics","Attributes":""},"Physics":{"Relationships":"","Attributes":"Phys 304"}}

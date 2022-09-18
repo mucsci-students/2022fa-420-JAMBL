@@ -47,24 +47,30 @@ public class Class {
 
     // This method adds a Relationship to relationships
     // parameter Class
-    public void addRelationship (Class destination) {
+    public boolean addRelationship (Class destination) {
+        // sets boolean to true unless an error is found
+        boolean add = true;
         if (relationships.isEmpty()) {
             relationships.add(new Relationship(destination));
-            System.out.println("Relationship added from " + className + " to " + destination.className + "!");
+           // System.out.println("Relationship added from " + className + " to " + destination.className + "!");
+            return add;
         } else {
-        boolean isExist = false;
-        for(Relationship ele: relationships) {
-           
-            if ((ele.getDestination()).getClassName().equals(destination.getClassName())) {
-                System.out.println("Relationship already exists!");
-                isExist = true;
-            }
-            if (!isExist) {
-                relationships.add(new Relationship(destination));
-                System.out.println("Relationship added from " + className + " to " + destination.className + "!");
+        
+            for(Relationship ele: relationships) {
+            
+                if ((ele.getDestination()).getClassName().equals(destination.getClassName())) {
+                    System.out.println("Relationship already exists!");
+                    add = false;
+                    return add;
+                }
+                if (add) {
+                    relationships.add(new Relationship(destination));
+                   // System.out.println("Relationship added from " + className + " to " + destination.className + "!");
+                    
+                } 
             }
         }
-        }
+        return add;
     }
        
      
@@ -88,25 +94,32 @@ public class Class {
 
     }
 
-    public void addAttribute (String name) {
+    public boolean addAttribute (String name) {
+        // sets boolean add to be true unless error is found
+        boolean add = true;
+        // if attribute set is empty immediately add attribute
         if(attributes.isEmpty()) {
             attributes.add(new Attribute (name));
-            System.out.println("Attribute added to " + className + " called " + name + "!");
-
-        }else {
-            boolean isExist = false;
+            return add;
+        
+        }else { // else iterate through and check to see if attribute already exists
+            
+            // if attribute name is found return sets add to false and returns false
             for (Attribute ele: attributes) {
                 if(ele.getAttName().equals(name)) {
                     System.out.println("Attribute already exists!");
-                    isExist = true;
+                    add = false;
+                    return add;
                 }
             }
-            if(!isExist) {
+            // if add is still true it adds attribute and returns true
+            if(add) {
               this.attributes.add(new Attribute(name));
-              System.out.println("Attribute added to " + className + " called " + name + "!");
+             // System.out.println("Attribute added to " + className + " called " + name + "!");
+              
             }
             
-                
+            return add;    
        }
     } 
 
