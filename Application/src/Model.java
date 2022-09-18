@@ -39,7 +39,9 @@ public class Model {
 
 
     public boolean deleteClass (String className) {
+
         boolean delete = true;
+
         // finds the class
         Class foundClass = getClass(className);
         // checks if foundClass does not exist
@@ -47,8 +49,12 @@ public class Model {
             // sets boolean to false
             delete = false;
             // exits method
+
             return delete;
-        }
+            
+        }else{
+
+        
         for (Class ele: classes) {
             for (Relationship rel: ele.getRelationships()) {
                 if (rel.getDestination().getClassName().toUpperCase().equals(className.toUpperCase())) {
@@ -56,11 +62,17 @@ public class Model {
                 }
             }
         }
+        
     
         // remove the class from the classes set
         classes.remove(foundClass);
+
+       // return true;
+
         delete = true;
+    }
         return delete;
+
     }
 
     
