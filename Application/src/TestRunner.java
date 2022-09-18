@@ -3,7 +3,7 @@
  * @author John Shenk
  * @description A test program for JUnit. Should Display "All tests passed :)" if all tests passed.
  */
-
+import java.io.*;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
