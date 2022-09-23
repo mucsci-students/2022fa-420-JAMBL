@@ -83,9 +83,9 @@ public class Controller {
                 break;
 
             case ADDCL:
-                System.out.println("Name of Class to be Added: ");
-                // takes in input from user
-                name1 = scanner.nextLine();
+            
+                // prompts user and stores input in name1 variable
+                name1 = view.inputAddClass();
                 // if input not blank add class
                 if (!name1.isBlank()) {
                     returned = model.addClass(name1);
@@ -107,8 +107,9 @@ public class Controller {
                 break;
 
             case DELCL:
-                System.out.println("Name of Class to be deleted: ");
-                name1 = scanner.nextLine();
+
+                // prompts user and stores input in name1 variable
+               name1 = view.inputDelClass();
                 // checks to see if input was blank
                 if (!name1.isBlank()) {
                     returned = model.deleteClass(name1);
@@ -127,8 +128,8 @@ public class Controller {
                 break;
 
             case RENCL:
-                System.out.println("Name of Class to be renamed: ");
-                name1 = scanner.nextLine();
+              // prompts user and stores input in name1 variable
+              name1 = view.inputRenClass();
                 if (!name1.isBlank()) {
                     // continue as normal
                     } else {
