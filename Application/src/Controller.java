@@ -280,7 +280,7 @@ public class Controller {
                 break;
 
             case LISTCLA:
-                name1 = view.getClassName();
+                name1 = view.inputClassListed();
                 if (model.getClass(name1) == null) {
                     view.notExists("Class", name1);
                     break;

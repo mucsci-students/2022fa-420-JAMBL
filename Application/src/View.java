@@ -26,6 +26,12 @@ public class View {
         input = console.nextLine();
         return input;
     }
+  
+    public String inputClassListed() {
+        System.out.println("Name of Class to be listed: ");
+        String className = console.nextLine();
+        return className;
+    }
 
 
     /*************************************************************************************/
@@ -81,13 +87,6 @@ public class View {
 
     public void loaded(){
         System.out.println("Loading complete!");
-    }
-
-    public String getClassName() {
-        System.out.println("Name of Class to be listed: ");
-        Scanner scanner = new Scanner(System.in);
-        String className = scanner.nextLine();
-        return className;
     }
 
         /*
