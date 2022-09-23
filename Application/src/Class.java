@@ -4,6 +4,8 @@
  * @authors	John Shenk, Benjamin Slinghoff, Lauryn Simmons, Alex Peiffer, Meba Shimelis
  * @version 0.0.1
  * @dateLastModified September 8, 2022
+ * 
+ * @classDescription This class represents Fields in a Class diagram
  */
  
 import java.util.*;
@@ -11,6 +13,7 @@ import java.util.*;
 public class Class {
 
     private String className = "DEFAULT";
+    public HashSet<Field> fields = new HashSet<Field>();
     public HashSet<Attribute> attributes = new HashSet<Attribute>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
 
@@ -18,6 +21,7 @@ public class Class {
     //constructor with name as parameter
     public Class(String name){
         this.className = name;
+        this.fields = new HashSet<Field>();
         this.attributes = new HashSet<Attribute>();
         this.relationships = new HashSet<Relationship>();
     }
@@ -25,6 +29,11 @@ public class Class {
     //get Attribute set
     public HashSet<Attribute> getAttributes() {
         return attributes;
+    }
+    
+    //get Field set
+    public HashSet<Field> getFields(){
+    	return fields;
     }
 
     //get Relationship set
@@ -165,5 +174,7 @@ public class Class {
             System.out.println("Attribute " + oldName + " changed to " + newName + "!");
         }
     }
+    
+    
 
 }
