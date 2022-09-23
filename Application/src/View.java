@@ -1,8 +1,34 @@
+import java.util.Scanner;
+
 public class View {
+
+    Scanner console = new Scanner(System.in);
+    String input = "";
+    
     public View(){
 
     }
+    /*****************************Inputs From User****************************************/
+    public String inputAddClass(){
+        System.out.println("Name of Class to be added: ");
+        input = console.nextLine();
+        return input;
+    }
 
+    public String inputDelClass(){
+        System.out.println("Name of Class to be deleted: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    public String inputRenClass(){
+        System.out.println("Name of Class to be renamed: ");
+        input = console.nextLine();
+        return input;
+    }
+
+
+    /*************************************************************************************/
     public void notExists(String type, String name){
         System.out.println(type +" "+ name + " does not exist! Action Failed!");
     }
