@@ -276,27 +276,26 @@ public class Controller {
                 break;
 
             case LISTALL:
-                listAllClasses(model);
+                view.listAllClasses(model);
                 break;
 
             case LISTCLA:
-                System.out.println("Name of Class to be listed: ");
-                name1 = scanner.nextLine();
-                System.out.println();
+                name1 = view.getClassName();
                 if (model.getClass(name1) == null) {
-                    System.out.println("Class does not exist!");
+                    view.notExists("Class", name1);
                     break;
                 }else {
-                    listClass(model.getClass(name1));
+                    Class cls = model.getClass(name1);
+                    view.listClass(cls);
                 }
                 break;
             
             case LISTREL:
-                listRelationship(model);
+                view.listRelationship(model);
                 break;
 
             case HELP:
-                printHelp();
+                view.printHelp();
                 break;
 
             case EXIT:
@@ -322,68 +321,6 @@ public class Controller {
     }
 
     /*
-   	 * @name listAllClasses
-   	 * @description	Lists all of the classes loaded into the program
-   	 * @param model The model containing the information about the classes
-   	 * 
-   	*/
-    public void listAllClasses (Model model) {
-        System.out.println();
-        System.out.println("CLASSES");
-        System.out.println("===============");
-        for (Class ele: model.classes) {
-            listClass(ele);
-        }
-    }
-
-    /*
-   	 * @name listClass
-   	 * @description	Lists all of the classes loaded into the program
-   	 * @param model The model containing the information about the classes
-   	*/
-    public void listClass (Class cls) {
-        String className = cls.getClassName();
-        System.out.println("     " + className);
-        System.out.println("     ===============");
-        System.out.println("     Attributes:");
-        
-        for (Attribute ele: cls.getAttributes()) {
-            String att = ele.getAttName();
-            System.out.println("     * " + att);
-        }
-        System.out.println();
-        System.out.println("     Relationships:");
-        
-        for (Relationship ele: cls.getRelationships()) {
-            String rel = ele.getDestination().getClassName();
-            System.out.println("     * " + className + " ---> " + rel);
-        }
-        System.out.println();
-        System.out.println();
-    }
-
- 
-    /*
-   	 * @name listRelationship	
-   	 * @description	Lists all of the relationships between classes
-   	 * @param model The model containing the information about the classes
-   	*/
-    public void listRelationship (Model model) {
-        System.out.println();
-        System.out.println("RELATIONSHIPS");
-        System.out.println("=============");
-        for (Class ele: model.classes) {
-            if (ele.getRelationships().isEmpty()) {
-                System.out.println(ele.getClassName() + " has no Relationships.");
-            } else {
-                for (Relationship rel: ele.getRelationships()) {
-                    System.out.println(ele.getClassName() + " ---> " + rel.getDestination().getClassName());
-                }
-            }
-        }
-    }
-
-    /*
    	 * @name isValidCmd
    	 * @description	Determines if the command passed in is among the valid commands
    	 * @param otherName The name of the command to check for validity
@@ -400,98 +337,7 @@ public class Controller {
         return validCmd;
     }
     
-    /*
-   	 * @name printHelp
-   	 * @description Displays the list of commands to use in the program
-   	 * @param otherName
-   	*/
-    public void printHelp() {
-        System.out.println();
-		System.out.println("******** Description of Commands ********");
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("ADDCL   - This command adds a Class. You will be prompted for the name of the class.");
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("DELCL   - This command deletes a Class. You will be prompted for the name of the class.");
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("RENCL   - This command changes name of existing Class to a new name. You will be");
-        System.out.println("          prompted for the old class name and the new class name.");
-
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("ADDREL  - This command adds a Relationship to a given Class. You will be prompted for ");
-        System.out.println("          the name of the origin class and the name of the destination class.");
-
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("DELREL  - This command removes a Relationship between two classes. You will be prompted");
-        System.out.println("          for the origin class name and the destination class name.");
-
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("ADDATT  - This command adds an Attribute to a Class. You will be prompted for the class");
-        System.out.println("          name and an attribute name.");
-
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("DELATT  - This command will delete an Attribute from a Class. You will be prompted for");
-        System.out.println("          a class name and an attribute name.");
-
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("RENATT  - This command changes name of existing Attribute of a Class to a new name.");
-        System.out.println("          You will be prompted for the class name, the old attribute name and the new");
-        System.out.println("          attribute name.");
-      
-
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("SAVE    - This command saves the file in JSON format. You will be prompted for a file");
-        System.out.println("          name.");
-
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("LOAD    - This command loads an existing JSON file. You will be prompted for a file");
-        System.out.println("          name.");
-
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("LISTALL - This command prints a list of all classes and their contents.");
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("LISTCLA - This command prints all contents of one class. You will be prompted for a");
-        System.out.println("          class name.");
-
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("LISTRE  - This command prints all relationships between the classes.");
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("HELP    - This command shows the list of commands and what they do.");
-
-		System.out.println("***************************************************************************************");
-
-		System.out.println("EXIT    - This command quits the program.");
-
-		System.out.println("***************************************************************************************");
-    }
-
+    
 
 
     
