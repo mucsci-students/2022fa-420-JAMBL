@@ -6,6 +6,7 @@
  * @dateLastModified September 8, 2022
  */
  
+import java.security.KeyRep.Type;
 import java.util.*;
 
 public class Class {
@@ -13,7 +14,10 @@ public class Class {
     private String className = "DEFAULT";
     public HashSet<Attribute> attributes = new HashSet<Attribute>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
-
+    View view = new View();
+    String typeName;
+    Type type; 
+    
 
     //constructor with name as parameter
     public Class(String name){
@@ -47,11 +51,11 @@ public class Class {
 
     // This method adds a Relationship to relationships
     // parameter Class
-    public boolean addRelationship (Class destination) {
+    public boolean addRelationship (Class destination, String typeName) {
         // sets boolean to true unless an error is found
         boolean add = true;
         if (relationships.isEmpty()) {
-            relationships.add(new Relationship(destination));
+            relationships.add(new Relationship(destination, typeName));
            // System.out.println("Relationship added from " + className + " to " + destination.className + "!");
             return add;
         } else {
@@ -59,12 +63,13 @@ public class Class {
             for(Relationship ele: relationships) {
             
                 if ((ele.getDestination()).getClassName().equals(destination.getClassName())) {
-                    System.out.println("Relationship already exists!");
+                    //System.out.println("Relationship already exists!");
+                    view.relExists();
                     add = false;
                     return add;
                 }
                 if (add) {
-                    relationships.add(new Relationship(destination));
+                    relationships.add(new Relationship(destination, typeName));
                    // System.out.println("Relationship added from " + className + " to " + destination.className + "!");
                     
                 } 

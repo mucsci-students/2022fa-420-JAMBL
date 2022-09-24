@@ -7,7 +7,7 @@
  * 
  * @classDescription This class represents Methods in a Class diagram
  */
-
+import java.util.*;
 
 
 public class Method {
