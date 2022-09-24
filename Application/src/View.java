@@ -49,12 +49,16 @@ public class View {
     public void exists(String type, String name){
         System.out.println( type + " "+ name + " already exist! Action Failed!");
     }
+
+    public void relExists(){
+        System.out.println( "Relationship already exist! Action Failed!");
+    }
     // takes in type and name and notifies user the type was added
     public void Added(String type, String name){
         System.out.println(type +" " + name + " added successfully");
     }
-    public void AddedRel(String source , String destination){
-        System.out.println("Relationship added from " + source + " to " + destination + "!");
+    public void AddedRel(String source , String destination, String typeName){
+        System.out.println("Relationship added from " + source + " to " + destination + " with " +  typeName + " Type!");
     }
 
     public void Deleted(String type , String name){
@@ -240,6 +244,35 @@ public class View {
 		System.out.println("EXIT    - This command quits the program.");
 
 		System.out.println("***************************************************************************************");
+    }
+
+     // input from user to add origin class
+     public String inputAddOriginClass(){
+        System.out.println("Name of origin Class in Relationship to be added: ");
+        input = console.nextLine();
+        return input;
+    }
+    
+    // input from user to add destination class
+    public String inputAddDestinationClass(){
+        System.out.println("Name of destination Class in Relationship to be added: ");
+        input = console.nextLine();
+        return input;
+    }
+    
+    // add relationship parameter origin class doesnt exist
+    public void originNotExist() {
+    	System.out.println("Origin Class does not exists! Addition of Relationship failed!");
+    }
+    // add relationship parameter destination class doesnt exist
+    public void destinationNotExist() {
+    	System.out.println("Destination Class does not exists! Addition of Relationship failed!");
+    }
+    //input for relationshop type (String)
+    public String inputAddType(){
+        System.out.println("Name of Relationship Type to be added: ");
+        input = console.nextLine();
+        return input;
     }
 
 }

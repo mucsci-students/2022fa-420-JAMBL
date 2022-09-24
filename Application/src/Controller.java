@@ -75,6 +75,7 @@ public class Controller {
         Class class2;
         String fileName;
         boolean returned;
+        String typeName;
         
 
         switch (currentCmd) {
@@ -146,23 +147,22 @@ public class Controller {
                 break;
 
             case ADDREL:
-                System.out.println("Name of origin Class in Relationship to be added: ");
-                name1 = scanner.nextLine();
-                System.out.println("Name of destination Class in Relationship to be added: ");
-                name2 = scanner.nextLine();
+                name1 =  view.inputAddOriginClass();
+                name2 = view.inputAddDestinationClass();
                 class1 = model.getClass(name1);
                 class2 = model.getClass(name2);
                 if (class1 == null) {
-                    System.out.println("Origin Class does not exists! Addition of Relationship failed!");
+                    view.originNotExist();
                     break;
                 } else if (class2 == null) {
-                    System.out.println("Destination Class does not exists! Addition of Relationship failed!");
+                    view.destinationNotExist();
                     break;
                 } else {
-                    returned = class1.addRelationship(class2);
+                    typeName = view.inputAddType();
+                    returned = class1.addRelationship(class2, typeName);
                     // notifies user that relationship was added
                     if(returned){
-                        view.AddedRel(class1.getClassName(), class2.getClassName());
+                        view.AddedRel(class1.getClassName(), class2.getClassName(), typeName);
                     }
                     
                     
@@ -424,6 +424,7 @@ public class Controller {
         String currClass;
         String classAtts;
         String classRels;
+        String typeName;
 
         File checkContent = new File(file);
         if(checkContent.length() == 0){
@@ -474,12 +475,19 @@ public class Controller {
                     // for every relationship in array adds it to current class
                     if(relArray.length > 0){
                         // for every relationship add it to current class unless empty
+                        
                         for(String rel : relArray){
                             if(rel.equals("")){
                                 //do nothing
                             }else{
                                 // add relationship to current class
-                                aClass.addRelationship(model.getClass(rel));
+                                typeName = null;
+                                for (Relationship.Type type: Relationship.Type.values()){
+                                    if (type.name().equals(typeName)){
+                                        typeName =  type.name();
+                                    }
+                                }
+                                aClass.addRelationship(model.getClass(rel), typeName);
                             }
                             // finds the destination class and adds relationshi   
                         } 
