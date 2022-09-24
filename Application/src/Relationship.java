@@ -29,8 +29,8 @@ public class Relationship {
         private Type relationshipType;
 
         // sets the type of the relationship to the given string
-        public void setRelType(Type type){
-            this.relationshipType = type;
+        public void setRelType(String type){
+            this.relationshipType = Type.valueOf(type);
         }
 
         // returns the type of the relationship
@@ -39,9 +39,9 @@ public class Relationship {
         }
     
         // Constructor thats takes a Class as a parameter to set destination and a String to set type
-        public Relationship (Class destination, Type type) {
+        public Relationship (Class destination, String type) {
             this.destination = destination;
-            this.relationshipType = type;
+            this.relationshipType = Type.valueOf(type);
         }
     
         // a method to get the Class that is the destination of a Relationship
