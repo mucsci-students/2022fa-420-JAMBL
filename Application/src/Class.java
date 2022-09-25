@@ -180,6 +180,20 @@ public class Class {
         }
     }
     
+    // Deletes a field form this class of the specified name
+    public boolean deleteField(String name) {
+    	Iterator<Field> fldItr = fields.iterator();
+        while (fldItr.hasNext()) {
+            Field ele = fldItr.next();
+            if (ele.getFieldName().equals(name)) {
+                fldItr.remove();
+                System.out.println ("Field " + name + " removed from " + this.getClassName() + "!");
+                return true; // Field successfully removed, return true
+            }
+        }
+        System.out.println("Field " + name + " does not exist!");
+        return false; // Field not found, return false
+    }
     
 
 }
