@@ -180,6 +180,27 @@ public class Class {
         }
     }
     
-    
+    // Changes the field 'oldFieldName' to 'newFieldName'
+    // Should fail if the field 'oldFieldName' does not exist or 'newFieldName' already exists
+    public boolean changeFieldName(String oldFieldName, String newFieldName) {
+    	Iterator<Field> fldItr = fields.iterator();
+    	while(fldItr.hasNext()) {
+    		Field current = fldItr.next();
+    		// Check to see if current field is 'newFieldName'. If so, renaming fails
+    		if(current.getFieldName().toUpperCase().equals(newFieldName.toUpperCase())) {
+    			System.out.println("New field name already exists! Name change failed!");
+    			return false;
+    		}
+    		// Field name matches oldFieldname, thus able to be renamed
+    		if (current.getFieldName().toUpperCase().equals(oldFieldName.toUpperCase())) {
+    			current.setFieldName(newFieldName);
+    			System.out.println("Field " + oldFieldName + " has been changed to " + current.getFieldName());
+    			return true;
+    		}
+    	}
+    	// Field Not found
+    	System.out.println("Field does not exist! Name change Failed!"); 
+    	return false;
+    }
 
 }
