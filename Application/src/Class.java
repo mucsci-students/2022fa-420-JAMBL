@@ -16,6 +16,7 @@ public class Class {
     private String className = "DEFAULT";
     public HashSet<Field> fields = new HashSet<Field>();
     public HashSet<Attribute> attributes = new HashSet<Attribute>();
+    public HashSet<Field> fields = new HashSet<Field>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
     View view = new View();
     String typeName;
@@ -129,8 +130,7 @@ public class Class {
             // if add is still true it adds attribute and returns true
             if(add) {
               this.attributes.add(new Attribute(name));
-             // System.out.println("Attribute added to " + className + " called " + name + "!");
-              
+             // System.out.println("Attribute added to " + className + " called " + name + "!"); 
             }
             
             return add;    
@@ -180,6 +180,7 @@ public class Class {
         }
     }
     
+
     // Renames a field in this class of name 'oldName' to 'newName' 
     // Should fail if the field 'oldName' does not exist OR if a field 'newName' already exists
     public boolean renameField(String oldName, String newName) {
@@ -207,7 +208,38 @@ public class Class {
             System.out.println("Field " + oldName + " changed to " + newName + "!");
             return true;
         }
+     }
+
+    // Deletes a field form this class of the specified name
+    public boolean deleteField(String name) {
+    	Iterator<Field> fldItr = fields.iterator();
+        while (fldItr.hasNext()) {
+            Field ele = fldItr.next();
+            if (ele.getFieldName().equals(name)) {
+                fldItr.remove();
+                System.out.println ("Field " + name + " removed from " + this.getClassName() + "!");
+                return true; // Field successfully removed, return true
+            }
+        }
+        System.out.println("Field " + name + " does not exist!");
+        return false; // Field not found, return false
     }
     
 
+    // Adds a field to this class. 
+    public boolean addField(String fieldName, String fieldType) {
+    	if(fields.isEmpty()) { // Empty hash set
+    		fields.add(new Field(fieldName, fieldType)); 
+    		return true; // Field added successfully, return true
+    	} else {
+    		for (Field ele: fields) {
+                if(ele.getFieldName().equals(fieldName)) { // Checking if field already exists
+                    System.out.println("Field already exists!");
+                    return false; // Field already exists, return false
+                }
+            }
+    	}
+    	this.fields.add(new Field(fieldName, fieldType)); // Field does not exist already; add this field
+    	return true; // Field added successfully, return true
+    }
 }
