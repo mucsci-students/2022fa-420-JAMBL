@@ -180,6 +180,31 @@ public class Class {
         }
     }
     
+    // Sets the field type of the field 'fieldName' to 'newFieldType'
+    // Should fail if the field does not exist or the new field type is the same as the field's type
+    public boolean changefieldType(String fieldName, String newFieldType) {
+    	Iterator<Field> fldItr = fields.iterator();
+    	Field current = null;
+    	while(fldItr.hasNext()) {
+    		current = fldItr.next();
+    		if(current.getFieldName().toUpperCase().equals(fieldName.toUpperCase())) {
+    			// Field type to change has the same name of the new field type
+    			if(current.getFieldType().toUpperCase().equals(newFieldType.toUpperCase())) { 
+    				System.out.println("Existing field type same as new field type. Field type change failed!");
+    				return false;
+    			}
+    			// Field of specified name found
+    			current.setFieldType(newFieldType);
+    			System.out.println("The field " + current.getFieldName() + "'s type has been changed to " + current.getFieldType() + "!");
+    			return true;
+    		}
+    	}
+    	// Field of specified name not found
+    	System.out.println("Field does not exist! Name change failed!"); 
+    	return false;
+    	
+    }
+    
     
 
 }
