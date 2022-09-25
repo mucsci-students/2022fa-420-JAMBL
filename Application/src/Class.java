@@ -206,6 +206,35 @@ public class Class {
     }
     
 
+    // Renames a field in this class of name 'oldName' to 'newName' 
+    // Should fail if the field 'oldName' does not exist OR if a field 'newName' already exists
+    public boolean renameField(String oldName, String newName) {
+    	Iterator<Field> fldItr = fields.iterator();
+    	boolean oldMatch = false;
+        boolean newMatch = false;
+        Field old = null;
+    	while (fldItr.hasNext()) {
+            Field ele = fldItr.next();
+            if (ele.getFieldName().toUpperCase().equals(oldName.toUpperCase())) {
+                oldMatch = true;
+                old = ele;
+            } else if ( ele.getFieldName().toUpperCase().equals(newName.toUpperCase())) {
+                newMatch = true;
+            }
+        }
+        if (!oldMatch) {
+            System.out.println("Field does not exist! Name change failed!");
+            return false;
+        } else if (newMatch) {
+            System.out.println("New Field name already exists! Name change failed!");
+            return false;
+        } else {
+            old.setFieldName(newName);
+            System.out.println("Field " + oldName + " changed to " + newName + "!");
+            return true;
+        }
+     }
+
     // Deletes a field form this class of the specified name
     public boolean deleteField(String name) {
     	Iterator<Field> fldItr = fields.iterator();
