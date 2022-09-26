@@ -80,7 +80,7 @@ public class Class {
                 if (add) {
                     relationships.add(new Relationship(destination, typeName));
                    // System.out.println("Relationship added from " + className + " to " + destination.className + "!");
-                    
+        
                 } 
             }
         }

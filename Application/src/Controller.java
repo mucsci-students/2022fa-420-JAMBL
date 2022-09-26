@@ -164,25 +164,24 @@ public class Controller {
                     if(returned){
                         view.AddedRel(class1.getClassName(), class2.getClassName(), typeName);
                     }
-                    
-                    
                 } 
                 break;
 
             case DELREL:
-                System.out.println("Name of origin Class in Relationship to be deleted: ");
-                name1 = scanner.nextLine();
-                System.out.println("Name of destination Class in Relationship to be deleted: ");
-                name2 = scanner.nextLine();
+                
+                name1 = view.inputAddOriginClass();
+                
+                name2 = view.inputAddDestinationClass();
                 if (model.getClass(name1) == null) {
-                    System.out.println("Origin Class does not exists! Removal of Relationship failed!");
+                    view.originNotExist();
                     break;
                 } else if (model.getClass(name2) == null) {
-                    System.out.println("Destination Class does not exists! Removal of Relationship failed!");
+                    view.destinationNotExist();
                     break;
                 } else {
                     model.getClass(name1).deleteRelationship(name2);
-                    System.out.println("Relationship removed from " + name1 + " to " + name2 + "!");
+                    //System.out.println("Relationship removed from " + name1 + " to " + name2 + "!");
+                    view.relDeleted();
                 } 
                 break;
 
