@@ -19,7 +19,21 @@ public class Relationship {
     */
 
         public enum Type {
-            AGGREGATION, COMPOSITION, INHERITANCE, REALIZATION; 
+            AGGREGATION("AGGREGATION"), 
+            COMPOSITION("COMPOSITION"), 
+            INHERITANCE("INHERITANCE"), 
+            REALIZATION("REALIZATION");
+
+            private String name;
+
+            private Type(String name) {
+                this.name = name;
+            }
+           
+            public String toString(){
+                return name;
+            }
+    
         }
         
         // destination is the Class that receives the relationship from the origin class
@@ -34,8 +48,8 @@ public class Relationship {
         }
 
         // returns the type of the relationship
-        public Type getRelType(){
-            return this.relationshipType;
+        public String getRelType(){
+            return this.relationshipType.toString();
         }
     
         // Constructor thats takes a Class as a parameter to set destination and a String to set type
