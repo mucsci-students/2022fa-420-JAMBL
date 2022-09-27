@@ -18,8 +18,7 @@ public class Class {
     public HashSet<Attribute> attributes = new HashSet<Attribute>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
     View view = new View();
-    String typeName;
-    Type type; 
+
     
 
     //constructor with name as parameter
@@ -103,7 +102,8 @@ public class Class {
         }
         
         if (!removed) {
-            System.out.println("Relation does not exist! Removal Failed!");
+            //System.out.println("Relation does not exist! Removal Failed!");
+            view.relNotExists();
         }
 
     }

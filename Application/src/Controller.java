@@ -145,7 +145,6 @@ public class Controller {
                     view.invalid();
                 }
                 break;
-
             case ADDREL:
                 name1 =  view.inputAddOriginClass();
                 name2 = view.inputAddDestinationClass();
@@ -169,9 +168,9 @@ public class Controller {
 
             case DELREL:
                 
-                name1 = view.inputAddOriginClass();
+                name1 = view.inputDelOriginClass();
                 
-                name2 = view.inputAddDestinationClass();
+                name2 = view.inputDelDestinationClass();
                 if (model.getClass(name1) == null) {
                     view.originNotExist();
                     break;
