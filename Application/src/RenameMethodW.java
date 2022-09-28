@@ -1,17 +1,6 @@
-/*
- * @projectDescription The pup-up window for the " Load " button
- * 
- * @authors	John Shenk
- * 
- * @dateLastModified September 26, 2022
- */
-package PopUps;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 
-public class LoadWindow {
-
+public class RenameMethodW {
 	/**
 	 * Launch the application.
 	 */
@@ -23,11 +12,10 @@ public class LoadWindow {
 	 * Initialize the contents of the frame.
 	 */
 	public static void initialize() {
-		JFrame frame = new JFrame("JAMBL - Load");
+		JFrame frame = new JFrame("JAMBL - Rename Method");
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
 	}
-
 }
