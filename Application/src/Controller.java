@@ -30,9 +30,22 @@ public class Controller {
     RENCL ("RENCL"), //rename class
     ADDREL ("ADDREL"), //add relationship
     DELREL ("DELREL"), //delete relationship
+    RELTYPE ("RELTYPE"), //edit relationship type
     ADDATT ("ADDATT"), //add attribute
     DELATT ("DELATT"), //delete attribute
     RENATT ("RENATT"), //rename attribute
+    ADDFLD ("ADDFLD"), //add field
+    DELFLD ("DELFLD"), //delete field
+    RENFLD ("RENFLD"), //rename field
+    FLDTYPE ("FLDTYPE"), //field return type
+    ADDMTD ("ADDMTD"), //add method
+    DELMTD ("DELMTD"), //delete method
+    RENMTD ("RENMTD"), //rename Method 
+    MTDTYPE ("MTDTYPE"), //Method return type 
+    ADDPAR ("ADDPAR"), //add Parameter
+    DELPAR ("DELPAR"), //delete Parameter
+    RENPAR ("RENPAR"), //rename Parameter
+    PARTYPE ("PARTYPE"), //Parameter return type 
     SAVE ("SAVE"), //save diagram
     LOAD ("LOAD"), //load diagram
     LISTALL ("LISTALL"), //list all classes
@@ -146,6 +159,37 @@ public class Controller {
                 }
                 break;
 
+            case ADDFLD:
+                
+                break; 
+                
+            case DELFLD:
+                
+                break; 
+
+            case RENFLD:
+                
+                break; 
+
+            case FLDTYPE:
+                
+                break; 
+
+            case ADDMTD:
+                
+                break; 
+        
+            case DELMTD:
+                
+                break; 
+    
+            case RENMTD:
+                
+                break; 
+            case MTDTYPE:
+                
+                break; 
+
             case ADDREL:
                 name1 =  view.inputAddOriginClass();
                 name2 = view.inputAddDestinationClass();
@@ -186,7 +230,26 @@ public class Controller {
                 } 
                 break;
 
-            case ADDATT:
+            case RELTYPE:
+                
+                break;
+
+            case ADDPAR:
+                
+                break;
+
+            case DELPAR:
+                
+                break;
+
+            case RENPAR:
+                
+                break;
+
+            case PARTYPE:
+                
+                break;
+                case ADDATT:
                 System.out.println("Name of Class receiving Attribute: ");
                 name1 = scanner.nextLine();
                 System.out.println("Name of Attribute: ");
@@ -242,7 +305,7 @@ public class Controller {
                 } else {
                    view.invalid();
                 } 
-                break;
+                break;    
             
             case SAVE:
                 //Prompts user for file
