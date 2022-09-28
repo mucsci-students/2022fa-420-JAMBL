@@ -156,6 +156,9 @@ public class Controller {
                 } else if (class2 == null) {
                     view.destinationNotExist();
                     break;
+                } else if (class1.isrelationshipExist(name2)== true){
+                    view.relExists();
+                    break;
                 } else {
                     typeName = view.inputAddType();
                     returned = class1.addRelationship(class2, typeName);

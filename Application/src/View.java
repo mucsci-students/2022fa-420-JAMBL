@@ -58,7 +58,7 @@ public class View {
         System.out.println(type +" " + name + " added successfully");
     }
     public void AddedRel(String source , String destination, String typeName){
-        System.out.println("Relationship added from " + source + " to " + destination + " with " +  typeName + " Type!");
+        System.out.println("Relationship added from " + source + " to " + destination + " with " +  typeName.toLowerCase() + " Type!");
     }
 
     public void Deleted(String type , String name){
