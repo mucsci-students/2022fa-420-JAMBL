@@ -21,7 +21,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.JSeparator;
-
+import source.*;
 public class AddRelationshipW {
 
 	/**

@@ -9,6 +9,7 @@
 package PopUps;
 
 import java.awt.EventQueue;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +21,8 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.Color;
 import source.*;
-public class DeleteClassW {
+
+public class DeleteMethodW {
 
 	/**
 	 * Launch the application.
@@ -33,14 +35,14 @@ public class DeleteClassW {
 	 * Initialize the contents of the frame.
 	 */
 	public static void initialize() {
-		JFrame frame = new JFrame("JAMBL - Delete Class");
-		frame.setBounds(100, 100, 450, 203);
+		JFrame frame = new JFrame("JAMBL - Delete Method");
+		frame.setBounds(100, 100, 450, 289);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
 	
 
-	JLabel lblDeleteClass = new JLabel("Select the name of a class to delete");
+	JLabel lblDeleteClass = new JLabel("Select the name of a class and method");
 	lblDeleteClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
 	lblDeleteClass.setBounds(10, 10, 338, 13);
 	frame.getContentPane().add(lblDeleteClass);
@@ -60,12 +62,12 @@ public class DeleteClassW {
 	///////////////////////////
 	
 	////////////////////////////////////////////////////////////// Add Class Button
-	JButton btnAddClass = new JButton("Delete Class");
-	btnAddClass.setForeground(new Color(255, 0, 0));
-	btnAddClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	btnAddClass.setBounds(85, 136, 132, 21);
-	frame.getContentPane().add(btnAddClass);
-	btnAddClass.addActionListener(new ActionListener() {
+	JButton btnDeleteMethod = new JButton("Delete Method");
+	btnDeleteMethod.setForeground(new Color(255, 0, 0));
+	btnDeleteMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnDeleteMethod.setBounds(85, 221, 132, 21);
+	frame.getContentPane().add(btnDeleteMethod);
+	btnDeleteMethod.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			frame.dispose();
 		}
@@ -74,8 +76,17 @@ public class DeleteClassW {
 	////////////////////////////////////////////////////////////// Cancel Button
 	JButton btnCancel = new JButton("Cancel");
 	btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	btnCancel.setBounds(227, 136, 132, 21);
+	btnCancel.setBounds(227, 221, 132, 21);
 	frame.getContentPane().add(btnCancel);
+	
+	JLabel lblSelectMethodName = new JLabel("Select Method Name: ");
+	lblSelectMethodName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	lblSelectMethodName.setBounds(10, 108, 137, 13);
+	frame.getContentPane().add(lblSelectMethodName);
+	
+	JComboBox comboBoxMethods = new JComboBox();
+	comboBoxMethods.setBounds(10, 130, 207, 21);
+	frame.getContentPane().add(comboBoxMethods);
 	btnCancel.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			frame.dispose();
