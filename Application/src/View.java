@@ -58,7 +58,7 @@ public class View {
         System.out.println(type +" " + name + " added successfully");
     }
     public void AddedRel(String source , String destination, String typeName){
-        System.out.println("Relationship added from " + source + " to " + destination + " with " +  typeName + " Type!");
+        System.out.println("Relationship added from " + source + " to " + destination + " with " +  typeName.toLowerCase() + " Type!");
     }
 
     public void Deleted(String type , String name){
@@ -260,6 +260,18 @@ public class View {
         return input;
     }
     
+    public String inputDelOriginClass(){
+        System.out.println("Name of origin Class in Relationship to be deleted: ");
+        input = console.nextLine();
+        return input;
+    }
+    
+    // input from user to add destination class
+    public String inputDelDestinationClass(){
+        System.out.println("Name of destination Class in Relationship to be deleted: ");
+        input = console.nextLine();
+        return input;
+    }
     // add relationship parameter origin class doesnt exist
     public void originNotExist() {
     	System.out.println("Origin Class does not exists! Addition of Relationship failed!");
@@ -272,7 +284,11 @@ public class View {
     public String inputAddType(){
         System.out.println("Name of Relationship Type to be added: ");
         input = console.nextLine();
-        return input;
+        return input.toUpperCase();
+    }
+
+    public void relNotExists(){
+        System.out.println( "Relationship doesn't exist! Action Failed!");
     }
 
 }
