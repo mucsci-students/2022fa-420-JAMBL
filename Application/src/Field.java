@@ -1,4 +1,3 @@
-package source;
 /*
  * @projectDescription	A program to make UML diagrams.
  * 
@@ -10,31 +9,35 @@ package source;
  */
 
 public class Field {
-
+	
 	private String fieldName;
 	private String fieldType;
-
+	
 	// Constructs a new field using a specified name and type
-	public Field(String name, String type) {
+	public Field(String name, String type)
+	{
 		setFieldName(name);
 		setFieldType(type);
 	}
-
+	
 	// A function that sets the field name
-	public void setFieldName(String name) {
+	public void setFieldName(String name)
+	{
 		this.fieldName = name;
 	}
-
+	
 	// A function that returns the field name
-	public String getFieldName() {
+	public String getFieldName()
+	{
 		return this.fieldName;
 	}
-
+	
 	// A function that sets the field type
-	public void setFieldType(String type) {
+	public void setFieldType(String type)
+	{
 		this.fieldType = type;
 	}
-
+	
 	// A function that returns the field type as a string
 	public String getFieldType() {
 		return this.fieldType;

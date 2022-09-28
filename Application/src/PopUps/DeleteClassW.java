@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.Color;
-import source.*;
+
 public class DeleteClassW {
 
 	/**

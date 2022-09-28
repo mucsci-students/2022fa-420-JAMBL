@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
-import source.*;
+
 public class AddMethodW {
 	
 	public AddMethodW() {

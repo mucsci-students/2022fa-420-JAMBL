@@ -6,6 +6,9 @@
  * @dateLastModified September 26, 2022
  */
 
+
+
+
 package PopUps;
 
 import java.awt.EventQueue;
@@ -17,9 +20,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
-import source.*;
+
 public class AddClassW {
-	Model model = null;
+	
 	public AddClassW() {
 		
 	}
