@@ -19,8 +19,6 @@ public class Class {
     public HashSet<Method> methods = new HashSet<Method>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
     View view = new View();
-    String typeName;
-    Type type;
 
     //constructor with name as parameter
     public Class(String name){
@@ -68,49 +66,41 @@ public class Class {
     public boolean addRelationship (Class destination, String typeName) {
         // sets boolean to true unless an error is found
         boolean add = true;
-        if (relationships.isEmpty()) {
+       
             relationships.add(new Relationship(destination, typeName));
            // System.out.println("Relationship added from " + className + " to " + destination.className + "!");
             return add;
-        } else {
-        
-            for(Relationship ele: relationships) {
-            
-                if ((ele.getDestination()).getClassName().equals(destination.getClassName())) {
-                    //System.out.println("Relationship already exists!");
-                    view.relExists();
-                    add = false;
-                    return add;
-                }
-                if (add) {
-                    relationships.add(new Relationship(destination, typeName));
-                   // System.out.println("Relationship added from " + className + " to " + destination.className + "!");
-                    
-                } 
-            }
-        }
-        return add;
     }
        
      
 
     // This method removes a Relationship from the HashSet relationships
     // Parameter String
-    public void deleteRelationship (String name) {
+    public boolean deleteRelationship (String name) {
         Iterator<Relationship> relItr = relationships.iterator();
         boolean removed = false;
         while (relItr.hasNext()) {
             Relationship ele = relItr.next();
-            if ((ele.getDestination()).getClassName().equals(name)) {
+            (ele.getDestination()).getClassName().equals(name); 
                 relItr.remove();
                 removed = true;
+        }
+		return removed;
+
+    }
+
+    public boolean isrelationshipExist(String name){
+        boolean relExist = false;
+        for(Relationship ele: relationships) {
+            if ((ele.getDestination()).getClassName().equals(name)) {
+                //System.out.println("Relationship already exists!");
+               // view.relExists();
+                relExist = false;
+            } else {
+                relExist = true;
             }
         }
-        
-        if (!removed) {
-            System.out.println("Relation does not exist! Removal Failed!");
-        }
-
+        return relExist;
     }
 
     public boolean addAttribute (String name) {
