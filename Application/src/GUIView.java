@@ -20,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 // Custom java package containing the pop-up windows
-import PopUps.*;
 
 
 public class GUIView extends View  {
