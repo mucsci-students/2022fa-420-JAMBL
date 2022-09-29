@@ -20,10 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 // Custom java package containing the pop-up windows
-import PopUps.*;
-
-
-public class GUIView extends View  {
+ class GUIView extends View  {
 	
 	Model model = new Model();
 	private Controller GUICntrlr = new Controller(model, this);
