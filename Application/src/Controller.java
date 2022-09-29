@@ -27,9 +27,22 @@ public class Controller {
     RENCL ("RENCL"), //rename class
     ADDREL ("ADDREL"), //add relationship
     DELREL ("DELREL"), //delete relationship
+    RELTYPE ("RELTYPE"), //edit relationship type
     ADDATT ("ADDATT"), //add attribute
     DELATT ("DELATT"), //delete attribute
     RENATT ("RENATT"), //rename attribute
+    ADDFLD ("ADDFLD"), //add field
+    DELFLD ("DELFLD"), //delete field
+    RENFLD ("RENFLD"), //rename field
+    FLDTYPE ("FLDTYPE"), //field return type
+    ADDMTD ("ADDMTD"), //add method
+    DELMTD ("DELMTD"), //delete method
+    RENMTD ("RENMTD"), //rename Method 
+    MTDTYPE ("MTDTYPE"), //Method return type 
+    ADDPAR ("ADDPAR"), //add Parameter
+    DELPAR ("DELPAR"), //delete Parameter
+    RENPAR ("RENPAR"), //rename Parameter
+    PARTYPE ("PARTYPE"), //Parameter return type 
     SAVE ("SAVE"), //save diagram
     LOAD ("LOAD"), //load diagram
     LISTALL ("LISTALL"), //list all classes
@@ -143,6 +156,39 @@ public class Controller {
                 }
                 break;
 
+
+            case ADDFLD:
+                
+                break; 
+                
+            case DELFLD:
+                
+                break; 
+
+            case RENFLD:
+                
+                break; 
+
+            case FLDTYPE:
+                
+                break; 
+
+            case ADDMTD:
+                
+                break; 
+        
+            case DELMTD:
+                
+                break; 
+    
+            case RENMTD:
+                
+                break; 
+                
+            case MTDTYPE:
+                
+                break; 
+
             case ADDREL:
                 name1 =  view.inputAddOriginClass();
                 name2 = view.inputAddDestinationClass();
@@ -154,6 +200,9 @@ public class Controller {
                 } else if (class2 == null) {
                     view.destinationNotExist();
                     break;
+                } else if (class1.isrelationshipExist(name2)== true){
+                    view.relExists();
+                    break;
                 } else {
                     typeName = view.inputAddType();
                     returned = class1.addRelationship(class2, typeName);
@@ -161,29 +210,47 @@ public class Controller {
                     if(returned){
                         view.AddedRel(class1.getClassName(), class2.getClassName(), typeName);
                     }
-                    
-                    
                 } 
                 break;
 
             case DELREL:
-                System.out.println("Name of origin Class in Relationship to be deleted: ");
-                name1 = scanner.nextLine();
-                System.out.println("Name of destination Class in Relationship to be deleted: ");
-                name2 = scanner.nextLine();
+                
+                name1 = view.inputDelOriginClass();
+                
+                name2 = view.inputDelDestinationClass();
                 if (model.getClass(name1) == null) {
-                    System.out.println("Origin Class does not exists! Removal of Relationship failed!");
+                    view.originNotExist();
                     break;
                 } else if (model.getClass(name2) == null) {
-                    System.out.println("Destination Class does not exists! Removal of Relationship failed!");
+                    view.destinationNotExist();
                     break;
                 } else {
                     model.getClass(name1).deleteRelationship(name2);
-                    System.out.println("Relationship removed from " + name1 + " to " + name2 + "!");
+                    //System.out.println("Relationship removed from " + name1 + " to " + name2 + "!");
+                    view.relDeleted();
                 } 
                 break;
 
-            case ADDATT:
+            case RELTYPE:
+                
+                break;
+
+            case ADDPAR:
+                
+                break;
+
+            case DELPAR:
+                
+                break;
+
+            case RENPAR:
+                
+                break;
+
+            case PARTYPE:
+                
+                break;
+                case ADDATT:
                 System.out.println("Name of Class receiving Attribute: ");
                 name1 = scanner.nextLine();
                 System.out.println("Name of Attribute: ");
@@ -239,7 +306,7 @@ public class Controller {
                 } else {
                    view.invalid();
                 } 
-                break;
+                break;    
             
             case SAVE:
                 //Prompts user for file
