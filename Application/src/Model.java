@@ -122,4 +122,8 @@ public class Model {
         return null;
     }  
 
+    public HashSet<Class> getClasses(){
+        return this.classes;
+    }
+
 }
