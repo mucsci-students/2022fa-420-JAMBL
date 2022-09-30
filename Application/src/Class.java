@@ -8,7 +8,6 @@
  * @classDescription This class represents a Class in a UML diagram
  */
  
-import java.security.KeyRep.Type;
 import java.util.*;
 
 public class Class {
@@ -18,7 +17,6 @@ public class Class {
     public HashSet<Attribute> attributes = new HashSet<Attribute>();
     public HashSet<Method> methods = new HashSet<Method>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
-    View view = new View();
 
     //constructor with name as parameter
     public Class(String name){
@@ -71,7 +69,25 @@ public class Class {
            // System.out.println("Relationship added from " + className + " to " + destination.className + "!");
             return add;
     }
-       
+    
+    public Field getField(String name){
+        // Creates an iterator
+        Iterator<Field> itFields = fields.iterator();
+        // Initialized the class to be found
+        Field found;
+        // Iteratates through classes and returns the found class
+        while(itFields.hasNext()){
+            // sets the current class to be compared
+            found = itFields.next();
+            // compares the current class name with the one to be found
+            if(found.getFieldName().toUpperCase().equals(name.toUpperCase())){
+                // returns found class
+                return found;
+            }     
+        }
+        // if class was not found returns null
+        return null;
+    } 
      
 
     // This method removes a Relationship from the HashSet relationships
@@ -182,52 +198,27 @@ public class Class {
     	while(fldItr.hasNext()) {
     		current = fldItr.next();
     		if(current.getFieldName().toUpperCase().equals(fieldName.toUpperCase())) {
-    			// Field type to change has the same name of the new field type
-    			if(current.getFieldType().toUpperCase().equals(newFieldType.toUpperCase())) { 
-    				System.out.println("Existing field type same as new field type. Field type change failed!");
-    				return false;
-    			}
-    			// Field of specified name found
     			current.setFieldType(newFieldType);
-    			System.out.println("The field " + current.getFieldName() + "'s type has been changed to " + current.getFieldType() + "!");
     			return true;
     		}
     	}
-    	// Field of specified name not found
-    	System.out.println("Field does not exist! Name change failed!"); 
-    	return false;
-    	
+    	return false;   	
     }
     
 
     // Renames a field in this class of name 'oldName' to 'newName' 
-    // Should fail if the field 'oldName' does not exist OR if a field 'newName' already exists
+    // pre-req. field to be changed must exist and new name must not already be a field
     public boolean renameField(String oldName, String newName) {
     	Iterator<Field> fldItr = fields.iterator();
-    	boolean oldMatch = false;
-        boolean newMatch = false;
-        Field old = null;
     	while (fldItr.hasNext()) {
             Field ele = fldItr.next();
             if (ele.getFieldName().toUpperCase().equals(oldName.toUpperCase())) {
-                oldMatch = true;
-                old = ele;
-            } else if ( ele.getFieldName().toUpperCase().equals(newName.toUpperCase())) {
-                newMatch = true;
+                ele.setFieldName(newName);
+                return true;
             }
         }
-        if (!oldMatch) {
-            System.out.println("Field does not exist! Name change failed!");
-            return false;
-        } else if (newMatch) {
-            System.out.println("New Field name already exists! Name change failed!");
-            return false;
-        } else {
-            old.setFieldName(newName);
-            System.out.println("Field " + oldName + " changed to " + newName + "!");
-            return true;
-        }
-     }
+        return false;
+    }
 
     // Deletes a field form this class of the specified name
     public boolean deleteField(String name) {
@@ -236,31 +227,23 @@ public class Class {
             Field ele = fldItr.next();
             if (ele.getFieldName().equals(name)) {
                 fldItr.remove();
-                System.out.println ("Field " + name + " removed from " + this.getClassName() + "!");
                 return true; // Field successfully removed, return true
             }
         }
-        System.out.println("Field " + name + " does not exist!");
-        return false; // Field not found, return false
+        return false; // Field not removed, return false
     }
 
     
 
     // Adds a field to this class. 
     public boolean addField(String fieldName, String fieldType) {
-    	if(fields.isEmpty()) { // Empty hash set
-    		fields.add(new Field(fieldName, fieldType)); 
+        if(fields.isEmpty()) { // Empty hash set
+    		fields.add(new Field(fieldName, fieldType));
     		return true; // Field added successfully, return true
     	} else {
-    		for (Field ele: fields) {
-                if(ele.getFieldName().equals(fieldName)) { // Checking if field already exists
-                    System.out.println("Field already exists!");
-                    return false; // Field already exists, return false
-                }
-            }
-    	}
-    	this.fields.add(new Field(fieldName, fieldType)); // Field does not exist already; add this field
+    	this.fields.add(new Field(fieldName, fieldType)); 
     	return true; // Field added successfully, return true
+        }
     }
 
     // Adds a method to this class
