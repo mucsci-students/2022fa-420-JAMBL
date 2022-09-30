@@ -58,7 +58,7 @@ public class JunitTest {
    public void testDeleteClass(){
       Model newModel = new Model();
       newModel.addClass("Gym");
-      newModel.deleteClass("Gym");
+      newModel.deleteClass(newModel.getClass("Gym"));
       assertEquals(null, newModel.getClass("Gym"));
    }
 
@@ -66,7 +66,7 @@ public class JunitTest {
    @Test 
    public void testDeleteClass2(){
      Model newModel = new Model();
-     assertEquals(false, newModel.deleteClass("Gym"));
+     assertEquals(false, newModel.deleteClass(newModel.getClass("Gym")));
    }
 	   
 		// Tests the functionality of getting class name
