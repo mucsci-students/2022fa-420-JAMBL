@@ -7,9 +7,6 @@
  */
 
 
-
-
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,9 +18,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
 public class AddClassW {
-	
-	public AddClassW() {
-		
+	Controller controller;
+	public AddClassW(Controller newController) {
+		controller = newController;
 	}
 	
 	private static JTextField classNameBox;
@@ -44,6 +41,11 @@ public class AddClassW {
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+
+		////////////////////////////
+		///******* Labels *******///
+		////////////////////////////
+
 		JLabel lblAddClass = new JLabel("Enter the name for a new class to add.");
 		lblAddClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblAddClass.setBounds(10, 10, 338, 13);
@@ -53,6 +55,10 @@ public class AddClassW {
 		lblClassName.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblClassName.setBounds(27, 78, 87, 13);
 		frame.getContentPane().add(lblClassName);
+		
+		/////////////////////////////
+		///******* TextBox *******///
+		/////////////////////////////
 		
 		classNameBox = new JTextField();
 		lblClassName.setLabelFor(classNameBox);

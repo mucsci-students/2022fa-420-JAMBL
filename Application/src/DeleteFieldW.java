@@ -1,5 +1,5 @@
 /*
- * @projectDescription The pup-up window for the " Add Relationship " button
+ * @projectDescription The pup-up window for the " Delete Field " button
  * 
  * @authors	John Shenk
  * 
@@ -25,12 +25,10 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.JSeparator;
 
-public class RenameMethodW {
+public class DeleteFieldW {
 
 	Controller GUIcontroller = new Controller(null, null);
-	
-	private static JTextField textField;
-	public RenameMethodW(Controller newController) {
+	public DeleteFieldW(Controller newController) {
 		GUIcontroller = newController;
 	}
 	
@@ -47,8 +45,8 @@ public class RenameMethodW {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void initialize() {
 		JFrame frmJamblAdd = new JFrame("JAMBL - Change Field Name");
-		frmJamblAdd.setTitle("JAMBL - Rename Method");
-		frmJamblAdd.setBounds(100, 100, 447, 321);
+		frmJamblAdd.setTitle("JAMBL - Change Method");
+		frmJamblAdd.setBounds(100, 100, 447, 258);
 		frmJamblAdd.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frmJamblAdd.getContentPane().setLayout(null);
 		frmJamblAdd.setVisible(true);
@@ -57,63 +55,42 @@ public class RenameMethodW {
 		///******* Labels *******///
 		////////////////////////////
 		
-		JLabel lblAddClass = new JLabel("Choose a class and choose the method");
+		JLabel lblAddClass = new JLabel("Choose a class and choose the field.");
 		lblAddClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblAddClass.setBounds(10, 10, 338, 13);
 		frmJamblAdd.getContentPane().add(lblAddClass);
-		
-		JLabel lblChooseM = new JLabel("* Choose a Field name");
-		lblChooseM.setForeground(new Color(255, 0, 0));
-		lblChooseM.setBounds(181, 140, 167, 13);
-		frmJamblAdd.getContentPane().add(lblChooseM);
-		lblChooseM.setVisible(false);
 		
 		JLabel lblClassName = new JLabel("Choose a class name:");
 		lblClassName.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblClassName.setBounds(10, 33, 219, 51);
 		frmJamblAdd.getContentPane().add(lblClassName);
 		
-		JLabel lblNewMethod = new JLabel("New Method Name:");
-		lblNewMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewMethod.setBounds(10, 202, 146, 13);
-		frmJamblAdd.getContentPane().add(lblNewMethod);
-		lblNewMethod.setVisible(false);
+		JLabel lblField= new JLabel("Field Name:");
+		lblField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblField.setBounds(10, 113, 161, 13);
+		frmJamblAdd.getContentPane().add(lblField);
+		lblField.setVisible(false);
 		
-		JLabel lblMethod= new JLabel("Method Name:");
-		lblMethod.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblMethod.setBounds(10, 113, 161, 13);
-		frmJamblAdd.getContentPane().add(lblMethod);
-		lblMethod.setVisible(false);
-		
-		//////////////////////////////
-		///******* Text Box *******///
-		//////////////////////////////
-		
-		textField = new JTextField();
-		textField.setBounds(142, 201, 265, 19);
-		frmJamblAdd.getContentPane().add(textField);
-		textField.setColumns(10);
-		textField.setVisible(false);
-	
 		///////////////////////////
 		//******* Buttons *******//
 		///////////////////////////
 		
 		////////////////////////////////////////////////////////////// Change Field Name Button
-		JButton btnChangeMethod = new JButton("Change Method Name");
-		btnChangeMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnChangeMethod.setBounds(10, 253, 190, 21);
-		frmJamblAdd.getContentPane().add(btnChangeMethod);
-		btnChangeMethod.addActionListener(new ActionListener() {
+		JButton btnDeleteField = new JButton("Delete Field");
+		btnDeleteField.setForeground(new Color(255, 0, 0));
+		btnDeleteField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnDeleteField.setBounds(10, 189, 190, 21);
+		frmJamblAdd.getContentPane().add(btnDeleteField);
+		btnDeleteField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+		
 			}
 		});
 		
 		////////////////////////////////////////////////////////////// Cancel Button
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnCancel.setBounds(233, 253, 190, 21);
+		btnCancel.setBounds(233, 189, 190, 21);
 		frmJamblAdd.getContentPane().add(btnCancel);
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -121,19 +98,20 @@ public class RenameMethodW {
 			}
 		});
 		
+		//////////////////////////////
+		//******* Combo Boxes*******//
+		//////////////////////////////
 		
-		JComboBox Methods = new JComboBox();
-		Methods.setModel(new DefaultComboBoxModel(new String[] {"Choose a method:", "Method1"}));
-		Methods.setBounds(10, 136, 161, 21);
-		frmJamblAdd.getContentPane().add(Methods);
-		Methods.setVisible(false);
-		Methods.addItemListener(new ItemListener() {
+		JComboBox cbMethods = new JComboBox();
+		cbMethods.setModel(new DefaultComboBoxModel(new String[] {"Choose a field:"}));
+		cbMethods.setBounds(10, 136, 161, 21);
+		frmJamblAdd.getContentPane().add(cbMethods);
+		cbMethods.setVisible(false);
+		cbMethods.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				textField.setVisible(true);
-				lblNewMethod.setVisible(true);
+				
 			}
 		});
-		
 		@SuppressWarnings("rawtypes")
 		JComboBox Classes = new JComboBox();
 		Classes.setModel(new DefaultComboBoxModel(new String[] {"Choose a class:", "Class1", "Class2"}));
@@ -141,10 +119,12 @@ public class RenameMethodW {
 		frmJamblAdd.getContentPane().add(Classes);
 		Classes.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				Methods.setVisible(true);
-				lblMethod.setVisible(true);
+				cbMethods.setVisible(true);
+				lblField.setVisible(true);
 			}
 		});
+		
+		
 
 	}
 }
