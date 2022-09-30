@@ -8,9 +8,6 @@
  */
 
 import java.util.*;
-
-
-import java.util.*;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -405,8 +402,26 @@ public class Controller {
     }
     
     
+/*********************************** NEEDS TESTING ***************************************/
+    public void saveNew(Model model, String fileName){
+        Save saving = new Save(model);
+        JSONObject fileObj = new JSONObject();
+        fileObj.put("classes", saving.classes());
+        fileObj.put("relationships", saving.relationships());
 
+        try{
+            // creates new file  if ther is not one
+            FileWriter file = new FileWriter(fileName);
+            // turns object to string and save to file
+            file.write(fileObj.toJSONString());
+            file.close();
+            System.out.println("UML Diagram Saved!");
+        }catch(Exception e){
+            System.out.println("Could not write file" + e);
+        }
+    }
 
+/******************************************************************************************/
     
     public void save(Model model, String fileName){
         JSONObject obj1 = new JSONObject();
