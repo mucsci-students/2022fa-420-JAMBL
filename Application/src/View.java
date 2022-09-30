@@ -26,6 +26,12 @@ public class View {
         input = console.nextLine();
         return input;
     }
+
+    public String inputNewName(){
+        System.out.println("Enter New Name: ");
+        input = console.nextLine();
+        return input;
+    }
   
     public String inputClassListed() {
         System.out.println("Name of Class to be listed: ");
@@ -35,6 +41,16 @@ public class View {
 
 
     /*************************************************************************************/
+
+    public void Failed(String type , String action){
+        System.out.println(action +" " + type + " failed!");
+
+    }
+
+    public void renamed(String type, String oldName , String newName){
+        System.out.println( oldName + " "+ type + " changed to " + newName + "!");
+    }
+
     public void notExists(String type, String name){
         System.out.println(type +" "+ name + " does not exist! Action Failed!");
     }
