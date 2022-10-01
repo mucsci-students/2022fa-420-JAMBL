@@ -197,17 +197,19 @@ public class Controller {
                 name2 = view.inputAddDestinationClass();
                 class1 = model.getClass(name1);
                 class2 = model.getClass(name2);
-                if (class1 == null) {
+                typeName = view.inputAddType();
+                if (class1 == null ) {
                     view.originNotExist();
                     break;
-                } else if (class2 == null) {
+                }
+                if (class2 == null) {
                     view.destinationNotExist();
                     break;
-                } else if (class1.isrelationshipExist(name2)== true){
+                }
+                if (class1.isrelationshipExist(name2, typeName) == true){
                     view.relExists();
                     break;
                 } else {
-                    typeName = view.inputAddType();
                     returned = class1.addRelationship(class2, typeName);
                     // notifies user that relationship was added
                     if(returned){
@@ -235,8 +237,39 @@ public class Controller {
                 break;
 
             case RELTYPE:
+                name1 =  view.inputAddOriginClass();
+                class1 = model.getClass(name1);
                 
+                if (class1 == null) {
+                    view.originNotExist();
+                    break;
+                }
+                name2 = view.inputAddDestinationClass();
+                class2 = model.getClass(name2);
+            
+                if (class2 == null) {
+                    view.destinationNotExist();
+                    break;
+                } 
+                typeName = view.inputAddType();
+                if (class1.isrelationshipExist(name2, typeName)== true){
+                        view.relExists();
+                    break;
+                } else {
+                    class1.editRelationshipType(typeName);
+                    //(class2.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType);
+                    view.relTypeEdited(typeName);
+                    }
                 break;
+                /* if ((class2.getClassName().equals(name2)) & )
+           if ( (ele.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType)) {
+               newMatch = true;
+           }
+           if (!oldMatch) {
+               System.out.println("Relationship type does not exist! type change failed!");
+           } else if (newMatch) {
+               System.out.println("Relationship is already has the type!");
+           } */
 
             case ADDPAR:
                 

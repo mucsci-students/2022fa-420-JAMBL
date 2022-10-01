@@ -19,6 +19,7 @@ public class Class {
     public HashSet<Method> methods = new HashSet<Method>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
     View view = new View();
+ 
 
     //constructor with name as parameter
     public Class(String name){
@@ -89,19 +90,30 @@ public class Class {
 
     }
 
-    public boolean isrelationshipExist(String name){
+    // This method checks if there is a Relationship with a same type from the HashSet relationships 
+    public boolean isrelationshipExist(String destinationName, String newType){
         boolean relExist = false;
         for(Relationship ele: relationships) {
-            if ((ele.getDestination()).getClassName().equals(name)) {
+            if (((ele.getDestination()).getClassName().equals(destinationName)) && (ele.getRelType().equals(newType))) {
                 //System.out.println("Relationship already exists!");
                // view.relExists();
-                relExist = false;
-            } else {
                 relExist = true;
-            }
+            } 
         }
         return relExist;
     }
+
+    // this method eidts the relationship type to a new type.
+    //@param newType - the new relationship type that is changing 
+    public void editRelationshipType(String newType) {
+        Iterator<Relationship> relItr = relationships.iterator();
+       while (relItr.hasNext()) {
+           Relationship ele = relItr.next();
+           ele.setRelType(newType); 
+       }      
+         
+    }
+
 
     public boolean addAttribute (String name) {
         // sets boolean add to be true unless error is found

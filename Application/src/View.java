@@ -332,4 +332,8 @@ public class View {
         System.out.println( "Relationship doesn't exist! Action Failed!");
     }
 
+    public void relTypeEdited(String typeName){
+        System.out.println("Relation type changed to " + typeName.toLowerCase()  + "!");
+    }    
+
 }
