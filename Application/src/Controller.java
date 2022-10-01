@@ -83,7 +83,9 @@ public class Controller {
         String name3;
         Class class1;
         Class class2;
-        Class check;
+        Class classCheck;
+        Method methodCheck;
+        Method methodCheck2;
         String fileName;
         boolean returned;
         String typeName;
@@ -97,10 +99,10 @@ public class Controller {
             case ADDCL:
             
                 // prompts user and stores input in name1 variable
-                name1 = view.inputAddClass();
-                check = model.getClass(name1);
+                name1 = view.inputAdd("Class");
+                classCheck = model.getClass(name1);
                 // if input not blank add class
-                if ((!name1.isBlank()) && (check == null)) {
+                if ((!name1.isBlank()) && (classCheck == null)) {
                     // adds class
                      model.addClass(name1);
                      // Checks to see if class was succesfully added
@@ -113,7 +115,7 @@ public class Controller {
                      
                 } else {
 
-                    if(check != null){
+                    if(classCheck != null){
                         view.exists("Class", name1);
                     }else{
                         // if input is empty return invalid input message
@@ -125,11 +127,11 @@ public class Controller {
             case DELCL:
 
                 // prompts user and stores input in name1 variable
-               name1 = view.inputDelClass();
-               check = model.getClass(name1);
+               name1 = view.inputDel("Class");
+               classCheck = model.getClass(name1);
                 // checks to see if input was blank
-                if ((!name1.isBlank()) && (check != null) ) {
-                    model.deleteClass(check);
+                if ((!name1.isBlank()) && (classCheck != null) ) {
+                    model.deleteClass(classCheck);
                     // if class deleted returned equals true and user is notified
                     if(model.getClass(name1) == null){
                         view.Deleted("Class", name1);
@@ -151,11 +153,11 @@ public class Controller {
 
             case RENCL:
               // prompts user and stores input in name1 variable
-              name1 = view.inputRenClass();
-              check = model.getClass(name1);
+              name1 = view.inputRen("Class");
+              classCheck = model.getClass(name1);
                 if (!name1.isBlank()) {
                     // checks if class exists
-                    if(check == null){
+                    if(classCheck == null){
                         view.notExists("Class", name1);
                         return;
                     }
@@ -164,10 +166,10 @@ public class Controller {
                         return;
                     }
                
-                name2 = view.inputNewName();
-                check = model.getClass(name2);
+                name2 = view.inputNewName("Class Name");
+                classCheck = model.getClass(name2);
                 if (!name2.isBlank()) {
-                    if(check == null){
+                    if(classCheck == null){
                         model.renameClass(name1, name2);
                         view.renamed("Class", name1 , name2);
                     }else{
@@ -197,18 +199,234 @@ public class Controller {
                 break; 
 
             case ADDMTD:
+                 // prompts user for the class the method will be added to
+                 name1 = view.inputNameOf("Class" , "Method", "receiving");
+                 // finds the class
+                 classCheck = model.getClass(name1);
+                 
+                 // if input was blank of class not found it returns an error message and exits
+                 if ((name1.isBlank()) || (classCheck == null)) {
+
+                    if(name1.isBlank()){
+
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.notExists("Class", name1);
+                        return;
+                    }  
+                }
+
+                //prompts user for Method name
+                name2 = view.inputAdd("Method");
+                // tries to find method
+                methodCheck = classCheck.getMethod(name2);
+
+                // If method already exists or user input was empty prints error and exits
+                if ((name2.isBlank()) || (methodCheck != null)) {
+
+                    if(name2.isBlank()){
+
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.exists("Method", name2);
+                        return;
+                    }  
+                }else{
+                    // prompts user for method type and adds the method
+                    name3 = view.inputAdd("Method Return Type");
+                    classCheck.addMethod(name2, name3);
+                }
+
+                // Checks to see if the method was added successfully and notifies user
+                if(classCheck.getMethod(name2) != null){
+                    view.Added(name2, "Method");
+                }else {
+                    view.Failed("Method", "Adding");
+                }
                 
                 break; 
         
             case DELMTD:
+
+                 // prompts user for the class the method will be deleted from
+                 name1 = view.inputNameOf("Class" , "Method", "deleting");
+                 // finds the class
+                 classCheck = model.getClass(name1);
+                 
+                 // if input was blank of class not found it returns an error message and exits
+                 if ((name1.isBlank()) || (classCheck == null)) {
+
+                    if(name1.isBlank()){
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.notExists("Class", name1);
+                        return;
+                    }    
+                }
+
+                //prompts user for Method name
+                name2 = view.inputDel("Method");
+                // tries to find method
+                methodCheck = classCheck.getMethod(name2);
+
+                // If method doesn't exists or user input was empty prints error and exits
+                if ((name2.isBlank()) || (methodCheck == null)) {
+
+                    if(name2.isBlank()){
+                        
+                        view.invalid();
+                        return;
+                    }else{
+                        // if input is empty return invalid input message
+                        view.notExists("Method", name2);
+                        return;
+                    }  
+                }else{
+                    // deleted method
+                    classCheck.deleteMethod(methodCheck);
+                }
+
+                // Checks to see if the method was deleted successfully and notifies user
+                if(classCheck.getMethod(name2) == null){
+                    view.Deleted(name2, "Method");
+                }else {
+                    view.Failed("Method", "Deleting");
+                }
+                
                 
                 break; 
     
             case RENMTD:
-                
-                break; 
-                
+                 // prompts user for the class renmaing the method
+                 name1 = view.inputNameOf("Class" , "Method", "renaming");
+                 // finds the class
+                 classCheck = model.getClass(name1);
+                 
+                 // if input was blank of class not found it returns an error message and exits
+                 if ((name1.isBlank()) || (classCheck == null)) {
+
+                    if(name1.isBlank()){
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.notExists("Class", name1);
+                        return;
+                    }  
+                }
+
+                //prompts user for Method name
+                name2 = view.inputRen("Method");
+                // tries to find method
+                methodCheck = classCheck.getMethod(name2);
+
+                // If method doesn't exists or user input was empty prints error and exits
+                if ((name2.isBlank()) || (methodCheck == null)) {
+
+                    if(name2.isBlank()){
+                        
+                        view.invalid();
+                        return;
+                    }else{
+                        // if input is empty return invalid input message
+                        view.notExists("Method", name2);
+                        return;
+                    }  
+                }else{
+                    name3 = view.inputNewName("Method Name");
+                    methodCheck2 = classCheck.getMethod(name3);
+
+                    if ((name3.isBlank()) || (methodCheck2 != null)) {
+
+                        if(name2.isBlank()){
+                            view.invalid();
+                            return;
+                        }else{
+                            // if input is empty return invalid input message
+                            view.exists("Method", name3);
+                            return;
+                        }  
+                    }else{
+                        // rename method
+                        classCheck.renameMethod(methodCheck, name3);
+                    }          
+                }
+
+                // Checks to see if the method was renamed successfully and notifies user
+                if((classCheck.getMethod(name3) != null) && (classCheck.getMethod(name2)== null)){
+                    view.renamed("Method", name2, name3);
+                }else {
+                    view.Failed("Method", "Renaming");
+                }
+                break;
             case MTDTYPE:
+
+                 // prompts user for the class to change return type 
+                 name1 = view.inputNameOf("Class" , "Method", "Changing Return Type of");
+                 // finds the class
+                 classCheck = model.getClass(name1);
+                 
+                 // if input was blank of class not found it returns an error message and exits
+                 if ((name1.isBlank()) || (classCheck == null)) {
+
+                    if(name1.isBlank()){
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.notExists("Class", name1);
+                        return;
+                    }  
+                }
+
+                //prompts user for Method name
+                name2 = view.inputRen("Method");
+                // tries to find method
+                methodCheck = classCheck.getMethod(name2);
+
+                // If method doesn't exists or user input was empty prints error and exits
+                if ((name2.isBlank()) || (methodCheck == null)) {
+
+                    if(name2.isBlank()){
+                        
+                        view.invalid();
+                        return;
+                    }else{
+                        // if input is empty return invalid input message
+                        view.notExists("Method", name2);
+                        return;
+                    }  
+                }else{
+                    name3 = view.inputNewName("Return Type");
+
+                    if (name3.isBlank()) {
+                         view.invalid();
+                        return;
+                    }else{
+                        //changed Method reurn type
+                        classCheck.changeMethodreturn(methodCheck, name2);
+                        // Check to see if type succesfully changed
+                        if(classCheck.getMethod(name2).getReturnType().equals(name2)){
+                            view.renamed("Method Return Type", "", name3);
+                            return;
+                        }else{
+                            view.Failed("Method Return Type", "Changing");
+                        }
+                        
+                    }  
+             
+                }
                 
                 break; 
 

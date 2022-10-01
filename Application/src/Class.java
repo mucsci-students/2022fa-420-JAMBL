@@ -265,88 +265,42 @@ public class Class {
 
     // Adds a method to this class
     public boolean addMethod (String methodName, String returnType) {
-        if(methods.isEmpty()) { // Empty hash set
-    		methods.add(new Method(methodName, returnType)); 
-    		return true; // Method added successfully, return true
-    	} else {
-    		for (Method ele: methods) {
-                if(ele.getMethodName().equals(methodName)) { // Checking if method already exists
-                    System.out.println("Method already exists!");
-                    return false; // Method already exists, return false
-                }
-            }
-    	}
-    	this.methods.add(new Method(methodName, returnType)); // Method does not exist already; add this field
-    	return true; // Field added successfully, return true
+        // Adds Method to HashSet
+    	this.methods.add(new Method(methodName, returnType)); 
+    	return true;
     }
     
-    // Deletes a method from this class of the specified name
-    public boolean deleteMethod(String name) {
-    	Iterator<Method> methItr = methods.iterator();
-        while (methItr.hasNext()) {
-            Method ele = methItr.next();
-            if (ele.getMethodName().equals(name)) {
-                methItr.remove();
-                System.out.println ("Method " + name + " removed from " + this.getClassName() + "!");
-                return true; // Method successfully removed, return true
-            }
-        }
-        System.out.println("Method " + name + " does not exist!");
-        return false; // Method not found, return false
+    // Deletes a method from the Methods HashSet
+    public boolean deleteMethod(Method method) {
+        methods.remove(method);
+        return true;
     }
 
     // Renames a method in this class from 'oldName' to 'newName' 
     // Should fail if the method 'oldName' does not exist OR if a method 'newName' already exists
-    public boolean renameMethod(String oldName, String newName) {
-    	Iterator<Method> methItr = methods.iterator();
-    	boolean oldMatch = false;
-        boolean newMatch = false;
-        Method old = null;
-    	while (methItr.hasNext()) {
-            Method ele = methItr.next();
-            if (ele.getMethodName().toUpperCase().equals(oldName.toUpperCase())) {
-                oldMatch = true;
-                old = ele;
-            } else if ( ele.getMethodName().toUpperCase().equals(newName.toUpperCase())) {
-                newMatch = true;
-            }
-        }
-        if (!oldMatch) {
-            System.out.println("Method does not exist! Name change failed!");
-            return false;
-        } else if (newMatch) {
-            System.out.println("New Method name already exists! Name change failed!");
-            return false;
-        } else {
-            old.setMethodName(newName);
-            System.out.println("Method " + oldName + " changed to " + newName + "!");
+    public boolean renameMethod(Method method, String newName) {
+        
+            method.setMethodName(newName);
             return true;
-        }
+        
      }
 
-    // Sets the return type of the Method 'methodName' to 'newReturnType'
-    // Should fail if the Method does not exist or the new return type is the same as the current return type
-    public boolean changeMethodreturn(String methodName, String newReturnType) {
-    	Iterator<Method> methItr = methods.iterator();
-    	Method current = null;
-    	while(methItr.hasNext()) {
-    		current = methItr.next();
-    		if(current.getMethodName().toUpperCase().equals(methodName.toUpperCase())) {
-    			// Existing return type is already new return type
-    			if(current.getReturnType().toUpperCase().equals(newReturnType.toUpperCase())) { 
-    				System.out.println("Existing return type same as new return type. Return type change failed!");
-    				return false;
-    			}
-    			// Field of specified name found
-    			current.setReturnType(newReturnType);
-    			System.out.println("The method " + current.getMethodName() + "'s return type has been changed to " + current.getReturnType() + "!");
-    			return true;
-    		}
-    	}
-    	// Field of specified name not found
-    	System.out.println("Method does not exist! Return type change failed!"); 
-    	return false;
+    // Sets the return type of the Method to 'newReturnType'
+    public boolean changeMethodreturn(Method method, String newReturnType) {
+
+        method.setReturnType(newReturnType);
+    	return true;
     	
+    }
+
+    public Method getMethod(String methodName){
+        for (Method ele: methods) {
+            if(ele.getMethodName().equals(methodName)) { // checking to see if method was found
+                return ele; // if found returns method
+            }
+        }
+
+        return null;
     }
 
 }

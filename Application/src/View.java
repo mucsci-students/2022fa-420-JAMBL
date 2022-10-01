@@ -9,28 +9,35 @@ public class View {
 
     }
     /*****************************Inputs From User****************************************/
-    public String inputAddClass(){
-        System.out.println("Name of Class to be added: ");
+    public String inputAdd(String type){
+        System.out.println("Name of "+ type +" to be added: ");
         input = console.nextLine();
         return input;
     }
 
-    public String inputDelClass(){
-        System.out.println("Name of Class to be deleted: ");
+    public String inputDel(String type){
+        System.out.println("Name of "+ type +" to be deleted: ");
         input = console.nextLine();
         return input;
     }
 
-    public String inputRenClass(){
-        System.out.println("Name of Class to be renamed: ");
+    public String inputRen(String type){
+        System.out.println("Name of "+ type +" to be renamed: ");
         input = console.nextLine();
         return input;
     }
 
-    public String inputNewName(){
-        System.out.println("Enter New Name: ");
+    public String inputNewName(String element){
+        System.out.println("Enter New "+element+": ");
         input = console.nextLine();
         return input;
+    }
+
+    public String inputNameOf(String element1 , String element2, String action){
+        System.out.println("Name of "+ element1 +" "+action +" "+ element2 +": ");
+        input = console.nextLine();
+        return input;
+
     }
   
     public String inputClassListed() {
