@@ -25,12 +25,12 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.JSeparator;
 
-public class RenameMethodW {
+public class RenameFieldW {
 
 	Controller GUIcontroller = new Controller(null, null);
 	
 	private static JTextField textField;
-	public RenameMethodW(Controller newController) {
+	public RenameFieldW(Controller newController) {
 		GUIcontroller = newController;
 	}
 	
@@ -47,7 +47,7 @@ public class RenameMethodW {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void initialize() {
 		JFrame frmJamblAdd = new JFrame("JAMBL - Change Field Name");
-		frmJamblAdd.setTitle("JAMBL - Rename Method");
+		frmJamblAdd.setTitle("JAMBL - Rename Field");
 		frmJamblAdd.setBounds(100, 100, 447, 321);
 		frmJamblAdd.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frmJamblAdd.getContentPane().setLayout(null);
@@ -57,7 +57,7 @@ public class RenameMethodW {
 		///******* Labels *******///
 		////////////////////////////
 		
-		JLabel lblAddClass = new JLabel("Choose a class and choose the method");
+		JLabel lblAddClass = new JLabel("Choose a class and choose the field.");
 		lblAddClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblAddClass.setBounds(10, 10, 338, 13);
 		frmJamblAdd.getContentPane().add(lblAddClass);
@@ -73,13 +73,13 @@ public class RenameMethodW {
 		lblClassName.setBounds(10, 33, 219, 51);
 		frmJamblAdd.getContentPane().add(lblClassName);
 		
-		JLabel lblNewMethod = new JLabel("New Method Name:");
-		lblNewMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewMethod.setBounds(10, 202, 146, 13);
-		frmJamblAdd.getContentPane().add(lblNewMethod);
-		lblNewMethod.setVisible(false);
+		JLabel lblNewField = new JLabel("New Field Name:");
+		lblNewField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewField.setBounds(10, 202, 146, 13);
+		frmJamblAdd.getContentPane().add(lblNewField);
+		lblNewField.setVisible(false);
 		
-		JLabel lblMethod= new JLabel("Method Name:");
+		JLabel lblMethod= new JLabel("Field Name:");
 		lblMethod.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblMethod.setBounds(10, 113, 161, 13);
 		frmJamblAdd.getContentPane().add(lblMethod);
@@ -100,7 +100,7 @@ public class RenameMethodW {
 		///////////////////////////
 		
 		////////////////////////////////////////////////////////////// Change Field Name Button
-		JButton btnChangeMethod = new JButton("Change Method Name");
+		JButton btnChangeMethod = new JButton("Change Field Name");
 		btnChangeMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnChangeMethod.setBounds(10, 253, 190, 21);
 		frmJamblAdd.getContentPane().add(btnChangeMethod);
@@ -123,14 +123,14 @@ public class RenameMethodW {
 		
 		
 		JComboBox Methods = new JComboBox();
-		Methods.setModel(new DefaultComboBoxModel(new String[] {"Choose a method:", "Method1"}));
+		Methods.setModel(new DefaultComboBoxModel(new String[] {"Choose a field:"}));
 		Methods.setBounds(10, 136, 161, 21);
 		frmJamblAdd.getContentPane().add(Methods);
 		Methods.setVisible(false);
 		Methods.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				textField.setVisible(true);
-				lblNewMethod.setVisible(true);
+				lblNewField.setVisible(true);
 			}
 		});
 		

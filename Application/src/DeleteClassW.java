@@ -1,9 +1,9 @@
 /*
- * @projectDescription The pup-up window for the " Delete Class " button
+ * @projectDescription The pop-up window for the " Delete Class " button
  * 
  * @authors	John Shenk
  * 
- * @dateLastModified September 26, 2022
+ * @dateLastModified September 29, 2022
  */
 
 
@@ -22,6 +22,11 @@ import java.awt.Color;
 
 public class DeleteClassW {
 
+	Controller controller;
+	public DeleteClassW(Controller newController) {
+		controller = newController;
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -40,49 +45,53 @@ public class DeleteClassW {
 		frame.setVisible(true);
 	
 
-	JLabel lblDeleteClass = new JLabel("Select the name of a class to delete");
-	lblDeleteClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
-	lblDeleteClass.setBounds(10, 10, 338, 13);
-	frame.getContentPane().add(lblDeleteClass);
+		JLabel lblDeleteClass = new JLabel("Select the name of a class to delete");
+		lblDeleteClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblDeleteClass.setBounds(10, 10, 338, 13);
+		frame.getContentPane().add(lblDeleteClass);
+		
+		JLabel lblSelectClass = new JLabel("Select Class Name: ");
+		lblSelectClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblSelectClass.setBounds(10, 54, 137, 13);
+		frame.getContentPane().add(lblSelectClass);
 	
-	JLabel lblSelectClass = new JLabel("Select Class Name: ");
-	lblSelectClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	lblSelectClass.setBounds(10, 54, 137, 13);
-	frame.getContentPane().add(lblSelectClass);
-	
-	@SuppressWarnings("rawtypes")
-	JComboBox comboBoxClasses = new JComboBox();
-	comboBoxClasses.setBounds(10, 77, 207, 21);
-	frame.getContentPane().add(comboBoxClasses);
-	
-	///////////////////////////
-	//******* Buttons *******//
-	///////////////////////////
-	
-	////////////////////////////////////////////////////////////// Add Class Button
-	JButton btnAddClass = new JButton("Delete Class");
-	btnAddClass.setForeground(new Color(255, 0, 0));
-	btnAddClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	btnAddClass.setBounds(85, 136, 132, 21);
-	frame.getContentPane().add(btnAddClass);
-	btnAddClass.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			frame.dispose();
-		}
-	});
-	
-	////////////////////////////////////////////////////////////// Cancel Button
-	JButton btnCancel = new JButton("Cancel");
-	btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	btnCancel.setBounds(227, 136, 132, 21);
-	frame.getContentPane().add(btnCancel);
-	btnCancel.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			frame.dispose();
-		}
-	});
-	
-	
+		
+		///////////////////////////
+		//******* Buttons *******//
+		///////////////////////////
+		
+		////////////////////////////////////////////////////////////// Delete Class Button
+		JButton btnAddClass = new JButton("Delete Class");
+		btnAddClass.setForeground(new Color(255, 0, 0));
+		btnAddClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnAddClass.setBounds(85, 136, 132, 21);
+		frame.getContentPane().add(btnAddClass);
+		btnAddClass.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+		
+		////////////////////////////////////////////////////////////// Cancel Button
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnCancel.setBounds(227, 136, 132, 21);
+		frame.getContentPane().add(btnCancel);
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+		
+		//////////////////////////////
+		//******* Combo Boxes*******//
+		//////////////////////////////
+		
+		
+		@SuppressWarnings("rawtypes")
+		JComboBox comboBoxClasses = new JComboBox();
+		comboBoxClasses.setBounds(10, 77, 207, 21);
+		frame.getContentPane().add(comboBoxClasses);
 	
 	}
 }
