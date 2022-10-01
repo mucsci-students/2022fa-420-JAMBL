@@ -26,15 +26,58 @@ public class View {
         input = console.nextLine();
         return input;
     }
+
+    public String inputNewName(){
+        System.out.println("Enter New Name: ");
+        input = console.nextLine();
+        return input;
+    }
   
     public String inputClassListed() {
         System.out.println("Name of Class to be listed: ");
-        String className = console.nextLine();
-        return className;
+        input = console.nextLine();
+        return input;
     }
 
+    // a prompt for a Class name. Generic can be used in many functions
+    public String inputClassName() {
+        System.out.println("Name of Class: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    // a prompt for a Field name. Generic can be used in many functions
+    public String inputFieldName() {
+        System.out.println("Name of Field: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    //prompt for a Field type. Generic can be used in many functions
+    public String inputFieldType() {
+        System.out.println("Type of Field: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    //promt for a new name or type based on parameters
+    public String inputNew (String item, String object) {
+        System.out.println("New " + item + " of " + object + ": ");
+        input = console.nextLine();
+        return input;
+    } 
 
     /*************************************************************************************/
+
+    public void Failed(String type , String action){
+        System.out.println(action +" " + type + " failed!");
+
+    }
+
+    public void renamed(String type, String oldName , String newName){
+        System.out.println( oldName + " "+ type + " changed to " + newName + "!");
+    }
+
     public void notExists(String type, String name){
         System.out.println(type +" "+ name + " does not exist! Action Failed!");
     }
@@ -63,6 +106,14 @@ public class View {
 
     public void Deleted(String type , String name){
         System.out.println(type + " "+ name + " deleted successfully");
+    }
+
+    public void Renamed(String type, String oldName, String newName) {
+        System.out.println(type + " " + oldName + " renamed to " + newName + " successfully!");
+    }
+
+    public void Retyped(String type, String name, String newType) {
+        System.out.println(type + " for " + name  + " changed to " + newType + " successfully!");
     }
     
     public void classRenamed(){

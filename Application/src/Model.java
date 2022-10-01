@@ -13,65 +13,32 @@ public class Model {
 
 
     public boolean addClass (String className) {
-       boolean add;
-        Iterator<Class> itClasses = classes.iterator();
-        Class aClass;
-
-        // iterates through the HashSet
-        while (itClasses.hasNext()) {
-            aClass = (Class) itClasses.next();
-            // if any of the class names match the notifies user
-            
-            if ((aClass.getClassName().toUpperCase()).equals(className.toUpperCase())) {
-                // sets boolean to false
-                add = false;
-                // if class already exists exits method
-                return add;
-            }
-        }
+        boolean add;
         // creates new class and addes it to the classes set
         Class newClass = new Class(className);
         classes.add(newClass);
-        // notifies user
         add = true;
         return add;       
     }
 
 
 
-    public boolean deleteClass (String className) {
+    public boolean deleteClass (Class toDelete) {
 
         boolean delete = true;
 
-        // finds the class
-        Class foundClass = getClass(className);
-        // checks if foundClass does not exist
-        if(foundClass == null){
-            // sets boolean to false
-            delete = false;
-            // exits method
-
-            return delete;
-            
-        }else{
-
-        
+        // delete relationships to class
         for (Class ele: classes) {
             for (Relationship rel: ele.getRelationships()) {
-                if (rel.getDestination().getClassName().toUpperCase().equals(className.toUpperCase())) {
-                    ele.deleteRelationship(className);
+                if (rel.getDestination().getClassName().toUpperCase().equals(toDelete.getClassName().toUpperCase())) {
+                    ele.deleteRelationship(toDelete.getClassName());
                 }
             }
         }
-        
-    
         // remove the class from the classes set
-        classes.remove(foundClass);
-
+        classes.remove(toDelete);
        // return true;
-
         delete = true;
-    }
         return delete;
 
     }
@@ -79,27 +46,9 @@ public class Model {
     
 
     public void renameClass (String oldName, String newName) {
-        // finds the class
-        Class foundClass = getClass(oldName);
-        // to check in class name already exists
-        Class checkClass = getClass(newName);
-        //if class is found with the same name as newName 
-        if(checkClass != null){
-            // notifies user
-            System.out.println("Class already exists! Name change failed!");
-            //exits method
-            return;
-        }
-        // checks if foundClass does not exist
-        if(foundClass == null){
-            //Notifies user
-            System.out.println("Class does not exist! Name change failed!");
-            // exits method
-            return;
-        }
         // change class name
-        foundClass.setClassName(newName);
-        System.out.println( oldName + " class changed to " + newName + "!");
+        getClass(oldName).setClassName(newName);
+        
     }
 
 
@@ -122,5 +71,9 @@ public class Model {
         // if class was not found returns null
         return null;
     }  
+
+    public HashSet<Class> getClasses(){
+        return this.classes;
+    }
 
 }

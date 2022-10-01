@@ -8,9 +8,6 @@
  */
 
 import java.util.*;
-
-
-import java.util.*;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -86,6 +83,7 @@ public class Controller {
         String name3;
         Class class1;
         Class class2;
+        Class check;
         String fileName;
         boolean returned;
         String typeName;
@@ -100,23 +98,27 @@ public class Controller {
             
                 // prompts user and stores input in name1 variable
                 name1 = view.inputAddClass();
+                check = model.getClass(name1);
                 // if input not blank add class
-                if (!name1.isBlank()) {
-                    returned = model.addClass(name1);
-                    
-                    if(returned){
-                        
+                if ((!name1.isBlank()) && (check == null)) {
+                    // adds class
+                     model.addClass(name1);
+                     // Checks to see if class was succesfully added
+                     if(model.getClass(name1) != null){
                         // if class successfully added notify user
                         view.Added("Class", name1);
-                        
-                    }else{
-                        // if the added class returns false
-                        view.exists("Class" , name1);    
-                    }
-                    
+                     }else{
+                        view.Failed("Class", "Adding");
+                     }
+                     
                 } else {
-                    // if input is empty return invalid input message
-                    view.invalid();
+
+                    if(check != null){
+                        view.exists("Class", name1);
+                    }else{
+                        // if input is empty return invalid input message
+                        view.invalid();
+                    }  
                 }
                 break;
 
@@ -124,36 +126,54 @@ public class Controller {
 
                 // prompts user and stores input in name1 variable
                name1 = view.inputDelClass();
+               check = model.getClass(name1);
                 // checks to see if input was blank
-                if (!name1.isBlank()) {
-                    returned = model.deleteClass(name1);
+                if ((!name1.isBlank()) && (check != null) ) {
+                    model.deleteClass(check);
                     // if class deleted returned equals true and user is notified
-                    if(returned){
+                    if(model.getClass(name1) == null){
                         view.Deleted("Class", name1);
                         
                     }else{ // if class not found returned is false and user is notified
-                        view.notExists("Class", name1);
+                        view.Failed("Class", "Deleting");
                     }
                 
                 } else {
                     //tells user input was invalid
-                    view.invalid();
+                    if(name1.isBlank()){
+                        
+                        view.invalid();
+                    }else{
+                        view.notExists("Class", name1);
+                    }  
                 }
                 break;
 
             case RENCL:
               // prompts user and stores input in name1 variable
               name1 = view.inputRenClass();
+              check = model.getClass(name1);
                 if (!name1.isBlank()) {
-                    // continue as normal
+                    // checks if class exists
+                    if(check == null){
+                        view.notExists("Class", name1);
+                        return;
+                    }
                     } else {
                         view.invalid();
                         return;
                     }
-                System.out.println("New name: ");
-                name2 = scanner.nextLine();
+               
+                name2 = view.inputNewName();
+                check = model.getClass(name2);
                 if (!name2.isBlank()) {
-                model.renameClass(name1, name2);
+                    if(check == null){
+                        model.renameClass(name1, name2);
+                        view.renamed("Class", name1 , name2);
+                    }else{
+                        view.exists("Class", name2);
+                    }
+                
                 } else {
                     view.invalid();
                 }
@@ -161,20 +181,98 @@ public class Controller {
 
 
             case ADDFLD:
-                
-                break; 
+                name1 = view.inputClassName(); //gets class name from user
+                class1 = model.getClass(name1); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    name2 = view.inputFieldName(); //gets the name for the field
+                    
+                    if (class1.getField(name2) != null) { //checks if field already exists and exits if does
+                        view.exists("Field", name2);
+                        break;
+                    } else {
+                        name3 = view.inputFieldType(); //gets type for the field
+                        boolean added = class1.addField(name2, name3); //adds it to the fields set
+                        if (added) {
+                            view.Added(name3, name2); //prints success messaage
+                        }
+                        break;
+                    }
+                }
                 
             case DELFLD:
-                
-                break; 
+                name1 = view.inputClassName(); //gets class name from user
+                class1 = model.getClass(name1); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    name2 = view.inputFieldName(); //gets field name from user
+                    if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
+                        view.notExists("Field", name2);
+                        break;
+                    } else {
+                        boolean removed = class1.deleteField(name2); //removes the field from the set
+                        if (removed) {
+                            view.Deleted("Field", name2); //prints success message
+                        }
+                        break;
+                    }
+                } 
 
             case RENFLD:
-                
-                break; 
+                name1 = view.inputClassName(); //gets class name from user
+                class1 = model.getClass(name1); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    name2 = view.inputFieldName(); //gets old field name from user
+                    if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
+                        view.notExists("Field", name2);
+                        break;
+                    } else {
+                        name3 = view.inputNew("name", "Field"); //get new field name from user
+                        if (class1.getField(name3) != null) { //checks if a field already exists with that name exits if does
+                            view.exists("Field", name3);
+                            break;
+                        } else {
+                            boolean renamed = class1.renameField(name2, name3); //changes the field name
+                            if (renamed) {
+                                view.Renamed("Field", name2, name3); //prints success message
+                            }
+                            break;
+                        }
+                    }
+                }  
 
             case FLDTYPE:
-                
-                break; 
+                name1 = view.inputClassName(); //gets class name from user
+                class1 = model.getClass(name1); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    name2 = view.inputFieldName(); //gets field name from user
+                    if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
+                        view.notExists("Field", name2);
+                        break;
+                    } else {
+                        name3 = view.inputNew("type", "Field"); //get new field type from user
+                        if ((class1.getField(name2).getFieldType().toUpperCase()).equals(name3.toUpperCase())) { //checks if the current type is the new type, exits if same
+                            view.exists("Field type", name3);
+                            break;
+                        } else {
+                            boolean changed = class1.changefieldType(name2, name3); //changes the field type
+                            if (changed) {
+                                view.Retyped("Field type", name2, name3); //prints success message
+                            }
+                            break;
+                        }
+                    }
+                } 
 
             case ADDMTD:
                 
@@ -438,8 +536,26 @@ public class Controller {
     }
     
     
+/*********************************** NEEDS TESTING ***************************************/
+    public void saveNew(Model model, String fileName){
+        Save saving = new Save(model);
+        JSONObject fileObj = new JSONObject();
+        fileObj.put("classes", saving.classes());
+        fileObj.put("relationships", saving.relationships());
 
+        try{
+            // creates new file  if ther is not one
+            FileWriter file = new FileWriter(fileName);
+            // turns object to string and save to file
+            file.write(fileObj.toJSONString());
+            file.close();
+            System.out.println("UML Diagram Saved!");
+        }catch(Exception e){
+            System.out.println("Could not write file" + e);
+        }
+    }
 
+/******************************************************************************************/
     
     public void save(Model model, String fileName){
         JSONObject obj1 = new JSONObject();
