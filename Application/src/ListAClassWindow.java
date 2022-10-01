@@ -19,6 +19,10 @@ import javax.swing.JLabel;
 
 public class ListAClassWindow {
 
+	Controller controller;
+	public ListAClassWindow(Controller newController) {
+		controller = newController;
+	}
 	/**
 	 * Launch the application.
 	 */
@@ -35,23 +39,21 @@ public class ListAClassWindow {
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
-	
-	
-		JLabel lblDeleteClass = new JLabel("Select the name of a class to list");
-		lblDeleteClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDeleteClass.setBounds(10, 10, 338, 13);
-		frame.getContentPane().add(lblDeleteClass);
+
+		////////////////////////////
+		///******* Labels *******///
+		////////////////////////////
+		
+		JLabel lblListClass = new JLabel("Select the name of a class to list");
+		lblListClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblListClass.setBounds(10, 10, 338, 13);
+		frame.getContentPane().add(lblListClass);
 	
 		JLabel lblSelectClass = new JLabel("Select Class Name: ");
 		lblSelectClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblSelectClass.setBounds(10, 54, 137, 13);
 		frame.getContentPane().add(lblSelectClass);
-	
-		@SuppressWarnings("rawtypes")
-		JComboBox comboBoxClasses = new JComboBox();
-		comboBoxClasses.setBounds(10, 77, 207, 21);
-		frame.getContentPane().add(comboBoxClasses);
-	
+
 		///////////////////////////
 		//******* Buttons *******//
 		///////////////////////////
@@ -78,6 +80,15 @@ public class ListAClassWindow {
 				frame.dispose();
 			}
 		});
+		
+		//////////////////////////////
+		//******* Combo Boxes*******//
+		//////////////////////////////
+		
+		@SuppressWarnings("rawtypes")
+		JComboBox cbClasses = new JComboBox();
+		cbClasses.setBounds(10, 77, 207, 21);
+		frame.getContentPane().add(cbClasses);
 	}
 	
 }

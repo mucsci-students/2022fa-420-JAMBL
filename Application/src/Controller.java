@@ -183,20 +183,98 @@ public class Controller {
 
 
             case ADDFLD:
-                
-                break; 
+                name1 = view.inputClassName(); //gets class name from user
+                class1 = model.getClass(name1); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    name2 = view.inputFieldName(); //gets the name for the field
+                    
+                    if (class1.getField(name2) != null) { //checks if field already exists and exits if does
+                        view.exists("Field", name2);
+                        break;
+                    } else {
+                        name3 = view.inputFieldType(); //gets type for the field
+                        boolean added = class1.addField(name2, name3); //adds it to the fields set
+                        if (added) {
+                            view.Added(name3, name2); //prints success messaage
+                        }
+                        break;
+                    }
+                }
                 
             case DELFLD:
-                
-                break; 
+                name1 = view.inputClassName(); //gets class name from user
+                class1 = model.getClass(name1); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    name2 = view.inputFieldName(); //gets field name from user
+                    if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
+                        view.notExists("Field", name2);
+                        break;
+                    } else {
+                        boolean removed = class1.deleteField(name2); //removes the field from the set
+                        if (removed) {
+                            view.Deleted("Field", name2); //prints success message
+                        }
+                        break;
+                    }
+                } 
 
             case RENFLD:
-                
-                break; 
+                name1 = view.inputClassName(); //gets class name from user
+                class1 = model.getClass(name1); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    name2 = view.inputFieldName(); //gets old field name from user
+                    if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
+                        view.notExists("Field", name2);
+                        break;
+                    } else {
+                        name3 = view.inputNew("name", "Field"); //get new field name from user
+                        if (class1.getField(name3) != null) { //checks if a field already exists with that name exits if does
+                            view.exists("Field", name3);
+                            break;
+                        } else {
+                            boolean renamed = class1.renameField(name2, name3); //changes the field name
+                            if (renamed) {
+                                view.Renamed("Field", name2, name3); //prints success message
+                            }
+                            break;
+                        }
+                    }
+                }  
 
             case FLDTYPE:
-                
-                break; 
+                name1 = view.inputClassName(); //gets class name from user
+                class1 = model.getClass(name1); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    name2 = view.inputFieldName(); //gets field name from user
+                    if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
+                        view.notExists("Field", name2);
+                        break;
+                    } else {
+                        name3 = view.inputNew("type", "Field"); //get new field type from user
+                        if ((class1.getField(name2).getFieldType().toUpperCase()).equals(name3.toUpperCase())) { //checks if the current type is the new type, exits if same
+                            view.exists("Field type", name3);
+                            break;
+                        } else {
+                            boolean changed = class1.changefieldType(name2, name3); //changes the field type
+                            if (changed) {
+                                view.Retyped("Field type", name2, name3); //prints success message
+                            }
+                            break;
+                        }
+                    }
+                } 
 
             case ADDMTD:
                  // prompts user for the class the method will be added to
@@ -435,17 +513,19 @@ public class Controller {
                 name2 = view.inputAddDestinationClass();
                 class1 = model.getClass(name1);
                 class2 = model.getClass(name2);
-                if (class1 == null) {
+                typeName = view.inputAddType();
+                if (class1 == null ) {
                     view.originNotExist();
                     break;
-                } else if (class2 == null) {
+                }
+                if (class2 == null) {
                     view.destinationNotExist();
                     break;
-                } else if (class1.isrelationshipExist(name2)== true){
+                }
+                if (class1.isrelationshipExist(name2, typeName) == true){
                     view.relExists();
                     break;
                 } else {
-                    typeName = view.inputAddType();
                     returned = class1.addRelationship(class2, typeName);
                     // notifies user that relationship was added
                     if(returned){
@@ -473,8 +553,39 @@ public class Controller {
                 break;
 
             case RELTYPE:
+                name1 =  view.inputAddOriginClass();
+                class1 = model.getClass(name1);
                 
+                if (class1 == null) {
+                    view.originNotExist();
+                    break;
+                }
+                name2 = view.inputAddDestinationClass();
+                class2 = model.getClass(name2);
+            
+                if (class2 == null) {
+                    view.destinationNotExist();
+                    break;
+                } 
+                typeName = view.inputAddType();
+                if (class1.isrelationshipExist(name2, typeName)== true){
+                        view.relExists();
+                    break;
+                } else {
+                    class1.editRelationshipType(typeName);
+                    //(class2.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType);
+                    view.relTypeEdited(typeName);
+                    }
                 break;
+                /* if ((class2.getClassName().equals(name2)) & )
+           if ( (ele.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType)) {
+               newMatch = true;
+           }
+           if (!oldMatch) {
+               System.out.println("Relationship type does not exist! type change failed!");
+           } else if (newMatch) {
+               System.out.println("Relationship is already has the type!");
+           } */
 
             case ADDPAR:
                 

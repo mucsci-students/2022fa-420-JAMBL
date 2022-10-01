@@ -12,6 +12,10 @@ import javax.swing.JFrame;
 
 public class DeleteRelationshipW {
 
+	Controller controller;
+	public DeleteRelationshipW(Controller newController) {
+		controller = newController;
+	}
 	/**
 	 * Launch the application.
 	 */

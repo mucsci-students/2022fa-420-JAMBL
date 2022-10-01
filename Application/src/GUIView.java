@@ -19,9 +19,6 @@ import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
-// Custom java package containing the pop-up windows
-
-
 public class GUIView extends View  {
 	
 	Model model = new Model();
@@ -149,9 +146,64 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddClassW addCl = new AddClassW();
-				addCl.initialize();
-				saved = false;
+				JFrame frame = new JFrame("JAMBL - Add Class");
+				frame.setBounds(100, 100, 496, 225);
+				frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				frame.getContentPane().setLayout(null);
+				
+
+				////////////////////////////
+				///******* Labels *******///
+				////////////////////////////
+
+				JLabel lblAddClass = new JLabel("Enter the name for a new class to add.");
+				lblAddClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblAddClass.setBounds(10, 10, 338, 13);
+				frame.getContentPane().add(lblAddClass);
+				
+				JLabel lblClassName = new JLabel("Class Name: ");
+				lblClassName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				lblClassName.setBounds(27, 78, 87, 13);
+				frame.getContentPane().add(lblClassName);
+				
+				/////////////////////////////
+				///******* TextBox *******///
+				/////////////////////////////
+				
+				JTextField classNameBox = new JTextField();
+				lblClassName.setLabelFor(classNameBox);
+				classNameBox.setBounds(121, 77, 227, 19);
+				frame.getContentPane().add(classNameBox);
+				classNameBox.setColumns(10);
+				frame.setVisible(true);
+				
+				///////////////////////////
+				//******* Buttons *******//
+				///////////////////////////
+				
+				//// Add Class Button
+				JButton btnAddClass = new JButton("Add Class");
+				btnAddClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnAddClass.setBounds(85, 136, 132, 21);
+				frame.getContentPane().add(btnAddClass);
+				btnAddClass.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+					}
+				});
+				
+				//// Cancel Button
+				JButton btnCancel = new JButton("Cancel");
+				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnCancel.setBounds(227, 136, 132, 21);
+				frame.getContentPane().add(btnCancel);
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+					}
+				});
+				
+				
 			}
 		});
 		
@@ -163,7 +215,7 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				RenameClassW renameCl = new RenameClassW();
+				RenameClassW renameCl = new RenameClassW(GUICntrlr);
 				renameCl.initialize();
 				saved = false;
 			}
@@ -177,7 +229,7 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DeleteClassW deleteCl = new DeleteClassW();
+				DeleteClassW deleteCl = new DeleteClassW(GUICntrlr);
 				deleteCl.initialize();
 				saved = false;
 			}
@@ -192,7 +244,7 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddRelationshipW addRel = new AddRelationshipW();
+				AddRelationshipW addRel = new AddRelationshipW(GUICntrlr);
 				addRel.initialize();
 				saved = false;
 			}
@@ -206,8 +258,22 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DeleteRelationshipW deleteRel = new DeleteRelationshipW();
+				DeleteRelationshipW deleteRel = new DeleteRelationshipW(GUICntrlr);
 				deleteRel.initialize();
+				saved = false;
+			}
+		});
+		
+		//////////////////////////////////////////////////////////////	Change Relationship Type Button 
+		JButton btnChangeType = new JButton("Change Type");
+		btnChangeType.setBounds(220, 165, 97, 21);
+		frmJambl.getContentPane().add(btnChangeType);
+		btnChangeType.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ChangeRelationshipW changeRel = new ChangeRelationshipW(GUICntrlr);
+				changeRel.initialize();
 				saved = false;
 			}
 		});
@@ -218,7 +284,7 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SaveWindow saveW = new SaveWindow();
+				SaveWindow saveW = new SaveWindow(GUICntrlr);
 				saveW.initialize();
 				saved = true;
 			}
@@ -234,8 +300,9 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LoadWindow loadW = new LoadWindow();
+				LoadWindow loadW = new LoadWindow(GUICntrlr);
 				loadW.initialize();
+				saved = true;
 			}
 		});
 		
@@ -248,7 +315,7 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				saved = false;
 			}
 		});
 		
@@ -272,8 +339,9 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ListAClassWindow listCl = new ListAClassWindow();
+				ListAClassWindow listCl = new ListAClassWindow(GUICntrlr);
 				listCl.initialize();
+				saved = false;
 			}
 		});
 		
@@ -282,55 +350,132 @@ public class GUIView extends View  {
 		JButton btnAddParameter = new JButton("Add");
 		btnAddParameter.setBounds(10, 259, 97, 21);
 		frmJambl.getContentPane().add(btnAddParameter);
+		btnAddParameter.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddParameterW addParam = new AddParameterW(GUICntrlr);
+				addParam.initialize();
+				saved = false;
+			}
+		});
 		
 		//////////////////////////////////////////////////////////////	Remove Parameter Button
 		JButton btnDeleteParameter = new JButton("Remove");
 		btnDeleteParameter.setBounds(10, 292, 97, 21);
 		frmJambl.getContentPane().add(btnDeleteParameter);
+		btnDeleteParameter.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				RemoveParameterW rmvParam = new RemoveParameterW(GUICntrlr);
+				rmvParam.initialize();
+				saved = false;
+				
+			}
+		});
 		
 		////////////////////////////////////////////////////////////// Change Parameter Button
 		JButton btnChangeParameter = new JButton("Change");
 		btnChangeParameter.setBounds(10, 325, 97, 21);
 		frmJambl.getContentPane().add(btnChangeParameter);
+		btnChangeParameter.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ChangeParameterW changeParam = new ChangeParameterW(GUICntrlr);
+				changeParam.initialize();
+				saved = false;
+			}
+		});
 		
 		////////////////////////////////////////////////////////////// Add Method Button
 		JButton btnAddMethod = new JButton("Add");
 		btnAddMethod.setBounds(220, 256, 97, 21);
 		frmJambl.getContentPane().add(btnAddMethod);
-		
+		btnAddMethod.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddMethodW addMethod = new AddMethodW(GUICntrlr);
+				addMethod.initialize();
+				saved = false;
+			}
+		});
 		////////////////////////////////////////////////////////////// Change Method Button
 		JButton btnRefactor = new JButton("Change");
 		btnRefactor.setBounds(220, 289, 97, 21);
 		frmJambl.getContentPane().add(btnRefactor);
+		btnRefactor.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ChangeMethodW changeMethod = new ChangeMethodW(GUICntrlr);
+				changeMethod.initialize();
+				saved = false;
+			}
+		});
 		
 		////////////////////////////////////////////////////////////// Delete Method Button
 		JButton btnDeleteMethod = new JButton("Delete");
-		btnDeleteMethod.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnDeleteMethod.setBounds(220, 355, 97, 21);
 		frmJambl.getContentPane().add(btnDeleteMethod);
+		btnDeleteMethod.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DeleteMethodW deleteMethod = new DeleteMethodW(GUICntrlr);
+				deleteMethod.initialize();
+				saved = false;
+			}
+		});
+	
 		
 		////////////////////////////////////////////////////////////// Rename Method Button
 		JButton btnRenameMethod = new JButton("Rename");
 		btnRenameMethod.setBounds(220, 322, 97, 21);
 		frmJambl.getContentPane().add(btnRenameMethod);
+		btnRenameMethod.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RenameMethodW renameMethod = new RenameMethodW(GUICntrlr);
+				renameMethod.initialize();
+				saved = false;
+			}
+		});
 		
 		////////////////////////////////////////////////////////////// Add Field Button
 		JButton btnAddField = new JButton("Add");
 		btnAddField.setBounds(220, 437, 97, 21);
 		frmJambl.getContentPane().add(btnAddField);
+		btnAddField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddFieldW addField = new AddFieldW(GUICntrlr);
+				addField.initialize();
+				saved = false;
+			}
+		});
 		
 		////////////////////////////////////////////////////////////// Change Field Type Button
 		JButton btnChangeFieldType = new JButton("Edit Type");
 		btnChangeFieldType.setBounds(220, 470, 97, 21);
 		frmJambl.getContentPane().add(btnChangeFieldType);
+		btnChangeFieldType.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EditFieldWindow editField = new EditFieldWindow(GUICntrlr);
+				editField.initialize();
+				saved = false;
+			}
+		});
 		
 		////////////////////////////////////////////////////////////// Delete Field Button
 		JButton btnDeleteField = new JButton("Delete");
 		btnDeleteField.setBounds(220, 536, 97, 21);
 		frmJambl.getContentPane().add(btnDeleteField);
+		btnDeleteField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DeleteFieldW delField = new DeleteFieldW(GUICntrlr);
+				delField.initialize();
+				saved = false;
+			}
+		});
 		
 		////////////////////////////////////////////////////////////// Rename Field Button
 		JButton btnRenameField = new JButton("Rename");
@@ -340,10 +485,13 @@ public class GUIView extends View  {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				RenameFieldW delField = new RenameFieldW(GUICntrlr);
+				delField.initialize();
+				saved = false;
 			}
 		});
 		
+		////////////////////////////////////////////////////////////// Save assurance window, under construction!
 		frmJambl.addWindowListener(new WindowAdapter() {
 			@SuppressWarnings("static-access")
 			@Override

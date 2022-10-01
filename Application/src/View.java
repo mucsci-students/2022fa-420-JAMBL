@@ -42,10 +42,37 @@ public class View {
   
     public String inputClassListed() {
         System.out.println("Name of Class to be listed: ");
-        String className = console.nextLine();
-        return className;
+        input = console.nextLine();
+        return input;
     }
 
+    // a prompt for a Class name. Generic can be used in many functions
+    public String inputClassName() {
+        System.out.println("Name of Class: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    // a prompt for a Field name. Generic can be used in many functions
+    public String inputFieldName() {
+        System.out.println("Name of Field: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    //prompt for a Field type. Generic can be used in many functions
+    public String inputFieldType() {
+        System.out.println("Type of Field: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    //promt for a new name or type based on parameters
+    public String inputNew (String item, String object) {
+        System.out.println("New " + item + " of " + object + ": ");
+        input = console.nextLine();
+        return input;
+    } 
 
     /*************************************************************************************/
 
@@ -86,6 +113,14 @@ public class View {
 
     public void Deleted(String type , String name){
         System.out.println(type + " "+ name + " deleted successfully");
+    }
+
+    public void Renamed(String type, String oldName, String newName) {
+        System.out.println(type + " " + oldName + " renamed to " + newName + " successfully!");
+    }
+
+    public void Retyped(String type, String name, String newType) {
+        System.out.println(type + " for " + name  + " changed to " + newType + " successfully!");
     }
     
     public void classRenamed(){
@@ -354,5 +389,9 @@ public class View {
     public void relNotExists(){
         System.out.println( "Relationship doesn't exist! Action Failed!");
     }
+
+    public void relTypeEdited(String typeName){
+        System.out.println("Relation type changed to " + typeName.toLowerCase()  + "!");
+    }    
 
 }
