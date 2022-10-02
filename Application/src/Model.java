@@ -76,4 +76,15 @@ public class Model {
         return this.classes;
     }
 
+    // Returns a string list of the class names.
+    public String[] getClassList () {
+    	int s = classes.size();
+    	int i = 0;
+    	String[] names = new String[s];
+    	for(Class name : this.classes) {
+    		names[i] = name.getClassName();
+    		i++;
+    	}
+    	return names;
+    }
 }
