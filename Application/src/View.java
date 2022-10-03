@@ -74,6 +74,27 @@ public class View {
         return input;
     } 
 
+    // a prompt for a Method name. Generic can be used in many functions
+    public String inputMethodName(){
+        System.out.println("Name of Method: ");
+        input = console.nextLine();
+        return input;
+    }
+    
+    //prompt for a Parameter type. Generic can be used in many functions
+    public String inputParameterType(){
+        System.out.println("Type of Parameter: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    // a prompt for a Parameter name. Generic can be used in many functions
+    public String inputParameterName(){
+        System.out.println("Name of Parameter: ");
+        input = console.nextLine();
+        return input;
+    }
+
     /*************************************************************************************/
 
     public void Failed(String type , String action){
@@ -121,6 +142,10 @@ public class View {
 
     public void Retyped(String type, String name, String newType) {
         System.out.println(type + " for " + name  + " changed to " + newType + " successfully!");
+    }
+
+    public void ParameterChange(String oldName, String newName, String newType){
+        System.out.println("Parameter " + oldName + " changed to " + newType + " " + newName + " successfully!");
     }
     
     public void classRenamed(){
