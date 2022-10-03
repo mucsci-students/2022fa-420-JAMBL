@@ -196,15 +196,8 @@ public class GUIView extends View  {
 					public void actionPerformed(ActionEvent e) {
 						if(!classNameBox.getText().equals(""))
 						{
-							if(model.getClass(classNameBox.getText()) == null)
-							{		model.addClass(classNameBox.getText());
-									classCreate(classNameBox.getText());
-									frame.dispose();
-							}
-							else
-							{
-								classExist();
-							}
+							GUICntrlr.addClass(classNameBox.getText());
+							frame.dispose();
 						}
 					}
 				});
@@ -291,18 +284,14 @@ public class GUIView extends View  {
 				frame.getContentPane().add(btnRenameClass);
 				btnRenameClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(model.getClass(textFieldClassName.getText()) == null) 
-						{
-							model.renameClass(cbClasses.getSelectedItem().toString(), textFieldClassName.getText());
-							classRename(cbClasses.getSelectedItem().toString(), textFieldClassName.getText());
-							saved = false;
+						if(!cbClasses.getSelectedItem().toString().equals("Choose a class:")) {
+							GUICntrlr.renameClass(cbClasses.getSelectedItem().toString(), textFieldClassName.getText() );
 							frame.dispose();
 						}
 						else
 						{
-							classExist();
+							classSelect();
 						}
-						
 					}
 				});
 				
@@ -364,12 +353,16 @@ public class GUIView extends View  {
 				frame.getContentPane().add(btnDeleteClass);
 				btnDeleteClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-							model.deleteClass(model.getClass(comboBoxClasses.getSelectedItem().toString()));
-							classDelete(comboBoxClasses.getSelectedItem().toString());
+						if(!comboBoxClasses.getSelectedItem().equals("Choose a class:")) {
+							GUICntrlr.deleteClass(comboBoxClasses.getSelectedItem().toString());
 							frame.dispose();
+						}
+						else
+						{
+							classSelect();
+						}
+							
 					}
-				
-						
 				});
 				
 				////////////////////////////////////////////////////////////// Cancel Button
@@ -2064,6 +2057,7 @@ public class GUIView extends View  {
 	public void classCreate(String name) {
 		JOptionPane.showMessageDialog(f, "Class '" + name +  "' created.","Info",JOptionPane.INFORMATION_MESSAGE);
 	}
+	
 	 
 	/*
 	 *  A window letting one know a class has been created
@@ -2080,11 +2074,18 @@ public class GUIView extends View  {
 	}
 	
 	/*
+	 * A window informing user to select a class 
+	 */
+	public void classSelect() {
+		JOptionPane.showMessageDialog(f, "Please select a class.", "SELECT",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
 	 * Returns a list of objects beginning with "select a <insert item type here>"
 	 */
 	public String[] getList(String type) {
 		if(type.equals("Class")) {
-			String[] classes = model.getClassList();
+			String[] classes = GUICntrlr.getClassNames();
 			int j = 0;
 			String[] list = new String[classes.length + 1];
 			list[0] = "Choose a class:";
