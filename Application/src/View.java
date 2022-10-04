@@ -95,6 +95,12 @@ public class View {
         return input;
     }
 
+    public String inputDeleteAll(){
+        System.out.println("Delete All Parameters?(yes/no): ");
+        input = console.nextLine();
+        return input;
+    }
+
     /*************************************************************************************/
 
     public void Failed(String type , String action){
