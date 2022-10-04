@@ -534,7 +534,7 @@ public class GUIView extends View  {
 				///////////////////////////////
 
 				JComboBox<Object> cdClass2 = new JComboBox<Object>();
-				cdClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null)));
+				cdClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				cdClass2.setBounds(10, 131, 134, 21);
 				frame.getContentPane().add(cdClass2);
 				cdClass2.setVisible(false);
