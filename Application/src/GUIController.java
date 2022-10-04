@@ -64,4 +64,34 @@ public class GUIController {
 	    		model.deleteClass(model.getClass(name));
 	    		GUI.classDelete(name);
 	    }
+
+		//////////////////////////////////////////////
+		//////////// add Relationship ///////////////
+
+		public void addRelationship (String origin, String destination, String typeName) {
+			// sets boolean to true unless an error is found
+			
+			
+			
+			if (model.getClass(origin) == null ) {
+
+				GUI.originNotExist();
+				
+			} else if (model.getClass(destination) == null ) {
+
+				GUI.destinationNotExist();
+			} else if ((model.getClass(origin)).isrelationshipExist(destination, typeName) == true ) {
+				GUI.relExists();
+			}
+			else {
+				model.getClass(origin).addRelationship((model.getClass(destination)), typeName);
+			}
+			
+
+			
+				
+		}
+
+
+
 }

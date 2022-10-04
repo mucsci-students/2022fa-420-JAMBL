@@ -2106,4 +2106,17 @@ public class GUIView extends View  {
 		
 		return null; // Shouldn't be able to return a string[] if otherwise
 	}
+
+	// add relationship parameter origin class doesnt exist
+    public void originNotExist() {
+		JOptionPane.showMessageDialog(f, "Origin Class does not exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+    }
+
+	public void destinationNotExist() {
+		JOptionPane.showMessageDialog(f, "destination Class does not exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+    }
+
+	public void relExists(){
+		JOptionPane.showMessageDialog(f, "Relationship already exist! Action Failed!", "Alert",JOptionPane.WARNING_MESSAGE);
+    }
 }
