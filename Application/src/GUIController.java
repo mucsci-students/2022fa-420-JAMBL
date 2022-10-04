@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Iterator;
+
 /*
  * @projectDescription A controller specifically for use with the GUI
  * 
@@ -9,6 +12,7 @@ public class GUIController {
 	
 		Model model;
 		GUIView GUI;
+		public HashSet<Relationship> relationships = new HashSet<Relationship>();
 		
 		/*
 		 * Constructs a new GUIController
@@ -64,6 +68,7 @@ public class GUIController {
 	    		model.deleteClass(model.getClass(name));
 	    		GUI.classDelete(name);
 	    }
+
 	    
 	    /*
 	     * Function for getting list of fields from class
@@ -124,5 +129,70 @@ public class GUIController {
 	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
 	    }
 	    
-	    
+
+	     /////////// ***** Relationship Methods ****** ////////////
+
+		public void addRelationship (String origin, String destination, String typeName) {
+					
+			/*if (model.getClass(origin) == null ) {
+
+				GUI.originNotExist();
+				
+			} else if (model.getClass(destination) == null ) {
+
+				GUI.destinationNotExist();
+			} else if ((model.getClass(origin)).isrelationshipExist(destination, typeName) == true ) {
+				GUI.relExists();
+			}
+			else { }*/
+
+			  //  boolean added = true; 
+				model.getClass(origin).addRelationship((model.getClass(destination)), typeName.toUpperCase());
+				//added = true;
+				//if(added){ 
+				GUI.addedRel(origin, destination);
+			
+				//}
+		}
+
+
+		public void deleteRelationship (String origin, String destination) {
+			
+			/*if (model.getClass(origin) == null ) {
+
+				GUI.originNotExist();
+				
+			} else if (model.getClass(destination) == null ) {
+
+				GUI.destinationNotExist();
+
+			} else { */
+				Iterator<Relationship> relItr = relationships.iterator();
+				while (relItr.hasNext()) {
+					Relationship ele = relItr.next();
+					(ele.getDestination()).getClassName().equals(destination); 
+						relItr.remove();
+				}
+				GUI.relDeleted();
+				
+		}
+
+		public void editRelationshipType(String origin, String destination, String newType) {
+
+			if ((model.getClass(origin)).isrelationshipExist(destination, newType.toUpperCase()) == true ) {
+					
+				GUI.relExists();
+				
+			} else{
+				Iterator<Relationship> relItr = relationships.iterator();
+				while (relItr.hasNext()) {
+				Relationship ele = relItr.next();
+				ele.setRelType(newType.toUpperCase()); 
+				}      
+
+		   	    GUI.relTypeEdited(newType);
+			}
+		}
+
+
 }

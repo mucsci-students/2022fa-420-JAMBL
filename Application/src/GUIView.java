@@ -472,6 +472,12 @@ public class GUIView extends View  {
 				btnAddRelationship.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!comboBoxClass1.getSelectedItem().equals("Choose a class:") || !comboBoxClass2.getSelectedItem().equals("Choose a class:") ) {
+
+							////////////////////////////////////////////////////////
+							controller.addRelationship(comboBoxClass1.getSelectedItem().toString(), 
+							comboBoxClass2.getSelectedItem().toString(), cbRelationships.getSelectedItem().toString());
+							/////////////////////////////////////////////////////////////
+
 							frame.dispose();
 						}
 						else
@@ -561,12 +567,19 @@ public class GUIView extends View  {
 				btnDeleteRelationship.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								if(!cbClass1.getSelectedItem().equals("Choose a class:") || !cdClass2.getSelectedItem().equals("Choose a class:") ) {
+
+									////////////////////////////////////////////////////////
+									controller.deleteRelationship(cbClass1.getSelectedItem().toString(), 
+									cdClass2.getSelectedItem().toString());
+									/////////////////////////////////////////////////////////////
+
 									frame.dispose();
 								}
 								else
 								{
 									classSelect();
 								}
+
 							}
 						});
 
@@ -661,13 +674,27 @@ public class GUIView extends View  {
 				///******* Buttons *******///
 				/////////////////////////////
 				
-				JButton btnRenameClass = new JButton("Change Type");
-				btnRenameClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnRenameClass.setBounds(10, 249, 178, 21);
-				frmJamblChange.getContentPane().add(btnRenameClass);
-				btnRenameClass.addActionListener(new ActionListener() {
+
+				JButton bteditRelType = new JButton("Change Type");
+				bteditRelType.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				bteditRelType.setBounds(10, 249, 178, 21);
+				frmJamblChange.getContentPane().add(bteditRelType);
+				bteditRelType.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
+						if(!cbClass1.getSelectedItem().equals("Choose a class:") || !cbClass2.getSelectedItem().equals("Choose a class:") ) {
+							////////////////////////////////////////////////////////
+							controller.editRelationshipType(cbClass1.getSelectedItem().toString(), 
+							cbClass2.getSelectedItem().toString(), cbRelationships.getSelectedItem().toString());
+							/////////////////////////////////////////////////////////////
+							frmJamblChange.dispose();
+						}
+						else
+						{
+							classSelect();
+						}
+
+
 						frmJamblChange.dispose();
 					}
 				});
@@ -2193,6 +2220,7 @@ public class GUIView extends View  {
 	/*
 	 * A window for informing the user that a field has been deleted
 	 * 
+
 	 */
 	public void fieldDelete(String fieldName, String className) {
 		JOptionPane.showMessageDialog(f, "Field " + fieldName + " deleted from class " + className + "!", "Alert",JOptionPane.WARNING_MESSAGE);
@@ -2222,6 +2250,7 @@ public class GUIView extends View  {
 	/*
 	 * A window informing user of an error adding field
 	 */
+
 	public void addFieldFailure() {
 		JOptionPane.showMessageDialog(f, "Failed to delete field...", "Error",JOptionPane.ERROR_MESSAGE);
 	}
@@ -2319,4 +2348,31 @@ public class GUIView extends View  {
 		
 		return null; // Shouldn't be able to return a string[] if otherwise
 	}
+
+	// add relationship parameter origin class doesnt exist
+    public void originNotExist() {
+		JOptionPane.showMessageDialog(f, "Origin Class does not exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+    }
+
+	public void destinationNotExist() {
+		JOptionPane.showMessageDialog(f, "destination Class does not exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+    }
+
+	public void relExists(){
+		JOptionPane.showMessageDialog(f, "Relationship already exist! Action Failed!", "Alert",JOptionPane.WARNING_MESSAGE);
+    }
+
+	public void addedRel(String origin, String destination) {
+		JOptionPane.showMessageDialog(f, "Relationship added successfully!", "Info",JOptionPane.INFORMATION_MESSAGE);
+
+	}
+
+	public void relTypeEdited(String newType){
+        JOptionPane.showMessageDialog(f,"Relation type changed to"+ newType + "!", "Alert", JOptionPane.WARNING_MESSAGE);
+	}
+	public void relDeleted() {
+		JOptionPane.showMessageDialog(f, "Relationship deleted successfully", "Info",JOptionPane.INFORMATION_MESSAGE);
+
+	}
+	
 }
