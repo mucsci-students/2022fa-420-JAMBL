@@ -64,4 +64,25 @@ public class GUIController {
 	    		model.deleteClass(model.getClass(name));
 	    		GUI.classDelete(name);
 	    }
+	    
+	    /*
+	     * Function for getting list of fields from class
+	     */
+	    public String[] getFields(String className) {
+	    	return model.getFieldList(className);
+	    }
+	    
+	    /*
+	     * Function for getting list of fields from class
+	     */
+	    public String[] getMethods(String className) {
+	    	return model.getMethodList(className);
+	    }
+	    
+	    /*
+	     * Function for getting list of fields from class
+	     */
+	    public String[] getParameters(String className, String methodName) {
+	    	return model.getParameterList(className, methodName);
+	    }
 }

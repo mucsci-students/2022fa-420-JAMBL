@@ -266,7 +266,7 @@ public class GUIView extends View  {
 				cbClasses.setModel(new DefaultComboBoxModel<Object>());
 				cbClasses.setBounds(10, 78, 111, 21);
 				frame.getContentPane().add(cbClasses);
-				cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class")));
+				cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				cbClasses.addItemListener(new ItemListener() {
 							public void itemStateChanged(ItemEvent arg0) {
 								textFieldClassName.setVisible(true);
@@ -342,7 +342,7 @@ public class GUIView extends View  {
 				JComboBox<Object> comboBoxClasses = new JComboBox<Object>();
 				comboBoxClasses.setBounds(10, 77, 207, 21);
 				frame.getContentPane().add(comboBoxClasses);
-				comboBoxClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class")));
+				comboBoxClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				
 				///////////////////////////
 				//******* Buttons *******//
@@ -430,34 +430,6 @@ public class GUIView extends View  {
 				frame.getContentPane().add(lblClass2);
 				lblClass2.setVisible(false);
 				
-
-				
-				///////////////////////////
-				//******* Buttons *******//
-				///////////////////////////
-				
-			    // Add Relationship Button
-				JButton btnAddRelationship = new JButton("Add Relationship");
-				btnAddRelationship.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnAddRelationship.setBounds(10, 217, 190, 21);
-				frame.getContentPane().add(btnAddRelationship);
-				btnAddRelationship.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				
-				// Cancel Button
-				JButton btnCancel = new JButton("Cancel");
-				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnCancel.setBounds(233, 217, 190, 21);
-				frame.getContentPane().add(btnCancel);
-				btnCancel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						frame.dispose();
-					}
-				});
-				
 				//////////////////////////////
 				//******* Combo Boxes*******//
 				//////////////////////////////
@@ -465,13 +437,13 @@ public class GUIView extends View  {
 				JComboBox<Object> comboBoxClass1 = new JComboBox<Object>();
 				comboBoxClass1.setBounds(10, 137, 90, 21);
 				frame.getContentPane().add(comboBoxClass1);
-				comboBoxClass1.setModel(new DefaultComboBoxModel<Object>(new String[] {"Classes to be added!"}));
+				comboBoxClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				comboBoxClass1.setVisible(false);
 				
 				JComboBox<Object> comboBoxClass2 = new JComboBox<Object>();
 				comboBoxClass2.setBounds(239, 137, 90, 21);
 				frame.getContentPane().add(comboBoxClass2);
-				comboBoxClass2.setModel(new DefaultComboBoxModel<Object>(new String[] {"Classes to be added!"}));
+				comboBoxClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				comboBoxClass2.setVisible(false);
 				
 				
@@ -487,6 +459,39 @@ public class GUIView extends View  {
 						lblClass2.setVisible(true);
 					}
 				});
+				
+				///////////////////////////
+				//******* Buttons *******//
+				///////////////////////////
+				
+			    // Add Relationship Button
+				JButton btnAddRelationship = new JButton("Add Relationship");
+				btnAddRelationship.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnAddRelationship.setBounds(10, 217, 190, 21);
+				frame.getContentPane().add(btnAddRelationship);
+				btnAddRelationship.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(!comboBoxClass1.getSelectedItem().equals("Choose a class:") || !comboBoxClass2.getSelectedItem().equals("Choose a class:") ) {
+							frame.dispose();
+						}
+						else
+						{
+							classSelect();
+						}
+					}
+				});
+				
+				// Cancel Button
+				JButton btnCancel = new JButton("Cancel");
+				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnCancel.setBounds(233, 217, 190, 21);
+				frame.getContentPane().add(btnCancel);
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+					}
+				});
+
 				saved = false;
 			}
 		});
@@ -523,7 +528,28 @@ public class GUIView extends View  {
 				lblClass2.setBounds(10, 108, 255, 13);
 				frame.getContentPane().add(lblClass2);
 				lblClass2.setVisible(false);
+				
+				///////////////////////////////
+				//******* Combo Boxes *******//
+				///////////////////////////////
 
+				JComboBox<Object> cdClass2 = new JComboBox<Object>();
+				cdClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+				cdClass2.setBounds(10, 131, 134, 21);
+				frame.getContentPane().add(cdClass2);
+				cdClass2.setVisible(false);
+				
+				JComboBox<Object> cbClass1 = new JComboBox<Object>();
+				cbClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+				cbClass1.setBounds(10, 77, 134, 21);
+				frame.getContentPane().add(cbClass1);
+				cbClass1.addItemListener(new ItemListener() {
+					public void itemStateChanged(ItemEvent arg0) {
+						cdClass2.setVisible(true);
+						lblClass2.setVisible(true);
+					}
+				});
+				
 				///////////////////////////
 				//******* Buttons *******//
 				///////////////////////////
@@ -534,7 +560,13 @@ public class GUIView extends View  {
 				frame.getContentPane().add(btnDeleteRelationship);
 				btnDeleteRelationship.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								
+								if(!cbClass1.getSelectedItem().equals("Choose a class:") || !cdClass2.getSelectedItem().equals("Choose a class:") ) {
+									frame.dispose();
+								}
+								else
+								{
+									classSelect();
+								}
 							}
 						});
 
@@ -550,27 +582,7 @@ public class GUIView extends View  {
 						frame.dispose();
 					}
 				});
-				
-				///////////////////////////////
-				//******* Combo Boxes *******//
-				///////////////////////////////
 
-				JComboBox<Object> cdClass2 = new JComboBox<Object>();
-				cdClass2.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a class:"}));
-				cdClass2.setBounds(10, 131, 134, 21);
-				frame.getContentPane().add(cdClass2);
-				cdClass2.setVisible(false);
-				
-				JComboBox<Object> cbClass1 = new JComboBox<Object>();
-				cbClass1.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a class:"}));
-				cbClass1.setBounds(10, 77, 134, 21);
-				frame.getContentPane().add(cbClass1);
-				cbClass1.addItemListener(new ItemListener() {
-					public void itemStateChanged(ItemEvent arg0) {
-						cdClass2.setVisible(true);
-						lblClass2.setVisible(true);
-					}
-				});
 				saved = false;
 				
 			}
@@ -2059,6 +2071,10 @@ public class GUIView extends View  {
 		
 	}
 
+	//////////////////////////////////
+	//// *****POP-UP WINDOWS***** ////
+	//////////////////////////////////
+	
 	/*
 	 * A window letting one know if a class exists when attempting to add or rename a class
 	 */
@@ -2096,9 +2112,60 @@ public class GUIView extends View  {
 	}
 	
 	/*
+	 * A window informing the user that a relationship already exists on creation attempt 
+	 */
+	public void relationshipExist() {
+		JOptionPane.showMessageDialog(f, "Relationship already exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing the user that a relationship does not exist on deletion attempt
+	 */
+	public void relationshipNotExist() {
+		JOptionPane.showMessageDialog(f, "Relationship does not exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing the user that a class cannot have a relationship with itself
+	 */
+	public void relationshipNoDouble() {
+		JOptionPane.showMessageDialog(f, "Class cannot have relationship with itself!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+			
+	/*
+	 * A window informing the user that a field already exists on insertion or rename attempt
+	 */
+	public void fieldExist() {
+		JOptionPane.showMessageDialog(f, "Field already exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing user to select a field
+	 */
+	public void fieldSelect() {
+		JOptionPane.showMessageDialog(f, "Please select a field.", "SELECT",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing user to select a method
+	 */
+	public void loadSelect() {
+		JOptionPane.showMessageDialog(f, "Please select a file to load.", "SELECT",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing user to enter a file name for saving
+	 */
+	public void saveSelect() {
+		JOptionPane.showMessageDialog(f, "Please enter a file name.", "SELECT",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	
+	
+	/*
 	 * Returns a list of objects beginning with "select a <insert item type here>"
 	 */
-	public String[] getList(String type) {
+	public String[] getList(String type, String className, String methodName) {
 		if(type.equals("Class")) {
 			String[] classes = controller.getClassNames();
 			int j = 0;
@@ -2111,9 +2178,38 @@ public class GUIView extends View  {
 	        }
 			return list;
 		} else if (type.equals("Field")) {
-			
+			String[] fields = controller.getFields(className);
+			int j = 0;
+			String[] list = new String[fields.length + 1];
+			list[0] = "Choose a class:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = fields[j];
+	            j++;
+	        }
+			return list;
 		} else if (type.equals("Method")) {
-			
+			String[] methods = controller.getMethods(className);
+			int j = 0;
+			String[] list = new String[methods.length + 1];
+			list[0] = "Choose a class:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = methods[j];
+	            j++;
+	        }
+			return list;
+		} else if (type.equals("Param")) {
+			String[] params = controller.getParameters(className, methodName);
+			int j = 0;
+			String[] list = new String[params.length + 1];
+			list[0] = "Choose a class:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = params[j];
+	            j++;
+	        }
+			return list;
 		}
 		
 		return null; // Shouldn't be able to return a string[] if otherwise
