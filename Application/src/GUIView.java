@@ -448,7 +448,7 @@ public class GUIView extends View  {
 				
 				
 				JComboBox<Object> cbRelationships = new JComboBox<Object>();
-				cbRelationships.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a relationship type:", "Aggregation", "Composition", "Ineritance", "Realization"}));
+				cbRelationships.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a relationship type:", "Aggregation", "Composition", "Inheritance", "Realization"}));
 				cbRelationships.setBounds(10, 74, 161, 21);
 				frame.getContentPane().add(cbRelationships);
 				cbRelationships.addItemListener(new ItemListener() {
