@@ -26,7 +26,7 @@ import java.awt.Font;
 public class GUIView extends View  {
 	
 	Model model = new Model();
-	private Controller GUICntrlr = new Controller(model, this);
+	private GUIController controller = new GUIController(model, this);
 	
 	// Basic frame for small pop-ups
 	JFrame f=new JFrame(); 
@@ -196,7 +196,7 @@ public class GUIView extends View  {
 					public void actionPerformed(ActionEvent e) {
 						if(!classNameBox.getText().equals(""))
 						{
-							GUICntrlr.addClass(classNameBox.getText());
+							controller.addClass(classNameBox.getText());
 							frame.dispose();
 						}
 					}
@@ -285,8 +285,11 @@ public class GUIView extends View  {
 				btnRenameClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!cbClasses.getSelectedItem().toString().equals("Choose a class:")) {
-							GUICntrlr.renameClass(cbClasses.getSelectedItem().toString(), textFieldClassName.getText() );
-							frame.dispose();
+							if(!textFieldClassName.getText().equals("")) {
+								controller.renameClass(cbClasses.getSelectedItem().toString(), textFieldClassName.getText() );
+								frame.dispose();
+							}
+
 						}
 						else
 						{
@@ -354,7 +357,7 @@ public class GUIView extends View  {
 				btnDeleteClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!comboBoxClasses.getSelectedItem().equals("Choose a class:")) {
-							GUICntrlr.deleteClass(comboBoxClasses.getSelectedItem().toString());
+							controller.deleteClass(comboBoxClasses.getSelectedItem().toString());
 							frame.dispose();
 						}
 						else
@@ -2085,7 +2088,7 @@ public class GUIView extends View  {
 	 */
 	public String[] getList(String type) {
 		if(type.equals("Class")) {
-			String[] classes = GUICntrlr.getClassNames();
+			String[] classes = controller.getClassNames();
 			int j = 0;
 			String[] list = new String[classes.length + 1];
 			list[0] = "Choose a class:";
