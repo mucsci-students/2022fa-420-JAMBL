@@ -41,8 +41,7 @@ public class Controller {
     MTDTYPE ("MTDTYPE"), //Method return type 
     ADDPAR ("ADDPAR"), //add Parameter
     DELPAR ("DELPAR"), //delete Parameter
-    RENPAR ("RENPAR"), //rename Parameter
-    PARTYPE ("PARTYPE"), //Parameter return type 
+    CHGPAR ("CHGPAR"), //change Parameter type and name
     SAVE ("SAVE"), //save diagram
     LOAD ("LOAD"), //load diagram
     LISTALL ("LISTALL"), //list all classes
@@ -81,9 +80,14 @@ public class Controller {
         String name1;
         String name2;
         String name3;
+        String name4;
+        String name5;
+        String name6;
+        String name7;
         Class class1;
         Class class2;
         Class classCheck;
+        Method method1;
         Method methodCheck;
         Method methodCheck2;
         String fileName;
@@ -587,22 +591,107 @@ public class Controller {
                System.out.println("Relationship is already has the type!");
            } */
 
-            case ADDPAR:
-                
-                break;
+           case ADDPAR:
+                name5 = view.inputClassName(); //gets Class name from user
+                class1 = model.getClass(name5); //gets Class with name entered; null if not found
+                name1 = view.inputMethodName(); //gets Method name from user
+                method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    if (method1 == null) { //checks if method exists and exits if doesn't
+                        view.notExists("Method", name1);
+                        break;
+                    } else {
+                        name2 = view.inputParameterName(); //gets the name for the parameter
+                        if (method1.getParameter(name2) != null) { //checks if parameter already exists and exits if does
+                            view.exists("Parameter", name2);
+                            break;
+                        } else {
+                            name3 = view.inputParameterType(); //gets type for the parameter
+                            boolean added = method1.addParameter(name2, name3); //adds it to the parameters set
+                            if (added) {
+                                view.Added(name3, name2); //prints success messaage
+                            }
+                            break;
+                        }
+                    }
+                }
+
+
 
             case DELPAR:
-                
-                break;
+                name5 = view.inputClassName(); //gets Class name from user
+                class1 = model.getClass(name5); //gets Class with name entered; null if not found
+                name1 = view.inputMethodName(); //gets Method name from user
+                method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
+                name7 = view.inputDeleteAll();//gets whether user wants to delete all parameters or just one
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    if (method1 == null) { //checks if method exists and exits if doesn't
+                        view.notExists("Method", name1);
+                        break;
+                    } else {
+                        if(name7.toUpperCase().equals("YES")){
+                            boolean removed = method1.deleteAllParameter(); //removes all parameters from the set
+                            if (removed) {
+                                view.Deleted("All", "Parameter"); //prints success message
+                            }
+                            break;
+                        } else if(name7.toUpperCase().equals("NO")){
+                            name2 = view.inputParameterName(); //gets parameter name from user
+                            if (method1.getParameter(name2) == null) { //checks if parameter exists and exits if doesn't
+                                view.notExists("Parameter", name2);
+                                break;
+                            } else {
+                                boolean removed = method1.deleteParameter(name2); //removes the parameter from the set
+                                if (removed) {
+                                    view.Deleted("Parameter", name2); //prints success message
+                                }
+                                break;
+                            } 
+                        }
+                    }
+                } 
 
-            case RENPAR:
-                
-                break;
-
-            case PARTYPE:
-                
-                break;
-                case ADDATT:
+            case CHGPAR:
+                name5 = view.inputClassName(); //gets Class name from user
+                class1 = model.getClass(name5); //gets Class with name entered; null if not found
+                name1 = view.inputMethodName(); //gets Method name from user
+                method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name1);
+                    break;
+                } else {
+                    if (method1 == null) { //checks if method exists and exits if doesn't
+                        view.notExists("Method", name1);
+                        break;
+                    } else {
+                        name2 = view.inputParameterName(); //gets old parameter name from user
+                        if (method1.getParameter(name2) == null) { //checks if parameter exists and exits if doesn't
+                            view.notExists("Parameter", name2);
+                            break;
+                        } else {
+                            name3 = view.inputNew("name", "Parameter"); //get new parameter name from user
+                            if (method1.getParameter(name3) != null) { //checks if a parameter already exists with that name exits if does
+                                view.exists("Parameter", name3);
+                                break;
+                            } else {
+                                name4 = view.inputNew("type", "Parameter"); //get new parameter type from user
+                                boolean changed = method1.changeParameter(name2, name3, name4); //changes the parameter name and type
+                                if (changed) {
+                                    view.ParameterChange(name2, name3, name4); //prints success message
+                                }
+                                break;
+                            }
+                        }
+                    }
+                } 
+           
+            case ADDATT:
                 System.out.println("Name of Class receiving Attribute: ");
                 name1 = scanner.nextLine();
                 System.out.println("Name of Attribute: ");
