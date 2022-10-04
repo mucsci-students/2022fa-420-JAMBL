@@ -22,8 +22,7 @@ public class Load {
         JSONObject fileObj;
         JSONParser parser;
         Object fileContent;
-        /***********************************************************/
-       // System.out.println("Test 1");
+       
         File checkContent = new File(fileName);
         if(checkContent.length() == 0){
             return null;
@@ -33,7 +32,7 @@ public class Load {
             fileObj = new JSONObject();
             // parser to scan through the file
             parser = new JSONParser();
-            System.out.println("Test 1");
+
             try{
                 // gets file content
                 fileContent = parser.parse(new FileReader(fileName));
@@ -52,8 +51,6 @@ public class Load {
 
     public void loadClasses(JSONObject file){
         JSONArray classesArray = (JSONArray) file.get("classes");
-        /**************************************************** */
-        System.out.println("classesArray: " + classesArray);
         JSONObject classObj;
         String className;
         
@@ -111,28 +108,32 @@ public class Load {
              // adds method to class
              currClass.addMethod(name, return_type);
              // loads the parameters of the current method
-             loadParameters(aClass, name, currClass);
+             loadParameters(methodObj, name, currClass);
          }
 
     }
 
-    public void loadParameters(JSONObject aClass, String methodName, Class currClass){
+    public void loadParameters(JSONObject aMethod, String methodName, Class currClass){
          
          // gets array of param objects
-         JSONArray paramsArray = (JSONArray) aClass.get("params");
+         JSONArray paramsArray = (JSONArray) aMethod.get("params");
          JSONObject paramObj;
          String name;
          String type;
-
+        
          // iterates through parameters
-         for(Object param : paramsArray){
-            paramObj = (JSONObject) param;
-             // gets name and type of each field
-             name = (String) paramObj.get("name");
-             type = (String) paramObj.get("type");
-             // adds method to class
-             currClass.getMethod(methodName).addParameter(name, type);
+         if(paramsArray != null){
+            for(Object param : paramsArray){
+                paramObj = (JSONObject) param;
+                 // gets name and type of each field
+                 name = (String) paramObj.get("name");
+                 type = (String) paramObj.get("type");
+                 // adds method to class
+                 currClass.getMethod(methodName).addParameter(name, type);
+             }
+
          }
+         
 
 
     }
