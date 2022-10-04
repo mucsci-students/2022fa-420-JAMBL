@@ -42,8 +42,12 @@ public class Main {
             scanner.close();
             return;
  /*   	}else if(args[0] == null){
-    		GUIView view = new GUIView();
-    	}else{
+  *         Model model  = new Model();
+  *         GUIView view = new GUIView();
+            Controller controller = new Controller(model , view);
+
+    		GUIView	.initialize();    	
+    		}else{
     		System.out.println("Unidentified argument");
     		return;
     	} */
