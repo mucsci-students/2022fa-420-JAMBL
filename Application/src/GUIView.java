@@ -472,10 +472,12 @@ public class GUIView extends View  {
 				btnAddRelationship.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!comboBoxClass1.getSelectedItem().equals("Choose a class:") || !comboBoxClass2.getSelectedItem().equals("Choose a class:") ) {
+
 							////////////////////////////////////////////////////////
 							controller.addRelationship(comboBoxClass1.getSelectedItem().toString(), 
 							comboBoxClass2.getSelectedItem().toString(), cbRelationships.getSelectedItem().toString());
 							/////////////////////////////////////////////////////////////
+
 							frame.dispose();
 						}
 						else
@@ -565,17 +567,19 @@ public class GUIView extends View  {
 				btnDeleteRelationship.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								if(!cbClass1.getSelectedItem().equals("Choose a class:") || !cdClass2.getSelectedItem().equals("Choose a class:") ) {
+
 									////////////////////////////////////////////////////////
 									controller.deleteRelationship(cbClass1.getSelectedItem().toString(), 
 									cdClass2.getSelectedItem().toString());
 									/////////////////////////////////////////////////////////////
+
 									frame.dispose();
 								}
 								else
 								{
 									classSelect();
 								}
-		
+
 							}
 						});
 
@@ -670,6 +674,7 @@ public class GUIView extends View  {
 				///******* Buttons *******///
 				/////////////////////////////
 				
+
 				JButton bteditRelType = new JButton("Change Type");
 				bteditRelType.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				bteditRelType.setBounds(10, 249, 178, 21);
@@ -688,6 +693,7 @@ public class GUIView extends View  {
 						{
 							classSelect();
 						}
+
 
 						frmJamblChange.dispose();
 					}
@@ -2214,6 +2220,7 @@ public class GUIView extends View  {
 	/*
 	 * A window for informing the user that a field has been deleted
 	 * 
+
 	 */
 	public void fieldDelete(String fieldName, String className) {
 		JOptionPane.showMessageDialog(f, "Field " + fieldName + " deleted from class " + className + "!", "Alert",JOptionPane.WARNING_MESSAGE);
@@ -2243,6 +2250,7 @@ public class GUIView extends View  {
 	/*
 	 * A window informing user of an error adding field
 	 */
+
 	public void addFieldFailure() {
 		JOptionPane.showMessageDialog(f, "Failed to delete field...", "Error",JOptionPane.ERROR_MESSAGE);
 	}

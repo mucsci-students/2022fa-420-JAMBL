@@ -129,6 +129,7 @@ public class GUIController {
 	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
 	    }
 	    
+
 	     /////////// ***** Relationship Methods ****** ////////////
 
 		public void addRelationship (String origin, String destination, String typeName) {
@@ -192,5 +193,6 @@ public class GUIController {
 		   	    GUI.relTypeEdited(newType);
 			}
 		}
+
 
 }

@@ -106,10 +106,7 @@ public class Method {
 
     // Deletes all parameters from this method
     public boolean deleteAllParameter(){
-        Iterator<Parameter> paramItr = parameters.iterator();
-        while (paramItr.hasNext()) {
-            paramItr.remove();
-        }
+        parameters = new HashSet<Parameter> ();
         if(parameters.isEmpty()) { // Empty hash set
             return true;
         }

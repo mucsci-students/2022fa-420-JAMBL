@@ -123,6 +123,12 @@ public class RemoveParameterW {
 		cbClasses.setModel(new DefaultComboBoxModel(new String[] {"Choose a class:"}));
 		cbClasses.setBounds(10, 74, 161, 21);
 		frmJamblAdd.getContentPane().add(cbClasses);
+		
+		JButton btnDeleteAll = new JButton("DELETE ALL PARAMETERS");
+		btnDeleteAll.setForeground(new Color(255, 0, 0));
+		btnDeleteAll.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnDeleteAll.setBounds(103, 327, 222, 21);
+		frmJamblAdd.getContentPane().add(btnDeleteAll);
 		cbClasses.addItemListener(new ItemListener() {
 		public void itemStateChanged(ItemEvent arg0) {
 				cdMethods.setVisible(true);
