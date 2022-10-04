@@ -683,10 +683,10 @@ public class Controller {
                 fileName = scanner.nextLine();
                 // checks of its default
                 if(fileName.toUpperCase().equals("")){
-                    loadNew("JAMBL.json");
+                    load("JAMBL.json");
                 }else{
                     // otherwise loads file into current model
-                    loadNew(fileName);
+                    load(fileName);
                 }
                 view.loaded();
                 break;
