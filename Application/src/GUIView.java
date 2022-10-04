@@ -266,7 +266,7 @@ public class GUIView extends View  {
 				cbClasses.setModel(new DefaultComboBoxModel<Object>());
 				cbClasses.setBounds(10, 78, 111, 21);
 				frame.getContentPane().add(cbClasses);
-				cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null)));
+				cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				cbClasses.addItemListener(new ItemListener() {
 							public void itemStateChanged(ItemEvent arg0) {
 								textFieldClassName.setVisible(true);
@@ -342,7 +342,7 @@ public class GUIView extends View  {
 				JComboBox<Object> comboBoxClasses = new JComboBox<Object>();
 				comboBoxClasses.setBounds(10, 77, 207, 21);
 				frame.getContentPane().add(comboBoxClasses);
-				comboBoxClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null)));
+				comboBoxClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				
 				///////////////////////////
 				//******* Buttons *******//
@@ -437,13 +437,13 @@ public class GUIView extends View  {
 				JComboBox<Object> comboBoxClass1 = new JComboBox<Object>();
 				comboBoxClass1.setBounds(10, 137, 90, 21);
 				frame.getContentPane().add(comboBoxClass1);
-				comboBoxClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null)));
+				comboBoxClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				comboBoxClass1.setVisible(false);
 				
 				JComboBox<Object> comboBoxClass2 = new JComboBox<Object>();
 				comboBoxClass2.setBounds(239, 137, 90, 21);
 				frame.getContentPane().add(comboBoxClass2);
-				comboBoxClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null)));
+				comboBoxClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				comboBoxClass2.setVisible(false);
 				
 				
@@ -540,7 +540,7 @@ public class GUIView extends View  {
 				cdClass2.setVisible(false);
 				
 				JComboBox<Object> cbClass1 = new JComboBox<Object>();
-				cbClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null)));
+				cbClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				cbClass1.setBounds(10, 77, 134, 21);
 				frame.getContentPane().add(cbClass1);
 				cbClass1.addItemListener(new ItemListener() {
