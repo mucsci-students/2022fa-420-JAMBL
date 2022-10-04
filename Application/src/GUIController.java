@@ -85,4 +85,44 @@ public class GUIController {
 	    public String[] getParameters(String className, String methodName) {
 	    	return model.getParameterList(className, methodName);
 	    }
+	    
+	    
+	    
+	    /////////// ***** Field Methods ****** ////////////
+	    public void addField(String className, String fieldName, String fieldType) {
+	    	Class get = model.getClass(className);
+	    	if(get.addField(fieldName, fieldType))
+	    		GUI.fieldAdd(fieldName, className);
+	    	else
+	    		GUI.fieldAdd(fieldName, className);
+	    }
+	    
+	    public void renameField(String className, String oldName, String newName) {
+	    	boolean ok = model.getClass(className).renameField(oldName, newName);
+	    	if(ok) {
+	    		GUI.fieldRename(oldName, newName, className);
+	    	}
+	    	else 
+	    	{
+	    		GUI.fieldExist();
+	    	}
+	    	
+	    }
+	    
+	    public void deleteField(String className, String fieldName) {
+	    	if(model.getClass(className).deleteField(fieldName)) {
+	    		GUI.fieldDelete(fieldName, className);
+	    	}
+	    	else
+	    	{
+	    		GUI.deleteFieldFailure();
+	    	}
+	    }
+	    
+	    public void changeFieldType(String className, String fieldName, String newFieldType) {
+	    	model.getClass(className).getField(fieldName).setFieldType(newFieldType);
+	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
+	    }
+	    
+	    
 }
