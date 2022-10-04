@@ -602,7 +602,7 @@ public class Controller {
             case PARTYPE:
                 
                 break;
-                case ADDATT:
+            case ADDATT:
                 System.out.println("Name of Class receiving Attribute: ");
                 name1 = scanner.nextLine();
                 System.out.println("Name of Attribute: ");
@@ -683,10 +683,10 @@ public class Controller {
                 fileName = scanner.nextLine();
                 // checks of its default
                 if(fileName.toUpperCase().equals("")){
-                    load("JAMBL.json");
+                    loadNew("JAMBL.json");
                 }else{
                     // otherwise loads file into current model
-                    load(fileName);
+                    loadNew(fileName);
                 }
                 view.loaded();
                 break;
@@ -771,6 +771,28 @@ public class Controller {
         }catch(Exception e){
             System.out.println("Could not write file" + e);
         }
+    }
+
+
+
+    public void loadNew(String fileName){
+        /****************************************************** */
+        System.out.println("Main test 1");
+         Load load = new Load();
+        // get object of file contents
+        /****************************************************** */
+        System.out.println("Main test 2");
+        JSONObject file = load.getFile(fileName);
+        // adds the classes with the fields, methods and parameters ect.
+        /****************************************************** */
+        System.out.println("Main test 3");
+        load.loadClasses(file);
+        // loads relationships into classes
+        
+        /****************************************************** */
+        System.out.println("Main test 4");
+        this.model = load.loadRelationships(file); ;
+
     }
 
 /******************************************************************************************/
