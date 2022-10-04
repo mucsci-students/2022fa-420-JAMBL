@@ -1062,6 +1062,18 @@ public class GUIView extends View  {
 					}
 				});
 				
+				//// DeleteAllButton
+				JButton btnDeleteAll = new JButton("DELETE ALL PARAMETERS");
+				btnDeleteAll.setForeground(new Color(255, 0, 0));
+				btnDeleteAll.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnDeleteAll.setBounds(103, 327, 222, 21);
+				frmJamblAdd.getContentPane().add(btnDeleteAll);
+				btnDeleteAll.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+					}
+				});
+				
 				//////////////////////////////
 				//******* Combo Boxes*******//
 				//////////////////////////////
