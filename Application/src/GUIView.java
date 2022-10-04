@@ -26,7 +26,10 @@ import java.awt.Font;
 public class GUIView extends View  {
 	
 	Model model = new Model();
-	private Controller GUICntrlr = new Controller(model, this);
+	private GUIController controller = new GUIController(model, this);
+	
+	// Basic frame for small pop-ups
+	JFrame f=new JFrame(); 
 	
 	private JFrame frmJambl;
 	// A boolean signifying if the recent UML diagram has been saved. 
@@ -50,9 +53,6 @@ public class GUIView extends View  {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public GUIView() {
 		initialize();
 	}
@@ -73,6 +73,7 @@ public class GUIView extends View  {
 		/////////////////////////////////////////// textAreaMain - where the UML diagram will be able displayed and updated in real time
 		///////////////////////////////////////////			as classes, field, methods, and relationships are added
 		JTextArea textAreaMain = new JTextArea();
+		textAreaMain.setLineWrap(true);
 		textAreaMain.setEditable(false);
 		textAreaMain.setBounds(359, 67, 678, 635);
 		frmJambl.getContentPane().add(textAreaMain);
@@ -190,10 +191,14 @@ public class GUIView extends View  {
 				btnAddClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnAddClass.setBounds(85, 136, 132, 21);
 				frame.getContentPane().add(btnAddClass);
+				btnAddClass.setName("AddClass");
 				btnAddClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-					
-						frame.dispose();
+						if(!classNameBox.getText().equals(""))
+						{
+							controller.addClass(classNameBox.getText());
+							frame.dispose();
+						}
 					}
 				});
 				
@@ -254,6 +259,21 @@ public class GUIView extends View  {
 				textFieldClassName.setColumns(10);
 				textFieldClassName.setVisible(false);
 				
+				//////////////////////////////
+				//******* Combo Boxes*******//
+				//////////////////////////////
+				JComboBox<Object> cbClasses = new JComboBox<Object>();
+				cbClasses.setModel(new DefaultComboBoxModel<Object>());
+				cbClasses.setBounds(10, 78, 111, 21);
+				frame.getContentPane().add(cbClasses);
+				cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+				cbClasses.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent arg0) {
+								textFieldClassName.setVisible(true);
+								lblNewName.setVisible(true);
+							}
+				});
+				
 				/////////////////////////////
 				///******* Buttons *******///
 				/////////////////////////////
@@ -264,7 +284,17 @@ public class GUIView extends View  {
 				frame.getContentPane().add(btnRenameClass);
 				btnRenameClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						frame.dispose();
+						if(!cbClasses.getSelectedItem().toString().equals("Choose a class:")) {
+							if(!textFieldClassName.getText().equals("")) {
+								controller.renameClass(cbClasses.getSelectedItem().toString(), textFieldClassName.getText() );
+								frame.dispose();
+							}
+
+						}
+						else
+						{
+							classSelect();
+						}
 					}
 				});
 				
@@ -278,23 +308,6 @@ public class GUIView extends View  {
 						frame.dispose();
 					}
 				});
-				
-				//////////////////////////////
-				//******* Combo Boxes*******//
-				//////////////////////////////
-				
-				JComboBox<Object> cbClasses = new JComboBox<Object>();
-				cbClasses.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a class:", "Class1"}));
-				cbClasses.setBounds(10, 78, 111, 21);
-				frame.getContentPane().add(cbClasses);
-				cbClasses.addItemListener(new ItemListener() {
-							public void itemStateChanged(ItemEvent arg0) {
-								textFieldClassName.setVisible(true);
-								lblNewName.setVisible(true);
-							}
-						});
-				
-				saved = false;
 			}
 		});
 		
@@ -321,6 +334,15 @@ public class GUIView extends View  {
 				lblSelectClass.setBounds(10, 54, 137, 13);
 				frame.getContentPane().add(lblSelectClass);
 			
+			    //////////////////////////////
+				//******* Combo Boxes*******//
+				//////////////////////////////
+				
+				
+				JComboBox<Object> comboBoxClasses = new JComboBox<Object>();
+				comboBoxClasses.setBounds(10, 77, 207, 21);
+				frame.getContentPane().add(comboBoxClasses);
+				comboBoxClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				
 				///////////////////////////
 				//******* Buttons *******//
@@ -331,10 +353,18 @@ public class GUIView extends View  {
 				btnDeleteClass.setForeground(new Color(255, 0, 0));
 				btnDeleteClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnDeleteClass.setBounds(85, 136, 132, 21);
-				frame.getContentPane().add(btnAddClass);
+				frame.getContentPane().add(btnDeleteClass);
 				btnDeleteClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						frame.dispose();
+						if(!comboBoxClasses.getSelectedItem().equals("Choose a class:")) {
+							controller.deleteClass(comboBoxClasses.getSelectedItem().toString());
+							frame.dispose();
+						}
+						else
+						{
+							classSelect();
+						}
+							
 					}
 				});
 				
@@ -348,15 +378,6 @@ public class GUIView extends View  {
 						frame.dispose();
 					}
 				});
-				
-				//////////////////////////////
-				//******* Combo Boxes*******//
-				//////////////////////////////
-				
-				
-				JComboBox<Object> comboBoxClasses = new JComboBox<Object>();
-				comboBoxClasses.setBounds(10, 77, 207, 21);
-				frame.getContentPane().add(comboBoxClasses);
 				
 				saved = false;
 			}
@@ -409,34 +430,6 @@ public class GUIView extends View  {
 				frame.getContentPane().add(lblClass2);
 				lblClass2.setVisible(false);
 				
-
-				
-				///////////////////////////
-				//******* Buttons *******//
-				///////////////////////////
-				
-				////////////////////////////////////////////////////////////// Add Class Button
-				JButton btnAddRelationship = new JButton("Add Relationship");
-				btnAddRelationship.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnAddRelationship.setBounds(10, 217, 190, 21);
-				frame.getContentPane().add(btnAddRelationship);
-				btnAddRelationship.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				
-				////////////////////////////////////////////////////////////// Cancel Button
-				JButton btnCancel = new JButton("Cancel");
-				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnCancel.setBounds(233, 217, 190, 21);
-				frame.getContentPane().add(btnCancel);
-				btnCancel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						frame.dispose();
-					}
-				});
-				
 				//////////////////////////////
 				//******* Combo Boxes*******//
 				//////////////////////////////
@@ -444,13 +437,13 @@ public class GUIView extends View  {
 				JComboBox<Object> comboBoxClass1 = new JComboBox<Object>();
 				comboBoxClass1.setBounds(10, 137, 90, 21);
 				frame.getContentPane().add(comboBoxClass1);
-				comboBoxClass1.setModel(new DefaultComboBoxModel<Object>(new String[] {"Classes to be added!"}));
+				comboBoxClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				comboBoxClass1.setVisible(false);
 				
 				JComboBox<Object> comboBoxClass2 = new JComboBox<Object>();
 				comboBoxClass2.setBounds(239, 137, 90, 21);
 				frame.getContentPane().add(comboBoxClass2);
-				comboBoxClass2.setModel(new DefaultComboBoxModel<Object>(new String[] {"Classes to be added!"}));
+				comboBoxClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				comboBoxClass2.setVisible(false);
 				
 				
@@ -466,6 +459,39 @@ public class GUIView extends View  {
 						lblClass2.setVisible(true);
 					}
 				});
+				
+				///////////////////////////
+				//******* Buttons *******//
+				///////////////////////////
+				
+			    // Add Relationship Button
+				JButton btnAddRelationship = new JButton("Add Relationship");
+				btnAddRelationship.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnAddRelationship.setBounds(10, 217, 190, 21);
+				frame.getContentPane().add(btnAddRelationship);
+				btnAddRelationship.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(!comboBoxClass1.getSelectedItem().equals("Choose a class:") || !comboBoxClass2.getSelectedItem().equals("Choose a class:") ) {
+							frame.dispose();
+						}
+						else
+						{
+							classSelect();
+						}
+					}
+				});
+				
+				// Cancel Button
+				JButton btnCancel = new JButton("Cancel");
+				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnCancel.setBounds(233, 217, 190, 21);
+				frame.getContentPane().add(btnCancel);
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+					}
+				});
+
 				saved = false;
 			}
 		});
@@ -474,8 +500,8 @@ public class GUIView extends View  {
 		JButton btnDeleteRel = new JButton("Delete");
 		btnDeleteRel.setBounds(220, 136, 97, 21);
 		frmJambl.getContentPane().add(btnDeleteRel);
+		btnDeleteRel.setName("DeleteRelM");
 		btnDeleteRel.addActionListener(new ActionListener() {
-			
 			
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("JAMBL - Delete Relationship");
@@ -502,7 +528,28 @@ public class GUIView extends View  {
 				lblClass2.setBounds(10, 108, 255, 13);
 				frame.getContentPane().add(lblClass2);
 				lblClass2.setVisible(false);
+				
+				///////////////////////////////
+				//******* Combo Boxes *******//
+				///////////////////////////////
 
+				JComboBox<Object> cdClass2 = new JComboBox<Object>();
+				cdClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+				cdClass2.setBounds(10, 131, 134, 21);
+				frame.getContentPane().add(cdClass2);
+				cdClass2.setVisible(false);
+				
+				JComboBox<Object> cbClass1 = new JComboBox<Object>();
+				cbClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+				cbClass1.setBounds(10, 77, 134, 21);
+				frame.getContentPane().add(cbClass1);
+				cbClass1.addItemListener(new ItemListener() {
+					public void itemStateChanged(ItemEvent arg0) {
+						cdClass2.setVisible(true);
+						lblClass2.setVisible(true);
+					}
+				});
+				
 				///////////////////////////
 				//******* Buttons *******//
 				///////////////////////////
@@ -513,7 +560,13 @@ public class GUIView extends View  {
 				frame.getContentPane().add(btnDeleteRelationship);
 				btnDeleteRelationship.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								
+								if(!cbClass1.getSelectedItem().equals("Choose a class:") || !cdClass2.getSelectedItem().equals("Choose a class:") ) {
+									frame.dispose();
+								}
+								else
+								{
+									classSelect();
+								}
 							}
 						});
 
@@ -525,32 +578,13 @@ public class GUIView extends View  {
 				frame.setVisible(true);
 				btnCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+
 						frame.dispose();
 					}
 				});
 
-				
-				///////////////////////////////
-				//******* Combo Boxes *******//
-				///////////////////////////////
-
-				JComboBox<Object> cdClass2 = new JComboBox<Object>();
-				cdClass2.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a class:"}));
-				cdClass2.setBounds(10, 131, 134, 21);
-				frame.getContentPane().add(cdClass2);
-				cdClass2.setVisible(false);
-				
-				JComboBox<Object> cbClass1 = new JComboBox<Object>();
-				cbClass1.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a class:"}));
-				cbClass1.setBounds(10, 77, 134, 21);
-				frame.getContentPane().add(cbClass1);
-				cbClass1.addItemListener(new ItemListener() {
-					public void itemStateChanged(ItemEvent arg0) {
-						cdClass2.setVisible(true);
-						lblClass2.setVisible(true);
-					}
-				});
 				saved = false;
+				
 			}
 		});
 		
@@ -1037,6 +1071,18 @@ public class GUIView extends View  {
 				btnCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						frmJamblAdd.dispose();
+					}
+				});
+				
+				//// DeleteAllButton
+				JButton btnDeleteAll = new JButton("DELETE ALL PARAMETERS");
+				btnDeleteAll.setForeground(new Color(255, 0, 0));
+				btnDeleteAll.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnDeleteAll.setBounds(103, 327, 222, 21);
+				frmJamblAdd.getContentPane().add(btnDeleteAll);
+				btnDeleteAll.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
 					}
 				});
 				
@@ -2015,8 +2061,6 @@ public class GUIView extends View  {
 		
 		////////////////////////////////////////////////////////////// Save assurance window, under construction!
 		frmJambl.addWindowListener(new WindowAdapter() {
-			
-			
 			public void windowClosing(WindowEvent windowEvent){
 	      
 	         } 
@@ -2025,5 +2069,149 @@ public class GUIView extends View  {
 	
 	public void updateTextAreaMain() {
 		
+	}
+
+	//////////////////////////////////
+	//// *****POP-UP WINDOWS***** ////
+	//////////////////////////////////
+	
+	/*
+	 * A window letting one know if a class exists when attempting to add or rename a class
+	 */
+	public void classExist(){
+		 JOptionPane.showMessageDialog(f, "Class Already Exists","Alert",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 *  A window letting one know a class has been created
+	 */
+	public void classCreate(String name) {
+		JOptionPane.showMessageDialog(f, "Class '" + name +  "' created.","Info",JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	 
+	/*
+	 *  A window letting one know a class has been created
+	 */
+	public void classDelete(String name) {
+		JOptionPane.showMessageDialog(f, "Class '" + name + "' deleted.","Info",JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	/*
+	 * A window letting one know a class has been renamed
+	 */
+	public void classRename(String name1, String name2) {
+		JOptionPane.showMessageDialog(f, "Class '" + name1 + "' renamed to ' " + name2 + "'." ,"Info",JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	/*
+	 * A window informing user to select a class 
+	 */
+	public void classSelect() {
+		JOptionPane.showMessageDialog(f, "Please select a class.", "SELECT",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing the user that a relationship already exists on creation attempt 
+	 */
+	public void relationshipExist() {
+		JOptionPane.showMessageDialog(f, "Relationship already exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing the user that a relationship does not exist on deletion attempt
+	 */
+	public void relationshipNotExist() {
+		JOptionPane.showMessageDialog(f, "Relationship does not exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing the user that a class cannot have a relationship with itself
+	 */
+	public void relationshipNoDouble() {
+		JOptionPane.showMessageDialog(f, "Class cannot have relationship with itself!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+			
+	/*
+	 * A window informing the user that a field already exists on insertion or rename attempt
+	 */
+	public void fieldExist() {
+		JOptionPane.showMessageDialog(f, "Field already exists!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing user to select a field
+	 */
+	public void fieldSelect() {
+		JOptionPane.showMessageDialog(f, "Please select a field.", "SELECT",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing user to select a method
+	 */
+	public void loadSelect() {
+		JOptionPane.showMessageDialog(f, "Please select a file to load.", "SELECT",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	/*
+	 * A window informing user to enter a file name for saving
+	 */
+	public void saveSelect() {
+		JOptionPane.showMessageDialog(f, "Please enter a file name.", "SELECT",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	
+	
+	/*
+	 * Returns a list of objects beginning with "select a <insert item type here>"
+	 */
+	public String[] getList(String type, String className, String methodName) {
+		if(type.equals("Class")) {
+			String[] classes = controller.getClassNames();
+			int j = 0;
+			String[] list = new String[classes.length + 1];
+			list[0] = "Choose a class:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = classes[j];
+	            j++;
+	        }
+			return list;
+		} else if (type.equals("Field")) {
+			String[] fields = controller.getFields(className);
+			int j = 0;
+			String[] list = new String[fields.length + 1];
+			list[0] = "Choose a class:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = fields[j];
+	            j++;
+	        }
+			return list;
+		} else if (type.equals("Method")) {
+			String[] methods = controller.getMethods(className);
+			int j = 0;
+			String[] list = new String[methods.length + 1];
+			list[0] = "Choose a class:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = methods[j];
+	            j++;
+	        }
+			return list;
+		} else if (type.equals("Param")) {
+			String[] params = controller.getParameters(className, methodName);
+			int j = 0;
+			String[] list = new String[params.length + 1];
+			list[0] = "Choose a class:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = params[j];
+	            j++;
+	        }
+			return list;
+		}
+		
+		return null; // Shouldn't be able to return a string[] if otherwise
 	}
 }
