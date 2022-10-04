@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.*;
 
 public class View {
 
@@ -200,18 +201,44 @@ public class View {
         String className = cls.getClassName();
         System.out.println("     " + className);
         System.out.println("     ===============");
-        System.out.println("     Attributes:");
+        System.out.println("     Fields:");
         
-        for (Attribute ele: cls.getAttributes()) {
-            String att = ele.getAttName();
-            System.out.println("     * " + att);
+        for (Field fld: cls.getFields()) {
+            String fieldType = fld.getFieldType();
+            String fieldName = fld.getFieldName();
+            System.out.println("     * " + fieldType + " " + fieldName);
         }
         System.out.println();
+        System.out.println("     Methods:");
+        
+        for (Method mtd: cls.getMethods()) {
+            String returnType = mtd.getReturnType();
+            String methodName = mtd.getMethodName();
+            System.out.print("     * " + returnType + " " + methodName + " (");
+            HashSet<Parameter> params = mtd.getParameters();
+            int count = params.size();
+            if (count == 0) {
+                System.out.println(")");
+            } else {
+                for (Parameter par: params) {
+                    System.out.print(par.getParamType() + " " + par.getParamName());
+                    count --;
+                    if (count > 0) {
+                        System.out.print(", ");
+                    } else {
+                        System.out.println(")");
+                    }
+                }
+            }
+
+        }
+        System.out.println();       
         System.out.println("     Relationships:");
         
         for (Relationship ele: cls.getRelationships()) {
-            String rel = ele.getDestination().getClassName();
-            System.out.println("     * " + className + " ---> " + rel);
+            String dest = ele.getDestination().getClassName();
+            String type = ele.getRelType();
+            System.out.println("     * " + className + " --" + type + "--> " + dest);
         }
         System.out.println();
         System.out.println();
@@ -228,10 +255,10 @@ public class View {
         System.out.println("=============");
         for (Class ele: model.classes) {
             if (ele.getRelationships().isEmpty()) {
-                System.out.println(ele.getClassName() + " has no Relationships.");
+
             } else {
                 for (Relationship rel: ele.getRelationships()) {
-                    System.out.println(ele.getClassName() + " ---> " + rel.getDestination().getClassName());
+                    System.out.println(ele.getClassName() + " --" + rel.getRelType() + "--> " + rel.getDestination().getClassName());
                 }
             }
         }
