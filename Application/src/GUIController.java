@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Iterator;
+
 /*
  * @projectDescription A controller specifically for use with the GUI
  * 
@@ -9,6 +12,7 @@ public class GUIController {
 	
 		Model model;
 		GUIView GUI;
+		public HashSet<Relationship> relationships = new HashSet<Relationship>();
 		
 		/*
 		 * Constructs a new GUIController
@@ -65,15 +69,71 @@ public class GUIController {
 	    		GUI.classDelete(name);
 	    }
 
-		//////////////////////////////////////////////
-		//////////// add Relationship ///////////////
+	    
+	    /*
+	     * Function for getting list of fields from class
+	     */
+	    public String[] getFields(String className) {
+	    	return model.getFieldList(className);
+	    }
+	    
+	    /*
+	     * Function for getting list of fields from class
+	     */
+	    public String[] getMethods(String className) {
+	    	return model.getMethodList(className);
+	    }
+	    
+	    /*
+	     * Function for getting list of fields from class
+	     */
+	    public String[] getParameters(String className, String methodName) {
+	    	return model.getParameterList(className, methodName);
+	    }
+	    
+	    
+	    
+	    /////////// ***** Field Methods ****** ////////////
+	    public void addField(String className, String fieldName, String fieldType) {
+	    	Class get = model.getClass(className);
+	    	if(get.addField(fieldName, fieldType))
+	    		GUI.fieldAdd(fieldName, className);
+	    	else
+	    		GUI.fieldAdd(fieldName, className);
+	    }
+	    
+	    public void renameField(String className, String oldName, String newName) {
+	    	boolean ok = model.getClass(className).renameField(oldName, newName);
+	    	if(ok) {
+	    		GUI.fieldRename(oldName, newName, className);
+	    	}
+	    	else 
+	    	{
+	    		GUI.fieldExist();
+	    	}
+	    	
+	    }
+	    
+	    public void deleteField(String className, String fieldName) {
+	    	if(model.getClass(className).deleteField(fieldName)) {
+	    		GUI.fieldDelete(fieldName, className);
+	    	}
+	    	else
+	    	{
+	    		GUI.deleteFieldFailure();
+	    	}
+	    }
+	    
+	    public void changeFieldType(String className, String fieldName, String newFieldType) {
+	    	model.getClass(className).getField(fieldName).setFieldType(newFieldType);
+	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
+	    }
+	    
+	     /////////// ***** Relationship Methods ****** ////////////
 
 		public void addRelationship (String origin, String destination, String typeName) {
-			// sets boolean to true unless an error is found
-			
-			
-			
-			if (model.getClass(origin) == null ) {
+					
+			/*if (model.getClass(origin) == null ) {
 
 				GUI.originNotExist();
 				
@@ -83,15 +143,54 @@ public class GUIController {
 			} else if ((model.getClass(origin)).isrelationshipExist(destination, typeName) == true ) {
 				GUI.relExists();
 			}
-			else {
-				model.getClass(origin).addRelationship((model.getClass(destination)), typeName);
-			}
-			
+			else { }*/
 
+			    boolean added = true; 
+				model.getClass(origin).addRelationship((model.getClass(destination)), typeName);
+				added = true;
+				if(added){ 
+				GUI.addedRel(origin, destination);
 			
-				
+				}
 		}
 
 
+		public void deleteRelationship (String origin, String destination) {
+			
+			/*if (model.getClass(origin) == null ) {
+
+				GUI.originNotExist();
+				
+			} else if (model.getClass(destination) == null ) {
+
+				GUI.destinationNotExist();
+
+			} else { */
+				Iterator<Relationship> relItr = relationships.iterator();
+				while (relItr.hasNext()) {
+					Relationship ele = relItr.next();
+					(ele.getDestination()).getClassName().equals(destination); 
+						relItr.remove();
+				}
+				GUI.relDeleted();
+				
+		}
+
+		public void editRelationshipType(String origin, String destination, String newType) {
+
+			if ((model.getClass(origin)).isrelationshipExist(destination, newType) == true ) {
+					
+				GUI.relExists();
+				
+			} else{
+				Iterator<Relationship> relItr = relationships.iterator();
+				while (relItr.hasNext()) {
+				Relationship ele = relItr.next();
+				ele.setRelType(newType); 
+				}      
+
+		   	    GUI.relTypeEdited();
+			}
+		}
 
 }
