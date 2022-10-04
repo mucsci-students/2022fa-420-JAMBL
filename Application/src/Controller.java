@@ -8,6 +8,9 @@
  */
 
 import java.util.*;
+
+import javax.swing.JButton;
+
 import java.io.*;
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -19,6 +22,7 @@ public class Controller {
    
     private Model model = new Model();
     private View view;
+    private GUIView GUI;
 
     public static enum Command {
     START ("START"), //initial starting state Command not to be displayed in HELP
@@ -69,6 +73,11 @@ public class Controller {
     this.view  = view;
 
    }
+    
+    public Controller (Model model, GUIView gui) {
+    	this.model = model;
+    	GUI = gui;
+    }
 
     /*
 	 * @name commandExecute
@@ -1023,5 +1032,9 @@ public class Controller {
         }
         return lModel;
     } 
+       
+        
 
 }
+        
+
