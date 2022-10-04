@@ -295,23 +295,23 @@ public class View {
 
 		System.out.println("***************************************************************************************");
 
-        System.out.println("ADDFLD  - This command adds a field to a class. You will be prompted for the name of" );
+        System.out.println("ADDFLD  - This command adds a field to a class. You will be prompted for a class name, " );
         System.out.println("          the field name and field type");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("DELFLD  - This command deletes a field of a class. You will be prompted for the name of ");
-        System.out.println("          the field.");
+        System.out.println("DELFLD  - This command deletes a field of a class. You will be prompted for a class name, ");
+        System.out.println("          and the name of a field.");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("RENFLD  - This command renames the name of a field. You will be prompted for the old name");
+        System.out.println("RENFLD  - This command renames the name of a field. You will be prompted for a class name, old name");
         System.out.println("          and the new name of the field.");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("FLDTYPE - This command returns the field return type. You will be prompted for the name of");
-        System.out.println("          the field.");
+        System.out.println("FLDTYPE - This command returns the field return type. You will be prompted for a class name, ");
+        System.out.println("          and the name of the field.");
 
         System.out.println("***************************************************************************************");
 
@@ -336,7 +336,7 @@ public class View {
         System.out.println("***************************************************************************************");
 
 		System.out.println("ADDREL  - This command adds a Relationship to a given Class. You will be prompted for ");
-        System.out.println("          the name of the origin class and the name of the destination class.");
+        System.out.println("          the name of the origin class, the name of the destination class, and a relationship type");
 
 		System.out.println("***************************************************************************************");
 
@@ -361,9 +361,10 @@ public class View {
 
 		System.out.println("***************************************************************************************");
 
-		System.out.println("RENPAR  - This command changes name of existing parameter of a Class to a new name.");
-        System.out.println("          You will be prompted for the class name, the old parameter name and the new");
-        System.out.println("          parameter name.");
+		System.out.println("CHGPAR  - This command changes name of existing parameter of a Method to a new name.");
+        System.out.println("          This command also changes the type of an existing parameter to a new type.");
+        System.out.println("          You will be prompted for the class name, method name, the old parameter name, ");
+        System.out.println("          the new name parameter name, and the new type parameter name.");
       
 		System.out.println("***************************************************************************************");
         System.out.println("PARTYPE - This command returns the Method return type. You will be prompted for the name");
