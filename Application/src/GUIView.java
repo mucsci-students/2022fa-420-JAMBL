@@ -472,6 +472,10 @@ public class GUIView extends View  {
 				btnAddRelationship.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!comboBoxClass1.getSelectedItem().equals("Choose a class:") || !comboBoxClass2.getSelectedItem().equals("Choose a class:") ) {
+							////////////////////////////////////////////////////////
+							controller.addRelationship(comboBoxClass1.getSelectedItem().toString(), 
+							comboBoxClass2.getSelectedItem().toString(), cbRelationships.getSelectedItem().toString());
+							/////////////////////////////////////////////////////////////
 							frame.dispose();
 						}
 						else
@@ -561,12 +565,17 @@ public class GUIView extends View  {
 				btnDeleteRelationship.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								if(!cbClass1.getSelectedItem().equals("Choose a class:") || !cdClass2.getSelectedItem().equals("Choose a class:") ) {
+									////////////////////////////////////////////////////////
+									controller.deleteRelationship(cbClass1.getSelectedItem().toString(), 
+									cdClass2.getSelectedItem().toString());
+									/////////////////////////////////////////////////////////////
 									frame.dispose();
 								}
 								else
 								{
 									classSelect();
 								}
+		
 							}
 						});
 
@@ -661,13 +670,25 @@ public class GUIView extends View  {
 				///******* Buttons *******///
 				/////////////////////////////
 				
-				JButton btnRenameClass = new JButton("Change Type");
-				btnRenameClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnRenameClass.setBounds(10, 249, 178, 21);
-				frmJamblChange.getContentPane().add(btnRenameClass);
-				btnRenameClass.addActionListener(new ActionListener() {
+				JButton bteditRelType = new JButton("Change Type");
+				bteditRelType.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				bteditRelType.setBounds(10, 249, 178, 21);
+				frmJamblChange.getContentPane().add(bteditRelType);
+				bteditRelType.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
+						if(!cbClass1.getSelectedItem().equals("Choose a class:") || !cbClass2.getSelectedItem().equals("Choose a class:") ) {
+							////////////////////////////////////////////////////////
+							controller.editRelationshipType(cbClass1.getSelectedItem().toString(), 
+							cbClass2.getSelectedItem().toString(), cbRelationships.getSelectedItem().toString());
+							/////////////////////////////////////////////////////////////
+							frmJamblChange.dispose();
+						}
+						else
+						{
+							classSelect();
+						}
+
 						frmJamblChange.dispose();
 					}
 				});
@@ -2338,10 +2359,10 @@ public class GUIView extends View  {
 
 	}
 
-	public void relTypeEdited(){
-        JOptionPane.showMessageDialog(f,"Relation type changed to !", "Alert", JOptionPane.WARNING_MESSAGE);
+	public void relTypeEdited(String newType){
+        JOptionPane.showMessageDialog(f,"Relation type changed to"+ newType + "!", "Alert", JOptionPane.WARNING_MESSAGE);
 	}
-	public void relDeleted(String origin, String destination) {
+	public void relDeleted() {
 		JOptionPane.showMessageDialog(f, "Relationship deleted successfully", "Info",JOptionPane.INFORMATION_MESSAGE);
 
 	}

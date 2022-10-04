@@ -145,13 +145,13 @@ public class GUIController {
 			}
 			else { }*/
 
-			    boolean added = true; 
-				model.getClass(origin).addRelationship((model.getClass(destination)), typeName);
-				added = true;
-				if(added){ 
+			  //  boolean added = true; 
+				model.getClass(origin).addRelationship((model.getClass(destination)), typeName.toUpperCase());
+				//added = true;
+				//if(added){ 
 				GUI.addedRel(origin, destination);
 			
-				}
+				//}
 		}
 
 
@@ -178,7 +178,7 @@ public class GUIController {
 
 		public void editRelationshipType(String origin, String destination, String newType) {
 
-			if ((model.getClass(origin)).isrelationshipExist(destination, newType) == true ) {
+			if ((model.getClass(origin)).isrelationshipExist(destination, newType.toUpperCase()) == true ) {
 					
 				GUI.relExists();
 				
@@ -186,10 +186,10 @@ public class GUIController {
 				Iterator<Relationship> relItr = relationships.iterator();
 				while (relItr.hasNext()) {
 				Relationship ele = relItr.next();
-				ele.setRelType(newType); 
+				ele.setRelType(newType.toUpperCase()); 
 				}      
 
-		   	    GUI.relTypeEdited();
+		   	    GUI.relTypeEdited(newType);
 			}
 		}
 
