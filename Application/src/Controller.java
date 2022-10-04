@@ -604,11 +604,11 @@ public class Controller {
                 name5 = view.inputClassName(); //gets Class name from user
                 class1 = model.getClass(name5); //gets Class with name entered; null if not found
                 name1 = view.inputMethodName(); //gets Method name from user
-                method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name1);
                     break;
                 } else {
+                    method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
                     if (method1 == null) { //checks if method exists and exits if doesn't
                         view.notExists("Method", name1);
                         break;
@@ -634,12 +634,12 @@ public class Controller {
                 name5 = view.inputClassName(); //gets Class name from user
                 class1 = model.getClass(name5); //gets Class with name entered; null if not found
                 name1 = view.inputMethodName(); //gets Method name from user
-                method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
                 name7 = view.inputDeleteAll();//gets whether user wants to delete all parameters or just one
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name1);
                     break;
                 } else {
+                    method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
                     if (method1 == null) { //checks if method exists and exits if doesn't
                         view.notExists("Method", name1);
                         break;
@@ -670,11 +670,11 @@ public class Controller {
                 name5 = view.inputClassName(); //gets Class name from user
                 class1 = model.getClass(name5); //gets Class with name entered; null if not found
                 name1 = view.inputMethodName(); //gets Method name from user
-                method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name1);
                     break;
                 } else {
+                    method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
                     if (method1 == null) { //checks if method exists and exits if doesn't
                         view.notExists("Method", name1);
                         break;
