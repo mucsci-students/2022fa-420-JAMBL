@@ -453,4 +453,8 @@ public class View {
         System.out.println("Relation type changed to " + typeName.toLowerCase()  + "!");
     }    
 
+    public void relTypeCheck(String typeName){
+        System.out.println(typeName + " is invalid Relation type !");
+    }    
+
 }

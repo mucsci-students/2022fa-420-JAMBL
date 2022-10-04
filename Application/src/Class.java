@@ -300,4 +300,15 @@ public class Class {
         return null;
     }
 
+    public boolean isValidType (String otherName) {
+        boolean validType = false;
+        for (Relationship.Type type: Relationship.Type.values()) {
+            if (type.toString().equals(otherName)) {
+                
+                validType = true;
+            }
+        }
+        return validType;
+    }
+
 }

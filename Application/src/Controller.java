@@ -538,6 +538,8 @@ public class Controller {
                 if (class1.isrelationshipExist(name2, typeName) == true){
                     view.relExists();
                     break;
+                } if (!class1.isValidType(typeName)){ 
+                    view.relTypeCheck(typeName);
                 } else {
                     returned = class1.addRelationship(class2, typeName);
                     // notifies user that relationship was added
@@ -584,12 +586,17 @@ public class Controller {
                 if (class1.isrelationshipExist(name2, typeName)== true){
                         view.relExists();
                     break;
-                } else {
+                } 
+              
+                if (!class1.isValidType(typeName)){ 
+                    view.relTypeCheck(typeName);
+                }else {
                     class1.editRelationshipType(typeName);
                     //(class2.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType);
                     view.relTypeEdited(typeName);
                     }
                 break;
+
                 /* if ((class2.getClassName().equals(name2)) & )
            if ( (ele.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType)) {
                newMatch = true;
@@ -698,7 +705,7 @@ public class Controller {
                             }
                         }
                     }
-                } 
+                       } 
            
             case ADDATT:
                 System.out.println("Name of Class receiving Attribute: ");
