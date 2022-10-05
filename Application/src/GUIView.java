@@ -1033,34 +1033,6 @@ public class GUIView extends View  {
 				textParamType.setColumns(10);
 				
 
-				
-				
-				///////////////////////////
-				//******* Buttons *******//
-				///////////////////////////
-				
-				// Add Class Button
-				JButton btnAddParameter = new JButton("Add Parameter");
-				btnAddParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnAddParameter.setBounds(10, 260, 190, 21);
-				frmJamblAdd.getContentPane().add(btnAddParameter);
-				btnAddParameter.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				
-				/// Cancel Button
-				JButton btnCancel = new JButton("Cancel");
-				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnCancel.setBounds(233, 260, 190, 21);
-				frmJamblAdd.getContentPane().add(btnCancel);
-				btnCancel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						frmJamblAdd.dispose();
-					}
-				});
-				
 				//////////////////////////////
 				//******* Combo Boxes*******//
 				//////////////////////////////
@@ -1082,6 +1054,37 @@ public class GUIView extends View  {
 								lblMethod.setVisible(true);
 							}
 				});
+		
+				
+				///////////////////////////
+				//******* Buttons *******//
+				///////////////////////////
+				
+				// Add Class Button
+				JButton btnAddParameter = new JButton("Add Parameter");
+				btnAddParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnAddParameter.setBounds(10, 260, 190, 21);
+				frmJamblAdd.getContentPane().add(btnAddParameter);
+				btnAddParameter.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(!textParameter.getText().equals("") && !textParamType.getText().equals("")) {
+							controller.addParameter(cbClasses.getSelectedItem().toString(), cbMethods.getSelectedItem().toString(), textParameter.getText(), textParamType.getText());
+							frmJamblAdd.dispose();
+						}
+					}
+				});
+				
+				/// Cancel Button
+				JButton btnCancel = new JButton("Cancel");
+				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnCancel.setBounds(233, 260, 190, 21);
+				frmJamblAdd.getContentPane().add(btnCancel);
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frmJamblAdd.dispose();
+					}
+				});
+				
 				saved = false;
 			}
 		});
@@ -1119,46 +1122,8 @@ public class GUIView extends View  {
 				lblMethod.setBounds(10, 113, 136, 13);
 				frmJamblAdd.getContentPane().add(lblMethod);
 				lblMethod.setVisible(false);
-				
-				///////////////////////////
-				//******* Buttons *******//
-				///////////////////////////
-				
-				////////////////////////////////////////////////////////////// Remove Parameter Button
-				JButton btnRemoveParameter = new JButton("Delete Parameter");
-				btnRemoveParameter.setForeground(new Color(255, 0, 0));
-				btnRemoveParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnRemoveParameter.setBounds(10, 296, 190, 21);
-				frmJamblAdd.getContentPane().add(btnRemoveParameter);
-				btnRemoveParameter.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				
-				////////////////////////////////////////////////////////////// Cancel Button
-				JButton btnCancel = new JButton("Cancel");
-				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnCancel.setBounds(233, 296, 190, 21);
-				frmJamblAdd.getContentPane().add(btnCancel);
-				btnCancel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						frmJamblAdd.dispose();
-					}
-				});
-				
-				//// DeleteAllButton
-				JButton btnDeleteAll = new JButton("DELETE ALL PARAMETERS");
-				btnDeleteAll.setForeground(new Color(255, 0, 0));
-				btnDeleteAll.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnDeleteAll.setBounds(103, 327, 222, 21);
-				frmJamblAdd.getContentPane().add(btnDeleteAll);
-				btnDeleteAll.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				
+
+
 				//////////////////////////////
 				//******* Combo Boxes*******//
 				//////////////////////////////
@@ -1191,6 +1156,53 @@ public class GUIView extends View  {
 						lblMethod.setVisible(true);
 				}
 				});
+				
+				///////////////////////////
+				//******* Buttons *******//
+				///////////////////////////
+				
+				////////////////////////////////////////////////////////////// Remove Parameter Button
+				JButton btnRemoveParameter = new JButton("Delete Parameter");
+				btnRemoveParameter.setForeground(new Color(255, 0, 0));
+				btnRemoveParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnRemoveParameter.setBounds(10, 296, 190, 21);
+				frmJamblAdd.getContentPane().add(btnRemoveParameter);
+				btnRemoveParameter.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(!(cbClasses.getSelectedIndex() == -1) && !(cdMethods.getSelectedIndex() == -1) && !(cbParameter.getSelectedIndex() == -1)) {
+							controller.deleteParameter(cbClasses.getSelectedItem().toString(), cdMethods.getSelectedItem().toString(), cbParameter.getSelectedItem().toString());
+							frmJamblAdd.dispose();
+						}
+					}
+				});
+				
+				////////////////////////////////////////////////////////////// Cancel Button
+				JButton btnCancel = new JButton("Cancel");
+				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnCancel.setBounds(233, 296, 190, 21);
+				frmJamblAdd.getContentPane().add(btnCancel);
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frmJamblAdd.dispose();
+					}
+				});
+				
+				//// DeleteAllButton
+				JButton btnDeleteAll = new JButton("DELETE ALL PARAMETERS");
+				btnDeleteAll.setForeground(new Color(255, 0, 0));
+				btnDeleteAll.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnDeleteAll.setBounds(103, 327, 222, 21);
+				frmJamblAdd.getContentPane().add(btnDeleteAll);
+				btnDeleteAll.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(!(cbClasses.getSelectedIndex() == -1) && !(cdMethods.getSelectedIndex() == -1)){
+							controller.removeAllParameter(cbClasses.getSelectedItem().toString(), cdMethods.getSelectedItem().toString());
+							frmJamblAdd.dispose();
+						}
+					}
+				});
+				
+				
 				saved = false;
 				
 			}
@@ -1254,33 +1266,11 @@ public class GUIView extends View  {
 				textParameter.setColumns(10);
 				textParameter.setVisible(false);
 				
-				
-				///////////////////////////
-				//******* Buttons *******//
-				///////////////////////////
-				
-				// Change Parameter Button
-				JButton btnChangeParameter = new JButton("Change Parameter");
-				btnChangeParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnChangeParameter.setBounds(11, 299, 190, 21);
-				frmJamblAdd.getContentPane().add(btnChangeParameter);
-				btnChangeParameter.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-					}
-				});
-				
-			    // Cancel Button
-				JButton btnCancel = new JButton("Cancel");
-				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnCancel.setBounds(224, 298, 190, 21);
-				frmJamblAdd.getContentPane().add(btnCancel);
-				btnCancel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						frmJamblAdd.dispose();
-					}
-				});
-				
+				JTextField textParamType = new JTextField();
+				textParamType.setBounds(233, 200, 161, 19);
+				frmJamblAdd.getContentPane().add(textParamType);
+				textParamType.setColumns(10);
+
 				//////////////////////////////
 				//******* Combo Boxes*******//
 				//////////////////////////////
@@ -1320,6 +1310,35 @@ public class GUIView extends View  {
 						lblMethod.setVisible(true);
 					}
 				});
+				
+				///////////////////////////
+				//******* Buttons *******//
+				///////////////////////////
+				
+				// Change Parameter Button
+				JButton btnChangeParameter = new JButton("Change Parameter");
+				btnChangeParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnChangeParameter.setBounds(11, 299, 190, 21);
+				frmJamblAdd.getContentPane().add(btnChangeParameter);
+				btnChangeParameter.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						controller.changeParameter(cbClasses.getSelectedItem().toString(), cbMethods.getSelectedItem().toString(), cbParameters.getSelectedItem().toString(), textParameter.getText(), textParamType.getText());
+    					frmJamblAdd.dispose();
+					}
+				});
+				
+			    // Cancel Button
+				JButton btnCancel = new JButton("Cancel");
+				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnCancel.setBounds(224, 298, 190, 21);
+				frmJamblAdd.getContentPane().add(btnCancel);
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frmJamblAdd.dispose();
+					}
+				});
+				
+			
 				saved = false;
 			}
 		});
@@ -2386,12 +2405,79 @@ public class GUIView extends View  {
 		JOptionPane.showMessageDialog(f, "Method already exists!", "Alert",JOptionPane.WARNING_MESSAGE);
 	}
 
+
+	/*
+	* A window for informing the user that a parameter has been added
+	* 
+	*/
+	public void paramAdd(String method, String name, String type){
+		JOptionPane.showMessageDialog(f, "Parameter " + type + " " + name + " added to method " + method + "!", "Info",JOptionPane.INFORMATION_MESSAGE);
+	}
+
+
+	/*
+	* A window for informing the user that a parameter has been deleted
+	* 
+	*/
+	public void paramDelete(String method, String name) {
+		JOptionPane.showMessageDialog(f, "Parameter " + name + " deleted from method " + method + "!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+
+
+	/*
+	* A window informing the user that a parameter has been renamed and retyped
+	*/
+	public void paramChange(String method, String oldName, String newName, String newType) {
+		JOptionPane.showMessageDialog(f, "Parameter " + oldName + " changed to " + newType + " " + newName 
+		+ " in method " + method + "!", "Info",JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	/*
+	* A window for informing the user that all parameters have been deleted from a method
+	* 
+	*/
+	public void paramDeleteAll(String method) {
+		JOptionPane.showMessageDialog(f, "All parameters deleted from method " + method + "!", "Alert",JOptionPane.WARNING_MESSAGE);
+	}
+
+
+	/*
+	* A window informing user of an error adding parameter
+	*/
+	public void addParamFailure() {
+		JOptionPane.showMessageDialog(f, "Failed to add parameter...", "Error",JOptionPane.ERROR_MESSAGE);
+	}
+
+
+	/*
+	* A window informing user of an error deleting parameter
+	*/
+	public void deleteParamFailure() {
+		JOptionPane.showMessageDialog(f, "Failed to delete parameter...", "Error",JOptionPane.ERROR_MESSAGE);
+	}
+
+
+	/*
+	* A window informing user of an error changing parameter
+	*/
+	public void changeParamFailure() {
+		JOptionPane.showMessageDialog(f, "Failed to change parameter...", "Error",JOptionPane.ERROR_MESSAGE);
+	}
+
+
+	/*
+	* A window informing user of an error deleting all parameters from a method
+	*/
+	public void deleteAllParamFailure() {
+		JOptionPane.showMessageDialog(f, "Failed to delete all parameters...", "Error",JOptionPane.ERROR_MESSAGE);
+
 	/*
 	 * A window for informing the user that a method has been renamed
 	 * 
 	 */
 	public void methodRetype(String className, String methodName, String returnType) {
 		JOptionPane.showMessageDialog(f, "Method " + methodName + " now has a return type of " + returnType + " in class " + className + "!", "Info",JOptionPane.INFORMATION_MESSAGE);
+
 	}
 	
 	/*

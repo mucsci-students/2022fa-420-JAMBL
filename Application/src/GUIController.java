@@ -287,6 +287,48 @@ public class GUIController {
 			this.model = load.loadRelationships(file);
 	
 		}
+
+
+
+		public void addParameter(String class1, String method1, String name, String type){
+			Class class2 = model.getClass(class1);
+			Method method2 = class2.getMethod(method1);
+			if(method2.addParameter(name, type)){
+				GUI.paramAdd(method1, name, type);
+			} else {
+				GUI.addParamFailure();
+			}
+		}
+		
+		public void deleteParameter(String class1, String method1, String name){
+			Class class2 = model.getClass(class1);
+			Method method2 = class2.getMethod(method1);
+			if(method2.deleteParameter(name)){
+				GUI.paramDelete(method1, name);
+			} else {
+				GUI.deleteParamFailure();
+			}
+		}
+		
+		public void changeParameter(String class1, String method1, String oldname, String newname, String newtype){
+			Class class2 = model.getClass(class1);
+			Method method2 = class2.getMethod(method1);
+			if(method2.changeParameter(oldname, newname, newtype)){
+				GUI.paramChange(method1, oldname, newname, newtype);
+			} else {
+				GUI.changeParamFailure();
+			}
+		}
+		
+		public void removeAllParameter(String class1, String method1){
+			Class class2 = model.getClass(class1);
+			Method method2 = class2.getMethod(method1);
+			if(method2.deleteAllParameter()){
+				GUI.paramDeleteAll(method1);
+			} else {
+				GUI.deleteAllParamFailure();
+			}
+		}
 	
 	/****************************************************************************/
 	 
