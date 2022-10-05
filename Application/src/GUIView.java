@@ -1270,6 +1270,12 @@ public class GUIView extends View  {
 				lblNewParameterName.setBounds(9, 237, 158, 13);
 				frmJamblAdd.getContentPane().add(lblNewParameterName);
 				lblNewParameterName.setVisible(false);
+
+				JLabel lblNewParameterType = new JLabel("New Parameter Type:");
+				lblNewParameterType.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				lblNewParameterType.setBounds(233, 237, 158, 13);
+				frmJamblAdd.getContentPane().add(lblNewParameterType);
+				lblNewParameterType.setVisible(false);
 				
 				////////////////////////////
 				//******* Text Box *******//
@@ -1282,7 +1288,7 @@ public class GUIView extends View  {
 				textParameter.setVisible(false);
 				
 				JTextField textParamType = new JTextField();
-				textParamType.setBounds(233, 200, 161, 19);
+				textParamType.setBounds(233, 258, 161, 19);
 				frmJamblAdd.getContentPane().add(textParamType);
 				textParamType.setColumns(10);
 				textParamType.setVisible(false);
@@ -1298,6 +1304,8 @@ public class GUIView extends View  {
 				cbParameters.setVisible(false);
 				cbParameters.addItemListener(new ItemListener() {
 					public void itemStateChanged(ItemEvent arg0) {
+						lblNewParameterType.setVisible(true);
+						textParameter.setVisible(true);
 						textParamType.setVisible(true);
 						lblNewParameterName.setVisible(true);
 					}
