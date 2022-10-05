@@ -140,7 +140,52 @@ public class GUIController {
 	    	model.getClass(className).getField(fieldName).setFieldType(newFieldType);
 	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
 	    }
-	    
+
+	    /////////// ***** Method methods ****** ////////////
+		public void addMethod (String className, String methodName, String methodReturn) {
+			Class cls = model.getClass(className);
+			if (cls.getMethod(methodName) != null) {
+				GUI.methodExist();
+			}else if (cls.addMethod(methodName, methodReturn)) {
+				GUI.methodAdd(className, methodName);
+			} else {
+			GUI.methodActionFailure("add");
+			}
+		}
+		public void deleteMethod (String className, String methodName) {
+			Class cls = model.getClass(className);
+			Method mtd = cls.getMethod(methodName);
+			if (cls.deleteMethod(mtd)) {
+				GUI.methodDelete(className, methodName);
+			} else {
+				GUI.methodActionFailure("delete");
+			}
+		}
+
+		public void renameMethod (String className, String oldMtdName, String newMtdName) {
+			if (oldMtdName.toUpperCase().equals(newMtdName.toUpperCase())) {
+				GUI.methodExist();
+			}else {
+				Class cls = model.getClass(className);
+				Method mtd = cls.getMethod(oldMtdName);
+				if (cls.renameMethod(mtd, newMtdName)) {
+					GUI.methodRename(className, oldMtdName, newMtdName);
+				}else {
+					GUI.methodActionFailure("rename");
+			}
+			}
+		}
+
+		public void changeMethodReturn (String className, String methodName, String returnType) {
+			Class cls = model.getClass(className);
+			Method mtd = cls.getMethod(methodName);
+			if (cls.changeMethodreturn(mtd, returnType)) {
+				GUI.methodRetype(className, methodName, returnType);
+			}else {
+				GUI.methodActionFailure("change return type of");
+			}
+		}
+	
    
 	     /////////// ***** Relationship Methods ****** ////////////
 
@@ -298,4 +343,5 @@ public class GUIController {
 		}
 		return list;
 	}
+
 }
