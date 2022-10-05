@@ -718,7 +718,7 @@ public class GUIView extends View  {
 				//////////////////////////////
 				
 				JTextField txtDefaulttxt = new JTextField();
-				txtDefaulttxt.setText("DEFAULT.txt");
+				txtDefaulttxt.setText("DEFAULT.json");
 				txtDefaulttxt.setBounds(92, 94, 235, 19);
 				frame.getContentPane().add(txtDefaulttxt);
 				txtDefaulttxt.setColumns(10);
@@ -728,9 +728,23 @@ public class GUIView extends View  {
 				///////////////////////////
 				
 				JButton btnSave = new JButton("Save");
+				//JTextField textField = new JTextField();
 				btnSave.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnSave.setBounds(92, 158, 85, 21);
 				frame.getContentPane().add(btnSave);
+				btnSave.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String text = txtDefaulttxt.getText();
+						if(!text.equals("")){
+							controller.save(text);
+							frame.dispose();
+						}
+						else
+						{
+							System.out.println("Outside if statement");
+						}
+					}
+				});
 				
 				JButton btnCancel = new JButton("Cancel");
 				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -780,7 +794,7 @@ public class GUIView extends View  {
 				/////////////////////////////
 				///******* Buttons *******///
 				/////////////////////////////
-				JButton btnBrowse = new JButton("Browse...");
+			 	JButton btnBrowse = new JButton("Browse...");
 				btnBrowse.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnBrowse.setBounds(341, 55, 104, 21);
 				frame.getContentPane().add(btnBrowse);
@@ -805,7 +819,7 @@ public class GUIView extends View  {
 				frame.setVisible(true);
 				btnDefault.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						textField.setText("JAMBL.json");
+						textField.setText("DEFAULT.json");
 					}
 				});
 				
@@ -815,12 +829,15 @@ public class GUIView extends View  {
 				frame.getContentPane().add(btnLoad);
 				btnLoad.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(!textField.getText().equals("")){
+						String text = textField.getText();
+						if(!text.equals("")){
 							
+							controller.load(text);
+							frame.dispose();
 						}
 						else
 						{
-							loadSelect();
+							
 						}
 					}
 				});

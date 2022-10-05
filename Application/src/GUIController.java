@@ -5,6 +5,18 @@
  * @version 0.0.1
  * @dateLastModified October 3, 2022
  */
+
+import java.util.*;
+
+import javax.swing.JButton;
+
+import java.io.*;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 public class GUIController {
 	
 		Model model;
@@ -124,5 +136,43 @@ public class GUIController {
 	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
 	    }
 	    
+
+		/*********************************** NEEDS TESTING ***************************************/
+		public void save( String fileName){
+			Save saving = new Save(model);
+			JSONObject fileObj = new JSONObject();
+			fileObj.put("classes", saving.classes());
+			fileObj.put("relationships", saving.relationships());
+	
+			try{
+				// creates new file  if ther is not one
+				FileWriter file = new FileWriter(fileName);
+				// turns object to string and save to file
+				file.write(fileObj.toJSONString());
+				file.close();
+				System.out.println("UML Diagram Saved!");
+			}catch(Exception e){
+				System.out.println("Could not write file" + e);
+			}
+		}
+	
+	
+	
+		public void load(String fileName){
+			
+			 Load load = new Load();
+			 
+			// get object of file contents
+			JSONObject file = load.getFile(fileName);
+	
+			// adds the classes with the fields, methods and parameters ect.
+			load.loadClasses(file);
+	
+			// loads relationships into classes
+			this.model = load.loadRelationships(file);
+	
+		}
+	
+	/****************************************************************************/
 	    
 }
