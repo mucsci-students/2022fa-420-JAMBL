@@ -28,6 +28,7 @@ public class AddParameterW {
 
 	Controller controller;
 	private static JTextField textParameter;
+	private static JTextField textParamType;
 	public AddParameterW(Controller newController) {
 		controller = newController;
 	}
@@ -126,6 +127,8 @@ public class AddParameterW {
 		cbClasses.setModel(new DefaultComboBoxModel(new String[] {"Choose a class:"}));
 		cbClasses.setBounds(10, 74, 161, 21);
 		frmJamblAdd.getContentPane().add(cbClasses);
+		
+
 		cbClasses.addItemListener(new ItemListener() {
 					public void itemStateChanged(ItemEvent arg0) {
 						cbMethods.setVisible(true);

@@ -1012,6 +1012,11 @@ public class GUIView extends View  {
 				lblParameter.setBounds(10, 177, 136, 13);
 				frmJamblAdd.getContentPane().add(lblParameter);
 				
+				JLabel lblParameterType = new JLabel("Parameter Type:");
+				lblParameterType.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				lblParameterType.setBounds(233, 179, 136, 13);
+				frmJamblAdd.getContentPane().add(lblParameterType);
+				
 				////////////////////////////
 				//******* Text Box *******//
 				////////////////////////////
@@ -1020,6 +1025,13 @@ public class GUIView extends View  {
 				textParameter.setBounds(10, 200, 161, 19);
 				frmJamblAdd.getContentPane().add(textParameter);
 				textParameter.setColumns(10);
+				
+				JTextField textParamType = new JTextField();
+				textParamType.setBounds(233, 200, 161, 19);
+				frmJamblAdd.getContentPane().add(textParamType);
+				textParamType.setColumns(10);
+				
+
 				
 				
 				///////////////////////////
