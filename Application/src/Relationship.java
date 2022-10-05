@@ -43,7 +43,7 @@ public class Relationship {
 
         // sets the type of the relationship to the given string
         public void setRelType(String type){
-            this.relationshipType = Type.valueOf(type);
+            this.relationshipType = Type.valueOf(type.toUpperCase());
         }
 
         // returns the type of the relationship
