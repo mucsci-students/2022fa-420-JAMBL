@@ -244,5 +244,58 @@ public class GUIController {
 		}
 	
 	/****************************************************************************/
-	    
+	 
+	/*************************************shot in the dark**************** */
+	public String listAllClasses () {
+        String list ="CLASSES \n =============== \n";
+        for (Class ele: model.classes) {
+          list = list +  listClass(ele);
+        }
+		return list;
+	}
+	public String listClass(Class cls){
+		String className = cls.getClassName();
+		String list = "\t";
+        list = list + className + "\n";
+		list = list +"     Fields:\n";
+        
+        for (Field fld: cls.getFields()) {
+            String fieldType = fld.getFieldType();
+            String fieldName = fld.getFieldName();
+			list = list +"     * " + fieldType + " " + fieldName + "\n";
+        }
+        
+        list = list +"\n     Methods:\n";
+        
+        for (Method mtd: cls.getMethods()) {
+            String returnType = mtd.getReturnType();
+            String methodName = mtd.getMethodName();
+            list = list +"     * " + returnType + " " + methodName + " (";
+            HashSet<Parameter> params = mtd.getParameters();
+            int count = params.size();
+            if (count == 0) {
+                list = list + ")\n";
+            } else {
+                for (Parameter par: params) {
+                    list = list + par.getParamType() + " " + par.getParamName();
+                    count --;
+                    if (count > 0) {
+                        list = list +", ";
+                    } else {
+                       list = list + ")\n";
+                    }
+                }
+            }
+
+        }
+              
+        list = list +  "\n     Relationships:\n";
+        
+        for (Relationship ele: cls.getRelationships()) {
+            String dest = ele.getDestination().getClassName();
+            String type = ele.getRelType();
+        	list = list + "     * " + className + " --" + type + "--> " + dest + "\n"+ "\n\n";
+		}
+		return list;
+	}
 }
