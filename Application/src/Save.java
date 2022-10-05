@@ -134,7 +134,7 @@ public class Save {
                 sourceName = currClass.getClassName();
                 destName = curr.getDestination().getClassName();
                 relType = curr.getRelType();
-                relsObj.put("sourc", sourceName);
+                relsObj.put("source", sourceName);
                 relsObj.put("destination", destName);
                 relsObj.put("type", relType);
                 relsArray.add(relsObj);

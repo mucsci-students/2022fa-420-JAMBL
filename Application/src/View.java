@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.*;
 
 public class View {
 
@@ -9,28 +10,35 @@ public class View {
 
     }
     /*****************************Inputs From User****************************************/
-    public String inputAddClass(){
-        System.out.println("Name of Class to be added: ");
+    public String inputAdd(String type){
+        System.out.println("Name of "+ type +" to be added: ");
         input = console.nextLine();
         return input;
     }
 
-    public String inputDelClass(){
-        System.out.println("Name of Class to be deleted: ");
+    public String inputDel(String type){
+        System.out.println("Name of "+ type +" to be deleted: ");
         input = console.nextLine();
         return input;
     }
 
-    public String inputRenClass(){
-        System.out.println("Name of Class to be renamed: ");
+    public String inputRen(String type){
+        System.out.println("Name of "+ type +" to be renamed: ");
         input = console.nextLine();
         return input;
     }
 
-    public String inputNewName(){
-        System.out.println("Enter New Name: ");
+    public String inputNewName(String element){
+        System.out.println("Enter New "+element+": ");
         input = console.nextLine();
         return input;
+    }
+
+    public String inputNameOf(String element1 , String element2, String action){
+        System.out.println("Name of "+ element1 +" "+action +" "+ element2 +": ");
+        input = console.nextLine();
+        return input;
+
     }
   
     public String inputClassListed() {
@@ -66,6 +74,33 @@ public class View {
         input = console.nextLine();
         return input;
     } 
+
+    // a prompt for a Method name. Generic can be used in many functions
+    public String inputMethodName(){
+        System.out.println("Name of Method: ");
+        input = console.nextLine();
+        return input;
+    }
+    
+    //prompt for a Parameter type. Generic can be used in many functions
+    public String inputParameterType(){
+        System.out.println("Type of Parameter: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    // a prompt for a Parameter name. Generic can be used in many functions
+    public String inputParameterName(){
+        System.out.println("Name of Parameter: ");
+        input = console.nextLine();
+        return input;
+    }
+
+    public String inputDeleteAll(){
+        System.out.println("Delete All Parameters?(yes/no): ");
+        input = console.nextLine();
+        return input;
+    }
 
     /*************************************************************************************/
 
@@ -114,6 +149,10 @@ public class View {
 
     public void Retyped(String type, String name, String newType) {
         System.out.println(type + " for " + name  + " changed to " + newType + " successfully!");
+    }
+
+    public void ParameterChange(String oldName, String newName, String newType){
+        System.out.println("Parameter " + oldName + " changed to " + newType + " " + newName + " successfully!");
     }
     
     public void classRenamed(){
@@ -168,18 +207,44 @@ public class View {
         String className = cls.getClassName();
         System.out.println("     " + className);
         System.out.println("     ===============");
-        System.out.println("     Attributes:");
+        System.out.println("     Fields:");
         
-        for (Attribute ele: cls.getAttributes()) {
-            String att = ele.getAttName();
-            System.out.println("     * " + att);
+        for (Field fld: cls.getFields()) {
+            String fieldType = fld.getFieldType();
+            String fieldName = fld.getFieldName();
+            System.out.println("     * " + fieldType + " " + fieldName);
         }
         System.out.println();
+        System.out.println("     Methods:");
+        
+        for (Method mtd: cls.getMethods()) {
+            String returnType = mtd.getReturnType();
+            String methodName = mtd.getMethodName();
+            System.out.print("     * " + returnType + " " + methodName + " (");
+            HashSet<Parameter> params = mtd.getParameters();
+            int count = params.size();
+            if (count == 0) {
+                System.out.println(")");
+            } else {
+                for (Parameter par: params) {
+                    System.out.print(par.getParamType() + " " + par.getParamName());
+                    count --;
+                    if (count > 0) {
+                        System.out.print(", ");
+                    } else {
+                        System.out.println(")");
+                    }
+                }
+            }
+
+        }
+        System.out.println();       
         System.out.println("     Relationships:");
         
         for (Relationship ele: cls.getRelationships()) {
-            String rel = ele.getDestination().getClassName();
-            System.out.println("     * " + className + " ---> " + rel);
+            String dest = ele.getDestination().getClassName();
+            String type = ele.getRelType();
+            System.out.println("     * " + className + " --" + type + "--> " + dest);
         }
         System.out.println();
         System.out.println();
@@ -196,10 +261,10 @@ public class View {
         System.out.println("=============");
         for (Class ele: model.classes) {
             if (ele.getRelationships().isEmpty()) {
-                System.out.println(ele.getClassName() + " has no Relationships.");
+
             } else {
                 for (Relationship rel: ele.getRelationships()) {
-                    System.out.println(ele.getClassName() + " ---> " + rel.getDestination().getClassName());
+                    System.out.println(ele.getClassName() + " --" + rel.getRelType() + "--> " + rel.getDestination().getClassName());
                 }
             }
         }
@@ -230,23 +295,23 @@ public class View {
 
 		System.out.println("***************************************************************************************");
 
-        System.out.println("ADDFLD  - This command adds a field to a class. You will be prompted for the name of" );
+        System.out.println("ADDFLD  - This command adds a field to a class. You will be prompted for a class name, " );
         System.out.println("          the field name and field type");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("DELFLD  - This command deletes a field of a class. You will be prompted for the name of ");
-        System.out.println("          the field.");
+        System.out.println("DELFLD  - This command deletes a field of a class. You will be prompted for a class name, ");
+        System.out.println("          and the name of a field.");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("RENFLD  - This command renames the name of a field. You will be prompted for the old name");
+        System.out.println("RENFLD  - This command renames the name of a field. You will be prompted for a class name, old name");
         System.out.println("          and the new name of the field.");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("FLDTYPE - This command returns the field return type. You will be prompted for the name of");
-        System.out.println("          the field.");
+        System.out.println("FLDTYPE - This command returns the field return type. You will be prompted for a class name, ");
+        System.out.println("          and the name of the field.");
 
         System.out.println("***************************************************************************************");
 
@@ -271,7 +336,7 @@ public class View {
         System.out.println("***************************************************************************************");
 
 		System.out.println("ADDREL  - This command adds a Relationship to a given Class. You will be prompted for ");
-        System.out.println("          the name of the origin class and the name of the destination class.");
+        System.out.println("          the name of the origin class, the name of the destination class, and a relationship type");
 
 		System.out.println("***************************************************************************************");
 
@@ -296,9 +361,10 @@ public class View {
 
 		System.out.println("***************************************************************************************");
 
-		System.out.println("RENPAR  - This command changes name of existing parameter of a Class to a new name.");
-        System.out.println("          You will be prompted for the class name, the old parameter name and the new");
-        System.out.println("          parameter name.");
+		System.out.println("CHGPAR  - This command changes name of existing parameter of a Method to a new name.");
+        System.out.println("          This command also changes the type of an existing parameter to a new type.");
+        System.out.println("          You will be prompted for the class name, method name, the old parameter name, ");
+        System.out.println("          the new name parameter name, and the new type parameter name.");
       
 		System.out.println("***************************************************************************************");
         System.out.println("PARTYPE - This command returns the Method return type. You will be prompted for the name");
@@ -385,6 +451,10 @@ public class View {
 
     public void relTypeEdited(String typeName){
         System.out.println("Relation type changed to " + typeName.toLowerCase()  + "!");
+    }    
+
+    public void relTypeCheck(String typeName){
+        System.out.println(typeName + " is invalid Relation type !");
     }    
 
 }

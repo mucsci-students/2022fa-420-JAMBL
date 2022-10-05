@@ -96,7 +96,8 @@ public class LoadWindow {
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCancel.setBounds(243, 114, 85, 21);
 		frame.getContentPane().add(btnCancel);
-		frame.setVisible(true);
+		
+
 	}
 
 }

@@ -76,4 +76,57 @@ public class Model {
         return this.classes;
     }
 
+    // Returns a string list of the class names.
+    public String[] getClassList () {
+    	int s = classes.size();
+    	int i = 0;
+    	String[] names = new String[s];
+    	for(Class name : this.classes) {
+    		names[i] = name.getClassName();
+    		i++;
+    	}
+    	return names;
+    }
+    
+    // Returns a string array of the fields in a class
+    public String[] getFieldList(String className) {
+    	
+    	int i = 0;
+    	Class need = getClass(className);
+    	HashSet<Field> fields = need.getFields();
+    	String[] f = new String[fields.size()];
+    	for(Field curr : fields) {
+    		f[i] = curr.getFieldName();
+    		i++;
+    	}
+    	return f;	
+    }
+    
+    //Returns a list of methods in this class
+    public String[] getMethodList(String className) {
+    	int i = 0;
+    	Class need = getClass(className);
+    	HashSet<Method> methods = need.getMethods();
+    	String[] m = new String[methods.size()];
+    	for(Method curr : methods) {
+    		m[i] = curr.getMethodName();
+    		i++;
+    	}
+    	return m;
+    }
+    
+    //Returns a list of methods in this class
+    public String[] getParameterList(String className, String methodName) {
+    	int i = 0;
+    	Class classN = getClass(className);
+    	Method method = classN.getMethod(methodName);
+    	HashSet<Parameter> params = method.getParameters();
+    	String[] p = new String[params.size()];
+    	for(Parameter curr : params) {
+    		p[i] = curr.getParamName();
+    		i++;
+    	}
+    	return p;
+    }
+    
 }

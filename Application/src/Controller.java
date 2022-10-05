@@ -1,4 +1,3 @@
-
 /*
  * @projectDescription	A program for adding classes to a database
  * 
@@ -8,6 +7,9 @@
  */
 
 import java.util.*;
+
+import javax.swing.JButton;
+
 import java.io.*;
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -19,6 +21,7 @@ public class Controller {
    
     private Model model = new Model();
     private View view;
+    private GUIView GUI;
 
     public static enum Command {
     START ("START"), //initial starting state Command not to be displayed in HELP
@@ -41,8 +44,7 @@ public class Controller {
     MTDTYPE ("MTDTYPE"), //Method return type 
     ADDPAR ("ADDPAR"), //add Parameter
     DELPAR ("DELPAR"), //delete Parameter
-    RENPAR ("RENPAR"), //rename Parameter
-    PARTYPE ("PARTYPE"), //Parameter return type 
+    CHGPAR ("CHGPAR"), //change Parameter type and name
     SAVE ("SAVE"), //save diagram
     LOAD ("LOAD"), //load diagram
     LISTALL ("LISTALL"), //list all classes
@@ -70,6 +72,11 @@ public class Controller {
     this.view  = view;
 
    }
+    
+    public Controller (Model model, GUIView gui) {
+    	this.model = model;
+    	GUI = gui;
+    }
 
     /*
 	 * @name commandExecute
@@ -81,9 +88,16 @@ public class Controller {
         String name1;
         String name2;
         String name3;
+        String name4;
+        String name5;
+        String name6;
+        String name7;
         Class class1;
         Class class2;
-        Class check;
+        Class classCheck;
+        Method method1;
+        Method methodCheck;
+        Method methodCheck2;
         String fileName;
         boolean returned;
         String typeName;
@@ -97,10 +111,10 @@ public class Controller {
             case ADDCL:
             
                 // prompts user and stores input in name1 variable
-                name1 = view.inputAddClass();
-                check = model.getClass(name1);
+                name1 = view.inputAdd("Class");
+                classCheck = model.getClass(name1);
                 // if input not blank add class
-                if ((!name1.isBlank()) && (check == null)) {
+                if ((!name1.isBlank()) && (classCheck == null)) {
                     // adds class
                      model.addClass(name1);
                      // Checks to see if class was succesfully added
@@ -113,7 +127,7 @@ public class Controller {
                      
                 } else {
 
-                    if(check != null){
+                    if(classCheck != null){
                         view.exists("Class", name1);
                     }else{
                         // if input is empty return invalid input message
@@ -125,11 +139,11 @@ public class Controller {
             case DELCL:
 
                 // prompts user and stores input in name1 variable
-               name1 = view.inputDelClass();
-               check = model.getClass(name1);
+               name1 = view.inputDel("Class");
+               classCheck = model.getClass(name1);
                 // checks to see if input was blank
-                if ((!name1.isBlank()) && (check != null) ) {
-                    model.deleteClass(check);
+                if ((!name1.isBlank()) && (classCheck != null) ) {
+                    model.deleteClass(classCheck);
                     // if class deleted returned equals true and user is notified
                     if(model.getClass(name1) == null){
                         view.Deleted("Class", name1);
@@ -151,11 +165,11 @@ public class Controller {
 
             case RENCL:
               // prompts user and stores input in name1 variable
-              name1 = view.inputRenClass();
-              check = model.getClass(name1);
+              name1 = view.inputRen("Class");
+              classCheck = model.getClass(name1);
                 if (!name1.isBlank()) {
                     // checks if class exists
-                    if(check == null){
+                    if(classCheck == null){
                         view.notExists("Class", name1);
                         return;
                     }
@@ -164,10 +178,10 @@ public class Controller {
                         return;
                     }
                
-                name2 = view.inputNewName();
-                check = model.getClass(name2);
+                name2 = view.inputNewName("Class Name");
+                classCheck = model.getClass(name2);
                 if (!name2.isBlank()) {
-                    if(check == null){
+                    if(classCheck == null){
                         model.renameClass(name1, name2);
                         view.renamed("Class", name1 , name2);
                     }else{
@@ -275,18 +289,234 @@ public class Controller {
                 } 
 
             case ADDMTD:
+                 // prompts user for the class the method will be added to
+                 name1 = view.inputNameOf("Class" , "Method", "receiving");
+                 // finds the class
+                 classCheck = model.getClass(name1);
+                 
+                 // if input was blank of class not found it returns an error message and exits
+                 if ((name1.isBlank()) || (classCheck == null)) {
+
+                    if(name1.isBlank()){
+
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.notExists("Class", name1);
+                        return;
+                    }  
+                }
+
+                //prompts user for Method name
+                name2 = view.inputAdd("Method");
+                // tries to find method
+                methodCheck = classCheck.getMethod(name2);
+
+                // If method already exists or user input was empty prints error and exits
+                if ((name2.isBlank()) || (methodCheck != null)) {
+
+                    if(name2.isBlank()){
+
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.exists("Method", name2);
+                        return;
+                    }  
+                }else{
+                    // prompts user for method type and adds the method
+                    name3 = view.inputAdd("Method Return Type");
+                    classCheck.addMethod(name2, name3);
+                }
+
+                // Checks to see if the method was added successfully and notifies user
+                if(classCheck.getMethod(name2) != null){
+                    view.Added(name2, "Method");
+                }else {
+                    view.Failed("Method", "Adding");
+                }
                 
                 break; 
         
             case DELMTD:
+
+                 // prompts user for the class the method will be deleted from
+                 name1 = view.inputNameOf("Class" , "Method", "deleting");
+                 // finds the class
+                 classCheck = model.getClass(name1);
+                 
+                 // if input was blank of class not found it returns an error message and exits
+                 if ((name1.isBlank()) || (classCheck == null)) {
+
+                    if(name1.isBlank()){
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.notExists("Class", name1);
+                        return;
+                    }    
+                }
+
+                //prompts user for Method name
+                name2 = view.inputDel("Method");
+                // tries to find method
+                methodCheck = classCheck.getMethod(name2);
+
+                // If method doesn't exists or user input was empty prints error and exits
+                if ((name2.isBlank()) || (methodCheck == null)) {
+
+                    if(name2.isBlank()){
+                        
+                        view.invalid();
+                        return;
+                    }else{
+                        // if input is empty return invalid input message
+                        view.notExists("Method", name2);
+                        return;
+                    }  
+                }else{
+                    // deleted method
+                    classCheck.deleteMethod(methodCheck);
+                }
+
+                // Checks to see if the method was deleted successfully and notifies user
+                if(classCheck.getMethod(name2) == null){
+                    view.Deleted(name2, "Method");
+                }else {
+                    view.Failed("Method", "Deleting");
+                }
+                
                 
                 break; 
     
             case RENMTD:
-                
-                break; 
-                
+                 // prompts user for the class renmaing the method
+                 name1 = view.inputNameOf("Class" , "Method", "renaming");
+                 // finds the class
+                 classCheck = model.getClass(name1);
+                 
+                 // if input was blank of class not found it returns an error message and exits
+                 if ((name1.isBlank()) || (classCheck == null)) {
+
+                    if(name1.isBlank()){
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.notExists("Class", name1);
+                        return;
+                    }  
+                }
+
+                //prompts user for Method name
+                name2 = view.inputRen("Method");
+                // tries to find method
+                methodCheck = classCheck.getMethod(name2);
+
+                // If method doesn't exists or user input was empty prints error and exits
+                if ((name2.isBlank()) || (methodCheck == null)) {
+
+                    if(name2.isBlank()){
+                        
+                        view.invalid();
+                        return;
+                    }else{
+                        // if input is empty return invalid input message
+                        view.notExists("Method", name2);
+                        return;
+                    }  
+                }else{
+                    name3 = view.inputNewName("Method Name");
+                    methodCheck2 = classCheck.getMethod(name3);
+
+                    if ((name3.isBlank()) || (methodCheck2 != null)) {
+
+                        if(name2.isBlank()){
+                            view.invalid();
+                            return;
+                        }else{
+                            // if input is empty return invalid input message
+                            view.exists("Method", name3);
+                            return;
+                        }  
+                    }else{
+                        // rename method
+                        classCheck.renameMethod(methodCheck, name3);
+                    }          
+                }
+
+                // Checks to see if the method was renamed successfully and notifies user
+                if((classCheck.getMethod(name3) != null) && (classCheck.getMethod(name2)== null)){
+                    view.renamed("Method", name2, name3);
+                }else {
+                    view.Failed("Method", "Renaming");
+                }
+                break;
             case MTDTYPE:
+
+                 // prompts user for the class to change return type 
+                 name1 = view.inputNameOf("Class" , "Method", "Changing Return Type of");
+                 // finds the class
+                 classCheck = model.getClass(name1);
+                 
+                 // if input was blank of class not found it returns an error message and exits
+                 if ((name1.isBlank()) || (classCheck == null)) {
+
+                    if(name1.isBlank()){
+                        // if input is empty return invalid input message
+                        view.invalid();
+                        return;
+                    }else{
+                        
+                        view.notExists("Class", name1);
+                        return;
+                    }  
+                }
+
+                //prompts user for Method name
+                name2 = view.inputRen("Method");
+                // tries to find method
+                methodCheck = classCheck.getMethod(name2);
+
+                // If method doesn't exists or user input was empty prints error and exits
+                if ((name2.isBlank()) || (methodCheck == null)) {
+
+                    if(name2.isBlank()){
+                        
+                        view.invalid();
+                        return;
+                    }else{
+                        // if input is empty return invalid input message
+                        view.notExists("Method", name2);
+                        return;
+                    }  
+                }else{
+                    name3 = view.inputNewName("Return Type");
+
+                    if (name3.isBlank()) {
+                         view.invalid();
+                        return;
+                    }else{
+                        //changed Method reurn type
+                        classCheck.changeMethodreturn(methodCheck, name2);
+                        // Check to see if type succesfully changed
+                        if(classCheck.getMethod(name2).getReturnType().equals(name2)){
+                            view.renamed("Method Return Type", "", name3);
+                            return;
+                        }else{
+                            view.Failed("Method Return Type", "Changing");
+                        }
+                        
+                    }  
+             
+                }
                 
                 break; 
 
@@ -307,6 +537,8 @@ public class Controller {
                 if (class1.isrelationshipExist(name2, typeName) == true){
                     view.relExists();
                     break;
+                } if (!class1.isValidType(typeName)){ 
+                    view.relTypeCheck(typeName);
                 } else {
                     returned = class1.addRelationship(class2, typeName);
                     // notifies user that relationship was added
@@ -353,12 +585,17 @@ public class Controller {
                 if (class1.isrelationshipExist(name2, typeName)== true){
                         view.relExists();
                     break;
-                } else {
+                } 
+              
+                if (!class1.isValidType(typeName)){ 
+                    view.relTypeCheck(typeName);
+                }else {
                     class1.editRelationshipType(typeName);
                     //(class2.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType);
                     view.relTypeEdited(typeName);
                     }
                 break;
+
                 /* if ((class2.getClassName().equals(name2)) & )
            if ( (ele.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType)) {
                newMatch = true;
@@ -369,22 +606,107 @@ public class Controller {
                System.out.println("Relationship is already has the type!");
            } */
 
-            case ADDPAR:
-                
-                break;
+           case ADDPAR:
+                name5 = view.inputClassName(); //gets Class name from user
+                class1 = model.getClass(name5); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name5);
+                    break;
+                } else {
+                    name1 = view.inputMethodName(); //gets Method name from user
+                    method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
+                    if (method1 == null) { //checks if method exists and exits if doesn't
+                        view.notExists("Method", name1);
+                        break;
+                    } else {
+                        name2 = view.inputParameterName(); //gets the name for the parameter
+                        if (method1.getParameter(name2) != null) { //checks if parameter already exists and exits if does
+                            view.exists("Parameter", name2);
+                            break;
+                        } else {
+                            name3 = view.inputParameterType(); //gets type for the parameter
+                            boolean added = method1.addParameter(name2, name3); //adds it to the parameters set
+                            if (added) {
+                                view.Added(name3, name2); //prints success messaage
+                            }
+                            break;
+                        }
+                    }
+                }
+
+
 
             case DELPAR:
-                
-                break;
+                name5 = view.inputClassName(); //gets Class name from user
+                class1 = model.getClass(name5); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name5);
+                    break;
+                } else {
+                    name1 = view.inputMethodName(); //gets Method name from user
+                    method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
+                    if (method1 == null) { //checks if method exists and exits if doesn't
+                        view.notExists("Method", name1);
+                        break;
+                    } else {
+                        name7 = view.inputDeleteAll();//gets whether user wants to delete all parameters or just one
+                        if(name7.toUpperCase().equals("YES")){
+                            boolean removed = method1.deleteAllParameter(); //removes all parameters from the set
+                            if (removed) {
+                                view.Deleted("All", "Parameter"); //prints success message
+                            }
+                            break;
+                        } else if(name7.toUpperCase().equals("NO")){
+                            name2 = view.inputParameterName(); //gets parameter name from user
+                            if (method1.getParameter(name2) == null) { //checks if parameter exists and exits if doesn't
+                                view.notExists("Parameter", name2);
+                                break;
+                            } else {
+                                boolean removed = method1.deleteParameter(name2); //removes the parameter from the set
+                                if (removed) {
+                                    view.Deleted("Parameter", name2); //prints success message
+                                }
+                                break;
+                            } 
+                        }
+                    }
+                } 
 
-            case RENPAR:
-                
-                break;
-
-            case PARTYPE:
-                
-                break;
-                case ADDATT:
+            case CHGPAR:
+                name5 = view.inputClassName(); //gets Class name from user
+                class1 = model.getClass(name5); //gets Class with name entered; null if not found
+                if (class1 == null) { //checks if class exists and exits if doesn't
+                    view.notExists("Class", name5);
+                    break;
+                } else {
+                    name1 = view.inputMethodName(); //gets Method name from user
+                    method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
+                    if (method1 == null) { //checks if method exists and exits if doesn't
+                        view.notExists("Method", name1);
+                        break;
+                    } else {
+                        name2 = view.inputParameterName(); //gets old parameter name from user
+                        if (method1.getParameter(name2) == null) { //checks if parameter exists and exits if doesn't
+                            view.notExists("Parameter", name2);
+                            break;
+                        } else {
+                            name3 = view.inputNew("name", "Parameter"); //get new parameter name from user
+                            if (method1.getParameter(name3) != null) { //checks if a parameter already exists with that name exits if does
+                                view.exists("Parameter", name3);
+                                break;
+                            } else {
+                                name4 = view.inputNew("type", "Parameter"); //get new parameter type from user
+                                boolean changed = method1.changeParameter(name2, name3, name4); //changes the parameter name and type
+                                if (changed) {
+                                    view.ParameterChange(name2, name3, name4); //prints success message
+                                }
+                                break;
+                            }
+                        }
+                    }
+                       } 
+           
+            case ADDATT:
                 System.out.println("Name of Class receiving Attribute: ");
                 name1 = scanner.nextLine();
                 System.out.println("Name of Attribute: ");
@@ -537,7 +859,7 @@ public class Controller {
     
     
 /*********************************** NEEDS TESTING ***************************************/
-    public void saveNew(Model model, String fileName){
+    public void save(Model model, String fileName){
         Save saving = new Save(model);
         JSONObject fileObj = new JSONObject();
         fileObj.put("classes", saving.classes());
@@ -555,166 +877,27 @@ public class Controller {
         }
     }
 
-/******************************************************************************************/
-    
-    public void save(Model model, String fileName){
-        JSONObject obj1 = new JSONObject();
-        JSONObject obj2;
-        HashSet<Class> classes = model.classes;
-        HashSet<Attribute> atts;
-        HashSet<Relationship> rels;
-        HashSet<String> attSet = new HashSet<String>();
-        HashSet<String> relSet = new HashSet<String>();
-        Class curr;
-        Relationship relationship;
-        Attribute attribute;
-        Iterator<Class> itClasses = classes.iterator();
-        Iterator<Attribute> itAtts;
-        Iterator<Relationship> itRels;
-        String classStr = "";
-        String attStr = "";
-        String relsStr = "";
-        
-        //iterates through classes
-        while(itClasses.hasNext()){
-            curr = (Class) itClasses.next();
-            classStr = curr.getClassName();
-            atts = curr.attributes;
-            rels = curr.relationships;
-            itRels = rels.iterator();
-            itAtts = atts.iterator();
-            
 
-            // iterate through relationship HashSet
-            // Iterates through a class' relationships
-            while(itRels.hasNext()){
-                relationship = (Relationship) itRels.next();
-                relSet.add(relationship.getDestination().getClassName());
-                //relsStr = relationship.getDestination().getClassName() + ", " + relsStr;
-            }
-            // joins them into a string
-            relsStr = String.join(", ", relSet);
-            // cleared set for next class iteration
-            relSet.clear();
-            
-            // Iterates through a class' attributes
-            while(itAtts.hasNext()){
-                attribute = (Attribute) itAtts.next();
-                attSet.add(attribute.getAttName());
-                //attStr = attStr + ", " + attribute.getAttName();
-            }
-            // joins into a string
-            attStr = String.join(", ", attSet);
-            // clears for next class iteration
-            attSet.clear();
-            //adds attributes and relationship to new object
-            obj2 = new  JSONObject();
-            obj2.put( "Attributes", attStr);
-            obj2.put("Relationships", relsStr);
-            // adds class and rel/att object to a new object
-            obj1.put(classStr, obj2);
-        }
 
-        try{
-            // creates new file  if ther is not one
-            FileWriter file = new FileWriter(fileName);
-            // turns object to string and save to file
-            file.write(obj1.toJSONString());
-            file.close();
-            System.out.println("UML Diagram Saved!");
-        }catch(Exception e){
-            System.out.println("Could not write file" + e);
-        }
+    public void load(String fileName){
         
+         Load load = new Load();
+         
+        // get object of file contents
+        JSONObject file = load.getFile(fileName);
+
+        // adds the classes with the fields, methods and parameters ect.
+        load.loadClasses(file);
+
+        // loads relationships into classes
+        this.model = load.loadRelationships(file); ;
+
     }
 
-
-        public Model load(String file){
-        Model lModel = new Model();
-        JSONObject obj1;
-        JSONObject obj2;
-        JSONParser parser;
-        Object fileContent;
-        Set<Object> classesSet;
-        Iterator<Object> itClasses;
-        String currClass;
-        String classAtts;
-        String classRels;
-        String typeName;
-
-        File checkContent = new File(file);
-        if(checkContent.length() == 0){
-            return lModel;
-
-        }else{
-            // JSON object that will hold the Model Content
-            obj1 = new JSONObject();
-            // parser to scan through the file
-            parser = new JSONParser();
-
-            try{
-                // gets file content
-                fileContent = parser.parse(new FileReader(file));
-                // sets the file content to a json object
-                obj1 = (JSONObject) fileContent;
-                classesSet = obj1.keySet();
-                itClasses = classesSet.iterator();
-                // creates the classes and adds to Model
-                while(itClasses.hasNext()){
-                    currClass = itClasses.next().toString();
-                    model.addClass(currClass);
-                }
-                 for(Class aClass : model.classes){
-                    // gets the object key value
-                    obj2 = (JSONObject) obj1.get(aClass.getClassName());
-                    classAtts = obj2.get("Attributes").toString();
-                    classRels = obj2.get("Relationships").toString();
-
-                   // System.out.println(classA);
-                    // Splits obj2 strings into string arrays
-                    String attArray[] = classAtts.split(", ");
-                    String relArray[] = classRels.split(", ");
-                    
-                    // for every attribute in array adds it to current class
-                    if(attArray.length > 0){
-                        // for every element in the array add attribute if not empty
-                        for(String att : attArray){
-                            if(att.equals("")){
-                            // do nothing
-                            }else{
-                                //add attribute to current class
-                                aClass.addAttribute(att);
-                            } 
-                        }
-                    }
-                    
-                    // for every relationship in array adds it to current class
-                    if(relArray.length > 0){
-                        // for every relationship add it to current class unless empty
-                        
-                        for(String rel : relArray){
-                            if(rel.equals("")){
-                                //do nothing
-                            }else{
-                                // add relationship to current class
-                                typeName = null;
-                                for (Relationship.Type type: Relationship.Type.values()){
-                                    if (type.name().equals(typeName)){
-                                        typeName =  type.name();
-                                    }
-                                }
-                                aClass.addRelationship(model.getClass(rel), typeName);
-                            }
-                            // finds the destination class and adds relationshi   
-                        } 
-                    }  
-                 }
-                
-            }catch(Exception e){
-                System.out.println("Could not read file" + e);
-            }
-        }
-        return lModel;
-    } 
+/******************************************************************************************/
+    
 
 }
+        
+
+
