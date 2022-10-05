@@ -36,6 +36,7 @@ public class GUIView extends View  {
 	// If not, a pop-up message will appear upon clicking the x button
 	//     asking the user if they would like to save before closing
 	boolean saved = false;
+	String cls;
 
 	/**
 	 * Launch the application.
@@ -1045,16 +1046,17 @@ public class GUIView extends View  {
 				JComboBox<Object> cbMethods = new JComboBox<Object>();
 				cbMethods.setBounds(10, 136, 161, 21);
 				frmJamblAdd.getContentPane().add(cbMethods);
-				cbMethods.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a method:"}));
+				cbMethods.setModel(new DefaultComboBoxModel<Object>());
 				
 				
 				
 				JComboBox<Object> cbClasses = new JComboBox<Object>();
-				cbClasses.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a class:"}));
+				cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				cbClasses.setBounds(10, 74, 161, 21);
 				frmJamblAdd.getContentPane().add(cbClasses);
 				cbClasses.addItemListener(new ItemListener() {
 							public void itemStateChanged(ItemEvent arg0) {
+								cbMethods.setModel(new DefaultComboBoxModel<Object>(getList("Method", cbClasses.getSelectedItem().toString(), null)));
 								cbMethods.setVisible(true);
 								lblMethod.setVisible(true);
 							}
@@ -1138,27 +1140,35 @@ public class GUIView extends View  {
 				cbParameter.setBounds(10, 216, 161, 21);
 				frmJamblAdd.getContentPane().add(cbParameter);
 				cbParameter.setVisible(false);
+				cbParameter.addItemListener(new ItemListener() {
+					public void itemStateChanged(ItemEvent arg0) {
+
+					}
+					});
 				
 				JComboBox<Object> cdMethods = new JComboBox<Object>();
 				cdMethods.setBounds(10, 136, 161, 21);
 				frmJamblAdd.getContentPane().add(cdMethods);
-				cdMethods.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a Method:"}));
-				cdMethods.setVisible(false);
+				cdMethods.setModel(new DefaultComboBoxModel<Object>());
+				cdMethods.setVisible(false);				
 				cdMethods.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent arg0) {
-						cbParameter.setVisible(true);
-						lblParameter.setVisible(true);
+					cbParameter.setModel(new DefaultComboBoxModel<Object>(getList("Param", cls, cdMethods.getSelectedItem().toString())));
+					cbParameter.setVisible(true);
+					lblParameter.setVisible(true);
 				}
 				});
 				
 				JComboBox<Object> cbClasses = new JComboBox<Object>();
-				cbClasses.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a class:"}));
+				cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				cbClasses.setBounds(10, 74, 161, 21);
 				frmJamblAdd.getContentPane().add(cbClasses);
 				cbClasses.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent arg0) {
-						cdMethods.setVisible(true);
-						lblMethod.setVisible(true);
+					cls = cbClasses.getSelectedItem().toString();
+					cdMethods.setModel(new DefaultComboBoxModel<Object>(getList("Method", cls, null)));
+					cdMethods.setVisible(true);
+					lblMethod.setVisible(true);
 				}
 				});
 				
@@ -1275,19 +1285,20 @@ public class GUIView extends View  {
 				textParamType.setBounds(233, 200, 161, 19);
 				frmJamblAdd.getContentPane().add(textParamType);
 				textParamType.setColumns(10);
+				textParamType.setVisible(false);
 
 				//////////////////////////////
 				//******* Combo Boxes*******//
 				//////////////////////////////
 				
 				JComboBox<Object> cbParameters = new JComboBox<Object>();
-				cbParameters.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a parameter", "Parameter1"}));
+				cbParameters.setModel(new DefaultComboBoxModel<Object>());
 				cbParameters.setBounds(10, 200, 161, 21);
 				frmJamblAdd.getContentPane().add(cbParameters);
 				cbParameters.setVisible(false);
 				cbParameters.addItemListener(new ItemListener() {
 					public void itemStateChanged(ItemEvent arg0) {
-						textParameter.setVisible(true);
+						textParamType.setVisible(true);
 						lblNewParameterName.setVisible(true);
 					}
 				});	
@@ -1295,10 +1306,11 @@ public class GUIView extends View  {
 				JComboBox<Object> cbMethods = new JComboBox<Object>();
 				cbMethods.setBounds(10, 136, 161, 21);
 				frmJamblAdd.getContentPane().add(cbMethods);
-				cbMethods.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a method:", "Method1"})); 
+				cbMethods.setModel(new DefaultComboBoxModel<Object>()); 
 				cbMethods.setVisible(false);
 				cbMethods.addItemListener(new ItemListener() {
 					public void itemStateChanged(ItemEvent arg0) {
+						cbParameters.setModel(new DefaultComboBoxModel<Object>(getList("Param", cls, cbMethods.getSelectedItem().toString())));
 						cbParameters.setVisible(true);
 						lblParameter.setVisible(true);
 					}
@@ -1306,11 +1318,13 @@ public class GUIView extends View  {
 
 				
 				JComboBox<Object> cbClasses = new JComboBox<Object>();
-				cbClasses.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a class:", "Class1"}));
+				cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 				cbClasses.setBounds(10, 74, 161, 21);
 				frmJamblAdd.getContentPane().add(cbClasses);
 				cbClasses.addItemListener(new ItemListener() {
 					public void itemStateChanged(ItemEvent arg0) {
+						cls = cbClasses.getSelectedItem().toString();
+						cbMethods.setModel(new DefaultComboBoxModel<Object>(getList("Method", cls, null)));
 						cbMethods.setVisible(true);
 						lblMethod.setVisible(true);
 					}
