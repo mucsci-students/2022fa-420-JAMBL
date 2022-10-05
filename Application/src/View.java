@@ -131,6 +131,11 @@ public class View {
     public void relExists(){
         System.out.println( "Relationship already exist! Action Failed!");
     }
+
+    public void relNoExist() {
+        System.out.println("Relationship does not exist!");
+    }
+
     // takes in type and name and notifies user the type was added
     public void Added(String type, String name){
         System.out.println(type +" " + name + " added successfully");
@@ -289,88 +294,88 @@ public class View {
 
 		System.out.println("***************************************************************************************");
 
-		System.out.println("RENCL   - This command changes name of existing Class to a new name. You will be");
+		System.out.println("RENCL   - This command changes the name of an existing Class to a new name. You will be");
         System.out.println("          prompted for the old class name and the new class name.");
 
 
 		System.out.println("***************************************************************************************");
 
-        System.out.println("ADDFLD  - This command adds a field to a class. You will be prompted for a class name, " );
+        System.out.println("ADDFLD  - This command adds a Field to a Class. You will be prompted for a class name, ");
         System.out.println("          the field name and field type");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("DELFLD  - This command deletes a field of a class. You will be prompted for a class name, ");
-        System.out.println("          and the name of a field.");
+        System.out.println("DELFLD  - This command deletes a Field from a Class. You will be prompted for the class");
+        System.out.println("          name and the field name.");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("RENFLD  - This command renames the name of a field. You will be prompted for a class name, old name");
-        System.out.println("          and the new name of the field.");
+        System.out.println("RENFLD  - This command changes the name of an existing Field to a new name. You will be");
+        System.out.println("          prompted for a class name, old field name and the new field name.");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("FLDTYPE - This command returns the field return type. You will be prompted for a class name, ");
-        System.out.println("          and the name of the field.");
+        System.out.println("FLDTYPE - This command changes the existing type of a Field. You will be prompted for a");
+        System.out.println("           class name and a field name and a new field type.");
 
         System.out.println("***************************************************************************************");
 
-		System.out.println("ADDMTD  - This command adds a Method to a class. You will be prompted for the name of" );
-        System.out.println("          method and return type.");
+		System.out.println("ADDMTD  - This command adds a Method to a Class. You will be prompted for a class name,");
+        System.out.println("          method name and a return type.");
  
 		System.out.println("***************************************************************************************");
 
-        System.out.println("DELMTD  - This command adds a Method to a class. You will be prompted for the name of" );
-        System.out.println("          method and return type.");
+        System.out.println("DELMTD  - This command deletes a Method from a Class. You will be prompted for a class ");
+        System.out.println("          name and a method name.");
  
 		System.out.println("***************************************************************************************");
 
-        System.out.println("RENMTD  - This command renames the name of a method. You will be prompted for the old name");
-        System.out.println("          and the new name of the method.");
+        System.out.println("RENMTD  - This command changes the name of an existing Method. You will be prompted for");
+        System.out.println("          a class name, the old method name and a new method name.");
 
         System.out.println("***************************************************************************************");
 
-        System.out.println("MTDTYPE - This command returns the Method return type. You will be prompted for the name");
-        System.out.println("          of the method.");
+        System.out.println("MTDTYPE - This command changes the return type of an existsing Method. You will be ");
+        System.out.println("          prompted for a class name, a method name and a new return type.");
 
         System.out.println("***************************************************************************************");
 
 		System.out.println("ADDREL  - This command adds a Relationship to a given Class. You will be prompted for ");
-        System.out.println("          the name of the origin class, the name of the destination class, and a relationship type");
+        System.out.println("          an origin class name, a destination class name, and the relationship type.");
 
 		System.out.println("***************************************************************************************");
 
-		System.out.println("DELREL  - This command removes a Relationship between two classes. You will be prompted");
-        System.out.println("          for the origin class name and the destination class name.");
+		System.out.println("DELREL  - This command removes a Relationship between two Classes. You will be prompted");
+        System.out.println("          for an origin class name and a destination class name.");
 
         System.out.println("***************************************************************************************");
 
-		System.out.println("RELTYPE - This command edits a Relationship Type between two classes. You will be ");
-        System.out.println("           prompted for the original class, the name of the destination class and the");
-        System.out.println("           name of the new Type .");
+		System.out.println("RELTYPE - This command changes the Relationship Type between two Classes. You will be ");
+        System.out.println("          prompted for an origin class, a destination class and a new relationship");
+        System.out.println("          type.");
 
 		System.out.println("***************************************************************************************");
 
-		System.out.println("ADDPAR  - This command adds a Parameter to a Class. You will be prompted for the parameter");
-        System.out.println("          name and a parameter type.");
+		System.out.println("ADDPAR  - This command adds a Parameter to a Class. You will be prompted for a class ");
+        System.out.println("          name, a method name, a parameter name and a parameter type.");
 
 		System.out.println("***************************************************************************************");
 
-		System.out.println("DELPAR  - This command will delete a parameter from a Class. You will be prompted for");
-        System.out.println("          a class name and an parameter name.");
+		System.out.println("DELPAR  - This command will delete one or all Parameters from a Method. You will be ");
+        System.out.println("          prompted for a class name and a method name. You will be asked if you want to");
+        System.out.println("          delete all parameters. If no, you will be prompted for a parameter name.");
 
 		System.out.println("***************************************************************************************");
 
-		System.out.println("CHGPAR  - This command changes name of existing parameter of a Method to a new name.");
-        System.out.println("          This command also changes the type of an existing parameter to a new type.");
-        System.out.println("          You will be prompted for the class name, method name, the old parameter name, ");
-        System.out.println("          the new name parameter name, and the new type parameter name.");
+		System.out.println("CHGPAR  - This command allows a Paramter name or type to be changed. You will be ");
+        System.out.println("          prompted for a class name, a method name, the old parameter name, the new ");
+        System.out.println("          parameter name and the new parameter type.");
       
 		System.out.println("***************************************************************************************");
-        System.out.println("PARTYPE - This command returns the Method return type. You will be prompted for the name");
-        System.out.println("          of the class and the parameter name.");
+        //System.out.println("PARTYPE - This command returns the Method return type. You will be prompted for the name");
+        //System.out.println("          of the class and the parameter name.");
         
-		System.out.println("***************************************************************************************");
+		//System.out.println("***************************************************************************************");
 
 		System.out.println("SAVE    - This command saves the file in JSON format. You will be prompted for a file");
         System.out.println("          name.");
@@ -391,7 +396,7 @@ public class View {
 
 		System.out.println("***************************************************************************************");
 
-		System.out.println("LISTRE  - This command prints all relationships between the classes.");
+		System.out.println("LISTREL  - This command prints all relationships between the classes.");
 
 		System.out.println("***************************************************************************************");
 
@@ -440,7 +445,7 @@ public class View {
     }
     //input for relationshop type (String)
     public String inputAddType(){
-        System.out.println("Name of Relationship Type to be added: ");
+        System.out.println("Name of Relationship Type to be added {AGGREGATION, COMPOSITION, INHERITANCE, REALIZATION}: ");
         input = console.nextLine();
         return input.toUpperCase();
     }
@@ -455,6 +460,21 @@ public class View {
 
     public void relTypeCheck(String typeName){
         System.out.println(typeName + " is invalid Relation type !");
-    }    
+    }  
+    
+    public String savePrompt() {
+        System.out.println("Input file you want to save to or press enter for default file.");
+        return console.nextLine();
+    }
+
+    public String loadPrompt() {
+        System.out.println("Input file you want loaded or press enter for default file.");
+        return console.nextLine();
+    }
+
+    public String exitPrompt() {
+        System.out.println("Would you like to SAVE before quitting? (YES/NO)");
+        return console.nextLine();
+    }
 
 }

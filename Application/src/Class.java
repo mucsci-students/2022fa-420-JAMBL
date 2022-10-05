@@ -100,7 +100,7 @@ public class Class {
         boolean removed = false;
         while (relItr.hasNext()) {
             Relationship ele = relItr.next();
-            (ele.getDestination()).getClassName().equals(name); 
+            (ele.getDestination()).getClassName().toUpperCase().equals(name.toUpperCase());
                 relItr.remove();
                 removed = true;
         }
@@ -108,27 +108,37 @@ public class Class {
 
     }
 
-    // This method checks if there is a Relationship with a same type from the HashSet relationships 
-    public boolean isrelationshipExist(String destinationName, String newType){
-        boolean relExist = false;
+    // This method checks if there is a Relationship with a same name 
+    public boolean isRelationshipExist(String destinationName){
         for(Relationship ele: relationships) {
-            if (((ele.getDestination()).getClassName().equals(destinationName)) && (ele.getRelType().equals(newType))) {
-                //System.out.println("Relationship already exists!");
-               // view.relExists();
-                relExist = true;
+            if (((ele.getDestination()).getClassName().toUpperCase().equals(destinationName.toUpperCase()))) {
+                return true;
             } 
         }
-        return relExist;
+        return false;
+    }
+
+    // This method finds a Relationship in the set and returns it when found 
+    public Relationship getRelationship (String destinationName){
+        for(Relationship ele: relationships) {
+            if (((ele.getDestination()).getClassName().toUpperCase().equals(destinationName.toUpperCase()))) {
+                return ele;
+            } 
+        }
+        return null;
     }
 
     // this method eidts the relationship type to a new type.
     //@param newType - the new relationship type that is changing 
-    public void editRelationshipType(String newType) {
+    public void editRelationshipType(String destination, String newType) {
         Iterator<Relationship> relItr = relationships.iterator();
-       while (relItr.hasNext()) {
-           Relationship ele = relItr.next();
-           ele.setRelType(newType); 
-       }      
+        while (relItr.hasNext()) {
+            Relationship ele = relItr.next();
+            if (ele.getDestination().getClassName().toUpperCase().equals(destination.toUpperCase())) {
+                ele.setRelType(newType);
+                break;
+            }
+        }      
          
     }
 

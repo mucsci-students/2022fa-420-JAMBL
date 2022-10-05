@@ -90,7 +90,6 @@ public class Controller {
         String name3;
         String name4;
         String name5;
-        String name6;
         String name7;
         Class class1;
         Class class2;
@@ -196,18 +195,30 @@ public class Controller {
 
             case ADDFLD:
                 name1 = view.inputClassName(); //gets class name from user
+                if (name1.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
                 class1 = model.getClass(name1); //gets Class with name entered; null if not found
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name1);
                     break;
                 } else {
                     name2 = view.inputFieldName(); //gets the name for the field
+                    if (name2.isBlank()) { //checks for blank input
+                        view.invalid();
+                        break;
+                    }
                     
                     if (class1.getField(name2) != null) { //checks if field already exists and exits if does
                         view.exists("Field", name2);
                         break;
                     } else {
                         name3 = view.inputFieldType(); //gets type for the field
+                        if (name3.isBlank()) { //checks for blank input
+                            view.invalid();
+                            break;
+                        }
                         boolean added = class1.addField(name2, name3); //adds it to the fields set
                         if (added) {
                             view.Added(name3, name2); //prints success messaage
@@ -218,12 +229,24 @@ public class Controller {
                 
             case DELFLD:
                 name1 = view.inputClassName(); //gets class name from user
+                if (name1.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
+                if (name1.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
                 class1 = model.getClass(name1); //gets Class with name entered; null if not found
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name1);
                     break;
                 } else {
                     name2 = view.inputFieldName(); //gets field name from user
+                    if (name2.isBlank()) { //checks for blank input
+                        view.invalid();
+                        break;
+                    }
                     if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
                         view.notExists("Field", name2);
                         break;
@@ -238,17 +261,29 @@ public class Controller {
 
             case RENFLD:
                 name1 = view.inputClassName(); //gets class name from user
+                if (name1.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
                 class1 = model.getClass(name1); //gets Class with name entered; null if not found
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name1);
                     break;
                 } else {
                     name2 = view.inputFieldName(); //gets old field name from user
+                    if (name2.isBlank()) { //checks for blank input
+                        view.invalid();
+                        break;
+                    }
                     if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
                         view.notExists("Field", name2);
                         break;
                     } else {
                         name3 = view.inputNew("name", "Field"); //get new field name from user
+                        if (name3.isBlank()) { //checks for blank input
+                            view.invalid();
+                            break;
+                        }
                         if (class1.getField(name3) != null) { //checks if a field already exists with that name exits if does
                             view.exists("Field", name3);
                             break;
@@ -264,17 +299,29 @@ public class Controller {
 
             case FLDTYPE:
                 name1 = view.inputClassName(); //gets class name from user
+                if (name1.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
                 class1 = model.getClass(name1); //gets Class with name entered; null if not found
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name1);
                     break;
                 } else {
                     name2 = view.inputFieldName(); //gets field name from user
+                    if (name2.isBlank()) { //checks for blank input
+                        view.invalid();
+                        break;
+                    }
                     if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
                         view.notExists("Field", name2);
                         break;
                     } else {
                         name3 = view.inputNew("type", "Field"); //get new field type from user
+                        if (name3.isBlank()) { //checks for blank input
+                            view.invalid();
+                            break;
+                        }
                         if ((class1.getField(name2).getFieldType().toUpperCase()).equals(name3.toUpperCase())) { //checks if the current type is the new type, exits if same
                             view.exists("Field type", name3);
                             break;
@@ -459,6 +506,7 @@ public class Controller {
                     view.Failed("Method", "Renaming");
                 }
                 break;
+
             case MTDTYPE:
 
                  // prompts user for the class to change return type 
@@ -505,9 +553,9 @@ public class Controller {
                         return;
                     }else{
                         //changed Method reurn type
-                        classCheck.changeMethodreturn(methodCheck, name2);
+                        classCheck.changeMethodreturn(methodCheck, name3);
                         // Check to see if type succesfully changed
-                        if(classCheck.getMethod(name2).getReturnType().equals(name2)){
+                        if(classCheck.getMethod(name2).getReturnType().equals(name3)){
                             view.renamed("Method Return Type", "", name3);
                             return;
                         }else{
@@ -522,22 +570,34 @@ public class Controller {
 
             case ADDREL:
                 name1 =  view.inputAddOriginClass();
-                name2 = view.inputAddDestinationClass();
+               
                 class1 = model.getClass(name1);
-                class2 = model.getClass(name2);
-                typeName = view.inputAddType();
                 if (class1 == null ) {
                     view.originNotExist();
                     break;
                 }
+                name2 = view.inputAddDestinationClass();
+                if (name2.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
+                class2 = model.getClass(name2);
                 if (class2 == null) {
                     view.destinationNotExist();
                     break;
                 }
-                if (class1.isrelationshipExist(name2, typeName) == true){
+
+                typeName = view.inputAddType();
+                if (typeName.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
+                
+                if (class1.isRelationshipExist(name2)){
                     view.relExists();
                     break;
-                } if (!class1.isValidType(typeName)){ 
+                } 
+                if (!class1.isValidType(typeName)){ 
                     view.relTypeCheck(typeName);
                 } else {
                     returned = class1.addRelationship(class2, typeName);
@@ -552,79 +612,103 @@ public class Controller {
                 
                 name1 = view.inputDelOriginClass();
                 
-                name2 = view.inputDelDestinationClass();
                 if (model.getClass(name1) == null) {
                     view.originNotExist();
                     break;
-                } else if (model.getClass(name2) == null) {
+                }
+                name2 = view.inputDelDestinationClass();
+                if (name2.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
+                if (model.getClass(name2) == null) {
                     view.destinationNotExist();
                     break;
                 } else {
                     model.getClass(name1).deleteRelationship(name2);
-                    //System.out.println("Relationship removed from " + name1 + " to " + name2 + "!");
                     view.relDeleted();
                 } 
                 break;
 
             case RELTYPE:
                 name1 =  view.inputAddOriginClass();
-                class1 = model.getClass(name1);
-                
+                if (name1.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
+                class1 = model.getClass(name1);           
                 if (class1 == null) {
                     view.originNotExist();
                     break;
                 }
                 name2 = view.inputAddDestinationClass();
-                class2 = model.getClass(name2);
-            
+                if (name2.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
+                class2 = model.getClass(name2); 
                 if (class2 == null) {
                     view.destinationNotExist();
                     break;
-                } 
-                typeName = view.inputAddType();
-                if (class1.isrelationshipExist(name2, typeName)== true){
-                        view.relExists();
-                    break;
-                } 
-              
-                if (!class1.isValidType(typeName)){ 
-                    view.relTypeCheck(typeName);
-                }else {
-                    class1.editRelationshipType(typeName);
-                    //(class2.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType);
-                    view.relTypeEdited(typeName);
-                    }
+                }
+                Relationship rel = class1.getRelationship(name2);
+                if (rel == null) {
+                    view.relNoExist();
                 break;
-
-                /* if ((class2.getClassName().equals(name2)) & )
-           if ( (ele.getDestination()).getClassName().equals(destination) & ele.getRelType().equals(newType)) {
-               newMatch = true;
-           }
-           if (!oldMatch) {
-               System.out.println("Relationship type does not exist! type change failed!");
-           } else if (newMatch) {
-               System.out.println("Relationship is already has the type!");
-           } */
+            } 
+                typeName = view.inputAddType();
+                if (typeName.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
+                if (!class1.isValidType(typeName)) { 
+                    view.relTypeCheck(typeName);
+                    break;
+                }
+                if (rel.getRelType().equals(typeName.toUpperCase())) {
+                    view.exists("Relationship type", typeName);
+                    break;
+                }
+                class1.editRelationshipType(name2, typeName);
+                view.relTypeEdited(typeName);
+                
+                break;
 
            case ADDPAR:
                 name5 = view.inputClassName(); //gets Class name from user
+                if (name5.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
                 class1 = model.getClass(name5); //gets Class with name entered; null if not found
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name5);
                     break;
                 } else {
                     name1 = view.inputMethodName(); //gets Method name from user
+                    if (name1.isBlank()) { //checks for blank input
+                        view.invalid();
+                        break;
+                    }
                     method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
                     if (method1 == null) { //checks if method exists and exits if doesn't
                         view.notExists("Method", name1);
                         break;
                     } else {
                         name2 = view.inputParameterName(); //gets the name for the parameter
+                        if (name2.isBlank()) { //checks for blank input
+                            view.invalid();
+                            break;
+                        }
                         if (method1.getParameter(name2) != null) { //checks if parameter already exists and exits if does
                             view.exists("Parameter", name2);
                             break;
                         } else {
                             name3 = view.inputParameterType(); //gets type for the parameter
+                            if (name3.isBlank()) { //checks for blank input
+                                view.invalid();
+                                break;
+                            }
                             boolean added = method1.addParameter(name2, name3); //adds it to the parameters set
                             if (added) {
                                 view.Added(name3, name2); //prints success messaage
@@ -638,18 +722,30 @@ public class Controller {
 
             case DELPAR:
                 name5 = view.inputClassName(); //gets Class name from user
+                if (name5.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
                 class1 = model.getClass(name5); //gets Class with name entered; null if not found
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name5);
                     break;
                 } else {
                     name1 = view.inputMethodName(); //gets Method name from user
+                    if (name1.isBlank()) { //checks for blank input
+                        view.invalid();
+                        break;
+                    }
                     method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
                     if (method1 == null) { //checks if method exists and exits if doesn't
                         view.notExists("Method", name1);
                         break;
                     } else {
                         name7 = view.inputDeleteAll();//gets whether user wants to delete all parameters or just one
+                        if (name7.isBlank()) { //checks for blank input
+                            view.invalid();
+                            break;
+                        }
                         if(name7.toUpperCase().equals("YES")){
                             boolean removed = method1.deleteAllParameter(); //removes all parameters from the set
                             if (removed) {
@@ -658,6 +754,10 @@ public class Controller {
                             break;
                         } else if(name7.toUpperCase().equals("NO")){
                             name2 = view.inputParameterName(); //gets parameter name from user
+                            if (name2.isBlank()) { //checks for blank input
+                                view.invalid();
+                                break;
+                            }
                             if (method1.getParameter(name2) == null) { //checks if parameter exists and exits if doesn't
                                 view.notExists("Parameter", name2);
                                 break;
@@ -674,28 +774,48 @@ public class Controller {
 
             case CHGPAR:
                 name5 = view.inputClassName(); //gets Class name from user
+                if (name5.isBlank()) { //checks for blank input
+                    view.invalid();
+                    break;
+                }
                 class1 = model.getClass(name5); //gets Class with name entered; null if not found
                 if (class1 == null) { //checks if class exists and exits if doesn't
                     view.notExists("Class", name5);
                     break;
                 } else {
                     name1 = view.inputMethodName(); //gets Method name from user
+                    if (name1.isBlank()) { //checks for blank input
+                        view.invalid();
+                        break;
+                    }
                     method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
                     if (method1 == null) { //checks if method exists and exits if doesn't
                         view.notExists("Method", name1);
                         break;
                     } else {
                         name2 = view.inputParameterName(); //gets old parameter name from user
+                        if (name2.isBlank()) { //checks for blank input
+                            view.invalid();
+                            break;
+                        }
                         if (method1.getParameter(name2) == null) { //checks if parameter exists and exits if doesn't
                             view.notExists("Parameter", name2);
                             break;
                         } else {
                             name3 = view.inputNew("name", "Parameter"); //get new parameter name from user
+                            if (name3.isBlank()) { //checks for blank input
+                                view.invalid();
+                                break;
+                            }
                             if (method1.getParameter(name3) != null) { //checks if a parameter already exists with that name exits if does
                                 view.exists("Parameter", name3);
                                 break;
                             } else {
                                 name4 = view.inputNew("type", "Parameter"); //get new parameter type from user
+                                if (name4.isBlank()) { //checks for blank input
+                                    view.invalid();
+                                    break;
+                                }
                                 boolean changed = method1.changeParameter(name2, name3, name4); //changes the parameter name and type
                                 if (changed) {
                                     view.ParameterChange(name2, name3, name4); //prints success message
@@ -766,10 +886,9 @@ public class Controller {
             
             case SAVE:
                 //Prompts user for file
-                System.out.println("Input file you want to save to or press enter for dafault file.");
-                fileName = scanner.nextLine();
+                fileName = view.savePrompt();
                 // Checks if user wants default file
-                if(fileName.equals("")){
+                if(fileName.isBlank()){
                     
                     save(model, "JAMBL.json");
                 }else{
@@ -783,10 +902,9 @@ public class Controller {
             case LOAD:
                 
                 //prompts user for file
-                System.out.println("Input file you want loaded or press enter for default file.");
-                fileName = scanner.nextLine();
+                fileName = view.loadPrompt();
                 // checks of its default
-                if(fileName.toUpperCase().equals("")){
+                if(fileName.isBlank()){
                     load("JAMBL.json");
                 }else{
                     // otherwise loads file into current model
@@ -819,14 +937,13 @@ public class Controller {
                 break;
 
             case EXIT:
-            System.out.println("Would you like to SAVE before quitting? (YES/NO)");
-            name1 = scanner.nextLine();
+            do {
+            name1 = view.exitPrompt();
             if (name1.toUpperCase().equals("YES")) {
                   //Prompts user for file
-                  System.out.println("Name file you want to save to or press enter for default file.");
-                  fileName = scanner.nextLine();
+                  fileName = view.savePrompt();
                   // Checks if user wants default file
-                  if(fileName.equals("")) {
+                  if(fileName.isBlank()) {
                       
                       save(model, "JAMBL.json");
                   }else{
@@ -834,6 +951,7 @@ public class Controller {
                       save(model, fileName);
                   }
             }
+            } while (!name1.toUpperCase().equals("YES") && !name1.toUpperCase().equals("NO"));
             break;
 
         }

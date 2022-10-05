@@ -115,16 +115,16 @@ public class GUIController {
 	    }
 	    
 	    public void renameField(String className, String oldName, String newName) {
-	    	boolean ok = model.getClass(className).renameField(oldName, newName);
-	    	if(ok) {
+	    	Class cls = model.getClass(className);
+			Field fld = cls.getField(newName);
+			if (fld != null) {
+	    		GUI.fieldExist();
+			} else {
+				cls.getField(oldName).setFieldName(newName);
 	    		GUI.fieldRename(oldName, newName, className);
 	    	}
-	    	else 
-	    	{
-	    		GUI.fieldExist();
-	    	}
-	    	
-	    }
+		}
+			
 	    
 	    public void deleteField(String className, String fieldName) {
 	    	if(model.getClass(className).deleteField(fieldName)) {
@@ -190,62 +190,38 @@ public class GUIController {
 	     /////////// ***** Relationship Methods ****** ////////////
 
 		public void addRelationship (String origin, String destination, String typeName) {
-					
-			/*if (model.getClass(origin) == null ) {
-
-				GUI.originNotExist();
-				
-			} else if (model.getClass(destination) == null ) {
-
-				GUI.destinationNotExist();
-			} else if ((model.getClass(origin)).isrelationshipExist(destination, typeName) == true ) {
-				GUI.relExists();
-			}
-			else { }*/
-
-			  //  boolean added = true; 
-				model.getClass(origin).addRelationship((model.getClass(destination)), typeName.toUpperCase());
-				//added = true;
-				//if(added){ 
+			Class cls = model.getClass(origin);		
+			Relationship rel = cls.getRelationship(destination);
+			if (rel != null) {
+				GUI.relExists();				
+			} else {
+				cls.addRelationship(model.getClass(destination), typeName.toUpperCase());
 				GUI.addedRel(origin, destination);
-			
-				//}
+			}
 		}
 
 
 		public void deleteRelationship (String origin, String destination) {
-			
-			/*if (model.getClass(origin) == null ) {
-
-				GUI.originNotExist();
-				
-			} else if (model.getClass(destination) == null ) {
-
-				GUI.destinationNotExist();
-
-			} else { */
-				Iterator<Relationship> relItr = relationships.iterator();
-				while (relItr.hasNext()) {
-					Relationship ele = relItr.next();
-					(ele.getDestination()).getClassName().equals(destination); 
-						relItr.remove();
-				}
+			Class cls = model.getClass(origin);
+			Relationship rel = cls.getRelationship(destination);
+			if (rel == null) {
+				GUI.relationshipNotExist();
+			} else {
+				cls.deleteRelationship(destination);
 				GUI.relDeleted();
+			}
 				
 		}
 
 		public void editRelationshipType(String origin, String destination, String newType) {
-
-			if ((model.getClass(origin)).isrelationshipExist(destination, newType.toUpperCase()) == true ) {
-					
+			Relationship rel = model.getClass(origin).getRelationship(destination);
+			if (rel == null) {
+				GUI.relationshipNotExist();
+		
+			} else if (rel.getRelType().equals(newType.toUpperCase())) {
 				GUI.relExists();
-				
-			} else{
-				Iterator<Relationship> relItr = relationships.iterator();
-				while (relItr.hasNext()) {
-				Relationship ele = relItr.next();
-				ele.setRelType(newType.toUpperCase()); 
-				}      
+			}else {
+				rel.setRelType(newType);     
 
 		   	    GUI.relTypeEdited(newType);
 			}
@@ -334,7 +310,7 @@ public class GUIController {
 	 
 	/*************************************shot in the dark**************** */
 	public String listAllClasses () {
-        String list ="CLASSES \n =============== \n";
+        String list ="CLASSES \n===============\n";
         for (Class ele: model.classes) {
           list = list +  listClass(ele);
         }
@@ -342,8 +318,8 @@ public class GUIController {
 	}
 	public String listClass(Class cls){
 		String className = cls.getClassName();
-		String list = "\t";
-        list = list + className + "\n";
+		String list = "      ";
+        list = list + className + "\n===============\n";
 		list = list +"     Fields:\n";
         
         for (Field fld: cls.getFields()) {
@@ -383,6 +359,7 @@ public class GUIController {
             String type = ele.getRelType();
         	list = list + "     * " + className + " --" + type + "--> " + dest + "\n"+ "\n\n";
 		}
+		list = list + "\n";
 		return list;
 	}
 

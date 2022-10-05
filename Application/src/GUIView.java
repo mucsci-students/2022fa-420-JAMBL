@@ -745,7 +745,7 @@ public class GUIView extends View  {
 				//////////////////////////////
 				
 				JTextField txtDefaulttxt = new JTextField();
-				txtDefaulttxt.setText("DEFAULT.json");
+				txtDefaulttxt.setText("JAMBL.json");
 				txtDefaulttxt.setBounds(92, 94, 235, 19);
 				frame.getContentPane().add(txtDefaulttxt);
 				txtDefaulttxt.setColumns(10);
@@ -778,6 +778,11 @@ public class GUIView extends View  {
 				btnCancel.setBounds(242, 158, 85, 21);
 				frame.getContentPane().add(btnCancel);
 				frame.setVisible(true);
+				btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+					}
+				});
 				saved = true;
 			}
 		});
@@ -846,7 +851,7 @@ public class GUIView extends View  {
 				frame.setVisible(true);
 				btnDefault.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						textField.setText("DEFAULT.json");
+						textField.setText("JAMBL.json");
 					}
 				});
 				
@@ -2046,6 +2051,8 @@ public class GUIView extends View  {
 				Classes.addItemListener(new ItemListener() {
 					public void itemStateChanged(ItemEvent arg0) {
 						cbFields.setModel(new DefaultComboBoxModel<Object>(getList("Field", Classes.getSelectedItem().toString(), null)));
+						cbFields.setVisible(true);
+						lblField.setVisible(true);
 					}
 				});
 				
@@ -2053,7 +2060,7 @@ public class GUIView extends View  {
 				//******* Buttons *******//
 				///////////////////////////
 				
-				//////////////////////////////////////////////////////////////  CDelete Field
+				//////////////////////////////////////////////////////////////  Delete Field
 				JButton btnDeleteField = new JButton("Delete Field");
 				btnDeleteField.setForeground(new Color(255, 0, 0));
 				btnDeleteField.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -2555,7 +2562,7 @@ public class GUIView extends View  {
 	}
 
 	public void relTypeEdited(String newType){
-        JOptionPane.showMessageDialog(f,"Relation type changed to"+ newType + "!", "Alert", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(f,"Relationship type changed to " + newType + "!", "Alert", JOptionPane.WARNING_MESSAGE);
 	}
 	public void relDeleted() {
 		JOptionPane.showMessageDialog(f, "Relationship deleted successfully", "Info",JOptionPane.INFORMATION_MESSAGE);
