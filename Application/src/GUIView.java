@@ -2470,14 +2470,13 @@ public class GUIView extends View  {
 	*/
 	public void deleteAllParamFailure() {
 		JOptionPane.showMessageDialog(f, "Failed to delete all parameters...", "Error",JOptionPane.ERROR_MESSAGE);
-
+	}
 	/*
 	 * A window for informing the user that a method has been renamed
 	 * 
 	 */
 	public void methodRetype(String className, String methodName, String returnType) {
 		JOptionPane.showMessageDialog(f, "Method " + methodName + " now has a return type of " + returnType + " in class " + className + "!", "Info",JOptionPane.INFORMATION_MESSAGE);
-
 	}
 	
 	/*
