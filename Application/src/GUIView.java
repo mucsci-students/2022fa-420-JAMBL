@@ -893,7 +893,8 @@ public class GUIView extends View  {
 			
 			
 			public void actionPerformed(ActionEvent e) {
-		
+				String classes = controller.listAllClasses();
+				textAreaMain.setText(classes);
 			}
 		});
 		
