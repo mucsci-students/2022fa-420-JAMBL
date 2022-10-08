@@ -67,17 +67,23 @@ public class GUIView extends View  {
 		//******** MAIN PAGE ********//
 		frmJambl = new JFrame();
 		frmJambl.setTitle("JAMBL");
-		frmJambl.setBounds(100, 100, 1063, 752);
+		frmJambl.setBounds(100, 100, 1063, 639);
 		frmJambl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJambl.getContentPane().setLayout(null);
+		
+		/*
+		 * Scroll Pane for text area for large output
+		 */
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(359, 67, 678, 524);
+		frmJambl.getContentPane().add(scrollPane_1);
 		
 		/////////////////////////////////////////// textAreaMain - where the UML diagram will be able displayed and updated in real time
 		///////////////////////////////////////////			as classes, field, methods, and relationships are added
 		JTextArea textAreaMain = new JTextArea();
+		scrollPane_1.setViewportView(textAreaMain);
 		textAreaMain.setLineWrap(true);
 		textAreaMain.setEditable(false);
-		textAreaMain.setBounds(359, 67, 678, 635);
-		frmJambl.getContentPane().add(textAreaMain);
 		
 		
 		JLabel ClassLabel = new JLabel("Class");
@@ -893,11 +899,9 @@ public class GUIView extends View  {
 		
 		////////////////////////////////////////////////////////////// List All Button - displays entire UML diagram
 		JButton btnListAll = new JButton("List All");
-		btnListAll.setBounds(10, 649, 137, 21);
+		btnListAll.setBounds(10, 534, 137, 21);
 		frmJambl.getContentPane().add(btnListAll);
 		btnListAll.addActionListener(new ActionListener() {
-			
-			
 			public void actionPerformed(ActionEvent e) {
 				String classes = controller.listAllClasses();
 				textAreaMain.setText(classes);
@@ -906,19 +910,19 @@ public class GUIView extends View  {
 		
 		////////////////////////////////////////////////////////////// List Relationships Button - displays list of relationships
 		JButton btnListRelationships = new JButton("List Relationships");
-		btnListRelationships.setBounds(10, 682, 137, 21);
+		btnListRelationships.setBounds(10, 565, 137, 21);
 		frmJambl.getContentPane().add(btnListRelationships);
 		btnListRelationships.addActionListener(new ActionListener() {
 			
 			
 			public void actionPerformed(ActionEvent e) {
-				textAreaMain.insert("Test", 0);
+				textAreaMain.setText(controller.listRelationships());
 			}
 		});
 		
 		//////////////////////////////////////////////////////////////////////// List a class button - displays a singular class of a specified name
 		JButton btnListClass = new JButton("List a Class");
-		btnListClass.setBounds(10, 616, 137, 21);
+		btnListClass.setBounds(10, 503, 137, 21);
 		frmJambl.getContentPane().add(btnListClass);
 		btnListClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -942,6 +946,15 @@ public class GUIView extends View  {
 				lblSelectClass.setBounds(10, 54, 137, 13);
 				frame.getContentPane().add(lblSelectClass);
 
+                //////////////////////////////
+                //******* Combo Boxes*******//
+                //////////////////////////////
+                
+                JComboBox<Object> cbClasses = new JComboBox<Object>();
+                cbClasses.setBounds(10, 77, 207, 21);
+                frame.getContentPane().add(cbClasses);
+                cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+
 				///////////////////////////
 				//******* Buttons *******//
 				///////////////////////////
@@ -954,6 +967,7 @@ public class GUIView extends View  {
 				frame.getContentPane().add(btnListClass);
 				btnListClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+					    textAreaMain.setText(controller.listClass(controller.getClass(cbClasses.getSelectedItem().toString())));
 						frame.dispose();
 					}
 				});
@@ -968,15 +982,6 @@ public class GUIView extends View  {
 						frame.dispose();
 					}
 				});
-				
-				//////////////////////////////
-				//******* Combo Boxes*******//
-				//////////////////////////////
-				
-				JComboBox<Object> cbClasses = new JComboBox<Object>();
-				cbClasses.setBounds(10, 77, 207, 21);
-				frame.getContentPane().add(cbClasses);
-
 			}
 		});
 		
@@ -1176,7 +1181,7 @@ public class GUIView extends View  {
 				//******* Buttons *******//
 				///////////////////////////
 				
-				////////////////////////////////////////////////////////////// Remove Parameter Button
+				/// Remove Parameter Button
 				JButton btnRemoveParameter = new JButton("Delete Parameter");
 				btnRemoveParameter.setForeground(new Color(255, 0, 0));
 				btnRemoveParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -1191,7 +1196,7 @@ public class GUIView extends View  {
 					}
 				});
 				
-				////////////////////////////////////////////////////////////// Cancel Button
+				/// Cancel Button
 				JButton btnCancel = new JButton("Cancel");
 				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnCancel.setBounds(233, 296, 190, 21);
@@ -1449,7 +1454,7 @@ public class GUIView extends View  {
 				//******* Buttons *******//
 				///////////////////////////
 				
-				////////////////////////////////////////////////////////////// Add Method Button
+				// Add Method Button
 				JButton btnAddMethod = new JButton("Add Method");
 				btnAddMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnAddMethod.setBounds(85, 136, 132, 21);
@@ -1461,7 +1466,7 @@ public class GUIView extends View  {
 					}
 				});
 				
-				////////////////////////////////////////////////////////////// Cancel Button
+				// Cancel Button
 				JButton btnCancel = new JButton("Cancel");
 				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnCancel.setBounds(227, 136, 132, 21);
@@ -1561,7 +1566,7 @@ public class GUIView extends View  {
 				//******* Buttons *******//
 				///////////////////////////
 				
-				////////////////////////////////////////////////////////////// Change Method Button
+				// Change Method Button
 				JButton btnChangeMethod = new JButton("Change Type");
 				btnChangeMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnChangeMethod.setBounds(10, 253, 190, 21);
@@ -1573,7 +1578,7 @@ public class GUIView extends View  {
 					}
 				});
 				
-				////////////////////////////////////////////////////////////// Cancel Button
+				// Cancel Button
 				JButton btnCancel = new JButton("Cancel");
 				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnCancel.setBounds(233, 253, 190, 21);
@@ -1651,7 +1656,7 @@ public class GUIView extends View  {
 				//******* Buttons *******//
 				///////////////////////////
 				
-				////////////////////////////////////////////////////////////// Delete Method Button
+				// Delete Method Button
 				JButton btnDeleteMethod = new JButton("Delete Method");
 				btnDeleteMethod.setForeground(new Color(255, 0, 0));
 				btnDeleteMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -1666,7 +1671,7 @@ public class GUIView extends View  {
 					}
 				});
 				
-				////////////////////////////////////////////////////////////// Cancel Button
+				// Cancel Button
 				JButton btnCancel = new JButton("Cancel");
 				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnCancel.setBounds(227, 221, 132, 21);
@@ -1991,7 +1996,7 @@ public class GUIView extends View  {
 				//******* Buttons *******//
 				///////////////////////////
 				
-				////////////////////////////////////////////////////////////// Change Method Button
+				// Change Field Button
 				JButton btnChangeField = new JButton("Change Field");
 				btnChangeField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnChangeField.setBounds(10, 253, 190, 21);
@@ -2003,7 +2008,7 @@ public class GUIView extends View  {
 					}
 				});
 				
-				////////////////////////////////////////////////////////////// Cancel Button
+				// Cancel Button
 				JButton btnCancel = new JButton("Cancel");
 				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnCancel.setBounds(233, 253, 190, 21);
@@ -2082,14 +2087,13 @@ public class GUIView extends View  {
 				//******* Buttons *******//
 				///////////////////////////
 				
-				//////////////////////////////////////////////////////////////  Delete Field
+				//  Delete Field
 				JButton btnDeleteField = new JButton("Delete Field");
 				btnDeleteField.setForeground(new Color(255, 0, 0));
 				btnDeleteField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnDeleteField.setBounds(10, 189, 190, 21);
 				frmJamblAdd.getContentPane().add(btnDeleteField);
 				btnDeleteField.addActionListener(new ActionListener() {
-					
 					public void actionPerformed(ActionEvent e) {
 						if(!(Classes.getSelectedIndex() == -1) && !(cbFields.getSelectedIndex() == -1)) {
 							controller.deleteField(Classes.getSelectedItem().toString(), cbFields.getSelectedItem().toString());
@@ -2099,7 +2103,7 @@ public class GUIView extends View  {
 					}
 				});
 				
-				////////////////////////////////////////////////////////////// Cancel Button
+			    // Cancel Button
 				JButton btnCancel = new JButton("Cancel");
 				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnCancel.setBounds(233, 189, 190, 21);
@@ -2232,10 +2236,6 @@ public class GUIView extends View  {
 	      
 	         } 
 		});
-	}
-	
-	public void updateTextAreaMain() {
-		
 	}
 
 	//////////////////////////////////
@@ -2590,5 +2590,4 @@ public class GUIView extends View  {
 		JOptionPane.showMessageDialog(f, "Relationship deleted successfully", "Info",JOptionPane.INFORMATION_MESSAGE);
 
 	}
-	
 }

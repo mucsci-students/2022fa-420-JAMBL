@@ -4,7 +4,8 @@ import java.util.Iterator;
 /*
  * @projectDescription A controller specifically for use with the GUI
  * 
- * @authors	John Shenk
+ * @creator John Shenk
+ * @coauthors Meba Shimelis, Alex Peiffer, Lauryn Simmons, Ben Slinghof
  * @version 0.0.1
  * @dateLastModified October 3, 2022
  */
@@ -349,7 +350,6 @@ public class GUIController {
                     }
                 }
             }
-
         }
               
         list = list +  "\n     Relationships:\n";
@@ -362,5 +362,35 @@ public class GUIController {
 		list = list + "\n";
 		return list;
 	}
-
+	
+	/*
+	 * A function for displaying the relationships that exist in the model
+	 * 
+	 * @author John Shenk
+	 * @return list A String displaying all of the relationships
+	 */
+	public String listRelationships() {
+        String list = "      ";
+        list = list +  "\n     Relationships:\n";
+	    for(Class cls : model.getClasses()) {
+	        for (Relationship ele: cls.getRelationships()) {
+	            String dest = ele.getDestination().getClassName();
+	            String type = ele.getRelType();
+	            list = list + "     * " + cls.getClassName() + " --" + type + "--> " + dest + "\n"+ "\n\n";
+	        }
+	    }
+	    return list;
+	}
+	
+	
+	/*
+	 * Gets a class - Primarily used for the List A Class Window
+	 * @author John Shenk
+	 * @param className the name of the class to get
+	 * @return a Class of the specified name
+	 */
+	public Class getClass(String className) {
+	    return model.getClass(className);
+	}
+	
 }
