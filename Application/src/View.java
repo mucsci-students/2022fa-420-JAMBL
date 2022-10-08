@@ -164,18 +164,6 @@ public class View {
         System.out.println("Class renamed!");
     }
 
-    public void attAdded(){
-        System.out.println("Attribute added successfully");
-    }
-
-    public void attDeleted(){
-        System.out.println("Attribute deleted successfully");
-    }
-    
-    public void attRenamed(){
-        System.out.println("Attribute renamed!");
-    }
-
     public void relAdded(){
         System.out.println("Relationship added successfully");
     }

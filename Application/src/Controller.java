@@ -31,9 +31,6 @@ public class Controller {
     ADDREL ("ADDREL"), //add relationship
     DELREL ("DELREL"), //delete relationship
     RELTYPE ("RELTYPE"), //edit relationship type
-    ADDATT ("ADDATT"), //add attribute
-    DELATT ("DELATT"), //delete attribute
-    RENATT ("RENATT"), //rename attribute
     ADDFLD ("ADDFLD"), //add field
     DELFLD ("DELFLD"), //delete field
     RENFLD ("RENFLD"), //rename field
@@ -825,64 +822,6 @@ public class Controller {
                         }
                     }
                        } 
-           
-            case ADDATT:
-                System.out.println("Name of Class receiving Attribute: ");
-                name1 = scanner.nextLine();
-                System.out.println("Name of Attribute: ");
-                name2 = scanner.nextLine();
-                
-                if (!name2.isBlank()) {
-                    if (model.getClass(name1) == null) {
-                        System.out.println("Class does not exists! Addition of Attribute failed!");
-                        break;
-                    }
-                    returned = model.getClass(name1).addAttribute(name2);
-                    // if returned is true notifies user that attribute was added
-                    if(returned){
-                        view.Added("Attribute", name2);
-                    }
-                    
-                } else {
-                    // if input is blank notifes user that input was invalid
-                    view.invalid();
-                }
-                
-                break;
-                
-            case DELATT:
-                System.out.println("Name of Class removing Attribute: ");
-                name1 = scanner.nextLine();
-                System.out.println("Name of Attribute to be removed: ");
-                name2 = scanner.nextLine();
-                
-                if (model.getClass(name1) == null) {
-                    System.out.println("Class does not exists! Removal of Attribute failed!");
-                    break;
-                } else {
-                    model.getClass(name1).deleteAttribute(name2);
-                } 
-                break;
-
-            case RENATT:
-                System.out.println("Name of Class renaming Attribute: ");
-                name1 = scanner.nextLine();
-                System.out.println("Name of Attribute to be changed: ");
-                name2 = scanner.nextLine();
-                System.out.println("New name of Attribute: ");
-                name3 = scanner.nextLine();
-                class1 = model.getClass(name1);
-                if (!name3.isBlank()) {
-                    if (class1 == null) {
-                        view.notExists("Class", name1);
-                        break;
-                    } else {
-                        class1. renameAttribute(name2, name3);
-                    }
-                } else {
-                   view.invalid();
-                } 
-                break;    
             
             case SAVE:
                 //Prompts user for file

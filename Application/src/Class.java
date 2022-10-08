@@ -14,7 +14,6 @@ public class Class {
 
     private String className = "DEFAULT";
     public HashSet<Field> fields = new HashSet<Field>();
-    public HashSet<Attribute> attributes = new HashSet<Attribute>();
     public HashSet<Method> methods = new HashSet<Method>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
 
@@ -25,7 +24,6 @@ public class Class {
     public Class(String name){
         this.className = name;
         this.fields = new HashSet<Field>();
-        this.attributes = new HashSet<Attribute>();
         this.relationships = new HashSet<Relationship>();
     }
 
@@ -34,10 +32,6 @@ public class Class {
         return methods;
     }
 
-    //get Attribute set
-    public HashSet<Attribute> getAttributes() {
-        return attributes;
-    }
     
     //get Field set
     public HashSet<Field> getFields(){
@@ -142,77 +136,6 @@ public class Class {
          
     }
 
-
-    public boolean addAttribute (String name) {
-        // sets boolean add to be true unless error is found
-        boolean add = true;
-        // if attribute set is empty immediately add attribute
-        if(attributes.isEmpty()) {
-            attributes.add(new Attribute (name));
-            return add;
-        
-        }else { // else iterate through and check to see if attribute already exists
-            
-            // if attribute name is found return sets add to false and returns false
-            for (Attribute ele: attributes) {
-                if(ele.getAttName().equals(name)) {
-                    System.out.println("Attribute already exists!");
-                    add = false;
-                    return add;
-                }
-            }
-            // if add is still true it adds attribute and returns true
-            if(add) {
-              this.attributes.add(new Attribute(name));
-             // System.out.println("Attribute added to " + className + " called " + name + "!"); 
-            }
-            
-            return add;    
-       }
-    } 
-
-    public void deleteAttribute (String name) {
-        Iterator<Attribute> attItr = attributes.iterator();
-        boolean removed = false;
-        while (attItr.hasNext()) {
-            Attribute ele = attItr.next();
-            if (ele.getAttName().equals(name)) {
-                attItr.remove();
-                removed = true;
-            }
-        }
-        
-        if (removed) {
-            System.out.println ("Attribute " + name + " removed from " + this.getClassName() + "!");
-        } else {
-            System.out.println("Attribute " + name + " does not exist!");
-        }
-
-    }
-
-    public void renameAttribute (String oldName, String newName) {
-        Iterator<Attribute> attItr = attributes.iterator();
-        boolean oldMatch = false;
-        boolean newMatch = false;
-        Attribute old = null;
-        while (attItr.hasNext()) {
-            Attribute ele = attItr.next();
-            if (ele.getAttName().toUpperCase().equals(oldName.toUpperCase())) {
-                oldMatch = true;
-                old = ele;
-            } else if ( ele.getAttName().toUpperCase().equals(newName.toUpperCase())) {
-                newMatch = true;
-            }
-        }
-        if (!oldMatch) {
-            System.out.println("Attribute does not exist! Name change failed!");
-        } else if (newMatch) {
-            System.out.println("New Attribute name already exists! Name change failed!");
-        } else {
-            old.setAttName(newName);
-            System.out.println("Attribute " + oldName + " changed to " + newName + "!");
-        }
-    }
 
     // Sets the field type of the field 'fieldName' to 'newFieldType'
     // Should fail if the field does not exist or the new field type is the same as the field's type
