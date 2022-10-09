@@ -3,7 +3,7 @@
  * 
  * @authors	John Shenk, Benjamin Slinghoff, Lauryn Simmons, Alex Peiffer, Meba Shimelis
  * @version 0.0.1
- * @dateLastModified September 22, 2022
+ * @dateLastModified October 9, 2022
  * 
  * @classDescription This class represents Methods in a Class diagram
  */
@@ -47,6 +47,11 @@ public class Method {
         return parameters;
     }
 
+    /********************************************************************* 
+    *Parameters: String name is the name of the parameter being returned
+    *Returns: Returns the Parameter with the name given
+    *Prerequisites: Atleast one parameter must exist
+    **********************************************************************/
     public Parameter getParameter(String name){
         // Creates an iterator
         Iterator<Parameter> itParams = parameters.iterator();
@@ -66,7 +71,15 @@ public class Method {
         return null;
     } 
 
-    // Renames and retypes a parameter in this method
+    /********************************************************************* 
+    *Parameters: String oldName is the name of the parameter being changed
+    *            String newName is the new name the parameter is being 
+    *            renamed too
+    *            String newParamType is the new type the parameter is being
+    *            re-typed too
+    *Returns: Returns a boolean that indicates whether the parameter was changed
+    *Prerequisites: Atleast one parameter must exist
+    **********************************************************************/
     public boolean changeParameter(String oldName, String newName, String newParamType) {
     	Iterator<Parameter> paramItr = parameters.iterator();
     	while (paramItr.hasNext()) {
@@ -80,7 +93,11 @@ public class Method {
         return false;
     }
 
-    // Deletes a parameter from this method of the specified name
+    /********************************************************************* 
+    *Parameters: String name is the name of the parameter being deleted
+    *Returns:  Returns a boolean that indicates whether the parameter was deleted
+    *Prerequisites: Atleast one parameter must exist
+    **********************************************************************/
     public boolean deleteParameter(String name) {
     	Iterator<Parameter> paramItr = parameters.iterator();
         while (paramItr.hasNext()) {
@@ -93,7 +110,13 @@ public class Method {
         return false; // Parameter not removed, return false
     }
 
-    // Adds a parameter to this method. 
+    
+    /********************************************************************* 
+    *Parameters: String paramName is the name of the parameter being added
+    *            String paramType is the type of the parameter being added
+    *Returns:  Returns a boolean that indicates whether the parameter was added
+    *Prerequisites: Atleast one method must exist
+    **********************************************************************/
     public boolean addParameter(String paramName, String paramType) {
         if(parameters.isEmpty()) { // Empty hash set
     		parameters.add(new Parameter(paramName, paramType));
@@ -104,7 +127,13 @@ public class Method {
         }
     }
 
-    // Deletes all parameters from this method
+    
+    /********************************************************************* 
+    *Parameters: None
+    *Returns: Returns a boolean that indicates whether all the parameters
+    *         were deleted
+    *Prerequisites: Atleast one method must exist
+    **********************************************************************/
     public boolean deleteAllParameter(){
         parameters = new HashSet<Parameter> ();
         if(parameters.isEmpty()) { // Empty hash set
