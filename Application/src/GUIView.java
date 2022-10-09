@@ -658,7 +658,7 @@ public class GUIView extends View  {
 		lblClassName.setBounds(10, 33, 219, 51);
 		frmJamblAdd.getContentPane().add(lblClassName);
 		
-		JLabel lblNewLabel = new JLabel("New Return Type:");
+		lblNewLabel = new JLabel("New Return Type:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel.setBounds(10, 202, 146, 13);
 		frmJamblAdd.getContentPane().add(lblNewLabel);
