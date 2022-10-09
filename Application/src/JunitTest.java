@@ -20,6 +20,12 @@ public class JunitTest {
 	 Class newClass = null;
 	 Class newClass2 = null;
 	 String typeName;
+	 String fieldName;
+	 String oldFieldName;
+	 String oldFieldType;
+	 String newFieldName;
+	 String newFieldType;
+	 String fieldType;
 
    // Assures us that JUnit is working properly
    @Test
@@ -111,8 +117,7 @@ public class JunitTest {
 		 
 		   
 	   }
-	   
-	   
+
 	    // Tests the functionality of getting class destination
 	   @Test
 	   public void testgetDestination() {
@@ -148,6 +153,7 @@ public class JunitTest {
 	}
 
 	// Tests the functionality of renaming a method in a class
+	@Test
 	public void testRenameMethod() {
 		String clsName = "Tire";
 		String mtdName = "setPSI";
@@ -160,6 +166,7 @@ public class JunitTest {
 	}
 
 		// Tests the functionality of changing the return type of a method in a class
+		@Test
 		public void testRetypeMethod() {
 			String clsName = "Tire";
 			String mtdName = "setPSI";
@@ -171,4 +178,91 @@ public class JunitTest {
 			assertEquals(cls.getMethod(mtdName).getReturnType(), newType);
 		}
 
+		// Tests the functionality of adding a Field to a Class and assuring name is set
+		@Test
+		public void testAddFieldGetName(){
+			newClass = new Class("Item");
+			fieldName = "price"; // Testing on this
+			fieldType = "double";
+			newClass.addField(fieldName, fieldType);
+			String result = newClass.getField(fieldName).getFieldName();
+			assertEquals(fieldName, result);
+		}
+
+		// Tests functionality of adding a Field to a Class and assuring type is set
+		@Test
+		public void testAddFieldGetType(){
+			newClass = new Class("Item");
+			fieldName = "price";
+			fieldType = "double"; // Testing on this
+			newClass.addField(fieldName, fieldType);
+			String result = newClass.getField(fieldName).getFieldType();
+			assertEquals(fieldType, result);
+		}
+
+		// Tests the functionality of deleting a Field that exists in a class
+		@Test
+		public void testDeleteFieldThatExists(){
+			newClass = new Class("Zoo");
+			fieldName = "animals";
+			fieldType = "HashSet<String>";
+			newClass.addField(fieldName, fieldType);
+			assertTrue(newClass.deleteField(fieldName));
+		}
+
+		// Tests the functionality of deleting a Field that does not exist in a class
+		@Test
+		public void testDeleteFieldThatDoesNotExist(){
+			newClass = new Class("Item");
+			fieldName = "quantity";
+			fieldType = "int";
+			newClass.addField(fieldName, fieldType);
+			assertFalse(newClass.deleteField("price")); // Did not add "price" field, should return false
+		}
+
+		// Tests the functionality of renaming a Field that exists in a class
+		@Test
+		public void testRenameFieldThatExists(){
+			newClass = new Class("Keyboard");
+			oldFieldName = "escape";
+			fieldType = "Key";
+			newClass.addField(fieldName, fieldType);
+			newFieldName = "tab";
+			newClass.renameField(oldFieldName, newFieldName);
+			String result = newClass.getField(newFieldName).getFieldName();
+			assertEquals(newFieldName, result);
+		}
+
+		// Tests the functionality of renaming a Field that does not exist in a class
+		@Test 
+		public void testRenameFieldThatDoesNotExist(){
+			newClass = new Class("Keyboard");
+			oldFieldName = "tab";
+			newFieldName = "shift";
+			assertFalse(newClass.renameField(oldFieldName, newFieldName));
+		}
+
+		// Tests the functionality of changing the type of a Field that exists within a class=
+		@Test
+		public void testChangeFieldTypeThatExists(){
+			newClass = new Class("Vehicle");
+			fieldName = "price";
+			oldFieldType = "int";
+			newClass.addField(fieldName, oldFieldType);
+			newFieldType = "double";
+			newClass.changefieldType(fieldName, newFieldType);
+			String result = newClass.getField(fieldName).getFieldType();
+			assertEquals(newFieldType, result);
+		}
+
+		// Tests the functionality of attempting to change the type of a Field that does not exist within a class
+		@Test
+		public void testChangeFieldTypeNotExist(){
+			newClass = new Class("Vehicle");
+			fieldName = "price";
+			fieldType = "double";
+			newClass.addField(fieldName, fieldType);
+			String fieldName2 = "make";
+			assertFalse(newClass.changefieldType(fieldName2, "String"));	
+		}
 }
