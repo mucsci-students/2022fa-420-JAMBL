@@ -1,10 +1,10 @@
-/*
- * @projectDescription The main "page" for the JAMBL application
- * 
- * @authors	John Shenk
- * 
- * @dateLastModified September 26, 2022
- */
+/***
+*@projectDescription: 
+*@authors:  John Shenk, Benjamin Slinghoff, Lauryn Simmons, Alex Peiffer, Meba Shimelis
+*@version 0.0.1
+*@dateLastModified: September 25, 2022
+*@classDescription: 
+**/
 
 
 import java.awt.EventQueue;
@@ -35,7 +35,7 @@ public class GUIView extends View  {
 	// A boolean signifying if the recent UML diagram has been saved. 
 	// If not, a pop-up message will appear upon clicking the x button
 	//     asking the user if they would like to save before closing
-	boolean saved = false;
+	boolean saved = true;
 	String cls;
 
 	/**
@@ -67,24 +67,39 @@ public class GUIView extends View  {
 		//******** MAIN PAGE ********//
 		frmJambl = new JFrame();
 		frmJambl.setTitle("JAMBL");
-		frmJambl.setBounds(100, 100, 1063, 639);
+		frmJambl.setBounds(100, 100, 969, 692);
 		frmJambl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJambl.getContentPane().setLayout(null);
+		frmJambl.addWindowListener(new WindowAdapter() {
+		    //Override of window closing 
+		    public void windowClosing (WindowEvent e) {   
+		        if(!saved) {
+		            frmJambl.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		            // o is an int representing an option chosen during user selection 
+		            int o = JOptionPane.showOptionDialog(null, "Changes are not saved! Would you like to save before exiting?", "Alert",
+		                    JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION, null, null, e);
+		            if(o == JOptionPane.OK_OPTION) {
+		                saveWindow();
+		                frmJambl.dispose();
+		            }
+		            if(o == JOptionPane.CANCEL_OPTION) {
+		                frmJambl.dispose();
+		            }
+		        }
+                  
+            }   
+		});
 		
-		/*
-		 * Scroll Pane for text area for large output
-		 */
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(359, 67, 678, 524);
-		frmJambl.getContentPane().add(scrollPane_1);
-		
-		/////////////////////////////////////////// textAreaMain - where the UML diagram will be able displayed and updated in real time
-		///////////////////////////////////////////			as classes, field, methods, and relationships are added
-		JTextArea textAreaMain = new JTextArea();
-		scrollPane_1.setViewportView(textAreaMain);
-		textAreaMain.setLineWrap(true);
-		textAreaMain.setEditable(false);
-		
+	      JScrollPane scrollPane = new JScrollPane();
+	        scrollPane.setBounds(264, 12, 676, 633);
+	        frmJambl.getContentPane().add(scrollPane);
+	        
+	        /////////////////////////////////////////// textAreaMain - where the UML diagram will be able displayed and updated in real time
+	        ///////////////////////////////////////////         as classes, field, methods, and relationships are added
+	        JTextArea textAreaMain = new JTextArea();
+	        scrollPane.setViewportView(textAreaMain);
+	        textAreaMain.setLineWrap(true);
+	        textAreaMain.setEditable(false);
 		
 		JLabel ClassLabel = new JLabel("Class");
 		ClassLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -97,15 +112,15 @@ public class GUIView extends View  {
 		
 		JLabel lblRelationships = new JLabel("Relationships");
 		lblRelationships.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblRelationships.setBounds(220, 68, 214, 13);
+		lblRelationships.setBounds(157, 72, 214, 13);
 		frmJambl.getContentPane().add(lblRelationships);
 		
 		JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(220, 93, 97, 2);
+		separator_2.setBounds(157, 91, 97, 2);
 		frmJambl.getContentPane().add(separator_2);
 		
 		/****** TEMPORARY WHILE WHILE WE FIGURE OUT WHAT TO PUT HERE *******/
-		JLabel lblNewLabel = new JLabel("Under Construction!");
+		JLabel lblNewLabel = new JLabel("JAMBL Application");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel.setBounds(10, 16, 187, 13);
 		frmJambl.getContentPane().add(lblNewLabel);
@@ -130,20 +145,20 @@ public class GUIView extends View  {
 		
 		JLabel lblMethods = new JLabel("Methods");
 		lblMethods.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblMethods.setBounds(220, 218, 214, 13);
+		lblMethods.setBounds(157, 219, 214, 13);
 		frmJambl.getContentPane().add(lblMethods);
 		
 		JSeparator separator_1_1_1 = new JSeparator();
-		separator_1_1_1.setBounds(220, 245, 106, 2);
+		separator_1_1_1.setBounds(157, 243, 106, 2);
 		frmJambl.getContentPane().add(separator_1_1_1);
 		
 		JLabel lblFields = new JLabel("Fields");
 		lblFields.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblFields.setBounds(220, 398, 214, 13);
+		lblFields.setBounds(157, 398, 214, 13);
 		frmJambl.getContentPane().add(lblFields);
 		
 		JSeparator separator_4_1 = new JSeparator();
-		separator_4_1.setBounds(220, 423, 106, 2);
+		separator_4_1.setBounds(157, 421, 106, 2);
 		frmJambl.getContentPane().add(separator_4_1);
 		
 		///////////////////////////
@@ -155,14 +170,11 @@ public class GUIView extends View  {
 		btnAddClass.setBounds(10, 103, 97, 21);
 		frmJambl.getContentPane().add(btnAddClass);
 		btnAddClass.addActionListener(new ActionListener() {
-			
-			
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame("JAMBL - Add Class");
 				frame.setBounds(100, 100, 496, 225);
 				frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				frame.getContentPane().setLayout(null);
-				
 
 				////////////////////////////
 				///******* Labels *******///
@@ -204,6 +216,7 @@ public class GUIView extends View  {
 						if(!classNameBox.getText().equals(""))
 						{
 							controller.addClass(classNameBox.getText());
+							saved = false;
 							frame.dispose();
 						}
 					}
@@ -219,8 +232,6 @@ public class GUIView extends View  {
 						frame.dispose();
 					}
 				});
-				
-				saved = false;
 			}
 		});
 		
@@ -294,6 +305,7 @@ public class GUIView extends View  {
 						if(!cbClasses.getSelectedItem().toString().equals("Choose a class:")) {
 							if(!textFieldClassName.getText().equals("")) {
 								controller.renameClass(cbClasses.getSelectedItem().toString(), textFieldClassName.getText() );
+								saved = false;
 								frame.dispose();
 							}
 
@@ -355,7 +367,7 @@ public class GUIView extends View  {
 				//******* Buttons *******//
 				///////////////////////////
 				
-				////////////////////////////////////////////////////////////// Delete Class Button
+				// Delete Class Button
 				JButton btnDeleteClass = new JButton("Delete Class");
 				btnDeleteClass.setForeground(new Color(255, 0, 0));
 				btnDeleteClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -365,6 +377,7 @@ public class GUIView extends View  {
 					public void actionPerformed(ActionEvent e) {
 						if(!comboBoxClasses.getSelectedItem().equals("Choose a class:")) {
 							controller.deleteClass(comboBoxClasses.getSelectedItem().toString());
+							saved = false;
 							frame.dispose();
 						}
 						else
@@ -375,7 +388,7 @@ public class GUIView extends View  {
 					}
 				});
 				
-				////////////////////////////////////////////////////////////// Cancel Button
+				// Cancel Button
 				JButton btnCancel = new JButton("Cancel");
 				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnCancel.setBounds(227, 136, 132, 21);
@@ -393,7 +406,7 @@ public class GUIView extends View  {
 		
 		//////////////////////////////////////////////////////////////////////// Add Relationship Button 
 		JButton btnAddRelationship = new JButton("Add");
-		btnAddRelationship.setBounds(220, 105, 97, 21);
+		btnAddRelationship.setBounds(157, 103, 97, 21);
 		frmJambl.getContentPane().add(btnAddRelationship);
 		btnAddRelationship.addActionListener(new ActionListener() {
 			
@@ -484,7 +497,7 @@ public class GUIView extends View  {
 							controller.addRelationship(comboBoxClass1.getSelectedItem().toString(), 
 							comboBoxClass2.getSelectedItem().toString(), cbRelationships.getSelectedItem().toString());
 							/////////////////////////////////////////////////////////////
-
+							saved = false;
 							frame.dispose();
 						}
 						else
@@ -504,14 +517,12 @@ public class GUIView extends View  {
 						frame.dispose();
 					}
 				});
-
-				saved = false;
 			}
 		});
 		
 		////////////////////////////////////////////////////////////////////////	Delete Relationship Button 
 		JButton btnDeleteRel = new JButton("Delete");
-		btnDeleteRel.setBounds(220, 136, 97, 21);
+		btnDeleteRel.setBounds(157, 134, 97, 21);
 		frmJambl.getContentPane().add(btnDeleteRel);
 		btnDeleteRel.setName("DeleteRelM");
 		btnDeleteRel.addActionListener(new ActionListener() {
@@ -579,7 +590,7 @@ public class GUIView extends View  {
 									controller.deleteRelationship(cbClass1.getSelectedItem().toString(), 
 									cdClass2.getSelectedItem().toString());
 									/////////////////////////////////////////////////////////////
-
+									saved = false;
 									frame.dispose();
 								}
 								else
@@ -588,7 +599,7 @@ public class GUIView extends View  {
 								}
 
 							}
-						});
+				});
 
 				
 				JButton btnCancel = new JButton("Cancel");
@@ -602,15 +613,12 @@ public class GUIView extends View  {
 						frame.dispose();
 					}
 				});
-
-				saved = false;
-				
 			}
 		});
 		
 		////////////////////////////////////////////////////////////////////////	Change Relationship Type Button 
 		JButton btnChangeType = new JButton("Change Type");
-		btnChangeType.setBounds(220, 165, 97, 21);
+		btnChangeType.setBounds(157, 163, 97, 21);
 		frmJambl.getContentPane().add(btnChangeType);
 		btnChangeType.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -694,15 +702,13 @@ public class GUIView extends View  {
 							controller.editRelationshipType(cbClass1.getSelectedItem().toString(), 
 							cbClass2.getSelectedItem().toString(), cbRelationships.getSelectedItem().toString());
 							/////////////////////////////////////////////////////////////
+							saved = false;
 							frmJamblChange.dispose();
 						}
 						else
 						{
 							classSelect();
 						}
-
-
-						frmJamblChange.dispose();
 					}
 				});
 				
@@ -725,72 +731,8 @@ public class GUIView extends View  {
 		////////////////////////////////////////////////////////////////////////	Save Button 
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
-			
-			
 			public void actionPerformed(ActionEvent e) {
-				JFrame frame = new JFrame("JAMBL - Save");
-				frame.setBounds(100, 100, 450, 243);
-				frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				frame.getContentPane().setLayout(null);
-				
-				////////////////////////////
-				///******* Labels *******///
-				////////////////////////////
-				
-				JLabel lblNewLabel = new JLabel("Enter a filename.");
-				lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-				lblNewLabel.setBounds(10, 10, 387, 19);
-				frame.getContentPane().add(lblNewLabel);
-				
-				JLabel lblFileName = new JLabel("File Name:");
-				lblFileName.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				lblFileName.setBounds(10, 95, 72, 13);
-				frame.getContentPane().add(lblFileName);
-				
-				//////////////////////////////
-				///******* Text Box *******///
-				//////////////////////////////
-				
-				JTextField txtDefaulttxt = new JTextField();
-				txtDefaulttxt.setText("JAMBL.json");
-				txtDefaulttxt.setBounds(92, 94, 235, 19);
-				frame.getContentPane().add(txtDefaulttxt);
-				txtDefaulttxt.setColumns(10);
-
-				///////////////////////////
-				//******* Buttons *******//
-				///////////////////////////
-				
-				JButton btnSave = new JButton("Save");
-				//JTextField textField = new JTextField();
-				btnSave.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnSave.setBounds(92, 158, 85, 21);
-				frame.getContentPane().add(btnSave);
-				btnSave.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String text = txtDefaulttxt.getText();
-						if(!text.equals("")){
-							controller.save(text);
-							frame.dispose();
-						}
-						else
-						{
-							System.out.println("Outside if statement");
-						}
-					}
-				});
-				
-				JButton btnCancel = new JButton("Cancel");
-				btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnCancel.setBounds(242, 158, 85, 21);
-				frame.getContentPane().add(btnCancel);
-				frame.setVisible(true);
-				btnCancel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						frame.dispose();
-					}
-				});
-				saved = true;
+				saveWindow();
 			}
 		});
 		btnSave.setBounds(10, 412, 85, 21);
@@ -872,11 +814,12 @@ public class GUIView extends View  {
 						if(!text.equals("")){
 							
 							controller.load(text);
+							saved = true;
 							frame.dispose();
 						}
 						else
 						{
-							
+							loadSelect();
 						}
 					}
 				});
@@ -891,15 +834,13 @@ public class GUIView extends View  {
 								frame.dispose();
 							}
 				});
-
-				saved = false;
 			}
 		});
 		
 		
 		////////////////////////////////////////////////////////////// List All Button - displays entire UML diagram
 		JButton btnListAll = new JButton("List All");
-		btnListAll.setBounds(10, 534, 137, 21);
+		btnListAll.setBounds(10, 532, 137, 21);
 		frmJambl.getContentPane().add(btnListAll);
 		btnListAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -913,8 +854,6 @@ public class GUIView extends View  {
 		btnListRelationships.setBounds(10, 565, 137, 21);
 		frmJambl.getContentPane().add(btnListRelationships);
 		btnListRelationships.addActionListener(new ActionListener() {
-			
-			
 			public void actionPerformed(ActionEvent e) {
 				textAreaMain.setText(controller.listRelationships());
 			}
@@ -922,7 +861,7 @@ public class GUIView extends View  {
 		
 		//////////////////////////////////////////////////////////////////////// List a class button - displays a singular class of a specified name
 		JButton btnListClass = new JButton("List a Class");
-		btnListClass.setBounds(10, 503, 137, 21);
+		btnListClass.setBounds(10, 499, 137, 21);
 		frmJambl.getContentPane().add(btnListClass);
 		btnListClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -986,7 +925,7 @@ public class GUIView extends View  {
 		});
 		
 		
-		////////////////////////////////////////////////////////////////////////////////// Add Parameter Button
+		/// Add Parameter Button
 		JButton btnAddParameter = new JButton("Add");
 		btnAddParameter.setBounds(10, 259, 97, 21);
 		frmJambl.getContentPane().add(btnAddParameter);
@@ -1002,7 +941,6 @@ public class GUIView extends View  {
 				////////////////////////////
 				///******* Labels *******///
 				////////////////////////////
-				
 				
 				JLabel lblAddClass = new JLabel("Choose a class to get started");
 				lblAddClass.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -1081,6 +1019,7 @@ public class GUIView extends View  {
 					public void actionPerformed(ActionEvent e) {
 						if(!textParameter.getText().equals("") && !textParamType.getText().equals("")) {
 							controller.addParameter(cbClasses.getSelectedItem().toString(), cbMethods.getSelectedItem().toString(), textParameter.getText(), textParamType.getText());
+							saved = false;
 							frmJamblAdd.dispose();
 						}
 					}
@@ -1096,8 +1035,6 @@ public class GUIView extends View  {
 						frmJamblAdd.dispose();
 					}
 				});
-				
-				saved = false;
 			}
 		});
 		
@@ -1134,7 +1071,6 @@ public class GUIView extends View  {
 				lblMethod.setBounds(10, 113, 136, 13);
 				frmJamblAdd.getContentPane().add(lblMethod);
 				lblMethod.setVisible(false);
-
 
 				//////////////////////////////
 				//******* Combo Boxes*******//
@@ -1191,6 +1127,7 @@ public class GUIView extends View  {
 					public void actionPerformed(ActionEvent e) {
 						if(!(cbClasses.getSelectedIndex() == -1) && !(cdMethods.getSelectedIndex() == -1) && !(cbParameter.getSelectedIndex() == -1)) {
 							controller.deleteParameter(cbClasses.getSelectedItem().toString(), cdMethods.getSelectedItem().toString(), cbParameter.getSelectedItem().toString());
+							saved = false;
 							frmJamblAdd.dispose();
 						}
 					}
@@ -1217,14 +1154,11 @@ public class GUIView extends View  {
 					public void actionPerformed(ActionEvent e) {
 						if(!(cbClasses.getSelectedIndex() == -1) && !(cdMethods.getSelectedIndex() == -1)){
 							controller.removeAllParameter(cbClasses.getSelectedItem().toString(), cdMethods.getSelectedItem().toString());
+							saved = false;
 							frmJamblAdd.dispose();
 						}
 					}
 				});
-				
-				
-				saved = false;
-				
 			}
 		});
 		
@@ -1233,8 +1167,6 @@ public class GUIView extends View  {
 		btnChangeParameter.setBounds(10, 325, 97, 21);
 		frmJambl.getContentPane().add(btnChangeParameter);
 		btnChangeParameter.addActionListener(new ActionListener() {
-			
-			
 			public void actionPerformed(ActionEvent e) {
 				JFrame frmJamblAdd = new JFrame("JAMBL - Add Parameter");
 				frmJamblAdd.setTitle("JAMBL - Change Parameter");
@@ -1355,7 +1287,8 @@ public class GUIView extends View  {
 				btnChangeParameter.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						controller.changeParameter(cbClasses.getSelectedItem().toString(), cbMethods.getSelectedItem().toString(), cbParameters.getSelectedItem().toString(), textParameter.getText(), textParamType.getText());
-    					frmJamblAdd.dispose();
+    					saved = false;
+						frmJamblAdd.dispose();
 					}
 				});
 				
@@ -1377,11 +1310,9 @@ public class GUIView extends View  {
 		
 		//////////////////////////////////////////////////////////////////////// Add Method Button
 		JButton btnAddMethod = new JButton("Add");
-		btnAddMethod.setBounds(220, 256, 97, 21);
+		btnAddMethod.setBounds(157, 254, 97, 21);
 		frmJambl.getContentPane().add(btnAddMethod);
 		btnAddMethod.addActionListener(new ActionListener() {
-			
-			
 			public void actionPerformed(ActionEvent e) {
 				JFrame frmJamblAdd = new JFrame("JAMBL - Add Class");
 				frmJamblAdd.setTitle("JAMBL - Add Method");
@@ -1462,6 +1393,7 @@ public class GUIView extends View  {
 				btnAddMethod.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						controller.addMethod(comboBoxClasses.getSelectedItem().toString(), methodNameBox.getText(), methodTypeBox.getText());
+						saved = false;
 						frmJamblAdd.dispose();
 					}
 				});
@@ -1482,11 +1414,9 @@ public class GUIView extends View  {
 		
 		//////////////////////////////////////////////////////////////////////// Change Method Return Button
 		JButton btnRefactor = new JButton("Change Type");
-		btnRefactor.setBounds(220, 289, 97, 21);
+		btnRefactor.setBounds(157, 287, 97, 21);
 		frmJambl.getContentPane().add(btnRefactor);
 		btnRefactor.addActionListener(new ActionListener() {
-			
-			
 			public void actionPerformed(ActionEvent e) {
 				JFrame frmJamblAdd = new JFrame("JAMBL - Change Method Return Type");
 				frmJamblAdd.setTitle("JAMBL - Change Method Return Type");
@@ -1574,6 +1504,7 @@ public class GUIView extends View  {
 				btnChangeMethod.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						controller.changeMethodReturn(Classes.getSelectedItem().toString(), Methods.getSelectedItem().toString(), textField.getText());
+						saved = false;
 						frmJamblAdd.dispose();
 					}
 				});
@@ -1588,14 +1519,12 @@ public class GUIView extends View  {
 						frmJamblAdd.dispose();
 					}
 				});
-			
-				saved = false;
 			}
 		});
 		
 		//////////////////////////////////////////////////////////////////////// Delete Method Button
 		JButton btnDeleteMethod = new JButton("Delete");
-		btnDeleteMethod.setBounds(220, 355, 97, 21);
+		btnDeleteMethod.setBounds(157, 353, 97, 21);
 		frmJambl.getContentPane().add(btnDeleteMethod);
 		btnDeleteMethod.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1666,6 +1595,7 @@ public class GUIView extends View  {
 					public void actionPerformed(ActionEvent e) {
 						if(!(Classes.getSelectedIndex() == -1) && !(Methods.getSelectedIndex() == -1)) {
 							controller.deleteMethod(Classes.getSelectedItem().toString(), Methods.getSelectedItem().toString());
+							saved = false;
 							frame.dispose();
 						}
 					}
@@ -1684,11 +1614,10 @@ public class GUIView extends View  {
 				saved = false;
 			}
 		});
-	
 		
 		//////////////////////////////////////////////////////////////////////// Rename Method Button
 		JButton btnRenameMethod = new JButton("Rename");
-		btnRenameMethod.setBounds(220, 322, 97, 21);
+		btnRenameMethod.setBounds(157, 320, 97, 21);
 		frmJambl.getContentPane().add(btnRenameMethod);
 		btnRenameMethod.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1781,6 +1710,7 @@ public class GUIView extends View  {
 				btnChangeMethod.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						controller.renameMethod(Classes.getSelectedItem().toString(), Methods.getSelectedItem().toString(), textField.getText());
+						saved = false;
 						frmJamblAdd.dispose();
 					}
 				});
@@ -1795,14 +1725,12 @@ public class GUIView extends View  {
 						frmJamblAdd.dispose();
 					}
 				});
-
-				saved = false;
 			}
 		});
 		
 		//////////////////////////////////////////////////////////////////////// Add Field Button
 		JButton btnAddField = new JButton("Add");
-		btnAddField.setBounds(220, 437, 97, 21);
+		btnAddField.setBounds(157, 435, 97, 21);
 		frmJambl.getContentPane().add(btnAddField);
 		btnAddField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1883,6 +1811,7 @@ public class GUIView extends View  {
 					public void actionPerformed(ActionEvent e) {
 						if(!fieldNameBox.getText().equals("") && !fieldTypeBox.getText().equals("")) {
 							controller.addField(comboBoxClasses.getSelectedItem().toString(), fieldNameBox.getText(), fieldTypeBox.getText());
+							saved = false;
 							frame.dispose();
 						}
 						else
@@ -1903,15 +1832,12 @@ public class GUIView extends View  {
 						frame.dispose();
 					}
 				});
-				
-
-				saved = false;
 			}
 		});
 		
 		//////////////////////////////////////////////////////////////////////// Change Field Type Button
 		JButton btnChangeFieldType = new JButton("Edit Type");
-		btnChangeFieldType.setBounds(220, 470, 97, 21);
+		btnChangeFieldType.setBounds(157, 468, 97, 21);
 		frmJambl.getContentPane().add(btnChangeFieldType);
 		btnChangeFieldType.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1921,7 +1847,6 @@ public class GUIView extends View  {
 				frmJamblAdd.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				frmJamblAdd.getContentPane().setLayout(null);
 				frmJamblAdd.setVisible(true);
-				
 
 				////////////////////////////
 				///******* Labels *******///
@@ -1992,6 +1917,7 @@ public class GUIView extends View  {
 						lblField.setVisible(true);
 					}
 				});
+
 				///////////////////////////
 				//******* Buttons *******//
 				///////////////////////////
@@ -2004,6 +1930,7 @@ public class GUIView extends View  {
 				btnChangeField.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						controller.changeFieldType(Classes.getSelectedItem().toString(), Fields.getSelectedItem().toString(), textFieldType.getText());
+						saved = false;
 						frmJamblAdd.dispose();
 					}
 				});
@@ -2018,15 +1945,12 @@ public class GUIView extends View  {
 						frmJamblAdd.dispose();
 					}
 				});
-				
-
-				saved = false;
 			}
 		});
 		
 		//////////////////////////////////////////////////////////////////////// Delete Field Button
 		JButton btnDeleteField = new JButton("Delete");
-		btnDeleteField.setBounds(220, 536, 97, 21);
+		btnDeleteField.setBounds(157, 534, 97, 21);
 		frmJambl.getContentPane().add(btnDeleteField);
 		btnDeleteField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -2097,6 +2021,7 @@ public class GUIView extends View  {
 					public void actionPerformed(ActionEvent e) {
 						if(!(Classes.getSelectedIndex() == -1) && !(cbFields.getSelectedIndex() == -1)) {
 							controller.deleteField(Classes.getSelectedItem().toString(), cbFields.getSelectedItem().toString());
+							saved = false;
 							frmJamblAdd.dispose();
 						}
 
@@ -2113,16 +2038,14 @@ public class GUIView extends View  {
 						frmJamblAdd.dispose();
 					}
 				});
-				
-
-				saved = false;
 			}
 		});
 		
 		//////////////////////////////////////////////////////////////////////// Rename Field Button
 		JButton btnRenameField = new JButton("Rename");
-		btnRenameField.setBounds(220, 503, 97, 21);
+		btnRenameField.setBounds(157, 501, 97, 21);
 		frmJambl.getContentPane().add(btnRenameField);
+		
 		btnRenameField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame frmJamblAdd = new JFrame("JAMBL - Change Field Name");
@@ -2202,14 +2125,15 @@ public class GUIView extends View  {
 				///////////////////////////
 				
 				// Change Field Name Button
-				JButton btnChangeMethod = new JButton("Change Field Name");
-				btnChangeMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				btnChangeMethod.setBounds(10, 253, 190, 21);
-				frmJamblAdd.getContentPane().add(btnChangeMethod);
-				btnChangeMethod.addActionListener(new ActionListener() {
+				JButton btnRenameField = new JButton("Change Field Name");
+				btnRenameField.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				btnRenameField.setBounds(10, 253, 190, 21);
+				frmJamblAdd.getContentPane().add(btnRenameField);
+				btnRenameField.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!textField.getText().equals("")) {
 							controller.renameField(Classes.getSelectedItem().toString(), Fields.getSelectedItem().toString(), textField.getText());
+							saved = false;
 							frmJamblAdd.dispose();
 						}
 					}
@@ -2227,14 +2151,6 @@ public class GUIView extends View  {
 				});
 				
 			}
-		});
-	
-		
-		////////////////////////////////////////////////////////////// Save assurance window, under construction!
-		frmJambl.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent windowEvent){
-	      
-	         } 
 		});
 	}
 
@@ -2588,6 +2504,76 @@ public class GUIView extends View  {
 	}
 	public void relDeleted() {
 		JOptionPane.showMessageDialog(f, "Relationship deleted successfully", "Info",JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	/************************************************
+	 * Parameters: N/A
+	 * Returns: N/A
+	 * Prerequisites: Either the Save button or the WindowAdapter have called this. If otherwise, something is very, very wrong.
+	************************************************/
+	public void saveWindow() {
+	    JFrame frame = new JFrame("JAMBL - Save");
+        frame.setBounds(100, 100, 450, 243);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        frame.getContentPane().setLayout(null);
+        
+        ////////////////////////////
+        ///******* Labels *******///
+        ////////////////////////////
+        
+        JLabel lblNewLabel = new JLabel("Enter a filename.");
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblNewLabel.setBounds(10, 10, 387, 19);
+        frame.getContentPane().add(lblNewLabel);
+        
+        JLabel lblFileName = new JLabel("File Name:");
+        lblFileName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblFileName.setBounds(10, 95, 72, 13);
+        frame.getContentPane().add(lblFileName);
+        
+        //////////////////////////////
+        ///******* Text Box *******///
+        //////////////////////////////
+        
+        JTextField txtDefaulttxt = new JTextField();
+        txtDefaulttxt.setText("JAMBL.json");
+        txtDefaulttxt.setBounds(92, 94, 235, 19);
+        frame.getContentPane().add(txtDefaulttxt);
+        txtDefaulttxt.setColumns(10);
 
+        ///////////////////////////
+        //******* Buttons *******//
+        ///////////////////////////
+        
+        JButton btnSave = new JButton("Save");
+        //JTextField textField = new JTextField();
+        btnSave.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        btnSave.setBounds(92, 158, 85, 21);
+        frame.getContentPane().add(btnSave);
+        btnSave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String text = txtDefaulttxt.getText();
+                if(!text.equals("")){
+                    controller.save(text);
+                    frame.dispose();
+                }
+                else
+                {
+                    System.out.println("Outside if statement");
+                }
+            }
+        });
+        
+        JButton btnCancel = new JButton("Cancel");
+        btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        btnCancel.setBounds(242, 158, 85, 21);
+        frame.getContentPane().add(btnCancel);
+        frame.setVisible(true);
+        btnCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+            }
+        });
+        saved = true;
 	}
 }
