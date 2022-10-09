@@ -153,6 +153,7 @@ public class JunitTest {
 	}
 
 	// Tests the functionality of renaming a method in a class
+	@Test
 	public void testRenameMethod() {
 		String clsName = "Tire";
 		String mtdName = "setPSI";
@@ -165,6 +166,7 @@ public class JunitTest {
 	}
 
 		// Tests the functionality of changing the return type of a method in a class
+		@Test
 		public void testRetypeMethod() {
 			String clsName = "Tire";
 			String mtdName = "setPSI";
