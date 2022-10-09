@@ -588,7 +588,7 @@ public class Controller {
                 }
 
                 typeName = view.inputAddType();
-                if (typeName.isBlank()) { //checks for blank input
+                if (typeName.isBlank()) {       //checks for blank input
                     view.invalid();
                     break;
                 }
@@ -603,7 +603,7 @@ public class Controller {
                     returned = class1.addRelationship(class2, typeName);
                     // notifies user that relationship was added
                     if(returned){
-                        view.AddedRel(class1.getClassName(), class2.getClassName(), typeName);
+                        view.AddedRel(class1.getClassName(), class2.getClassName(), class2.TypefullName(typeName));
                     }
                 } 
                 break;
@@ -669,8 +669,9 @@ public class Controller {
                     view.exists("Relationship type", typeName);
                     break;
                 }
+
                 class1.editRelationshipType(name2, typeName);
-                view.relTypeEdited(typeName);
+                view.relTypeEdited(class2.TypefullName(typeName));
                 
                 break;
 

@@ -18,19 +18,24 @@ public class Relationship {
     */
 
         public enum Type {
-            AGGREGATION("AGGREGATION"), 
-            COMPOSITION("COMPOSITION"), 
-            INHERITANCE("INHERITANCE"), 
-            REALIZATION("REALIZATION");
+            AGGR("AGGR", "AGGREGATION"), 
+            COMP("COMP", "COMPOSITION"), 
+            INHE("INHE", "INHERITANCE"), 
+            REAL("REAL", "REALIZATION");
 
-            private String name;
+            private  String name;
+             String fullName;
 
-            private Type(String name) {
+            private Type(String name, String fullName) {
                 this.name = name;
+                this.fullName = fullName;
             }
            
             public String toString(){
                 return name;
+            }
+            public String fullName(){
+                return fullName;
             }
     
         }
@@ -63,6 +68,10 @@ public class Relationship {
             // returns the destination of the current class relationship
             return this.destination;
     
+        }
+
+        public String getFullType(){
+            return this.relationshipType.fullName();
         }
     
     }

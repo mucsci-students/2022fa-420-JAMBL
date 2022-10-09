@@ -400,7 +400,7 @@ public class GUIView extends View  {
 				frame.setVisible(true);
 				
 				JSeparator separator = new JSeparator();
-				separator.setBounds(110, 147, 119, 2);
+				separator.setBounds(110, 147, 119, 3);
 				frame.getContentPane().add(separator);
 				
 				JLabel lblAddClass = new JLabel("Choose a relationship type and classes");
@@ -408,9 +408,9 @@ public class GUIView extends View  {
 				lblAddClass.setBounds(10, 10, 338, 13);
 				frame.getContentPane().add(lblAddClass);
 				
-				JLabel lblRelationshipType = new JLabel("Choose a relationship type:");
-				lblRelationshipType.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				lblRelationshipType.setBounds(10, 33, 219, 51);
+				JLabel lblRelationshipType = new JLabel("<html> Choose a relationship type: <br>AGGREGATION, COMPOSITION, INHERITANCE, REALIZATION<html>");
+				lblRelationshipType.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				lblRelationshipType.setBounds(10, 33, 350, 51);
 				frame.getContentPane().add(lblRelationshipType);
 				
 				JLabel lblChoose = new JLabel("* Choose a relationship type.");
@@ -449,7 +449,7 @@ public class GUIView extends View  {
 				
 				
 				JComboBox<Object> cbRelationships = new JComboBox<Object>();
-				cbRelationships.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a relationship type:", "Aggregation", "Composition", "Inheritance", "Realization"}));
+				cbRelationships.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a relationship type:", "Aggr", "Comp", "Inhe", "Real"}));
 				cbRelationships.setBounds(10, 74, 161, 21);
 				frame.getContentPane().add(cbRelationships);
 				cbRelationships.addItemListener(new ItemListener() {
@@ -628,9 +628,9 @@ public class GUIView extends View  {
 				lblClass1.setBounds(10, 55, 63, 13);
 				frmJamblChange.getContentPane().add(lblClass1);
 				
-				JLabel lblRelationship = new JLabel("New Relationship Type:");
-				lblRelationship.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				lblRelationship.setBounds(10, 171, 168, 13);
+				JLabel lblRelationship = new JLabel("<html> New Relationship Type: <br>AGGREGATION, COMPOSITION, INHERITANCE, REALIZATION<html>");
+				lblRelationship.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				lblRelationship.setBounds(10, 150, 350, 51);
 				frmJamblChange.getContentPane().add(lblRelationship);
 				lblRelationship.setVisible(false);
 				
@@ -644,8 +644,7 @@ public class GUIView extends View  {
 				//////////////////////////////
 			
 				JComboBox<Object> cbRelationships = new JComboBox<Object>();
-				cbRelationships.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a relationship type:", "Aggregation", 
-						"Realization", "Inheritance", "Composition"}));
+				cbRelationships.setModel(new DefaultComboBoxModel<Object>(new String[] {"Choose a relationship type:", "Aggr", "Real", "Inhe", "Comp"}));
 				cbRelationships.setBounds(10, 194, 111, 21);
 				frmJamblChange.getContentPane().add(cbRelationships);
 				cbRelationships.setVisible(false);

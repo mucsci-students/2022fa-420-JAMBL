@@ -126,7 +126,7 @@ public class AddRelationshipW {
 		
 		@SuppressWarnings("rawtypes")
 		JComboBox cbRelationships = new JComboBox();
-		cbRelationships.setModel(new DefaultComboBoxModel(new String[] {"Choose a relationship type:", "Aggregation", "Composition", "Ineritance", "Realization"}));
+		cbRelationships.setModel(new DefaultComboBoxModel(new String[] {"Choose a relationship type:", "Aggr", "Comp", "Iner", "Real"}));
 		cbRelationships.setBounds(10, 74, 161, 21);
 		frame.getContentPane().add(cbRelationships);
 		cbRelationships.addItemListener(new ItemListener() {

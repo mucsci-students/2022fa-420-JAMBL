@@ -195,7 +195,7 @@ public class GUIController {
 			if (rel != null) {
 				GUI.relExists();				
 			} else {
-				cls.addRelationship(model.getClass(destination), typeName.toUpperCase());
+				cls.addRelationship(model.getClass(destination), typeName.toUpperCase()); 
 				GUI.addedRel(origin, destination);
 			}
 		}
@@ -223,7 +223,7 @@ public class GUIController {
 			}else {
 				rel.setRelType(newType);     
 
-		   	    GUI.relTypeEdited(newType);
+		   	    GUI.relTypeEdited(model.getClass(destination).TypefullName(newType.toUpperCase()));
 			}
 		}
 
@@ -356,7 +356,7 @@ public class GUIController {
         
         for (Relationship ele: cls.getRelationships()) {
             String dest = ele.getDestination().getClassName();
-            String type = ele.getRelType();
+            String type = ele.getFullType().toLowerCase();
         	list = list + "     * " + className + " --" + type + "--> " + dest + "\n"+ "\n\n";
 		}
 		list = list + "\n";

@@ -321,4 +321,15 @@ public class Class {
         return validType;
     }
 
+    public String TypefullName (String otherName) {
+        String fullName = null;
+
+        for (Relationship.Type type: Relationship.Type.values()) {
+            if (type.toString().equals(otherName)) {
+                
+                fullName = type.fullName();
+            }
+        }
+        return fullName;
+    }
 }

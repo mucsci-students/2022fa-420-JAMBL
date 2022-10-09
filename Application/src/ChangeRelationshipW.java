@@ -59,7 +59,7 @@ public class ChangeRelationshipW {
 		lblClass1.setBounds(10, 55, 63, 13);
 		frmJamblChange.getContentPane().add(lblClass1);
 		
-		JLabel lblRelationship = new JLabel("New Relationship Type:");
+		JLabel lblRelationship = new JLabel("New Relationship Type: ");
 		lblRelationship.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblRelationship.setBounds(10, 171, 168, 13);
 		frmJamblChange.getContentPane().add(lblRelationship);
@@ -100,7 +100,7 @@ public class ChangeRelationshipW {
 		//////////////////////////////
 	
 		JComboBox cbRelationships = new JComboBox();
-		cbRelationships.setModel(new DefaultComboBoxModel(new String[] {"Choose a relationship type:", "Aggregation", "Realization", "Inheritance", "Composition"}));
+		cbRelationships.setModel(new DefaultComboBoxModel(new String[] {"Choose a relationship type:", "Aggr", "Real", "Inhe", "Comp"}));
 		cbRelationships.setBounds(10, 194, 111, 21);
 		frmJamblChange.getContentPane().add(cbRelationships);
 		
