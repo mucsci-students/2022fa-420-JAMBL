@@ -226,7 +226,7 @@ public class JunitTest {
 			newClass = new Class("Keyboard");
 			oldFieldName = "escape";
 			fieldType = "Key";
-			newClass.addField(fieldName, fieldType);
+			newClass.addField(oldFieldName, fieldType);
 			newFieldName = "tab";
 			newClass.renameField(oldFieldName, newFieldName);
 			String result = newClass.getField(newFieldName).getFieldName();
