@@ -17,7 +17,6 @@ import java.util.HashSet;
 public class JunitTest {
 
 
-	Attribute newAtt = null;
 	 Class newClass = null;
 	 Class newClass2 = null;
 	 String typeName;
@@ -112,29 +111,6 @@ public class JunitTest {
 		   
 	   }
 	   
-	   // Tests the functionality of adding attribute to a class
-	   @Test
-	   public void testaddAttribute() {
-		    newAtt = new Attribute("Year");
-		   assertEquals("Year", newAtt.getAttName());
-	   }
-	
-	   // Tests the functionality of getting attribute name
-		@Test
-	   public void testgetAttName() {
-	    newAtt = new Attribute("Genre");  
-	   assertEquals("Genre", newAtt.getAttName());
-	   }
-	   
-	    // Tests the functionality of setting attribute name
-	   @Test
-	   public void testsetAttName() {
-		  newAtt = new Attribute("Genre");
-		   String expected = "Year";
-		   newAtt.setAttName("Year");
-		   String result = newAtt.getAttName();
-		  assertEquals(expected, result);
-	   }
 	   
 	    // Tests the functionality of getting class destination
 	   @Test
