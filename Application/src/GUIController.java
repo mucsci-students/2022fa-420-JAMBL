@@ -13,7 +13,14 @@ import java.util.Iterator;
 import java.util.*;
 
 import javax.swing.JButton;
+import javax.swing.event.SwingPropertyChangeSupport;
 
+import java.awt.EventQueue;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -24,30 +31,221 @@ import org.json.simple.parser.JSONParser;
 public class GUIController {
 	
 		Model model;
-		GUIView GUI;
+		//GUIView GUI;
+		
 		public HashSet<Relationship> relationships = new HashSet<Relationship>();
 		
 		/*
 		 * Constructs a new GUIController
 		 */
-		public GUIController(Model MODEL, GUIView gui) {
+		public GUIController(Model MODEL) {
 			model = MODEL;
-			GUI = gui;
+			
 		}
+
+		/*Creates a view and makes it visible to user. (Main window)*/
+		/* Creates action listener for every button on Main window */
+		public void start(){
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						GUIView GUINow = new GUIView();
+						GUINow.setVisible();
+						
+
+						// Adding a Class Action Listener
+						GUINow.addClassBtn().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								
+								
+								addClassAction(GUINow.addingClassWindow(), GUINow);
+								
+							}
+
+						});
+
+						// Deleting Class Action Listener
+						GUINow.delClassBtn().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								deleteClassAction(GUINow.deletingClassWindow(), GUINow);
+							}
+
+						});
+
+						// Renaming a Class Action Listener
+						GUINow.renClassBtn().addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								renClassAction(GUINow.renamingClassWindow(), GUINow);	
+							}
+
+						});
+
+						// Adding Rel Action Listener
+						GUINow.btnAddRelationship.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								addingRelsAction(GUINow.addingRelsWindow(), GUINow);
+								
+							}
+
+						});
+
+						GUINow.btnDeleteRel.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								deletingRelsAction(GUINow.deletingRelsWindow(), GUINow);
+								
+							}
+
+						});
+
+						GUINow.btnChangeType.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								changingRelsAction(GUINow.changingRelsWindow(), GUINow);
+								System.out.println("todo");
+							}
+
+						});
+
+						GUINow.btnAddMethod.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								addingMethodAction(GUINow.addingMethodWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnDeleteMethod.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								deletingMethodAction(GUINow.deletingMethodWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnRenameMethod.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								renamingMethodAction(GUINow.renamingMethodWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnRefactor.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								changingMethodAction(GUINow.changingMethodWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnAddParameter.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								addingParamAction(GUINow.addingParamWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnChangeParameter.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								changingParamAction(GUINow.changingParamWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnDeleteParameter.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								deletingParamAction(GUINow.deletingParamWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnAddField.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								addingFieldAction(GUINow.addingFieldWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnChangeFieldType.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								editingFieldAction(GUINow.editingFieldWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnDeleteField.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								deletingFieldAction(GUINow.deletingFieldWindow(), GUINow);
+								
+							}
+
+						});
+
+						GUINow.btnRenameField.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								renamingFieldAction(GUINow.renamingFieldWindow(), GUINow);
+							}
+
+						});
+
+
+						// Load Model Action Listener
+						GUINow.btnLoad.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								loadAction(GUINow.loadWindow(), GUINow);
+							}
+
+						});
+
+						// Save Model Action Listener
+						GUINow.btnSave.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								saveAction(GUINow.saveWindow(), GUINow);
+							}
+
+						});
+
+						GUINow.btnListClass.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								listAClassAction(GUINow.listAClassWindow(), GUINow);
+							
+							}
+
+						});
+
+						// Listing Class Action Listener
+						GUINow.btnListAll.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								GUINow.getMainArea().setText(listAllAction());
 				
-		
-		
-		///////////////////////////////     
-		//// ****GUI FUNCTIONS**** ////
-		///////////////////////////////     
-	    public String[] getClassNames() {
+								
+							}
+
+						});
+
+						GUINow.btnListRelationships.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								GUINow.getMainArea().setText(listRelationships());
+							}
+
+						});
+
+
+
+					} catch (Exception e) {
+						
+						e.printStackTrace();
+						
+					}
+				}
+			});	
+
+			
+		}
+
+		public String[] getClassNames() {
 	    	return model.getClassList();
 	    }
 	    
 	    /*
 	     *  Function for GUI to add class to model
 	     */
-	    public void addClass(String name) {
+	    public void addClass(String name, GUIView GUI) {
 	    	if(model.getClass(name) == null) // Class does not exist already
 			{		
 	    		model.addClass(name);
@@ -62,7 +260,7 @@ public class GUIController {
 	    /*
 	     * Function for GUI to rename class in the model
 	     */
-	    public void renameClass(String name1, String name2) {
+	    public void renameClass(String name1, String name2, GUIView GUI) {
 	    	if(model.getClass(name2) == null) 
 			{
 				model.renameClass(name1, name2);
@@ -77,7 +275,7 @@ public class GUIController {
 	    /*
 	     * Function for GUI to delete class in model
 	     */
-	    public void deleteClass(String name) {
+	    public void deleteClass(String name, GUIView GUI) {
 	    		model.deleteClass(model.getClass(name));
 	    		GUI.classDelete(name);
 	    }
@@ -107,7 +305,7 @@ public class GUIController {
 	    
 	    
 	    /////////// ***** Field Methods ****** ////////////
-	    public void addField(String className, String fieldName, String fieldType) {
+	    public void addField(String className, String fieldName, String fieldType, GUIView GUI) {
 	    	Class get = model.getClass(className);
 	    	if(get.addField(fieldName, fieldType))
 	    		GUI.fieldAdd(fieldName, className);
@@ -115,7 +313,7 @@ public class GUIController {
 	    		GUI.fieldAdd(fieldName, className);
 	    }
 	    
-	    public void renameField(String className, String oldName, String newName) {
+	    public void renameField(String className, String oldName, String newName, GUIView GUI) {
 	    	Class cls = model.getClass(className);
 			Field fld = cls.getField(newName);
 			if (fld != null) {
@@ -127,7 +325,7 @@ public class GUIController {
 		}
 			
 	    
-	    public void deleteField(String className, String fieldName) {
+	    public void deleteField(String className, String fieldName, GUIView GUI) {
 	    	if(model.getClass(className).deleteField(fieldName)) {
 	    		GUI.fieldDelete(fieldName, className);
 	    	}
@@ -137,13 +335,13 @@ public class GUIController {
 	    	}
 	    }
 	    
-	    public void changeFieldType(String className, String fieldName, String newFieldType) {
+	    public void changeFieldType(String className, String fieldName, String newFieldType, GUIView GUI) {
 	    	model.getClass(className).getField(fieldName).setFieldType(newFieldType);
 	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
 	    }
 
 	    /////////// ***** Method methods ****** ////////////
-		public void addMethod (String className, String methodName, String methodReturn) {
+		public void addMethod (String className, String methodName, String methodReturn, GUIView GUI) {
 			Class cls = model.getClass(className);
 			if (cls.getMethod(methodName) != null) {
 				GUI.methodExist();
@@ -153,7 +351,7 @@ public class GUIController {
 			GUI.methodActionFailure("add");
 			}
 		}
-		public void deleteMethod (String className, String methodName) {
+		public void deleteMethod (String className, String methodName, GUIView GUI) {
 			Class cls = model.getClass(className);
 			Method mtd = cls.getMethod(methodName);
 			if (cls.deleteMethod(mtd)) {
@@ -163,7 +361,7 @@ public class GUIController {
 			}
 		}
 
-		public void renameMethod (String className, String oldMtdName, String newMtdName) {
+		public void renameMethod (String className, String oldMtdName, String newMtdName, GUIView GUI) {
 			if (oldMtdName.toUpperCase().equals(newMtdName.toUpperCase())) {
 				GUI.methodExist();
 			}else {
@@ -177,7 +375,7 @@ public class GUIController {
 			}
 		}
 
-		public void changeMethodReturn (String className, String methodName, String returnType) {
+		public void changeMethodReturn (String className, String methodName, String returnType, GUIView GUI) {
 			Class cls = model.getClass(className);
 			Method mtd = cls.getMethod(methodName);
 			if (cls.changeMethodreturn(mtd, returnType)) {
@@ -190,7 +388,7 @@ public class GUIController {
    
 	     /////////// ***** Relationship Methods ****** ////////////
 
-		public void addRelationship (String origin, String destination, String typeName) {
+		public void addRelationship (String origin, String destination, String typeName, GUIView GUI) {
 			Class cls = model.getClass(origin);		
 			Relationship rel = cls.getRelationship(destination);
 			if (rel != null) {
@@ -202,7 +400,7 @@ public class GUIController {
 		}
 
 
-		public void deleteRelationship (String origin, String destination) {
+		public void deleteRelationship (String origin, String destination, GUIView GUI) {
 			Class cls = model.getClass(origin);
 			Relationship rel = cls.getRelationship(destination);
 			if (rel == null) {
@@ -214,7 +412,7 @@ public class GUIController {
 				
 		}
 
-		public void editRelationshipType(String origin, String destination, String newType) {
+		public void editRelationshipType(String origin, String destination, String newType, GUIView GUI) {
 			Relationship rel = model.getClass(origin).getRelationship(destination);
 			if (rel == null) {
 				GUI.relationshipNotExist();
@@ -229,7 +427,7 @@ public class GUIController {
 		}
 
 
-  /*********************************** NEEDS TESTING ***************************************/
+  
 		public void save( String fileName){
 			Save saving = new Save(model);
 			JSONObject fileObj = new JSONObject();
@@ -267,7 +465,7 @@ public class GUIController {
 
 
 
-		public void addParameter(String class1, String method1, String name, String type){
+		public void addParameter(String class1, String method1, String name, String type, GUIView GUI){
 			Class class2 = model.getClass(class1);
 			Method method2 = class2.getMethod(method1);
 			if(method2.addParameter(name, type)){
@@ -277,7 +475,7 @@ public class GUIController {
 			}
 		}
 		
-		public void deleteParameter(String class1, String method1, String name){
+		public void deleteParameter(String class1, String method1, String name, GUIView GUI){
 			Class class2 = model.getClass(class1);
 			Method method2 = class2.getMethod(method1);
 			if(method2.deleteParameter(name)){
@@ -287,7 +485,7 @@ public class GUIController {
 			}
 		}
 		
-		public void changeParameter(String class1, String method1, String oldname, String newname, String newtype){
+		public void changeParameter(String class1, String method1, String oldname, String newname, String newtype, GUIView GUI){
 			Class class2 = model.getClass(class1);
 			Method method2 = class2.getMethod(method1);
 			if(method2.changeParameter(oldname, newname, newtype)){
@@ -297,7 +495,7 @@ public class GUIController {
 			}
 		}
 		
-		public void removeAllParameter(String class1, String method1){
+		public void removeAllParameter(String class1, String method1, GUIView GUI){
 			Class class2 = model.getClass(class1);
 			Method method2 = class2.getMethod(method1);
 			if(method2.deleteAllParameter()){
@@ -307,9 +505,7 @@ public class GUIController {
 			}
 		}
 	
-	/****************************************************************************/
-	 
-	/*************************************shot in the dark**************** */
+
 	public String listAllClasses () {
         String list ="CLASSES \n===============\n";
         for (Class ele: model.classes) {
@@ -393,4 +589,869 @@ public class GUIController {
 	    return model.getClass(className);
 	}
 	
+	
+
+
+
+		/***********************ACTION LISTENERS FOR SECONDARY WINDOWS*************************** */
+
+				
+		// adding class functionality
+		public void addClassAction(JFrame frame , GUIView view){
+			view.btnAddClass.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String text = view.getTextBox().getText();
+					if(!text.equals(""))
+					{
+						model.addClass(text);
+						frame.dispose();
+					}
+					view.saved = false;
+
+				}
+			});
+
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+				}
+			});
+			
+
+		}
+
+
+		public void deleteClassAction(JFrame frame , GUIView view){
+			view.comboBoxClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+
+			view.btnDeleteClass.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!view.comboBoxClasses.getSelectedItem().equals("Choose a class:")) {
+						deleteClass(view.comboBoxClasses.getSelectedItem().toString(), view);
+						frame.dispose();
+					}
+					else
+					{
+						view.classSelect();
+					}
+						
+				}
+			});
+
+			// if Cancel button clicked
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+
+		}
+
+
+
+		public void renClassAction(JFrame frame , GUIView view){
+
+
+			view.cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+				view.cbClasses.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent arg0) {
+								view.textFieldClassName.setVisible(true);
+								view.lblNewName.setVisible(true);
+							}
+				});
+
+				view.btnRenameClass.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						System.out.println("MAde it");
+						if(!view.cbClasses.getSelectedItem().toString().equals("Choose a class:")) {
+							
+							if(!view.textFieldClassName.getText().equals("")) {
+								renameClass(view.cbClasses.getSelectedItem().toString(), view.textFieldClassName.getText(), view );
+								
+								frame.dispose();
+							}
+
+						}
+						else
+						{
+							view.classSelect();
+						}
+					}
+				});
+
+                view.btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+					}
+				});
+			
+			
+
+		}
+
+
+		public void addingRelsAction(JFrame frame , GUIView view){
+			view.comboBoxClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			view.comboBoxClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			
+			/* Combobox listener */
+			view.cbRelationships.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.comboBoxClass1.setVisible(true);
+					view.comboBoxClass2.setVisible(true);
+					view.lblClass1.setVisible(true);
+					view.lblClass2.setVisible(true);
+				}
+			});
+
+			view.btnAddRelationship.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!view.comboBoxClass1.getSelectedItem().equals("Choose a class:") || !view.comboBoxClass2.getSelectedItem().equals("Choose a class:") ) {
+
+						////////////////////////////////////////////////////////
+						addRelationship(view.comboBoxClass1.getSelectedItem().toString(), 
+						view.comboBoxClass2.getSelectedItem().toString(), view.cbRelationships.getSelectedItem().toString(), view);
+						/////////////////////////////////////////////////////////////
+
+						frame.dispose();
+					}
+					else
+					{
+						view.classSelect();
+					}
+				}
+			});
+			
+			
+			/*Cancel Listener */
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+
+			view.saved = false;
+
+		}
+
+		/*Deleting Rel Action */
+		public void deletingRelsAction(JFrame frame , GUIView view){
+			view.cdClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			view.cbClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			
+			view.cbClass1.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.cdClass2.setVisible(true);
+					view.lblClass2.setVisible(true);
+				}
+			});
+
+			view.btnDeleteRelationship.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!view.cbClass1.getSelectedItem().equals("Choose a class:") || !view.cdClass2.getSelectedItem().equals("Choose a class:") ) {
+
+						////////////////////////////////////////////////////////
+						deleteRelationship(view.cbClass1.getSelectedItem().toString(), 
+						view.cdClass2.getSelectedItem().toString(), view);
+						/////////////////////////////////////////////////////////////
+
+						frame.dispose();
+					}
+					else
+					{
+						view.classSelect();
+					}
+
+				}
+			});
+
+	
+	
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					frame.dispose();
+				}
+			});
+
+			view.saved = false;
+	
+
+		}
+	
+
+
+		public void changingRelsAction(JFrame frame , GUIView view){
+			view.cbClass2.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			view.cbClass1.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			
+			view.cbClass1.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.cbClass2.setVisible(true);
+					view.lblClass2.setVisible(true);
+				}
+			});
+
+			view.bteditRelType.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					if(!view.cbClass1.getSelectedItem().equals("Choose a class:") || !view.cbClass2.getSelectedItem().equals("Choose a class:") ) {
+						////////////////////////////////////////////////////////
+						editRelationshipType(view.cbClass1.getSelectedItem().toString(), 
+						view.cbClass2.getSelectedItem().toString(), view.cbRelationships.getSelectedItem().toString(),view);
+						/////////////////////////////////////////////////////////////
+						view.frmJamblChange.dispose();
+					}
+					else
+					{
+						view.classSelect();
+					}
+
+
+					view.frmJamblChange.dispose();
+				}
+			});
+
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					view.frmJamblChange.dispose();
+				}
+			});
+			
+
+			view.saved = false;
+		}
+	
+
+
+		public void addingMethodAction(JFrame frame , GUIView view){
+			view.comboBoxClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			view.comboBoxClasses.addItemListener(new ItemListener() {
+					public void itemStateChanged(ItemEvent arg0) {
+						view.lblMethodName.setVisible(true);
+						view.lblMethodType.setVisible(true);
+						view.methodNameBox.setVisible(true);
+						view.methodTypeBox.setVisible(true);
+					}
+				});
+
+				view.btnAddMethod.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						addMethod(view.comboBoxClasses.getSelectedItem().toString(), view.methodNameBox.getText(), view.methodTypeBox.getText(), view);
+						view.frmJamblAdd.dispose();
+					}
+				});
+				
+				
+				view.btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						view.frmJamblAdd.dispose();
+					}
+				});
+				view.saved = false;
+	
+		}
+	
+
+
+		public void deletingMethodAction(JFrame frame , GUIView view){
+			view.Methods.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					
+				}
+			});
+			
+			view.Classes.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			view.Classes.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.Methods.setModel(new DefaultComboBoxModel<Object>(getList("Method", view.Classes.getSelectedItem().toString(), null)));
+					view.Methods.setVisible(true);
+					view.lblMethods.setVisible(true);
+				}
+			});
+
+
+			
+			view.btnDeleteMethod.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!(view.Classes.getSelectedIndex() == -1) && !(view.Methods.getSelectedIndex() == -1)) {
+						deleteMethod(view.Classes.getSelectedItem().toString(), view.Methods.getSelectedItem().toString(), view);
+						frame.dispose();
+					}
+				}
+			});
+			
+						
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+			view.saved = false;
+	
+		}
+	
+
+
+		public void renamingMethodAction(JFrame frame , GUIView view){
+	
+			view.Classes.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+				view.Methods.addItemListener(new ItemListener() {
+					public void itemStateChanged(ItemEvent arg0) {
+						view.textField.setVisible(true);
+						view.lblNewMethod.setVisible(true);
+					}
+				});
+					
+				
+				
+				view.Classes.addItemListener(new ItemListener() {
+					public void itemStateChanged(ItemEvent arg0) {
+						view.Methods.setModel(new DefaultComboBoxModel<Object>(getList("Method", view.Classes.getSelectedItem().toString(), null)));
+						view.Methods.setVisible(true);
+						view.lblMethod.setVisible(true);
+					}
+				});
+
+				
+				view.btnChangeMethod.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						renameMethod(view.Classes.getSelectedItem().toString(), view.Methods.getSelectedItem().toString(), view.textField.getText(), view);
+						view.frmJamblAdd2.dispose();
+					}
+				});
+				
+				
+				view.btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						view.frmJamblAdd2.dispose();
+					}
+				});
+
+				view.saved = false;
+		}
+
+
+	
+		public void changingMethodAction(JFrame frame , GUIView view){
+			view.Classes.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			view.Methods.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.textField.setVisible(true);
+					view.lblNewLabel.setVisible(true);
+				}
+			});
+			
+			
+			
+			view.Classes.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.Methods.setModel(new DefaultComboBoxModel<Object>(getList("Method", view.Classes.getSelectedItem().toString(), null)));
+					view.Methods.setVisible(true);
+					view.lblMethod.setVisible(true);
+				}
+			});
+			
+			
+			view.btnChangeMethod.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					changeMethodReturn(view.Classes.getSelectedItem().toString(), view.Methods.getSelectedItem().toString(), view.textField.getText(), view);
+					view.frmJamblAdd.dispose();
+				}
+			});
+			
+			
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					view.frmJamblAdd.dispose();
+				}
+			});
+			view.saved = false;
+
+		}
+	
+		public void addingParamAction(JFrame frame , GUIView view){
+	
+			view.cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+				
+			view.cbClasses.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent arg0) {
+								view.cbMethods.setModel(new DefaultComboBoxModel<Object>(getList("Method", view.cbClasses.getSelectedItem().toString(), null)));
+								view.cbMethods.setVisible(true);
+								view.lblMethod.setVisible(true);
+							}
+				});
+		
+				
+				
+				view.btnAddParameter.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(!view.textParameter.getText().equals("") && !view.textParamType.getText().equals("")) {
+							addParameter(view.cbClasses.getSelectedItem().toString(), view.cbMethods.getSelectedItem().toString(), view.textParameter.getText(), view.textParamType.getText(), view);
+							frame.dispose();
+						}
+					}
+				});
+				
+				
+				view.btnCancel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+					}
+				});
+				
+				view.saved = false;
+		}
+	
+		public void deletingParamAction(JFrame frame , GUIView view){
+			view.cbParameter.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+
+				}
+				});
+			
+				
+			view.cdMethods.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				view.cbParameter.setModel(new DefaultComboBoxModel<Object>(getList("Param", view.cls, view.cdMethods.getSelectedItem().toString())));
+				view.cbParameter.setVisible(true);
+				view.lblParameter.setVisible(true);
+			}
+			});
+			
+			view.cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			view.cbClasses.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				view.cls = view.cbClasses.getSelectedItem().toString();
+				view.cdMethods.setModel(new DefaultComboBoxModel<Object>(getList("Method", view.cls, null)));
+				view.cdMethods.setVisible(true);
+				view.lblMethod.setVisible(true);
+			}
+			});
+			
+			
+			view.btnRemoveParameter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!(view.cbClasses.getSelectedIndex() == -1) && !(view.cdMethods.getSelectedIndex() == -1) && !(view.cbParameter.getSelectedIndex() == -1)) {
+						deleteParameter(view.cbClasses.getSelectedItem().toString(), view.cdMethods.getSelectedItem().toString(), view.cbParameter.getSelectedItem().toString(), view);
+						frame.dispose();
+					}
+				}
+			});
+			
+			
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+			
+			
+			view.btnDeleteAll.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!(view.cbClasses.getSelectedIndex() == -1) && !(view.cdMethods.getSelectedIndex() == -1)){
+						removeAllParameter(view.cbClasses.getSelectedItem().toString(), view.cdMethods.getSelectedItem().toString(), view);
+						frame.dispose();
+					}
+				}
+			});
+			
+			
+			view.saved = false;
+			
+			
+	
+		}
+	
+		public void changingParamAction(JFrame frame , GUIView view){
+					
+			view.cbParameters.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.lblNewParameterType.setVisible(true);
+					view.textParameter.setVisible(true);
+					view.textParamType.setVisible(true);
+					view.lblNewParameterName.setVisible(true);
+				}
+			});	
+			
+			
+			view.cbMethods.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.cbParameters.setModel(new DefaultComboBoxModel<Object>(getList("Param", view.cls, view.cbMethods.getSelectedItem().toString())));
+					view.cbParameters.setVisible(true);
+					view.lblParameter.setVisible(true);
+				}
+			});
+
+			
+			
+			view.cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			
+			view.cbClasses.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.cls = view.cbClasses.getSelectedItem().toString();
+					view.cbMethods.setModel(new DefaultComboBoxModel<Object>(getList("Method", view.cls, null)));
+					view.cbMethods.setVisible(true);
+					view.lblMethod.setVisible(true);
+				}
+			});
+			
+			
+			view.btnChangeParameter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					changeParameter(view.cbClasses.getSelectedItem().toString(), view.cbMethods.getSelectedItem().toString(), view.cbParameters.getSelectedItem().toString(), view.textParameter.getText(), view.textParamType.getText(), view);
+					frame.dispose();
+				}
+			});
+			
+			
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+			
+		
+			view.saved = false;
+		}
+	
+
+		/*Field Action listeners */
+		public void addingFieldAction(JFrame frame , GUIView view){
+			view.comboBoxClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+				
+				
+			view.comboBoxClasses.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.lblField.setVisible(true);
+					view.lblFieldType.setVisible(true);
+					view.fieldNameBox.setVisible(true);
+					view.fieldTypeBox.setVisible(true);
+				}
+			});
+			
+			
+			view.btnAddField.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!view.fieldNameBox.getText().equals("") && !view.fieldTypeBox.getText().equals("")) {
+						addField(view.comboBoxClasses.getSelectedItem().toString(), view.fieldNameBox.getText(), view.fieldTypeBox.getText(), view);
+						frame.dispose();
+					}
+					else
+					{
+						view.fieldText();
+					}
+
+				}
+			});
+			
+			
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+			
+
+			view.saved = false;
+	
+		}
+	
+
+
+		public void deletingFieldAction(JFrame frame , GUIView view){
+			view.cbFields.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					
+				}
+			});
+			view.Classes.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			
+			view.Classes.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.cbFields.setModel(new DefaultComboBoxModel<Object>(getList("Field", view.Classes.getSelectedItem().toString(), null)));
+					view.cbFields.setVisible(true);
+					view.lblField.setVisible(true);
+				}
+			});
+			
+			
+			view.btnDeleteField.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!(view.Classes.getSelectedIndex() == -1) && !(view.cbFields.getSelectedIndex() == -1)) {
+						deleteField(view.Classes.getSelectedItem().toString(), view.cbFields.getSelectedItem().toString(), view);
+						view.frmJamblAdd3.dispose();
+					}
+
+				}
+			});
+			
+		   
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					view.frmJamblAdd3.dispose();
+				}
+			});
+			
+
+			view.saved = false;
+	
+		}
+	
+		public void renamingFieldAction(JFrame frame , GUIView view){
+			view.Fields.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.textField.setVisible(true);
+					view.lblNewField.setVisible(true);
+				}
+			});
+			
+			
+			view.Classes.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			
+			view.Classes.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.Fields.setModel(new DefaultComboBoxModel<Object>(getList("Field", view.Classes.getSelectedItem().toString(), null)));
+					view.Fields.setVisible(true);
+					view.lblMethod.setVisible(true);
+					
+				}
+			});
+			
+			view.btnChangeMethod.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(!view.textField.getText().equals("")) {
+						renameField(view.Classes.getSelectedItem().toString(), view.Fields.getSelectedItem().toString(), view.textField.getText(), view);
+						view.frmJamblAdd4.dispose();
+					}
+				}
+			});
+			
+			
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					view.frmJamblAdd4.dispose();
+				}
+			});
+			
+	
+		}
+
+		public void editingFieldAction(JFrame frame , GUIView view){
+			view.Fields.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.textFieldType.setVisible(true);
+					view.lblNewFType.setVisible(true);
+				}
+			});
+			
+			
+			
+			view.Classes.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			
+			view.Classes.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					view.Fields.setModel(new DefaultComboBoxModel<Object>(getList("Field", view.Classes.getSelectedItem().toString(), null)));
+					view.Fields.setVisible(true);
+					view.lblField.setVisible(true);
+				}
+			});
+			
+			view.btnChangeField.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					changeFieldType(view.Classes.getSelectedItem().toString(), view.Fields.getSelectedItem().toString(), view.textFieldType.getText(), view);
+					view.frmJamblAdd5.dispose();
+				}
+			});
+			
+			
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					view.frmJamblAdd5.dispose();
+				}
+			});
+			
+
+			view.saved = false;
+
+		}
+	
+
+		public void saveAction(JFrame frame , GUIView view){
+			view.btnSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String text = view.txtDefaulttxt.getText();
+					if(!text.equals("")){
+						save(text);
+						frame.dispose();
+					}
+					else
+					{
+						System.out.println("Outside if statement");
+					}
+				}
+			});
+			
+			
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+			view.saved = true;
+	
+		}
+	
+		public void loadAction(JFrame frame , GUIView view){
+			final JFileChooser fc = new JFileChooser();
+
+			view.btnBrowse.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//In response to a button click:
+					int returnVal = fc.showOpenDialog(null);
+					
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						view.textField.setText(file.getAbsolutePath()); 
+					}
+				}
+			});
+			
+	
+			view.btnDefault.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					view.textField.setText("JAMBL.json");
+				}
+			});
+	
+			
+			view.btnLoad.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					String text = view.textField.getText();
+					if(!text.equals("")){
+						
+						load(text);
+						frame.dispose();
+					}
+					else
+					{}
+				}
+			});
+
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+
+			view.saved = false;
+				
+		}
+
+
+
+		public void listAClassAction(JFrame frame , GUIView view){
+			view.cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
+			view.btnListClass.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					view.textAreaMain.setText(listClass(model.getClass(view.cbClasses.getSelectedItem().toString())));
+					frame.dispose();
+				}
+			});
+		
+			
+			view.btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.dispose();
+				}
+			});
+
+		}
+
+
+
+
+		public String listAllAction () {
+			String list ="CLASSES \n===============\n";
+			for (Class ele: model.classes) {
+			  list = list +  listClass(ele);
+			}
+			return list;
+		}
+
+
+
+		public void saveAssurance(){
+			////////////////////////////////////////////////////////////// Save assurance window, under construction!
+		/*frmJambl.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent windowEvent){
+	      
+	         } 
+		}); */
+		}
+		
+		///////////////////////////////     
+		//// ****GUI FUNCTIONS**** ////
+		///////////////////////////////     
+
+		/*
+	 * Returns a list of objects beginning with "select a <insert item type here>"
+	 * 
+	 * @param type The type of list to get (either Class, Field, Method, or Param (for parameter)
+	 * @param className The name of a class to get a method, field, etc. Can be null if not needed
+	 * @param methodName The name of a method to get parameters from. can be null if not needed
+	*/
+	public String[] getList(String type, String className, String methodName) {
+		if(type.equals("Class")) {
+			String[] classes = model.getClassList();
+			int j = 0;
+			String[] list = new String[classes.length + 1];
+			list[0] = "Choose a class:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = classes[j];
+	            j++;
+	        }
+			return list;
+		} else if (type.equals("Field")) {
+			String[] fields = model.getFieldList(className);
+			int j = 0;
+			String[] list = new String[fields.length + 1];
+			list[0] = "Choose a field:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = fields[j];
+	            j++;
+	        }
+			return list;
+		} else if (type.equals("Method")) {
+			String[] methods = model.getMethodList(className);
+			int j = 0;
+			String[] list = new String[methods.length + 1];
+			list[0] = "Choose a method:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = methods[j];
+	            j++;
+	        }
+			return list;
+		} else if (type.equals("Param")) {
+			String[] params = model.getParameterList(className, methodName);
+			int j = 0;
+			String[] list = new String[params.length + 1];
+			list[0] = "Choose a parameter:";
+			for(int i = 1; i < list.length; i++)
+	        {
+	            list[i] = params[j];
+	            j++;
+	        }
+			return list;
+		}
+		
+		return null; // Shouldn't be able to return a string[] if otherwise
+	}
+	
+	    
 }
+
