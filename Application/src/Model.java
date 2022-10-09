@@ -23,24 +23,22 @@ public class Model {
 
 
 
-    public boolean deleteClass (Class toDelete) {
-
-        boolean delete = true;
-
-        // delete relationships to class
-        for (Class ele: classes) {
-            for (Relationship rel: ele.getRelationships()) {
-                if (rel.getDestination().getClassName().toUpperCase().equals(toDelete.getClassName().toUpperCase())) {
-                    ele.deleteRelationship(toDelete.getClassName());
+    public boolean deleteClass (Class toDelete) {     
+        if (getClass(toDelete.getClassName()) == null) {
+            return false;
+        } else {
+            // delete relationships to class
+            for (Class ele: classes) {
+                for (Relationship rel: ele.getRelationships()) {
+                    if (rel.getDestination().getClassName().toUpperCase().equals(toDelete.getClassName().toUpperCase())) {
+                        ele.deleteRelationship(toDelete.getClassName());
+                    }
                 }
             }
+            // remove the class from the classes set
+            classes.remove(toDelete);
+            return true;
         }
-        // remove the class from the classes set
-        classes.remove(toDelete);
-       // return true;
-        delete = true;
-        return delete;
-
     }
 
     
