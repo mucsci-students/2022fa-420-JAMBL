@@ -65,7 +65,8 @@ public class JunitTest {
    @Test 
    public void testDeleteClass2(){
      Model newModel = new Model();
-     assertEquals(false, newModel.deleteClass(newModel.getClass("Gym")));
+	 Class cls = new Class("Gym"); //this class doesnt exist inside the model so it cant be removed
+     assertEquals(false, newModel.deleteClass(cls));
    }
 	   
 		// Tests the functionality of getting class name
@@ -90,7 +91,7 @@ public class JunitTest {
 	   public void testaddRelationship() {
 		   newClass = new Class("Movie");
 		   newClass2 = new Class("Director");
-		   String typeName = "compostion";
+		   String typeName = "COMPOSITION";
 		   newClass.addRelationship(newClass2, typeName);
 		   HashSet<Relationship> result = newClass.getRelationships();
 		  assertEquals(1, result.size());
@@ -102,7 +103,7 @@ public class JunitTest {
 		   
 		   newClass = new Class("Movie");
 		   newClass2 = new Class("Director");
-		   String typeName = "compostion";
+		   String typeName = "COMPOSITION";
 		   newClass.addRelationship(newClass2, typeName);
 		   newClass.deleteRelationship("Director");
 		   HashSet<Relationship> result = newClass.getRelationships() ;
@@ -115,11 +116,59 @@ public class JunitTest {
 	    // Tests the functionality of getting class destination
 	   @Test
 	   public void testgetDestination() {
-			typeName = "composition";
+			typeName = "COMPOSITION";
 		    newClass = new Class("Movie");
 			Relationship newRel = new Relationship(newClass, typeName);
 			assertEquals("Movie", newRel.getDestination().getClassName());
 			   
 	   }
+
+	// Tests the functionality of adding a method to a class
+	@Test
+	public void testAddMethod() {
+		String clsName = "Tire";
+		String mtdName = "setPSI";
+		String mtdType = "void";
+		Class cls = new Class (clsName);
+		cls.addMethod(mtdName, mtdType);
+		assertTrue(cls.getMethod(mtdName).getMethodName().equals(mtdName) && cls.getMethod(mtdName).getReturnType().equals(mtdType));
+
+	}
+
+	// Tests the functionality of deleting a method from a class
+	@Test
+	public void testDeleteMethod() {
+		String clsName = "Tire";
+		String mtdName = "setPSI";
+		String mtdType = "void";
+		Class cls = new Class (clsName);
+		cls.addMethod(mtdName, mtdType);
+		cls.deleteMethod(cls.getMethod(mtdName));
+		assertEquals(0, cls.getMethods().size());
+	}
+
+	// Tests the functionality of renaming a method in a class
+	public void testRenameMethod() {
+		String clsName = "Tire";
+		String mtdName = "setPSI";
+		String mtdType = "void";
+		Class cls = new Class (clsName);
+		cls.addMethod(mtdName, mtdType);
+		String newName = "getPSI";
+		cls.renameMethod(cls.getMethod(mtdName), newName);
+		assertTrue(cls.getMethod(newName) != null && cls.getMethod(mtdName) == null);
+	}
+
+		// Tests the functionality of changing the return type of a method in a class
+		public void testRetypeMethod() {
+			String clsName = "Tire";
+			String mtdName = "setPSI";
+			String mtdType = "void";
+			Class cls = new Class (clsName);
+			cls.addMethod(mtdName, mtdType);
+			String newType = "float";
+			cls.changeMethodreturn(cls.getMethod(mtdName), newType);
+			assertEquals(cls.getMethod(mtdName).getReturnType(), newType);
+		}
 
 }
