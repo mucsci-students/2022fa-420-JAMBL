@@ -1,15 +1,19 @@
 # 2022fa-420-JAMBL
 # Description
-Users can use this command line interface to construct a class UML diagram. It contains class features such as add, remove, and rename. The application also provides the option of adding an attribute to a class. Each attribute can be renamed or removed as well. Furthermore, this tool allows users to build or remove a class relationship. Once the UML diagram is constructed, the user can view a list of classes, a class with attributes, and a list of relationships. Once the user has completed creating the UML diagram, the program can be saved to a Json format, and the exit command can be used to exit the program. A previously saved file can also be uploaded to the UML editor. A help command is provided to aid the user.
-How to run the UML Editor
-Go to https://github.com/mucsci-students/2022fa-420-JAMBL. From the code button Download the project zip file and unzip the file. Open in VS Code or Eclipse. From the File tab, Open the folder of the downloaded file. To create the UML diagram, execute the program by pressing the “Run” button. Once the program starts running, a command line can be used to construct the UML diagram. It will prompt the user to enter a command or HELP command to get the list of commands with descriptions.
-
-If an error stating "release 17 is not found in the system" pops up then delete the folder named "settings"  and the file named ".project" in the Application folder. Then run again.
+Users can use this command line interface to construct a class UML diagram. It contains class features such as add, remove, and rename. Fields and methods can be added/removed/edited to each class. Furthermore, this tool allows users to build or remove a class relationship. Once the UML diagram is constructed, the user can view a list of classes, a class with attributes, and a list of relationships. Once the user has completed creating the UML diagram, the program can be saved to a Json format, and the exit command can be used to exit the program. A previously saved file can also be uploaded to the UML editor. A help command is provided to aid the user.
+# How to run JAMBL UML Editor
+* Ensure that both Maven and Java JDK 19 are both installed correctly by typing in the command line "mvn -version". This will show both the Maven version and the Java version currently running on the machine.
+* Go to https://github.com/mucsci-students/2022fa-420-JAMBL. From the code button Download the project zip file and unzip the file.
+* Change your directory to /jambl which contains a src directory and pom.xml file.
+* Enter the following command: mvn dependency:copy-dependencies
+* Next enter: mvn package
+* Change directory to the newly created /target
+* To run the program in GUI mode use the command: java -jar jambl-1.0.jar
+* To run the program in CLI mode use the command: java -jar jambl-1.0.jar --cli
  
 # Requirements
-* Programming language: Java 11
-* Framework: Mavon
-* Testing: JUnit 5
+* Java JDK 19 (https://www.oracle.com/java/technologies/downloads/)
+* Apache Maven 3.8.6 (https://maven.apache.org/download.cgi)
 * Store Data: JSON
 
 # Developers

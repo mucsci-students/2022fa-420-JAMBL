@@ -10,7 +10,7 @@ import java.util.*;
 public class Main {
 
     public static void main (String args[]) {
- //   	if(args[0].equals("--cli")) {
+    	if(args.length != 0 && args[0].equals("--cli")) {
             Model model  = new Model();
             View view = new View();
             Controller controller = new Controller(model , view);
@@ -41,18 +41,11 @@ public class Main {
             System.out.println("Thank you for using JAMBL UML Diagram Creator! Goodbye!");
             scanner.close();
             return;
- /*   	}else if(args[0] == null){
-  *         Model model  = new Model();
-  *         GUIView view = new GUIView();
-            Controller controller = new Controller(model , view);
-
-    		GUIView	.initialize();    	
-    		}else{
+    	}else if(args.length == 0){
+            GUIMain.main(null);   	
+    	}else{
     		System.out.println("Unidentified argument");
     		return;
-    	} */
-    	
-    	
-
+        }
     }
 }
