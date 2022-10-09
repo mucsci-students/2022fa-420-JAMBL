@@ -265,4 +265,51 @@ public class JunitTest {
 			String fieldName2 = "make";
 			assertFalse(newClass.changefieldType(fieldName2, "String"));	
 		}
+
+		// Tests the functionality of adding a parameter to a method
+		@Test
+		public void testaddParameter(){
+			Method newMethod = new Method("xyxy", "String");
+			newMethod.addParameter("name1", "String");
+			assertEquals("name1", newMethod.getParameter("name1").getParamName());
+		}
+
+
+		// Tests the functionality of deleting a parameter from a method
+		@Test
+		public void testdeleteParameter(){
+			Method newMethod = new Method("xyxy", "String");
+			newMethod.addParameter("name2", "String");
+			newMethod.deleteParameter("name2");
+			assertEquals(null, newMethod.getParameter("name2"));
+		}
+		
+		// Tests the functionality of changing the name of a parameter
+		@Test
+		public void testchangeParameterName(){
+			Method newMethod = new Method("xyxy", "String");
+			newMethod.addParameter("name3", "String");
+			newMethod.changeParameter("name3", "game3", "int");
+			assertEquals("game3", newMethod.getParameter("game3").getParamName());
+		}
+
+
+		// Tests the functionality of changing the type of a parameter
+		@Test
+		public void testchangeParameterType(){
+			Method newMethod = new Method("xyxy", "String");
+			newMethod.addParameter("name3", "String");
+			newMethod.changeParameter("name3", "game4", "int");
+			assertEquals("int", newMethod.getParameter("game4").getParamType());
+		}
+
+		// Tests the functionality of deleting all parameters from a method
+		@Test
+		public void testdeleteAllParameter(){
+			Method newMethod = new Method("xyxy", "String");
+			newMethod.addParameter("name2", "String");
+			newMethod.addParameter("name5", "int");
+			newMethod.deleteAllParameter();
+			assertEquals(true, newMethod.getParameters().isEmpty());
+		}
 }
