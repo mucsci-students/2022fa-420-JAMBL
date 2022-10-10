@@ -1660,7 +1660,7 @@ public class GUIView extends View  {
 		frmJambl.getContentPane().add(separator_2);
 		
 		/****** TEMPORARY WHILE WHILE WE FIGURE OUT WHAT TO PUT HERE *******/
-		JLabel lblNewLabel = new JLabel("JAMBL Application");
+		JLabel lblNewLabel = new JLabel("Under Construction!");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel.setBounds(10, 16, 187, 13);
 		frmJambl.getContentPane().add(lblNewLabel);
