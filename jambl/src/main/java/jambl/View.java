@@ -236,7 +236,7 @@ public class View {
         
         for (Relationship ele: cls.getRelationships()) {
             String dest = ele.getDestination().getClassName();
-            String type = ele.getRelType();
+            String type = ele.getFullType();
             System.out.println("     * " + className + " --" + type + "--> " + dest);
         }
         System.out.println();
@@ -257,7 +257,7 @@ public class View {
 
             } else {
                 for (Relationship rel: ele.getRelationships()) {
-                    System.out.println(ele.getClassName() + " --" + rel.getRelType() + "--> " + rel.getDestination().getClassName());
+                    System.out.println(ele.getClassName() + " --" + rel.getFullType() + "--> " + rel.getDestination().getClassName());
                 }
             }
         }
@@ -330,6 +330,8 @@ public class View {
 
 		System.out.println("ADDREL  - This command adds a Relationship to a given Class. You will be prompted for ");
         System.out.println("          an origin class name, a destination class name, and the relationship type.");
+        System.out.println("          Type: Aggregation = \"AGGR\", Composition = \"COMP\", Inheritiance = \"INHE\","); 
+        System.out.println("          Realization = \"REAL \" ");
 
 		System.out.println("***************************************************************************************");
 
@@ -433,7 +435,8 @@ public class View {
     }
     //input for relationshop type (String)
     public String inputAddType(){
-        System.out.println("Name of Relationship Type to be added {AGGREGATION, COMPOSITION, INHERITANCE, REALIZATION}: ");
+        System.out.println("Name of Relationship Type to be added");
+        System.out.println("{AGGREGATION = \"AGGR\", COMPOSITION = \"COMP\", INHERITANCE = \"INHE\", REALIZATION = \"REAL\"}: ");
         input = console.nextLine();
         return input.toUpperCase();
     }
@@ -447,7 +450,7 @@ public class View {
     }    
 
     public void relTypeCheck(String typeName){
-        System.out.println(typeName + " is invalid Relation type !");
+        System.out.println(typeName + " is invalid Relation type!");
     }  
     
     public String savePrompt() {

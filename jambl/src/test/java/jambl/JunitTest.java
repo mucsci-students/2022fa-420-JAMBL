@@ -97,7 +97,7 @@ public class JunitTest {
 	   public void testaddRelationship() {
 		   newClass = new Class("Movie");
 		   newClass2 = new Class("Director");
-		   String typeName = "COMPOSITION";
+		   String typeName = "COMP";
 		   newClass.addRelationship(newClass2, typeName);
 		   HashSet<Relationship> result = newClass.getRelationships();
 		  assertEquals(1, result.size());
@@ -109,7 +109,7 @@ public class JunitTest {
 		   
 		   newClass = new Class("Movie");
 		   newClass2 = new Class("Director");
-		   String typeName = "COMPOSITION";
+		   String typeName = "COMP";
 		   newClass.addRelationship(newClass2, typeName);
 		   newClass.deleteRelationship("Director");
 		   HashSet<Relationship> result = newClass.getRelationships() ;
@@ -121,7 +121,7 @@ public class JunitTest {
 	    // Tests the functionality of getting class destination
 	   @Test
 	   public void testgetDestination() {
-			typeName = "COMPOSITION";
+			typeName = "COMP";
 		    newClass = new Class("Movie");
 			Relationship newRel = new Relationship(newClass, typeName);
 			assertEquals("Movie", newRel.getDestination().getClassName());
