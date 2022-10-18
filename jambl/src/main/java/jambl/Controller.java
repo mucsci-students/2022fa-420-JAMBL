@@ -19,7 +19,7 @@ import org.json.simple.parser.JSONParser;
 
 public class Controller {
    
-    private Model model = new Model();
+    public Model model = new Model();
     private View view;
     private GUIView GUI;
 

@@ -7,7 +7,7 @@
  * 
  * @classDescription This class represents a Class in a UML diagram
  */
- 
+
 import java.util.*;
 
 public class Class {
@@ -16,6 +16,8 @@ public class Class {
     public HashSet<Field> fields = new HashSet<Field>();
     public HashSet<Method> methods = new HashSet<Method>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
+    public long x;
+    public long y;
 
  
 
@@ -244,4 +246,39 @@ public class Class {
         return validType;
     }
 
+<<<<<<< Updated upstream
+=======
+    public String TypefullName (String otherName) {
+        String fullName = null;
+
+        for (Relationship.Type type: Relationship.Type.values()) {
+            if (type.toString().equals(otherName)) {
+                
+                fullName = type.fullName();
+            }
+        }
+        return fullName;
+    }
+
+
+    public long getX(){
+        return x;
+    }
+
+    public long getY(){
+        return y;
+    }
+
+    public void addX(long addedX){
+        x = addedX;
+    }
+
+    public void addY(long addedY){
+        y = addedY;
+        
+    }
+
+    
+
+>>>>>>> Stashed changes
 }
