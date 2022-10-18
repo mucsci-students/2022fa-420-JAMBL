@@ -1634,11 +1634,12 @@ public class GUIView extends View  {
 		
 		/////////////////////////////////////////// textAreaMain - where the UML diagram will be able displayed and updated in real time
 		///////////////////////////////////////////			as classes, field, methods, and relationships are added
+		/*
 		textAreaMain = new JTextArea();
 		scrollPane_1.setViewportView(textAreaMain);
 		textAreaMain.setLineWrap(true);
 		textAreaMain.setEditable(false);
-		
+		*/
 		
 		JLabel ClassLabel = new JLabel("Class");
 		ClassLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -1775,7 +1776,17 @@ public class GUIView extends View  {
 		frmJambl.getContentPane().add(btnListRelationships);
 	}
 
-///////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////// where the UML diagram will be able displayed 
+	private void display() {
+		JFrame frame = new JFrame("JAMBL");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.add(frame);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+	}
+
+	///////////////////////////////////
 	//// *****POP-UP WINDOWS***** ////
 	//////////////////////////////////
 	
