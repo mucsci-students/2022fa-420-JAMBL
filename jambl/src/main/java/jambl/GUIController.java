@@ -422,7 +422,7 @@ public class GUIController {
 			}else {
 				rel.setRelType(newType);     
 
-		   	    GUI.relTypeEdited(newType);
+		   	    GUI.relTypeEdited(model.getClass(destination).TypefullName(newType.toUpperCase()));
 			}
 		}
 
@@ -552,7 +552,7 @@ public class GUIController {
         
         for (Relationship ele: cls.getRelationships()) {
             String dest = ele.getDestination().getClassName();
-            String type = ele.getRelType();
+            String type = ele.getFullType().toLowerCase();
         	list = list + "     * " + className + " --" + type + "--> " + dest + "\n"+ "\n\n";
 		}
 		list = list + "\n";
@@ -571,7 +571,7 @@ public class GUIController {
 	    for(Class cls : model.getClasses()) {
 	        for (Relationship ele: cls.getRelationships()) {
 	            String dest = ele.getDestination().getClassName();
-	            String type = ele.getRelType();
+	            String type = ele.getFullType().toLowerCase();
 	            list = list + "     * " + cls.getClassName() + " --" + type + "--> " + dest + "\n"+ "\n\n";
 	        }
 	    }
@@ -712,8 +712,7 @@ public class GUIController {
 						addRelationship(view.comboBoxClass1.getSelectedItem().toString(), 
 						view.comboBoxClass2.getSelectedItem().toString(), view.cbRelationships.getSelectedItem().toString(), view);
 						/////////////////////////////////////////////////////////////
-
-						frame.dispose();
+						
 					}
 					else
 					{

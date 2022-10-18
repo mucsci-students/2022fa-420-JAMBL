@@ -246,8 +246,6 @@ public class Class {
         return validType;
     }
 
-<<<<<<< Updated upstream
-=======
     public String TypefullName (String otherName) {
         String fullName = null;
 
@@ -277,8 +275,4 @@ public class Class {
         y = addedY;
         
     }
-
-    
-
->>>>>>> Stashed changes
 }
