@@ -19,7 +19,7 @@ import org.json.simple.parser.JSONParser;
 
 public class Controller {
    
-    public Model model = new Model();
+    private Model model = new Model();
     private View view;
     private GUIView GUI;
 
@@ -915,7 +915,7 @@ public class Controller {
     }
     
     
-/*********************************** NEEDS TESTING ***************************************/
+
     public void save(Model model, String fileName){
         Save saving = new Save(model);
         JSONObject fileObj = new JSONObject();
@@ -951,7 +951,12 @@ public class Controller {
 
     }
 
-/******************************************************************************************/
+
+    // Get model for testing
+    
+    public Model getModel(){
+       return this.model;
+    }
     
 
 }
