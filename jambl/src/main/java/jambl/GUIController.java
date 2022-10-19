@@ -224,6 +224,25 @@ public class GUIController {
 
 						});
 
+						// undo button listener
+						GUINow.btnUndo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								GUINow.getMainArea().setText("undo was clicked");
+				
+								
+							}
+
+						});
+
+						// redo button listener
+						GUINow.btnRedo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								GUINow.getMainArea().setText("redo was clicked");
+								
+							}
+
+						});
+
 
 
 					} catch (Exception e) {
