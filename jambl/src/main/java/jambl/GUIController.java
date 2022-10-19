@@ -249,6 +249,7 @@ public class GUIController {
 			{		
 	    		model.addClass(name);
 	    		GUI.classCreate(name);
+				sendBox(name, GUI);
 			}
 			else
 			{
@@ -1351,7 +1352,7 @@ public class GUIController {
 			view.cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 			view.btnListClass.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					view.textAreaMain.setText(listClass(model.getClass(view.cbClasses.getSelectedItem().toString())));
+					//view.textAreaMain.setText(listClass(model.getClass(view.cbClasses.getSelectedItem().toString())));
 					frame.dispose();
 				}
 			});
@@ -1447,7 +1448,16 @@ public class GUIController {
 		
 		return null; // Shouldn't be able to return a string[] if otherwise
 	}
-	
-	    
+
+	/**
+	 * 
+	 * @param className The name of the class to send a box of to the GUIView
+	 * @param gui The gui in question
+	 * @return n/a
+	 * @precondition The class "className" exists
+	 */
+	public void sendBox(String className, GUIView gui){
+		gui.makeBox(model.getClass(className).getBox());
+	}
 }
 

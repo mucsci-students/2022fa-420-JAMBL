@@ -18,8 +18,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentListener;
+import java.awt.event.ComponentEvent;
 //import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.HashSet;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
@@ -65,15 +69,13 @@ public class GUIView extends View  {
 	JComboBox<Object> cbClasses;
 	JTextField textFieldClassName;
 	JTextField classNameBox;
-	JTextArea textAreaMain;
+	//JTextArea textAreaMain;
+	JPanel diagramArea;
 
-
-
+	HashSet<JTextArea> classBoxes = new HashSet<JTextArea>();
 	/**
 	 * Launch the application.
-	 */
-		
-
+	*/	
 	public GUIView() {
 		initialize();
 	}
@@ -83,7 +85,8 @@ public class GUIView extends View  {
 	}
 
 	public JTextArea getMainArea(){
-		return textAreaMain;
+		//return textAreaMain;
+		return null;
 	}
 
 	// how controller access buttons
@@ -1625,9 +1628,14 @@ public class GUIView extends View  {
 		frmJambl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJambl.getContentPane().setLayout(null);
 		
-		/*
+		diagramArea = new JPanel();
+		diagramArea.setBounds(359, 67, 678, 524);
+		diagramArea.setBorder(BorderFactory.createEtchedBorder());
+		frmJambl.getContentPane().add(diagramArea);
+
+		/* 
 		 * Scroll Pane for text area for large output
-		 */
+		//* /
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(359, 67, 678, 524);
 		frmJambl.getContentPane().add(scrollPane_1);
@@ -1638,7 +1646,7 @@ public class GUIView extends View  {
 		scrollPane_1.setViewportView(textAreaMain);
 		textAreaMain.setLineWrap(true);
 		textAreaMain.setEditable(false);
-		
+		*/
 		
 		JLabel ClassLabel = new JLabel("Class");
 		ClassLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -1775,7 +1783,7 @@ public class GUIView extends View  {
 		frmJambl.getContentPane().add(btnListRelationships);
 	}
 
-///////////////////////////////////
+	///////////////////////////////////
 	//// *****POP-UP WINDOWS***** ////
 	//////////////////////////////////
 	
@@ -2068,6 +2076,24 @@ public class GUIView extends View  {
    }
    public void relDeleted() {
 	   JOptionPane.showMessageDialog(f, "Relationship deleted successfully", "Info",JOptionPane.INFORMATION_MESSAGE);
+   }
 
+  /**
+   * @param contents The content we want to put in our draggable object
+   * @return N/A
+   * @precondition Class of thing exists
+   */
+   public void makeBox(JTextArea newBox){
+	diagramArea.add(newBox);
+	classBoxes.add(newBox);
+	JOptionPane.showMessageDialog(f, "Added a class box", "Alert",JOptionPane.WARNING_MESSAGE);
+	frmJambl.revalidate();
+	return;
+   }
+
+   public void updateLocations(){
+	//TODO
+	return;
    }
 }
+
