@@ -63,6 +63,9 @@ public class GUIView extends View  {
 	JButton btnChangeFieldType = new JButton("Edit Type");
 	JButton btnDeleteField = new JButton("Delete");
 	JButton btnRenameField = new JButton("Rename");
+	JButton btnRedo = new JButton("Redo");
+	JButton btnUndo = new JButton("Undo");
+
 
 	// Secondary Window buttons
 	JButton btnCancel;
@@ -1642,12 +1645,13 @@ public class GUIView extends View  {
 		
 		/////////////////////////////////////////// textAreaMain - where the UML diagram will be able displayed and updated in real time
 		///////////////////////////////////////////			as classes, field, methods, and relationships are added
-		/*
+		
 		textAreaMain = new JTextArea();
 		scrollPane_1.setViewportView(textAreaMain);
 		textAreaMain.setLineWrap(true);
 		textAreaMain.setEditable(false);
-		*/
+		
+
 		
 		JLabel ClassLabel = new JLabel("Class");
 		ClassLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -1712,6 +1716,12 @@ public class GUIView extends View  {
 
 		// Main page Buttons Style
 
+		btnUndo.setBounds(360, 40, 80, 21);
+		frmJambl.getContentPane().add(btnUndo);
+
+		btnRedo.setBounds(450, 40, 80, 21);
+		frmJambl.getContentPane().add(btnRedo);
+
 		btnAddClass.setBounds(10, 103, 97, 21);
 		frmJambl.getContentPane().add(btnAddClass);
 
@@ -1774,26 +1784,27 @@ public class GUIView extends View  {
 		btnLoad.setBounds(10, 445, 85, 21);
 		frmJambl.getContentPane().add(btnLoad);
 
-		btnListAll.setBounds(10, 534, 137, 21);
-		frmJambl.getContentPane().add(btnListAll);
-
 		btnListClass.setBounds(10, 503, 137, 21);
 		frmJambl.getContentPane().add(btnListClass);
 
 		btnListRelationships.setBounds(10, 565, 137, 21);
 		frmJambl.getContentPane().add(btnListRelationships);
+
+		
+
+		
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////////////// where the UML diagram will be able displayed 
-	private void display() {
+/* 	private void display() {
 		JFrame frame = new JFrame("JAMBL");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(frame);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-	}
+	} */
 
 
 	///////////////////////////////////

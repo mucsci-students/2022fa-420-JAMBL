@@ -47,6 +47,8 @@ public class Controller {
     LISTALL ("LISTALL"), //list all classes
     LISTCLA ("LISTCLA"), //list all attributes of a class
     LISTREL ("LISTREL"), //list all relationships between classes
+    UNDO ("UNDO"), //Undo most recent change
+    REDO ("REDO"), //Redo most recent undo
     HELP ("HELP"), //shows the command list and how to use them
     EXIT ("EXIT") ; //quits the program
 
@@ -870,7 +872,15 @@ public class Controller {
             case LISTREL:
                 view.listRelationship(model);
                 break;
-
+            
+            case REDO:
+                    System.out.println("redo to be implemented");
+                break;
+            
+            case UNDO:
+                System.out.println("Undo to be implemented");
+                break;
+                
             case HELP:
                 view.printHelp();
                 break;
