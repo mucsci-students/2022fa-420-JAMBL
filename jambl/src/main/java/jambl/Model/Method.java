@@ -1,3 +1,5 @@
+package jambl.Model;
+
 /*
  * @projectDescription	A program to make UML diagrams.
  * 

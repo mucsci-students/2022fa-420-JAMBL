@@ -1,3 +1,5 @@
+package jambl.View;
+
 /*
  * @projectDescription The main "page" for the JAMBL application
  * 
@@ -36,41 +38,41 @@ public class GUIView extends View  {
 	// A boolean signifying if the recent UML diagram has been saved. 
 	// If not, a pop-up message will appear upon clicking the x button
 	//     asking the user if they would like to save before closing
-	boolean saved = false;
-	String cls;
+	public boolean saved = false;
+	public String cls;
 
 	// main window buttons
 	
-	JButton btnAddClass = new JButton("Add");
-	JButton btnRenameClass = new JButton("Rename"); 
-	JButton btnDeleteClass = new JButton("Delete");
-	JButton btnAddRelationship = new JButton("Add");
-	JButton btnDeleteRel = new JButton("Delete");
-	JButton btnChangeType = new JButton("Change Type");
-	JButton btnSave = new JButton("Save");
-	JButton btnLoad = new JButton("Load");
-	JButton btnListAll = new JButton("List All");
-	JButton btnListRelationships = new JButton("List Relationships");
-	JButton btnListClass = new JButton("List a Class");
-	JButton btnAddParameter = new JButton("Add");
-	JButton btnDeleteParameter = new JButton("Remove");
-	JButton btnChangeParameter = new JButton("Change");
-	JButton btnAddMethod = new JButton("Add");
-	JButton btnRefactor = new JButton("Change Type");
-	JButton btnDeleteMethod = new JButton("Delete");
-	JButton btnRenameMethod = new JButton("Rename");
-	JButton btnAddField = new JButton("Add");
-	JButton btnChangeFieldType = new JButton("Edit Type");
-	JButton btnDeleteField = new JButton("Delete");
-	JButton btnRenameField = new JButton("Rename");
-	JButton btnRedo = new JButton("Redo");
-	JButton btnUndo = new JButton("Undo");
+	public JButton btnAddClass = new JButton("Add");
+	public JButton btnRenameClass = new JButton("Rename"); 
+	public JButton btnDeleteClass = new JButton("Delete");
+	public JButton btnAddRelationship = new JButton("Add");
+	public JButton btnDeleteRel = new JButton("Delete");
+	public JButton btnChangeType = new JButton("Change Type");
+	public JButton btnSave = new JButton("Save");
+	public JButton btnLoad = new JButton("Load");
+	public JButton btnListAll = new JButton("List All");
+	public JButton btnListRelationships = new JButton("List Relationships");
+	public JButton btnListClass = new JButton("List a Class");
+	public JButton btnAddParameter = new JButton("Add");
+	public JButton btnDeleteParameter = new JButton("Remove");
+	public JButton btnChangeParameter = new JButton("Change");
+	public JButton btnAddMethod = new JButton("Add");
+	public JButton btnRefactor = new JButton("Change Type");
+	public JButton btnDeleteMethod = new JButton("Delete");
+	public JButton btnRenameMethod = new JButton("Rename");
+	public JButton btnAddField = new JButton("Add");
+	public JButton btnChangeFieldType = new JButton("Edit Type");
+	public JButton btnDeleteField = new JButton("Delete");
+	public JButton btnRenameField = new JButton("Rename");
+	public JButton btnRedo = new JButton("Redo");
+	public JButton btnUndo = new JButton("Undo");
 
 
 	// Secondary Window buttons
-	JButton btnCancel;
-	JComboBox<Object> cbClasses;
-	JTextField textFieldClassName;
+	public JButton btnCancel;
+	public JComboBox<Object> cbClasses;
+	public JTextField textFieldClassName;
 	JTextField classNameBox;
 	//JTextArea textAreaMain;
 	JPanel diagramArea;
@@ -192,9 +194,9 @@ public class GUIView extends View  {
 
 
 
-	JLabel lblNewLabel = new JLabel("Select Class to Rename.");
+	public JLabel lblNewLabel = new JLabel("Select Class to Rename.");
 	JLabel lblClass = new JLabel("Class:");
-	JLabel lblNewName = new JLabel("New Class Name:");
+	public JLabel lblNewName = new JLabel("New Class Name:");
 
 
 	// Window for renaming
@@ -267,7 +269,7 @@ public class GUIView extends View  {
 	JFrame frame;
 	JLabel lblDeleteClass;
 	JLabel lblSelectClass;
-	JComboBox<Object> comboBoxClasses;
+	public JComboBox<Object> comboBoxClasses;
 	
 	public JFrame deletingClassWindow(){
 		frame = new JFrame("JAMBL - Delete Class");
@@ -321,11 +323,11 @@ public class GUIView extends View  {
 	}
 
 
-	JComboBox<Object> comboBoxClass1;
-	JComboBox<Object> comboBoxClass2;
-	JComboBox<Object> cbRelationships;
-	JLabel lblClass1;
-	JLabel lblClass2;
+	public JComboBox<Object> comboBoxClass1;
+	public JComboBox<Object> comboBoxClass2;
+	public JComboBox<Object> cbRelationships;
+	public JLabel lblClass1;
+	public JLabel lblClass2;
 	
 	public JFrame addingRelsWindow(){
 		JFrame frame = new JFrame("JAMBL - Add Relationship");
@@ -406,9 +408,9 @@ public class GUIView extends View  {
 	}
 
 
-	JComboBox<Object> cdClass2;
-	JComboBox<Object> cbClass1;
-	JButton btnDeleteRelationship;
+	public JComboBox<Object> cdClass2;
+	public JComboBox<Object> cbClass1;
+	public JButton btnDeleteRelationship;
 
 	public JFrame deletingRelsWindow(){
 		JFrame frame = new JFrame("JAMBL - Delete Relationship");
@@ -467,9 +469,9 @@ public class GUIView extends View  {
 	}
 
 	JLabel lblRelationship;
-	JComboBox<Object> cbClass2;
-	JButton bteditRelType;
-	JFrame frmJamblChange;
+	public JComboBox<Object> cbClass2;
+	public JButton bteditRelType;
+	public JFrame frmJamblChange;
 
 	public JFrame changingRelsWindow(){
 		frmJamblChange = new JFrame("JAMBL - Change Relationship Type");
@@ -550,11 +552,11 @@ public class GUIView extends View  {
 	}
 
 
-	JTextField methodNameBox;
-	JTextField methodTypeBox;
-	JLabel lblMethodName;
-	JLabel lblMethodType;
-	JFrame frmJamblAdd;
+	public JTextField methodNameBox;
+	public JTextField methodTypeBox;
+	public JLabel lblMethodName;
+	public JLabel lblMethodType;
+	public JFrame frmJamblAdd;
 	public JFrame addingMethodWindow(){
 		frmJamblAdd = new JFrame("JAMBL - Add Class");
 		frmJamblAdd.setTitle("JAMBL - Add Method");
@@ -634,10 +636,10 @@ public class GUIView extends View  {
 		return frmJamblAdd;
 	}
 
-	JButton btnChangeMethod;
-	JComboBox<Object> Methods;
-	JComboBox<Object> Classes;
-	JLabel lblMethod = new JLabel("Method Name:");
+	public JButton btnChangeMethod;
+	public JComboBox<Object> Methods;
+	public JComboBox<Object> Classes;
+	public JLabel lblMethod = new JLabel("Method Name:");
 
 	public JFrame changingMethodWindow(){
 		frmJamblAdd = new JFrame("JAMBL - Change Method Return Type");
@@ -718,8 +720,8 @@ public class GUIView extends View  {
 		return frmJamblAdd;
 	}
 
-	JLabel lblNewMethod;
-	JFrame frmJamblAdd2;
+	public JLabel lblNewMethod;
+	public JFrame frmJamblAdd2;
 	public JFrame renamingMethodWindow(){
 		frmJamblAdd2 = new JFrame("JAMBL - Change Field Name");
 		frmJamblAdd2.setTitle("JAMBL - Rename Method");
@@ -803,7 +805,7 @@ public class GUIView extends View  {
 	}
 
 
-	JLabel lblMethods;
+	public JLabel lblMethods;
 
 	public JFrame deletingMethodWindow(){
 		JFrame frame = new JFrame("JAMBL - Delete Method");
@@ -864,9 +866,9 @@ public class GUIView extends View  {
 		return frame;
 	}
 
-	JComboBox<Object> cbMethods;
-	JTextField textParameter;
-	JTextField textParamType;
+	public JComboBox<Object> cbMethods;
+	public JTextField textParameter;
+	public JTextField textParamType;
 	public JFrame addingParamWindow(){
 		frmJamblAdd = new JFrame("JAMBL - Add Parameter");
 		frmJamblAdd.setTitle("JAMBL - Add Parameter");
@@ -952,10 +954,10 @@ public class GUIView extends View  {
 		return frmJamblAdd;
 	}
 
-	JButton btnRemoveParameter;
-	JButton btnDeleteAll;
-	JComboBox<Object> cbParameter;
-	JComboBox<Object> cdMethods;
+	public JButton btnRemoveParameter;
+	public JButton btnDeleteAll;
+	public JComboBox<Object> cbParameter;
+	public JComboBox<Object> cdMethods;
 	public JFrame deletingParamWindow(){
 		JFrame frmJamblAdd = new JFrame("JAMBL - Remove Parameter");
 		frmJamblAdd.setBounds(100, 100, 447, 393);
@@ -1032,10 +1034,10 @@ public class GUIView extends View  {
 
 
 	
-	JComboBox<Object> cbParameters;
-	JLabel lblParameter;
-	JLabel lblNewParameterName;
-	JLabel lblNewParameterType;
+	public JComboBox<Object> cbParameters;
+	public JLabel lblParameter;
+	public JLabel lblNewParameterName;
+	public JLabel lblNewParameterType;
 	
 	public JFrame changingParamWindow(){
 		JFrame frmJamblAdd = new JFrame("JAMBL - Add Parameter");
@@ -1139,10 +1141,10 @@ public class GUIView extends View  {
 	}
 
 
-	JTextField fieldTypeBox;
-	JTextField fieldNameBox;
-	JLabel lblField;
-	JLabel lblFieldType;
+	public JTextField fieldTypeBox;
+	public JTextField fieldNameBox;
+	public JLabel lblField;
+	public JLabel lblFieldType;
 	public JFrame addingFieldWindow(){
 		JFrame frame = new JFrame("JAMBL - Add Field");
 		frame.setBounds(100, 100, 496, 285);
@@ -1217,8 +1219,8 @@ public class GUIView extends View  {
 	}
 
 
-	JComboBox<Object> cbFields;
-	JFrame frmJamblAdd3;
+	public JComboBox<Object> cbFields;
+	public JFrame frmJamblAdd3;
 	//JLabel lblField;
 	public JFrame deletingFieldWindow(){
 		frmJamblAdd3 = new JFrame("JAMBL - Delete Field Name");
@@ -1281,8 +1283,8 @@ public class GUIView extends View  {
 		return frmJamblAdd3;
 	}
 
-	JFrame frmJamblAdd4;
-	JLabel lblNewField;
+	public JFrame frmJamblAdd4;
+	public JLabel lblNewField;
 	//JLabel lblMethod;
 	public JFrame renamingFieldWindow(){
 		frmJamblAdd4 = new JFrame("JAMBL - Change Field Name");
@@ -1363,13 +1365,13 @@ public class GUIView extends View  {
 
 
 
-	JButton btnChangeField;
+	public JButton btnChangeField;
 	JLabel lblChooseM;
-	JLabel lblNewFType;
+	public JLabel lblNewFType;
 	//JLabel lblField;
-	JTextField textFieldType;
-	JComboBox<Object> Fields;
-	JFrame frmJamblAdd5;
+	public JTextField textFieldType;
+	public JComboBox<Object> Fields;
+	public JFrame frmJamblAdd5;
 	public JFrame editingFieldWindow(){
 		frmJamblAdd5 = new JFrame("JAMBL - Change Field Type");
 		frmJamblAdd5.setTitle("JAMBL - Change Field Type");
@@ -1454,9 +1456,9 @@ public class GUIView extends View  {
 	}
 
 	
-	JTextField textField;
-	JButton btnBrowse;
-	JButton btnDefault;
+	public JTextField textField;
+	public JButton btnBrowse;
+	public JButton btnDefault;
 	
 	public JFrame loadWindow(){
 		JFrame frame = new JFrame("JAMBL - Load");
@@ -1516,7 +1518,7 @@ public class GUIView extends View  {
 		return frame;
 	}
 
-	JTextField txtDefaulttxt;
+	public JTextField txtDefaulttxt;
 	public JFrame saveWindow(){
 		JFrame frame = new JFrame("JAMBL - Save");
 		frame.setBounds(100, 100, 450, 243);
@@ -1649,7 +1651,7 @@ public class GUIView extends View  {
 		textAreaMain = new JTextArea();
 		scrollPane_1.setViewportView(textAreaMain);
 		textAreaMain.setLineWrap(true);
-		textAreaMain.setEditable(false);
+		textAreaMain.setEditable(false); */
 		
 
 		

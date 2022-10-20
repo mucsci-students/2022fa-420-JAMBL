@@ -1,3 +1,5 @@
+package jambl.Model;
+
 /*
 This class is the representation of a relationship between two Class classes.
 Stores the Class that is the destination of a relationship between two classes

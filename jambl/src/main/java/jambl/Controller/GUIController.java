@@ -1,3 +1,8 @@
+package jambl.Controller;
+import jambl.Model.*;
+import jambl.Model.Class;
+import jambl.View.*;
+
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -526,7 +531,7 @@ public class GUIController {
 
 	public String listAllClasses () {
         String list ="CLASSES \n===============\n";
-        for (Class ele: model.classes) {
+        for (Class ele: model.getClasses()) {
           list = list +  listClass(ele);
         }
 		return list;
@@ -1390,7 +1395,7 @@ public class GUIController {
 
 		public String listAllAction () {
 			String list ="CLASSES \n===============\n";
-			for (Class ele: model.classes) {
+			for (Class ele: model.getClasses()) {
 			  list = list +  listClass(ele);
 			}
 			return list;

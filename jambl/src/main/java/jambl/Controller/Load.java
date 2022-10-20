@@ -1,4 +1,8 @@
-package jambl;
+package jambl.Controller;
+import jambl.Model.*;
+import jambl.Model.Class;
+import jambl.View.*;
+
 import java.util.*;
 import java.io.*;
 import java.io.FileReader;
