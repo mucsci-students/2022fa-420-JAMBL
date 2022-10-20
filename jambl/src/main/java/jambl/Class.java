@@ -21,6 +21,8 @@ public class Class {
     public HashSet<Field> fields = new HashSet<Field>();
     public HashSet<Method> methods = new HashSet<Method>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
+    public long x;
+    public long y;
 
  
 
@@ -261,6 +263,23 @@ public class Class {
         return fullName;
     }
 
+    public long getX(){
+        return x;
+    }
+
+    public long getY(){
+        return y;
+    }
+
+    public void addX(long addedX){
+        x = addedX;
+    }
+
+    public void addY(long addedY){
+        y = addedY;
+        
+    }
+
     /**
      * @param n/a
      * @return A new Jlabel to eventually be displayed in the view
@@ -278,5 +297,4 @@ public class Class {
         newBox.setVisible(true);
         return newBox;
     }
-
 }

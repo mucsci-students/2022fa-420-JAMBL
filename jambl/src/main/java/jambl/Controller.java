@@ -915,7 +915,7 @@ public class Controller {
     }
     
     
-/*********************************** NEEDS TESTING ***************************************/
+
     public void save(Model model, String fileName){
         Save saving = new Save(model);
         JSONObject fileObj = new JSONObject();
@@ -951,7 +951,12 @@ public class Controller {
 
     }
 
-/******************************************************************************************/
+
+    // Get model for testing
+    
+    public Model getModel(){
+       return this.model;
+    }
     
 
 }
