@@ -7,8 +7,13 @@
  * 
  * @classDescription This class represents a Class in a UML diagram
  */
-
+ 
+import java.awt.Font;
 import java.util.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 public class Class {
 
@@ -258,7 +263,6 @@ public class Class {
         return fullName;
     }
 
-
     public long getX(){
         return x;
     }
@@ -274,5 +278,23 @@ public class Class {
     public void addY(long addedY){
         y = addedY;
         
+    }
+
+    /**
+     * @param n/a
+     * @return A new Jlabel to eventually be displayed in the view
+     */
+    public JTextArea getBox(){
+        JTextArea newBox = new JTextArea();
+        String contents = this.getClassName() + "\n========\n";
+        newBox.setEditable(false);
+        newBox.setName(this.getClassName());
+        newBox.setEnabled(false);
+        newBox.setText(contents);
+        newBox.setFont(new Font("Tahoma", Font.BOLD, 15));
+        newBox.setBounds(10, 10, 100, 100);
+        newBox.setBorder(BorderFactory.createBevelBorder(0));
+        newBox.setVisible(true);
+        return newBox;
     }
 }

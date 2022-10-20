@@ -100,7 +100,6 @@ public class GUIController {
 						GUINow.btnChangeType.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								changingRelsAction(GUINow.changingRelsWindow(), GUINow);
-								System.out.println("todo");
 							}
 
 						});
@@ -250,6 +249,7 @@ public class GUIController {
 			{		
 	    		model.addClass(name);
 	    		GUI.classCreate(name);
+				sendBox(name, GUI);
 			}
 			else
 			{
@@ -440,7 +440,6 @@ public class GUIController {
 				// turns object to string and save to file
 				file.write(fileObj.toJSONString());
 				file.close();
-				System.out.println("UML Diagram Saved!");
 			}catch(Exception e){
 				System.out.println("Could not write file" + e);
 			}
@@ -603,7 +602,7 @@ public class GUIController {
 					String text = view.getTextBox().getText();
 					if(!text.equals(""))
 					{
-						model.addClass(text);
+						addClass(text, view);
 						frame.dispose();
 					}
 					view.saved = false;
@@ -662,7 +661,6 @@ public class GUIController {
 
 				view.btnRenameClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("MAde it");
 						if(!view.cbClasses.getSelectedItem().toString().equals("Choose a class:")) {
 							
 							if(!view.textFieldClassName.getText().equals("")) {
@@ -712,7 +710,7 @@ public class GUIController {
 						addRelationship(view.comboBoxClass1.getSelectedItem().toString(), 
 						view.comboBoxClass2.getSelectedItem().toString(), view.cbRelationships.getSelectedItem().toString(), view);
 						/////////////////////////////////////////////////////////////
-						
+						frame.dispose();
 					}
 					else
 					{
@@ -1354,7 +1352,7 @@ public class GUIController {
 			view.cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 			view.btnListClass.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					view.textAreaMain.setText(listClass(model.getClass(view.cbClasses.getSelectedItem().toString())));
+					//view.textAreaMain.setText(listClass(model.getClass(view.cbClasses.getSelectedItem().toString())));
 					frame.dispose();
 				}
 			});
@@ -1450,7 +1448,16 @@ public class GUIController {
 		
 		return null; // Shouldn't be able to return a string[] if otherwise
 	}
-	
-	    
+
+	/**
+	 * 
+	 * @param className The name of the class to send a box of to the GUIView
+	 * @param gui The gui in question
+	 * @return n/a
+	 * @precondition The class "className" exists
+	 */
+	public void sendBox(String className, GUIView gui){
+		gui.makeBox(model.getClass(className).getBox());
+	}
 }
 
