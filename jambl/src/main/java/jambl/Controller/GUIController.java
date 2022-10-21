@@ -302,6 +302,8 @@ public class GUIController {
 	    public void deleteClass(String name, GUIView GUI) {
 	    		model.deleteClass(model.getClass(name));
 	    		GUI.classDelete(name);
+				GUI.removeBox(name);
+			
 	    }
 
 	    

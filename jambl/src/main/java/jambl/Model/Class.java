@@ -282,21 +282,17 @@ public class Class {
         
     }
 
+    public String getContents(){
+        return null;
+    }
+
     /**
      * @param n/a
      * @return A new Jlabel to eventually be displayed in the view
      */
-    public JTextArea getBox(){
-        JTextArea newBox = new JTextArea();
+    public draggableBox getBox(){
         String contents = this.getClassName() + "\n========\n";
-        newBox.setEditable(false);
-        newBox.setName(this.getClassName());
-        newBox.setEnabled(false);
-        newBox.setText(contents);
-        newBox.setFont(new Font("Tahoma", Font.BOLD, 15));
-        newBox.setBounds(10, 10, 100, 100);
-        newBox.setBorder(BorderFactory.createBevelBorder(0));
-        newBox.setVisible(true);
+        draggableBox newBox = new draggableBox(this, this.getClassName(), contents);
         return newBox;
     }
 }
