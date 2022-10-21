@@ -1,4 +1,8 @@
-package jambl;
+package jambl.Controller;
+import jambl.Model.*;
+import jambl.Model.Class;
+import jambl.View.*;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.util.*;

@@ -1,3 +1,5 @@
+package jambl.Model;
+
 public class Parameter {
     
     //name of the Parameter

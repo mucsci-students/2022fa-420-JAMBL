@@ -1,3 +1,8 @@
+package jambl;
+import jambl.Model.*;
+import jambl.Model.Class;
+import jambl.Controller.*;
+
 /*
  * @name JunitTest.java
  * @author John Shenk
@@ -329,8 +334,8 @@ public class JunitTest {
 			controller.load("test.json");
 			int five = 5;
 			int four = 4;
-			assertEquals(five, controller.model.getClass("Physics").getX());
-			assertEquals(four, controller.model.getClass("Physics").getY() );
+			assertEquals(five, controller.getModel().getClass("Physics").getX());
+			assertEquals(four, controller.getModel().getClass("Physics").getY() );
 		
 
 		}

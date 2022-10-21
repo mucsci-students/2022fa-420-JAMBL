@@ -101,7 +101,7 @@
               <archive>
                   <manifest>
                       <addClasspath>true</addClasspath>
-                      <mainClass>Main</mainClass>
+                      <mainClass>jambl.Main</mainClass>
                       <addClasspath>true</addClasspath>
                       <classpathPrefix>dependency/</classpathPrefix>
                   </manifest>

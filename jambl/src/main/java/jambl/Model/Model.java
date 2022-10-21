@@ -1,3 +1,5 @@
+package jambl.Model;
+
 
 import java.util.*;
 

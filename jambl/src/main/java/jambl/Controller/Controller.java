@@ -1,3 +1,7 @@
+package jambl.Controller;
+import jambl.Model.*;
+import jambl.Model.Class;
+import jambl.View.*;
 /*
  * @projectDescription	A program for adding classes to a database
  * 
@@ -938,7 +942,7 @@ public class Controller {
             // turns object to string and save to file
             file.write(fileObj.toJSONString());
             file.close();
-            System.out.println("UML Diagram Saved!");
+            //System.out.println("UML Diagram Saved!");
         }catch(Exception e){
             System.out.println("Could not write file" + e);
         }

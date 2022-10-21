@@ -1,3 +1,7 @@
+package jambl.View;
+import jambl.Model.*;
+import jambl.Model.Class;
+
 import java.util.Scanner;
 import java.util.*;
 
@@ -186,7 +190,7 @@ public class View {
         System.out.println();
         System.out.println("CLASSES");
         System.out.println("===============");
-        for (Class ele: model.classes) {
+        for (Class ele: model.getClasses()) {
             listClass(ele);
         }
     }
@@ -252,7 +256,7 @@ public class View {
         System.out.println();
         System.out.println("RELATIONSHIPS");
         System.out.println("=============");
-        for (Class ele: model.classes) {
+        for (Class ele: model.getClasses()) {
             if (ele.getRelationships().isEmpty()) {
 
             } else {
