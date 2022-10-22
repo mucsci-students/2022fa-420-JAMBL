@@ -318,26 +318,4 @@ public class JunitTest {
 			newMethod.deleteAllParameter();
 			assertEquals(true, newMethod.getParameters().isEmpty());
 		}
-
-		// Test load and save location
-		@Test
-		public void testLocation(){
-
-			Model model = new Model();
-			model.addClass("Physics");
-			model.getClass("Physics").addX(5);
-			model.getClass("Physics").addY(4);
-
-			Controller controller = new Controller(model, null);
-			controller.save(model,"test.json");
-			model.deleteClass(model.getClass("Physics"));
-			controller.load("test.json");
-			int five = 5;
-			int four = 4;
-			assertEquals(five, controller.getModel().getClass("Physics").getX());
-			assertEquals(four, controller.getModel().getClass("Physics").getY() );
-		
-
-		}
-
 }

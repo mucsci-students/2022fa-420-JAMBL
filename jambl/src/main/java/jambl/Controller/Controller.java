@@ -26,6 +26,7 @@ public class Controller {
     private Model model = new Model();
     private View view;
     private GUIView GUI;
+    private History history = new History ();
 
     public static enum Command {
     START ("START"), //initial starting state Command not to be displayed in HELP
@@ -117,6 +118,7 @@ public class Controller {
                 classCheck = model.getClass(name1);
                 // if input not blank add class
                 if ((!name1.isBlank()) && (classCheck == null)) {
+                     history.saveState(model);
                     // adds class
                      model.addClass(name1);
                      // Checks to see if class was succesfully added
@@ -145,6 +147,7 @@ public class Controller {
                classCheck = model.getClass(name1);
                 // checks to see if input was blank
                 if ((!name1.isBlank()) && (classCheck != null) ) {
+                    history.saveState(model);
                     model.deleteClass(classCheck);
                     // if class deleted returned equals true and user is notified
                     if(model.getClass(name1) == null){
@@ -184,6 +187,7 @@ public class Controller {
                 classCheck = model.getClass(name2);
                 if (!name2.isBlank()) {
                     if(classCheck == null){
+                        history.saveState(model);
                         model.renameClass(name1, name2);
                         view.renamed("Class", name1 , name2);
                     }else{
@@ -222,6 +226,7 @@ public class Controller {
                             view.invalid();
                             break;
                         }
+                        history.saveState(model);
                         boolean added = class1.addField(name2, name3); //adds it to the fields set
                         if (added) {
                             view.Added(name3, name2); //prints success messaage
@@ -254,6 +259,7 @@ public class Controller {
                         view.notExists("Field", name2);
                         break;
                     } else {
+                        history.saveState(model);
                         boolean removed = class1.deleteField(name2); //removes the field from the set
                         if (removed) {
                             view.Deleted("Field", name2); //prints success message
@@ -291,6 +297,7 @@ public class Controller {
                             view.exists("Field", name3);
                             break;
                         } else {
+                            history.saveState(model);
                             boolean renamed = class1.renameField(name2, name3); //changes the field name
                             if (renamed) {
                                 view.Renamed("Field", name2, name3); //prints success message
@@ -329,6 +336,7 @@ public class Controller {
                             view.exists("Field type", name3);
                             break;
                         } else {
+                            history.saveState(model);
                             boolean changed = class1.changefieldType(name2, name3); //changes the field type
                             if (changed) {
                                 view.Retyped("Field type", name2, name3); //prints success message
@@ -380,6 +388,7 @@ public class Controller {
                 }else{
                     // prompts user for method type and adds the method
                     name3 = view.inputAdd("Method Return Type");
+                    history.saveState(model);
                     classCheck.addMethod(name2, name3);
                 }
 
@@ -431,6 +440,7 @@ public class Controller {
                         return;
                     }  
                 }else{
+                    history.saveState(model);
                     // deleted method
                     classCheck.deleteMethod(methodCheck);
                 }
@@ -497,6 +507,7 @@ public class Controller {
                             return;
                         }  
                     }else{
+                        history.saveState(model);
                         // rename method
                         classCheck.renameMethod(methodCheck, name3);
                     }          
@@ -555,6 +566,7 @@ public class Controller {
                          view.invalid();
                         return;
                     }else{
+                        history.saveState(model);
                         //changed Method reurn type
                         classCheck.changeMethodreturn(methodCheck, name3);
                         // Check to see if type succesfully changed
@@ -603,6 +615,7 @@ public class Controller {
                 if (!class1.isValidType(typeName)){ 
                     view.relTypeCheck(typeName);
                 } else {
+                    history.saveState(model);
                     returned = class1.addRelationship(class2, typeName);
                     // notifies user that relationship was added
                     if(returned){
@@ -628,6 +641,7 @@ public class Controller {
                     view.destinationNotExist();
                     break;
                 } else {
+                    history.saveState(model);
                     model.getClass(name1).deleteRelationship(name2);
                     view.relDeleted();
                 } 
@@ -672,6 +686,7 @@ public class Controller {
                     view.exists("Relationship type", typeName);
                     break;
                 }
+                history.saveState(model);
                 class1.editRelationshipType(name2, typeName);
                 view.relTypeEdited(class2.TypefullName(typeName));
                 
@@ -712,6 +727,7 @@ public class Controller {
                                 view.invalid();
                                 break;
                             }
+                            history.saveState(model);
                             boolean added = method1.addParameter(name2, name3); //adds it to the parameters set
                             if (added) {
                                 view.Added(name3, name2); //prints success messaage
@@ -750,6 +766,7 @@ public class Controller {
                             break;
                         }
                         if(name7.toUpperCase().equals("YES")){
+                            history.saveState(model);
                             boolean removed = method1.deleteAllParameter(); //removes all parameters from the set
                             if (removed) {
                                 view.Deleted("All", "Parameter"); //prints success message
@@ -765,6 +782,7 @@ public class Controller {
                                 view.notExists("Parameter", name2);
                                 break;
                             } else {
+                                history.saveState(model);
                                 boolean removed = method1.deleteParameter(name2); //removes the parameter from the set
                                 if (removed) {
                                     view.Deleted("Parameter", name2); //prints success message
@@ -819,6 +837,7 @@ public class Controller {
                                     view.invalid();
                                     break;
                                 }
+                                history.saveState(model);
                                 boolean changed = method1.changeParameter(name2, name3, name4); //changes the parameter name and type
                                 if (changed) {
                                     view.ParameterChange(name2, name3, name4); //prints success message
@@ -856,6 +875,7 @@ public class Controller {
                     load(fileName);
                 }
                 view.loaded();
+                history.newWorkflow();
                 break;
 
             case LISTALL:
@@ -878,11 +898,25 @@ public class Controller {
                 break;
             
             case REDO:
-                    System.out.println("redo to be implemented");
+                Memento redo = history.redoState(this.model); //saves the current state of model and gets the redo state
+                if (redo == null) { // if no redos available nothing happens
+                    break;
+                } else {
+                    Load newState = new Load(); //new loading object to load the redo state
+                    newState.loadClasses(redo.getState()); //loads that classes of the redo state
+                    this.model = newState.loadRelationships(redo.getState()); //loads the relationships of the redo state
+                }
                 break;
             
             case UNDO:
-                System.out.println("Undo to be implemented");
+                Memento undo = history.undoState(this.model); //saves the current state of the model and gets the undo state
+                if (undo == null) { //if there are no undos available nothing happens
+                    break;
+                } else {
+                    Load newState = new Load(); // new loading object to load the undo state
+                    newState.loadClasses(undo.getState()); //loads the classes of the undo state
+                    this.model = newState.loadRelationships(undo.getState()); //loads the relationships of the undo state and
+                }
                 break;
                 
             case HELP:
