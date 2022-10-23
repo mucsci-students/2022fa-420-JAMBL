@@ -12,6 +12,9 @@ package jambl.View;
 import java.awt.EventQueue;
 
 import javax.swing.*;
+
+import jambl.Model.draggableBox;
+
 //import java.awt.BorderLayout;
 import java.awt.Color;
 //import java.awt.Dimension;
@@ -26,6 +29,7 @@ import java.awt.event.ComponentEvent;
 //import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
@@ -77,7 +81,7 @@ public class GUIView extends View  {
 	//JTextArea textAreaMain;
 	JPanel diagramArea;
 
-	HashSet<JTextArea> classBoxes = new HashSet<JTextArea>();
+	HashSet<draggableBox> classBoxes = new HashSet<draggableBox>();
 	/**
 	 * Launch the application.
 	*/	
@@ -293,11 +297,9 @@ public class GUIView extends View  {
 		//******* Combo Boxes*******//
 		//////////////////////////////
 		
-		
 		comboBoxClasses = new JComboBox<Object>();
 		comboBoxClasses.setBounds(10, 77, 207, 21);
 		frame.getContentPane().add(comboBoxClasses);
-		
 		
 		///////////////////////////
 		//******* Buttons *******//
@@ -2109,17 +2111,34 @@ public class GUIView extends View  {
    * @return N/A
    * @precondition Class of thing exists
    */
-   public void makeBox(JTextArea newBox){
-	diagramArea.add(newBox);
-	classBoxes.add(newBox);
-	JOptionPane.showMessageDialog(f, "Added a class box", "Alert",JOptionPane.WARNING_MESSAGE);
-	frmJambl.revalidate();
-	return;
+   public void makeBox(draggableBox newBox){
+		diagramArea.add(newBox);
+		classBoxes.add(newBox);
+		//JOptionPane.showMessageDialog(f, "Added a class box", "Alert",JOptionPane.WARNING_MESSAGE);
+		frmJambl.revalidate();
+		return;
    }
 
-   public void updateLocations(){
-	//TODO
-	return;
+   public boolean removeBox(String name){
+		Iterator<draggableBox> itr = classBoxes.iterator();
+		while(itr.hasNext()){
+			draggableBox next = itr.next();
+			if(next.getName().equals(name)){
+				diagramArea.remove(next);
+				frmJambl.revalidate();
+				frmJambl.repaint();
+				if(true){
+					//eventually we want to be able to delete any arrows pointing to/from 
+					//the deleted box
+				}
+				return true;
+			}
+		}
+		return false;
+   }
+
+   public boolean changeBoxName(String newName,String oldName){
+		return false;
    }
 }
 
