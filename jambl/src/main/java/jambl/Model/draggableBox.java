@@ -32,11 +32,11 @@ public class draggableBox extends JTextArea{
     //Cursor for dragging
     protected Cursor dragCursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
     //The parent class. Used for setting x and y 
-    private Class maker;
+    public Class maker;
     //whether or not this box is used to represent a relationship; used when deleting box to remove arrows
     private boolean inRelationship; 
-    //The current position of this box
-    protected Point position;
+
+    private Point relPoint;
     
     /**
      * Creates a new Box
@@ -47,7 +47,6 @@ public class draggableBox extends JTextArea{
      * @precondition The class creating this boc exists
      */
     public draggableBox(Class parent, String name, String contents){
-        addDragListeners();
         setText(contents);
         setName(name);
         setEditable(false);
@@ -58,13 +57,13 @@ public class draggableBox extends JTextArea{
 		setVisible(true);
 		setOpaque(true);
         maker = parent;
+        inRelationship = false;
     }
 
     /**
      * Adds drag listeners to this box
      */
     private void addDragListeners(){
-        final draggableBox handle = this;
         addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e){
                 anchor = e.getPoint();
@@ -83,33 +82,28 @@ public class draggableBox extends JTextArea{
                 
                 maker.addX(newPosition.x);
                 maker.addY(newPosition.y);
-                position = newPosition;
+
                 //This code commented out as it is not needed for GUI. For debugging you are free to uncomment
 
                 //System.out.println("Current position: " + position.x + "," + position.y);
-                //System.out.println("Maker's's x and y changed to: " + parent.getX() + "," + parent.getY());
+                //System.out.println("Maker's's x and y changed to: " + maker.getX() + "," + maker.getY());
             }
         });
     }
 
-    /**
-     * 
-     * @param name The name to change this box to (which may be null)
-     * @param contents The contents to change the current contents to
-     * @return n/a
-     * @preecondition This box is initialized with contents and a name
-     */
-    public void changeContents(String name, String contents){
-        //TODO
+    public void setRelStatus(boolean rel, int x, int y){
+        inRelationship = rel;
+        relPoint.setLocation(x, y);
     }
 
     //Returns whether or not this box is in a relationship
     public boolean isInRelationship(){
         return inRelationship;
+        
     }
 
-    public Point getPosition(){
-        return position;
+    public Point getRelationshipCoordinates(){
+        return relPoint;
     }
 }
 
