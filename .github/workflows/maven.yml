@@ -25,7 +25,7 @@ jobs:
 #    - name: Build with Maven
 #      run: mvn -B package test --file jambl/pom.xml
     - name: Install dependencies
-      run: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+      run: mvn -f jambl/pom.xml install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
     - name: Run tests and collect coverage
       run: mvn -B test
     - name: Codecov
