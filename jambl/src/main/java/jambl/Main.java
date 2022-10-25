@@ -6,6 +6,9 @@
  * @dateLastModified September 13, 2022
  */
 import java.util.*;
+import org.jline.reader.impl.completer.StringsCompleter;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
 
 public class Main {
 
@@ -14,13 +17,30 @@ public class Main {
             Model model  = new Model();
             View view = new View();
             Controller controller = new Controller(model , view);
+            StringsCompleter comp = new StringsCompleter("addcl","delcl", "rencl",
+                                                                    "addfld", "delfld", "fldtype",
+                                                                    "addmtd", "delmtd", "renmtd", "mtdtype",
+                                                                    "addrel", "delrel", "reltype",
+                                                                    "addpar", "delpar","chgpar",
+                                                                    "save", "load", "help", "exit",
+                                                                    "listall", "listcla", "listrel",
+                                                                    "ADDCL","DELCL", "RENCL",
+                                                                    "ADDFLD", "DELFLD", "FLDTYPE",
+                                                                    "ADDMTD", "DELMTD", "RENMTD", "MTDTYPE",
+                                                                    "ADDREL", "DELREL", "RELTYPE",
+                                                                    "ADDPAR", "DELPAR","CHGPAR",
+                                                                    "SAVE", "LOAD", "HELP", "EXIT",
+                                                                    "LISTALL", "LISTCLA", "LISTREL");
+            LineReader reader = LineReaderBuilder.builder().completer(comp).build();
             System.out.println();
             System.out.println("Welcome to JAMBL UML Diagram Creator!");
             System.out.println("Please enter your first command. Enter LOAD to load an existing file.");
             System.out.println("Or enter HELP for list of commands.");
-            System.out.print("JAMBL> ");
-            Scanner scanner = new Scanner(System.in);
-            String userCmd = scanner.nextLine().toUpperCase();
+            
+            String input = reader.readLine("JAMBL> ").toUpperCase();
+            StringTokenizer token = new StringTokenizer(input);
+            String userCmd = token.nextToken();
+
             Controller.Command currentCmd = Controller.Command.START;
 
 
@@ -32,14 +52,16 @@ public class Main {
                     controller.commandExecute(currentCmd);
                 }
                 if (currentCmd != Controller.Command.EXIT) {
-                    System.out.print("JAMBL> ");
-                    userCmd = scanner.nextLine().toUpperCase();
+                    
+                    input = reader.readLine("JAMBL> ").toUpperCase();
+                    token = new StringTokenizer(input);
+                    userCmd = token.nextToken().toUpperCase();
                 }
                 
             } while (currentCmd != Controller.Command.EXIT);
 
             System.out.println("Thank you for using JAMBL UML Diagram Creator! Goodbye!");
-            scanner.close();
+            
             return;
     	}else if(args.length == 0){
             GUIMain.main(null);   	
