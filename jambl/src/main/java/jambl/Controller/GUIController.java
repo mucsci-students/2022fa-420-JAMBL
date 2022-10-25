@@ -289,6 +289,8 @@ public class GUIController {
 			{
 				model.renameClass(name1, name2);
 				GUI.classRename(name1, name2);
+				GUI.changeBoxName(name1, name2);
+				sendBox(name2, GUI);
 			}
 			else
 			{
@@ -334,7 +336,10 @@ public class GUIController {
 	    public void addField(String className, String fieldName, String fieldType, GUIView GUI) {
 	    	Class get = model.getClass(className);
 	    	if(get.addField(fieldName, fieldType))
-	    		GUI.fieldAdd(fieldName, className);
+			{
+				GUI.fieldAdd(fieldName, className);
+				sendBox(className, GUI);
+			}
 	    	else
 	    		GUI.fieldAdd(fieldName, className);
 	    }
@@ -347,13 +352,15 @@ public class GUIController {
 			} else {
 				cls.getField(oldName).setFieldName(newName);
 	    		GUI.fieldRename(oldName, newName, className);
+				sendBox(className, GUI);
 	    	}
 		}
 			
 	    
 	    public void deleteField(String className, String fieldName, GUIView GUI) {
 	    	if(model.getClass(className).deleteField(fieldName)) {
-	    		GUI.fieldDelete(fieldName, className);
+				GUI.fieldDelete(fieldName, className);
+				sendBox(className, GUI);
 	    	}
 	    	else
 	    	{
@@ -363,7 +370,9 @@ public class GUIController {
 	    
 	    public void changeFieldType(String className, String fieldName, String newFieldType, GUIView GUI) {
 	    	model.getClass(className).getField(fieldName).setFieldType(newFieldType);
+
 	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
+			sendBox(className, GUI);
 	    }
 
 	    /////////// ***** Method methods ****** ////////////
@@ -373,6 +382,7 @@ public class GUIController {
 				GUI.methodExist();
 			}else if (cls.addMethod(methodName, methodReturn)) {
 				GUI.methodAdd(className, methodName);
+				sendBox(className, GUI);
 			} else {
 			GUI.methodActionFailure("add");
 			}
@@ -382,6 +392,7 @@ public class GUIController {
 			Method mtd = cls.getMethod(methodName);
 			if (cls.deleteMethod(mtd)) {
 				GUI.methodDelete(className, methodName);
+				sendBox(className, GUI);
 			} else {
 				GUI.methodActionFailure("delete");
 			}
@@ -395,6 +406,7 @@ public class GUIController {
 				Method mtd = cls.getMethod(oldMtdName);
 				if (cls.renameMethod(mtd, newMtdName)) {
 					GUI.methodRename(className, oldMtdName, newMtdName);
+					sendBox(className, GUI);
 				}else {
 					GUI.methodActionFailure("rename");
 			}
@@ -406,11 +418,12 @@ public class GUIController {
 			Method mtd = cls.getMethod(methodName);
 			if (cls.changeMethodreturn(mtd, returnType)) {
 				GUI.methodRetype(className, methodName, returnType);
+				sendBox(className, GUI);
 			}else {
 				GUI.methodActionFailure("change return type of");
 			}
 		}
-	
+
    
 	     /////////// ***** Relationship Methods ****** ////////////
 
@@ -422,6 +435,8 @@ public class GUIController {
 			} else {
 				cls.addRelationship(model.getClass(destination), typeName.toUpperCase());
 				GUI.addedRel(origin, destination);
+				Class dest = model.getClass(destination);
+				GUI.setLineCoordinates((int)cls.getX(), (int)cls.getY(), (int)dest.getX(), (int)dest.getY());
 			}
 		}
 
@@ -452,8 +467,6 @@ public class GUIController {
 			}
 		}
 
-
-  
 		public void save( String fileName){
 			Save saving = new Save(model);
 			JSONObject fileObj = new JSONObject();
@@ -495,6 +508,7 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.addParameter(name, type)){
 				GUI.paramAdd(method1, name, type);
+				sendBox(class1, GUI);
 			} else {
 				GUI.addParamFailure();
 			}
@@ -505,6 +519,7 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.deleteParameter(name)){
 				GUI.paramDelete(method1, name);
+				sendBox(class1, GUI);
 			} else {
 				GUI.deleteParamFailure();
 			}
@@ -515,6 +530,7 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.changeParameter(oldname, newname, newtype)){
 				GUI.paramChange(method1, oldname, newname, newtype);
+				sendBox(class1, GUI);
 			} else {
 				GUI.changeParamFailure();
 			}
@@ -525,6 +541,7 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.deleteAllParameter()){
 				GUI.paramDeleteAll(method1);
+				sendBox(class1, GUI);
 			} else {
 				GUI.deleteAllParamFailure();
 			}
@@ -1483,7 +1500,8 @@ public class GUIController {
 	 * @precondition The class "className" exists
 	 */
 	public void sendBox(String className, GUIView gui){
-		gui.makeBox(model.getClass(className).getBox());
+		model.getClass(className).prepareContents();
+		gui.makeBox(model.getClass(className).getBox(), className);
 	}
 }
 

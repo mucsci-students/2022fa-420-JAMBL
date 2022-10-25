@@ -25,15 +25,16 @@ public class Class {
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
     public long x;
     public long y;
-
- 
-
+    draggableBox classBox;
 
     //constructor with name as parameter
     public Class(String name){
         this.className = name;
         this.fields = new HashSet<Field>();
         this.relationships = new HashSet<Relationship>();
+        this.classBox = new draggableBox(this, name, name + "\n=======\n\n");
+        x = 250;
+        y = 250;
     }
 
     //get Method set
@@ -282,17 +283,49 @@ public class Class {
         
     }
 
-    public String getContents(){
-        return null;
+    public void prepareContents(){
+        String contents = this.className + "\n========\n\n";
+        contents = contents +"     Fields:\n";
+        
+        for (Field fld: this.fields) {
+            String fieldType = fld.getFieldType();
+            String fieldName = fld.getFieldName();
+			contents = contents +"     * " + fieldType + " " + fieldName + "\n";
+        }
+        
+        contents = contents +"\n     Methods:\n";
+        
+        for (Method mtd: this.methods) {
+            String returnType = mtd.getReturnType();
+            String methodName = mtd.getMethodName();
+            contents = contents +"     * " + returnType + " " + methodName + " (";
+            HashSet<Parameter> params = mtd.getParameters();
+            int count = params.size();
+            if (count == 0) {
+                contents = contents + ")\n";
+            } else {
+                for (Parameter par: params) {
+                    contents = contents + par.getParamType() + " " + par.getParamName();
+                    count --;
+                    if (count > 0) {
+                        contents = contents +", ";
+                    } else {
+                       contents = contents + ")\n";
+                    }
+                }
+            }
+        }
+
+        classBox.setText(contents);
+        classBox.setLocation((int)getX(), (int)getY());
+        return;
     }
 
     /**
      * @param n/a
-     * @return A new Jlabel to eventually be displayed in the view
+     * @return A new JTextArea to eventually be displayed in the view
      */
     public draggableBox getBox(){
-        String contents = this.getClassName() + "\n========\n";
-        draggableBox newBox = new draggableBox(this, this.getClassName(), contents);
-        return newBox;
+        return classBox;
     }
 }

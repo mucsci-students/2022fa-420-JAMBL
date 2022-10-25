@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Graphics;
 
 public class GUIView extends View  {
 	
@@ -46,7 +47,7 @@ public class GUIView extends View  {
 	public String cls;
 
 	// main window buttons
-	
+	public int x1,y1,x2,y2;
 	public JButton btnAddClass = new JButton("Add");
 	public JButton btnRenameClass = new JButton("Rename"); 
 	public JButton btnDeleteClass = new JButton("Delete");
@@ -71,7 +72,7 @@ public class GUIView extends View  {
 	public JButton btnRenameField = new JButton("Rename");
 	public JButton btnRedo = new JButton("Redo");
 	public JButton btnUndo = new JButton("Undo");
-
+	Color c = null;;
 
 	// Secondary Window buttons
 	public JButton btnCancel;
@@ -79,7 +80,7 @@ public class GUIView extends View  {
 	public JTextField textFieldClassName;
 	JTextField classNameBox;
 	//JTextArea textAreaMain;
-	JPanel diagramArea;
+	jamblPanel diagramArea;
 
 	HashSet<draggableBox> classBoxes = new HashSet<draggableBox>();
 	/**
@@ -1635,25 +1636,17 @@ public class GUIView extends View  {
 		frmJambl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJambl.getContentPane().setLayout(null);
 		
-		diagramArea = new JPanel();
+		diagramArea = new jamblPanel(){
+			@Override
+			public void paintComponents(Graphics g){
+				g.setColor(Color.BLACK);
+				g.drawLine(x1, y1, x2, y2);
+			}
+		};
+
 		diagramArea.setBounds(359, 67, 678, 524);
 		diagramArea.setBorder(BorderFactory.createEtchedBorder());
 		frmJambl.getContentPane().add(diagramArea);
-
-		/* 
-		 * Scroll Pane for text area for large output
-		//* /
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(359, 67, 678, 524);
-		frmJambl.getContentPane().add(scrollPane_1);
-		
-		/////////////////////////////////////////// textAreaMain - where the UML diagram will be able displayed and updated in real time
-		///////////////////////////////////////////			as classes, field, methods, and relationships are added
-		
-		textAreaMain = new JTextArea();
-		scrollPane_1.setViewportView(textAreaMain);
-		textAreaMain.setLineWrap(true);
-		textAreaMain.setEditable(false); */
 		
 
 		
@@ -2111,11 +2104,11 @@ public class GUIView extends View  {
    * @return N/A
    * @precondition Class of thing exists
    */
-   public void makeBox(draggableBox newBox){
-		diagramArea.add(newBox);
+   public void makeBox(draggableBox newBox, String name){
+		diagramArea.addNewFrame(name, newBox);
 		classBoxes.add(newBox);
 		//JOptionPane.showMessageDialog(f, "Added a class box", "Alert",JOptionPane.WARNING_MESSAGE);
-		frmJambl.revalidate();
+		frmJambl.repaint();
 		return;
    }
 
@@ -2125,12 +2118,11 @@ public class GUIView extends View  {
 			draggableBox next = itr.next();
 			if(next.getName().equals(name)){
 				diagramArea.remove(next);
-				frmJambl.revalidate();
-				frmJambl.repaint();
 				if(true){
 					//eventually we want to be able to delete any arrows pointing to/from 
 					//the deleted box
 				}
+				frmJambl.repaint();
 				return true;
 			}
 		}
@@ -2138,7 +2130,34 @@ public class GUIView extends View  {
    }
 
    public boolean changeBoxName(String newName,String oldName){
-		return false;
+	Iterator<draggableBox> itr = classBoxes.iterator();
+	while(itr.hasNext()){
+		draggableBox next = itr.next();
+		if(next.getName().equals(oldName)){
+			next.setName(newName);
+			return true;
+		}
+	}
+	return false;
    }
+
+   public void updateBoxContents(draggableBox newBox, String name){
+	Iterator<draggableBox> itr = classBoxes.iterator();
+	while(itr.hasNext()){
+		draggableBox next = itr.next();
+		if(next.getName().equals(name)){
+			diagramArea.removeBox(name);
+			diagramArea.addNewFrame(name, newBox);
+			classBoxes.add(newBox);
+		}
+	}
+   }
+
+   public void setLineCoordinates(int x1, int y1, int x2, int y2){
+	
+	diagramArea.paintComponents(diagramArea.getGraphics());
+   }
+
+
 }
 
