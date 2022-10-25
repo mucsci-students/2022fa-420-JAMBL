@@ -36,6 +36,7 @@ import org.json.simple.parser.JSONParser;
 public class GUIController {
 	
 		Model model;
+		History history = new History();
 		//GUIView GUI;
 		
 		public HashSet<Relationship> relationships = new HashSet<Relationship>();
@@ -232,9 +233,7 @@ public class GUIController {
 						// undo button listener
 						GUINow.btnUndo.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								GUINow.getMainArea().setText("undo was clicked");
-				
-								
+								undo();
 							}
 
 						});
@@ -242,7 +241,7 @@ public class GUIController {
 						// redo button listener
 						GUINow.btnRedo.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								GUINow.getMainArea().setText("redo was clicked");
+								redo();
 								
 							}
 
@@ -645,6 +644,7 @@ public class GUIController {
 					String text = view.getTextBox().getText();
 					if(!text.equals(""))
 					{
+						history.saveState(model);
 						addClass(text, view);
 						frame.dispose();
 					}
@@ -669,6 +669,7 @@ public class GUIController {
 			view.btnDeleteClass.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.comboBoxClasses.getSelectedItem().equals("Choose a class:")) {
+						history.saveState(model);
 						deleteClass(view.comboBoxClasses.getSelectedItem().toString(), view);
 						frame.dispose();
 					}
@@ -707,6 +708,7 @@ public class GUIController {
 						if(!view.cbClasses.getSelectedItem().toString().equals("Choose a class:")) {
 							
 							if(!view.textFieldClassName.getText().equals("")) {
+								history.saveState(model);
 								renameClass(view.cbClasses.getSelectedItem().toString(), view.textFieldClassName.getText(), view );
 								
 								frame.dispose();
@@ -748,7 +750,7 @@ public class GUIController {
 			view.btnAddRelationship.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.comboBoxClass1.getSelectedItem().equals("Choose a class:") || !view.comboBoxClass2.getSelectedItem().equals("Choose a class:") ) {
-
+						history.saveState(model);
 						////////////////////////////////////////////////////////
 						addRelationship(view.comboBoxClass1.getSelectedItem().toString(), 
 						view.comboBoxClass2.getSelectedItem().toString(), view.cbRelationships.getSelectedItem().toString(), view);
@@ -789,7 +791,7 @@ public class GUIController {
 			view.btnDeleteRelationship.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.cbClass1.getSelectedItem().equals("Choose a class:") || !view.cdClass2.getSelectedItem().equals("Choose a class:") ) {
-
+						history.saveState(model);
 						////////////////////////////////////////////////////////
 						deleteRelationship(view.cbClass1.getSelectedItem().toString(), 
 						view.cdClass2.getSelectedItem().toString(), view);
@@ -836,6 +838,7 @@ public class GUIController {
 				public void actionPerformed(ActionEvent e) {
 					
 					if(!view.cbClass1.getSelectedItem().equals("Choose a class:") || !view.cbClass2.getSelectedItem().equals("Choose a class:") ) {
+						history.saveState(model);
 						////////////////////////////////////////////////////////
 						editRelationshipType(view.cbClass1.getSelectedItem().toString(), 
 						view.cbClass2.getSelectedItem().toString(), view.cbRelationships.getSelectedItem().toString(),view);
@@ -877,6 +880,7 @@ public class GUIController {
 
 				view.btnAddMethod.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						history.saveState(model);
 						addMethod(view.comboBoxClasses.getSelectedItem().toString(), view.methodNameBox.getText(), view.methodTypeBox.getText(), view);
 						view.frmJamblAdd.dispose();
 					}
@@ -915,6 +919,7 @@ public class GUIController {
 			view.btnDeleteMethod.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!(view.Classes.getSelectedIndex() == -1) && !(view.Methods.getSelectedIndex() == -1)) {
+						history.saveState(model);
 						deleteMethod(view.Classes.getSelectedItem().toString(), view.Methods.getSelectedItem().toString(), view);
 						frame.dispose();
 					}
@@ -956,6 +961,7 @@ public class GUIController {
 				
 				view.btnChangeMethod.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						history.saveState(model);
 						renameMethod(view.Classes.getSelectedItem().toString(), view.Methods.getSelectedItem().toString(), view.textField.getText(), view);
 						view.frmJamblAdd2.dispose();
 					}
@@ -995,6 +1001,7 @@ public class GUIController {
 			
 			view.btnChangeMethod.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					history.saveState(model);
 					changeMethodReturn(view.Classes.getSelectedItem().toString(), view.Methods.getSelectedItem().toString(), view.textField.getText(), view);
 					view.frmJamblAdd.dispose();
 				}
@@ -1027,6 +1034,7 @@ public class GUIController {
 				view.btnAddParameter.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!view.textParameter.getText().equals("") && !view.textParamType.getText().equals("")) {
+							history.saveState(model);
 							addParameter(view.cbClasses.getSelectedItem().toString(), view.cbMethods.getSelectedItem().toString(), view.textParameter.getText(), view.textParamType.getText(), view);
 							frame.dispose();
 						}
@@ -1073,6 +1081,7 @@ public class GUIController {
 			view.btnRemoveParameter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!(view.cbClasses.getSelectedIndex() == -1) && !(view.cdMethods.getSelectedIndex() == -1) && !(view.cbParameter.getSelectedIndex() == -1)) {
+						history.saveState(model);
 						deleteParameter(view.cbClasses.getSelectedItem().toString(), view.cdMethods.getSelectedItem().toString(), view.cbParameter.getSelectedItem().toString(), view);
 						frame.dispose();
 					}
@@ -1090,6 +1099,7 @@ public class GUIController {
 			view.btnDeleteAll.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!(view.cbClasses.getSelectedIndex() == -1) && !(view.cdMethods.getSelectedIndex() == -1)){
+						history.saveState(model);
 						removeAllParameter(view.cbClasses.getSelectedItem().toString(), view.cdMethods.getSelectedItem().toString(), view);
 						frame.dispose();
 					}
@@ -1139,6 +1149,7 @@ public class GUIController {
 			
 			view.btnChangeParameter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					history.saveState(model);
 					changeParameter(view.cbClasses.getSelectedItem().toString(), view.cbMethods.getSelectedItem().toString(), view.cbParameters.getSelectedItem().toString(), view.textParameter.getText(), view.textParamType.getText(), view);
 					frame.dispose();
 				}
@@ -1174,6 +1185,7 @@ public class GUIController {
 			view.btnAddField.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.fieldNameBox.getText().equals("") && !view.fieldTypeBox.getText().equals("")) {
+						history.saveState(model);
 						addField(view.comboBoxClasses.getSelectedItem().toString(), view.fieldNameBox.getText(), view.fieldTypeBox.getText(), view);
 						frame.dispose();
 					}
@@ -1219,6 +1231,7 @@ public class GUIController {
 			view.btnDeleteField.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!(view.Classes.getSelectedIndex() == -1) && !(view.cbFields.getSelectedIndex() == -1)) {
+						history.saveState(model);
 						deleteField(view.Classes.getSelectedItem().toString(), view.cbFields.getSelectedItem().toString(), view);
 						view.frmJamblAdd3.dispose();
 					}
@@ -1261,6 +1274,7 @@ public class GUIController {
 			view.btnChangeMethod.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.textField.getText().equals("")) {
+						history.saveState(model);
 						renameField(view.Classes.getSelectedItem().toString(), view.Fields.getSelectedItem().toString(), view.textField.getText(), view);
 						view.frmJamblAdd4.dispose();
 					}
@@ -1299,6 +1313,7 @@ public class GUIController {
 			
 			view.btnChangeField.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					history.saveState(model);
 					changeFieldType(view.Classes.getSelectedItem().toString(), view.Fields.getSelectedItem().toString(), view.textFieldType.getText(), view);
 					view.frmJamblAdd5.dispose();
 				}
@@ -1372,6 +1387,7 @@ public class GUIController {
 					if(!text.equals("")){
 						
 						load(text);
+						history.newWorkflow(); // resets the undo/redo history for a new file
 						frame.dispose();
 					}
 					else
@@ -1503,5 +1519,40 @@ public class GUIController {
 		model.getClass(className).prepareContents();
 		gui.makeBox(model.getClass(className).getBox(), className);
 	}
+
+    /*********************************************************************
+    *This method performs the undo functionality and loads it to the current state
+    *Parameters: 
+    *Returns:
+    *Prerequisites:
+    **********************************************************************/
+	public void undo() {
+		Memento undo = history.undoState(this.model); //save the current state and get the undo Memento
+		if (undo == null) { //if theres no undos then nothing happens and returns
+			return;
+		} else {
+			Load newState = new Load();
+			newState.loadClasses(undo.getState()); //loads the classes
+			this.model = newState.loadRelationships(undo.getState()); //loads the relationships and sets to current model
+		}
+	}
+
+	/*********************************************************************
+    *This method performs the redo functionality and loads it to the current state
+    *Parameters: 
+    *Returns:
+    *Prerequisites:
+    **********************************************************************/
+	public void redo () {
+		Memento redo = history.redoState(this.model); //save the current state and get the redo Memento
+        if (redo == null) { //if theres no redos then nothing happens and returns
+            return;
+        } else {
+            Load newState = new Load();
+            newState.loadClasses(redo.getState()); //loads the classes
+            this.model = newState.loadRelationships(redo.getState()); //loads the relationships and sets to the current model.
+        }
+	}
+
 }
 
