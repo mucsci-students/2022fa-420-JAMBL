@@ -37,6 +37,7 @@ public class draggableBox extends JTextArea{
     private boolean inRelationship; 
     //The current position of this box
     protected Point position;
+    int loc;
     
     /**
      * Creates a new Box
@@ -58,6 +59,7 @@ public class draggableBox extends JTextArea{
 		setVisible(true);
 		setOpaque(true);
         maker = parent;
+
     }
 
     /**
@@ -86,7 +88,7 @@ public class draggableBox extends JTextArea{
                 position = newPosition;
                 //This code commented out as it is not needed for GUI. For debugging you are free to uncomment
 
-                //System.out.println("Current position: " + position.x + "," + position.y);
+            //System.out.println("Current position: " + position.x + "," + position.y);
                 //System.out.println("Maker's's x and y changed to: " + parent.getX() + "," + parent.getY());
             }
         });

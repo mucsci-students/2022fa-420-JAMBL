@@ -39,6 +39,7 @@ public class GUIController {
 		//GUIView GUI;
 		
 		public HashSet<Relationship> relationships = new HashSet<Relationship>();
+		HashSet<draggableBox> classBoxes = new HashSet<draggableBox>();
 		
 		/*
 		 * Constructs a new GUIController
@@ -422,6 +423,8 @@ public class GUIController {
 			} else {
 				cls.addRelationship(model.getClass(destination), typeName.toUpperCase());
 				GUI.addedRel(origin, destination);
+				addRelationshipGUI(origin, destination, typeName, GUI);
+
 			}
 		}
 
@@ -1485,5 +1488,34 @@ public class GUIController {
 	public void sendBox(String className, GUIView gui){
 		gui.makeBox(model.getClass(className).getBox());
 	}
+	
+	
+	public void addRelationshipGUI (String origin, String destination, String typeName, GUIView GUI){
+
+		draggableBox class1 = null;
+		draggableBox class2 = null;
+
+		Iterator<draggableBox> itr = classBoxes.iterator();
+		while(itr.hasNext()){
+			draggableBox next = itr.next();
+			if(next.getName().equals(origin)){
+				class1 = model.getClass(origin).getBox();
+			}
+			if (next.getName().equals(destination)){
+				class2 = model.getClass(destination).getBox();
+			}
+			GUI.diagramArea.setBox(class1, class2, Relationship.Type.AGGR);
+			GUI.reDraw();
+	}
+	
+	
 }
+
+
+
+
+
+
+}
+
 

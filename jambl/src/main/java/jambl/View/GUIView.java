@@ -13,6 +13,7 @@ import java.awt.EventQueue;
 
 import javax.swing.*;
 
+import jambl.Model.RelationshipArrow;
 import jambl.Model.draggableBox;
 
 //import java.awt.BorderLayout;
@@ -79,7 +80,7 @@ public class GUIView extends View  {
 	public JTextField textFieldClassName;
 	JTextField classNameBox;
 	//JTextArea textAreaMain;
-	JPanel diagramArea;
+	public RelationshipArrow diagramArea;
 
 	HashSet<draggableBox> classBoxes = new HashSet<draggableBox>();
 	/**
@@ -1635,7 +1636,7 @@ public class GUIView extends View  {
 		frmJambl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJambl.getContentPane().setLayout(null);
 		
-		diagramArea = new JPanel();
+		diagramArea = new RelationshipArrow();
 		diagramArea.setBounds(359, 67, 678, 524);
 		diagramArea.setBorder(BorderFactory.createEtchedBorder());
 		frmJambl.getContentPane().add(diagramArea);
@@ -2139,6 +2140,11 @@ public class GUIView extends View  {
 
    public boolean changeBoxName(String newName,String oldName){
 		return false;
+   }
+
+   public void reDraw(){
+	frmJambl.revalidate();
+	return;
    }
 }
 
