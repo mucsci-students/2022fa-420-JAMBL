@@ -10,6 +10,7 @@ import java.awt.Stroke;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.HashSet;
+import java.util.Iterator;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -24,33 +25,47 @@ import java.awt.RenderingHints;
 public class jamblPanel extends JDesktopPane {
 
     private HashSet<MyFrame> frames = new HashSet<MyFrame>();
-    private static final Stroke s = new BasicStroke(4.0f);
-    private MyFrame one = new MyFrame("One", 100, 100);
-    private MyFrame two = new MyFrame("Two", 400, 240);
+    //private static final Stroke s = new BasicStroke(4.0f);
+    //private MyFrame one = new MyFrame("One", 100, 100);
+    //private MyFrame two = new MyFrame("Two", 400, 240);
 
     public jamblPanel() {
         this.setPreferredSize(new Dimension(640, 480));
-        this.add(one);
-        this.add(two);
+        //this.add(one);
+        //this.add(two);
     }
 
-    public void  addNewFrame(String name, JTextArea stuff){
-        MyFrame newF = new MyFrame(name, 100, 100);
+    public void  addNewFrame(MyFrame frm/*String name, JTextArea stuff*/){
+        frames.add(frm);
+        add(frm);
+        /*MyFrame newF = new MyFrame(name, 100, 100);
         newF.add(stuff);
         add(newF);
-        frames.add(newF);
+        frames.add(newF);*/
+        revalidate();
         repaint();
     }
 
-    public void removeBox(String name){
-        for(MyFrame next : frames){
-            if(next.getName().equals(name)){
-                remove(next);
+    public void removeBox(MyFrame frm){
+        Iterator<MyFrame> itr = frames.iterator();
+        while(itr.hasNext()){
+            MyFrame ele = itr.next();
+            if(ele.getName().equals(frm.getName())){
+                ele.dispose();
+                itr.remove();
+                remove(ele);
+                revalidate();
+                repaint();
             }
         }
     }
 
-    @Override
+    public HashSet<MyFrame> getFrames() {
+        return frames;
+    }
+
+
+    /*@Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -64,13 +79,15 @@ public class jamblPanel extends JDesktopPane {
         int x2 = two.getX() + two.getWidth() / 2;
         int y2 = two.getY() + two.getHeight() / 2;
         g2d.drawLine(x1, y1, x2, y2);
-    }
+    }*/
     
 
-    private final class MyFrame extends JInternalFrame {
+    public final class MyFrame extends JInternalFrame {
+        String className;
 
-        MyFrame(String name, int x, int y) {
+        public MyFrame(String name, int x, int y) {
             super(name);
+            this.className = name;
             this.setSize(160, 100);
             this.setLocation(x, y);
             this.setVisible(true);
@@ -83,6 +100,10 @@ public class jamblPanel extends JDesktopPane {
                     jamblPanel.this.repaint();
                 }
             });
+        }
+
+        public String getName() {
+            return className;
         }
     }
 }

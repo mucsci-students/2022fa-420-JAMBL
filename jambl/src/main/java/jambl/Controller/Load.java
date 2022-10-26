@@ -86,9 +86,8 @@ public class Load {
         long x = (long) coordinate.get("x");
         long y = (long) coordinate.get("y");
 
-        currClass.addX(x);
-        currClass.addY(y);
-
+        currClass.addX((int)x);
+        currClass.addY((int)y);
     }
     public void loadFields(JSONObject aClass, String className){
         // finds the class to add fields to
