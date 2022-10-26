@@ -292,6 +292,7 @@ public class GUIController {
 	    public void renameClass(String name1, String name2, GUIView GUI) {
 	    	if(model.getClass(name2) == null) 
 			{
+				saveLocations(GUI);
 				model.renameClass(name1, name2);
 				GUI.classRename(name1, name2);
 				//GUI.changeBoxName(name1, name2);
