@@ -14,6 +14,8 @@ import java.awt.EventQueue;
 import javax.swing.*;
 
 import jambl.Model.draggableBox;
+import jambl.View.jamblPanel;
+import jambl.View.jamblPanel.*;
 
 //import java.awt.BorderLayout;
 import java.awt.Color;
@@ -80,7 +82,7 @@ public class GUIView extends View  {
 	public JTextField textFieldClassName;
 	JTextField classNameBox;
 	//JTextArea textAreaMain;
-	jamblPanel diagramArea;
+	public jamblPanel diagramArea;
 
 	HashSet<draggableBox> classBoxes = new HashSet<draggableBox>();
 	/**
@@ -2105,7 +2107,7 @@ public class GUIView extends View  {
    * @precondition Class of thing exists
    */
    public void makeBox(draggableBox newBox, String name){
-		diagramArea.addNewFrame(name, newBox);
+		//diagramArea.addNewFrame(name, newBox);
 		classBoxes.add(newBox);
 		//JOptionPane.showMessageDialog(f, "Added a class box", "Alert",JOptionPane.WARNING_MESSAGE);
 		frmJambl.repaint();
@@ -2117,7 +2119,7 @@ public class GUIView extends View  {
 		while(itr.hasNext()){
 			draggableBox next = itr.next();
 			if(next.getName().equals(name)){
-				diagramArea.remove(next);
+				//diagramArea.removeBox(next.getName());
 				if(true){
 					//eventually we want to be able to delete any arrows pointing to/from 
 					//the deleted box
@@ -2130,14 +2132,22 @@ public class GUIView extends View  {
    }
 
    public boolean changeBoxName(String newName,String oldName){
-	Iterator<draggableBox> itr = classBoxes.iterator();
+	Iterator<MyFrame> itr = diagramArea.getFrames().iterator();
+	while (itr.hasNext()) {
+		MyFrame frm = itr.next();
+		if (frm.getName().equals(oldName)) {
+			
+		}
+	}
+	
+	/*Iterator<draggableBox> itr = classBoxes.iterator();
 	while(itr.hasNext()){
 		draggableBox next = itr.next();
 		if(next.getName().equals(oldName)){
 			next.setName(newName);
 			return true;
 		}
-	}
+	}*/
 	return false;
    }
 
@@ -2146,8 +2156,8 @@ public class GUIView extends View  {
 	while(itr.hasNext()){
 		draggableBox next = itr.next();
 		if(next.getName().equals(name)){
-			diagramArea.removeBox(name);
-			diagramArea.addNewFrame(name, newBox);
+			//diagramArea.removeBox(name);
+			//diagramArea.addNewFrame(name, newBox);
 			classBoxes.add(newBox);
 		}
 	}

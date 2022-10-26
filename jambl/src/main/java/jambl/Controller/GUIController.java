@@ -2,6 +2,7 @@ package jambl.Controller;
 import jambl.Model.*;
 import jambl.Model.Class;
 import jambl.View.*;
+import jambl.View.jamblPanel.MyFrame;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -19,6 +20,7 @@ import java.util.*;
 
 import javax.swing.JButton;
 import javax.swing.event.SwingPropertyChangeSupport;
+import javax.swing.text.View;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
@@ -230,10 +232,11 @@ public class GUIController {
 
 						});
 
+						
 						// undo button listener
 						GUINow.btnUndo.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								undo();
+								undo(GUINow);
 							}
 
 						});
@@ -241,7 +244,7 @@ public class GUIController {
 						// redo button listener
 						GUINow.btnRedo.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								redo();
+								redo(GUINow);
 								
 							}
 
@@ -272,7 +275,8 @@ public class GUIController {
 			{		
 	    		model.addClass(name);
 	    		GUI.classCreate(name);
-				sendBox(name, GUI);
+				//sendBox(name, GUI);
+				refreshDiagram(GUI);
 			}
 			else
 			{
@@ -288,8 +292,9 @@ public class GUIController {
 			{
 				model.renameClass(name1, name2);
 				GUI.classRename(name1, name2);
-				GUI.changeBoxName(name1, name2);
-				sendBox(name2, GUI);
+				//GUI.changeBoxName(name1, name2);
+				//sendBox(name2, GUI);
+				refreshDiagram(GUI);
 			}
 			else
 			{
@@ -304,6 +309,7 @@ public class GUIController {
 	    		model.deleteClass(model.getClass(name));
 	    		GUI.classDelete(name);
 				GUI.removeBox(name);
+				refreshDiagram(GUI);
 			
 	    }
 
@@ -337,7 +343,9 @@ public class GUIController {
 	    	if(get.addField(fieldName, fieldType))
 			{
 				GUI.fieldAdd(fieldName, className);
-				sendBox(className, GUI);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
+
 			}
 	    	else
 	    		GUI.fieldAdd(fieldName, className);
@@ -351,7 +359,8 @@ public class GUIController {
 			} else {
 				cls.getField(oldName).setFieldName(newName);
 	    		GUI.fieldRename(oldName, newName, className);
-				sendBox(className, GUI);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 	    	}
 		}
 			
@@ -359,7 +368,8 @@ public class GUIController {
 	    public void deleteField(String className, String fieldName, GUIView GUI) {
 	    	if(model.getClass(className).deleteField(fieldName)) {
 				GUI.fieldDelete(fieldName, className);
-				sendBox(className, GUI);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 	    	}
 	    	else
 	    	{
@@ -371,7 +381,8 @@ public class GUIController {
 	    	model.getClass(className).getField(fieldName).setFieldType(newFieldType);
 
 	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
-			sendBox(className, GUI);
+			//sendBox(className, GUI);
+			refreshDiagram(GUI);
 	    }
 
 	    /////////// ***** Method methods ****** ////////////
@@ -381,7 +392,8 @@ public class GUIController {
 				GUI.methodExist();
 			}else if (cls.addMethod(methodName, methodReturn)) {
 				GUI.methodAdd(className, methodName);
-				sendBox(className, GUI);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 			} else {
 			GUI.methodActionFailure("add");
 			}
@@ -391,7 +403,8 @@ public class GUIController {
 			Method mtd = cls.getMethod(methodName);
 			if (cls.deleteMethod(mtd)) {
 				GUI.methodDelete(className, methodName);
-				sendBox(className, GUI);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.methodActionFailure("delete");
 			}
@@ -405,7 +418,8 @@ public class GUIController {
 				Method mtd = cls.getMethod(oldMtdName);
 				if (cls.renameMethod(mtd, newMtdName)) {
 					GUI.methodRename(className, oldMtdName, newMtdName);
-					sendBox(className, GUI);
+					//sendBox(className, GUI);
+					refreshDiagram(GUI);
 				}else {
 					GUI.methodActionFailure("rename");
 			}
@@ -417,7 +431,8 @@ public class GUIController {
 			Method mtd = cls.getMethod(methodName);
 			if (cls.changeMethodreturn(mtd, returnType)) {
 				GUI.methodRetype(className, methodName, returnType);
-				sendBox(className, GUI);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 			}else {
 				GUI.methodActionFailure("change return type of");
 			}
@@ -435,7 +450,8 @@ public class GUIController {
 				cls.addRelationship(model.getClass(destination), typeName.toUpperCase());
 				GUI.addedRel(origin, destination);
 				Class dest = model.getClass(destination);
-				GUI.setLineCoordinates((int)cls.getX(), (int)cls.getY(), (int)dest.getX(), (int)dest.getY());
+				//GUI.setLineCoordinates(cls.getX(), cls.getY(), dest.getX(), dest.getY());
+				/****TO-DO! refreshDiagram() relationship integration????*****/
 			}
 		}
 
@@ -448,6 +464,7 @@ public class GUIController {
 			} else {
 				cls.deleteRelationship(destination);
 				GUI.relDeleted();
+			/****TO-DO! refreshDiagram() relationship integration????*****/
 			}
 				
 		}
@@ -463,6 +480,7 @@ public class GUIController {
 				rel.setRelType(newType);     
 
 		   	    GUI.relTypeEdited(model.getClass(destination).TypefullName(newType.toUpperCase()));
+			/****TO-DO! refreshDiagram() relationship integration????*****/
 			}
 		}
 
@@ -485,7 +503,7 @@ public class GUIController {
 	
 	
 	
-		public void load(String fileName){
+		public void load(String fileName, GUIView GUI){
 			
 			 Load load = new Load();
 			 
@@ -497,6 +515,7 @@ public class GUIController {
 	
 			// loads relationships into classes
 			this.model = load.loadRelationships(file);
+			refreshDiagram(GUI);
 	
 		}
 
@@ -507,7 +526,8 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.addParameter(name, type)){
 				GUI.paramAdd(method1, name, type);
-				sendBox(class1, GUI);
+				//sendBox(class1, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.addParamFailure();
 			}
@@ -518,7 +538,8 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.deleteParameter(name)){
 				GUI.paramDelete(method1, name);
-				sendBox(class1, GUI);
+				//sendBox(class1, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.deleteParamFailure();
 			}
@@ -529,7 +550,8 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.changeParameter(oldname, newname, newtype)){
 				GUI.paramChange(method1, oldname, newname, newtype);
-				sendBox(class1, GUI);
+				//sendBox(class1, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.changeParamFailure();
 			}
@@ -540,7 +562,8 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.deleteAllParameter()){
 				GUI.paramDeleteAll(method1);
-				sendBox(class1, GUI);
+				//sendBox(class1, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.deleteAllParamFailure();
 			}
@@ -1385,10 +1408,9 @@ public class GUIController {
 					
 					String text = view.textField.getText();
 					if(!text.equals("")){
-						
-						load(text);
 						history.newWorkflow(); // resets the undo/redo history for a new file
-						frame.dispose();
+						load(text, view);
+						frame.dispose();	
 					}
 					else
 					{}
@@ -1526,7 +1548,7 @@ public class GUIController {
     *Returns:
     *Prerequisites:
     **********************************************************************/
-	public void undo() {
+	public void undo(GUIView GUI) {
 		Memento undo = history.undoState(this.model); //save the current state and get the undo Memento
 		if (undo == null) { //if theres no undos then nothing happens and returns
 			return;
@@ -1534,6 +1556,7 @@ public class GUIController {
 			Load newState = new Load();
 			newState.loadClasses(undo.getState()); //loads the classes
 			this.model = newState.loadRelationships(undo.getState()); //loads the relationships and sets to current model
+			refreshDiagram(GUI);
 		}
 	}
 
@@ -1543,7 +1566,7 @@ public class GUIController {
     *Returns:
     *Prerequisites:
     **********************************************************************/
-	public void redo () {
+	public void redo (GUIView GUI) {
 		Memento redo = history.redoState(this.model); //save the current state and get the redo Memento
         if (redo == null) { //if theres no redos then nothing happens and returns
             return;
@@ -1551,8 +1574,41 @@ public class GUIController {
             Load newState = new Load();
             newState.loadClasses(redo.getState()); //loads the classes
             this.model = newState.loadRelationships(redo.getState()); //loads the relationships and sets to the current model.
-        }
+			refreshDiagram(GUI);
+		}
 	}
 
+
+	public void refreshDiagram (GUIView view) {
+		Iterator<MyFrame> posItr = view.diagramArea.getFrames().iterator();
+		while (posItr.hasNext()) {
+			MyFrame frm = posItr.next();
+			Class cls = model.getClass(frm.getName());
+			if (cls == null) {
+				break;
+			}
+			cls.addX(frm.getX());
+			cls.addY(frm.getY());
+		}
+
+		Iterator<MyFrame> removeItr = view.diagramArea.getFrames().iterator();
+		while (removeItr.hasNext()) {
+			MyFrame frm = removeItr.next();
+			frm.dispose();
+			removeItr.remove();
+			view.diagramArea.remove(frm);
+			view.diagramArea.revalidate();
+			view.diagramArea.repaint();
+		}
+		
+
+		for (Class cls: model.getClasses()) {
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), cls.getX(), cls.getY());
+			JTextArea text = new JTextArea(cls.prepareContents());
+			text.setEditable(false);
+			classBox.add(text);
+			view.diagramArea.addNewFrame(classBox);
+		}
+	}
 }
 

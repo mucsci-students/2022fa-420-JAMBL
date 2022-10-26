@@ -23,8 +23,8 @@ public class Class {
     public HashSet<Field> fields = new HashSet<Field>();
     public HashSet<Method> methods = new HashSet<Method>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
-    public long x;
-    public long y;
+    public int x;
+    public int y;
     draggableBox classBox;
 
     //constructor with name as parameter
@@ -266,24 +266,24 @@ public class Class {
         return fullName;
     }
 
-    public long getX(){
+    public int getX(){
         return x;
     }
 
-    public long getY(){
+    public int getY(){
         return y;
     }
 
-    public void addX(long addedX){
+    public void addX(int addedX){
         x = addedX;
     }
 
-    public void addY(long addedY){
+    public void addY(int addedY){
         y = addedY;
         
     }
 
-    public void prepareContents(){
+    public String prepareContents(){
         String contents = this.className + "\n========\n\n";
         contents = contents +"     Fields:\n";
         
@@ -316,9 +316,9 @@ public class Class {
             }
         }
 
-        classBox.setText(contents);
-        classBox.setLocation((int)getX(), (int)getY());
-        return;
+        //classBox.setText(contents);
+        //classBox.setLocation((int)getX(), (int)getY());
+        return contents;
     }
 
     /**
