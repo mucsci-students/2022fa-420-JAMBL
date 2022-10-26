@@ -515,7 +515,7 @@ public class GUIController {
 	
 			// loads relationships into classes
 			this.model = load.loadRelationships(file);
-			refreshDiagram(GUI);
+			loadDiagram(GUI);
 	
 		}
 
@@ -1360,6 +1360,14 @@ public class GUIController {
 				public void actionPerformed(ActionEvent e) {
 					String text = view.txtDefaulttxt.getText();
 					if(!text.equals("")){
+						HashSet<MyFrame> frames = view.diagramArea.getFrames();
+						for(MyFrame f : frames){
+
+							Class cls = model.getClass(f.getName());
+							cls.addX(f.getX());
+							cls.addY(f.getY());
+							
+						}
 						save(text);
 						frame.dispose();
 					}
@@ -1590,6 +1598,28 @@ public class GUIController {
 			cls.addX(frm.getX());
 			cls.addY(frm.getY());
 		}
+
+		Iterator<MyFrame> removeItr = view.diagramArea.getFrames().iterator();
+		while (removeItr.hasNext()) {
+			MyFrame frm = removeItr.next();
+			frm.dispose();
+			removeItr.remove();
+			view.diagramArea.remove(frm);
+			view.diagramArea.revalidate();
+			view.diagramArea.repaint();
+		}
+		
+
+		for (Class cls: model.getClasses()) {
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), cls.getX(), cls.getY());
+			JTextArea text = new JTextArea(cls.prepareContents());
+			text.setEditable(false);
+			classBox.add(text);
+			view.diagramArea.addNewFrame(classBox);
+		}
+	}
+
+	public void loadDiagram (GUIView view) {
 
 		Iterator<MyFrame> removeItr = view.diagramArea.getFrames().iterator();
 		while (removeItr.hasNext()) {
