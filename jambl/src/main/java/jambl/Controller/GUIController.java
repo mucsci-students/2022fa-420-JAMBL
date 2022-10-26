@@ -236,6 +236,7 @@ public class GUIController {
 						// undo button listener
 						GUINow.btnUndo.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
+								saveLocations(GUINow);
 								undo(GUINow);
 							}
 
@@ -244,6 +245,7 @@ public class GUIController {
 						// redo button listener
 						GUINow.btnRedo.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
+								saveLocations(GUINow);
 								redo(GUINow);
 								
 							}
@@ -290,6 +292,7 @@ public class GUIController {
 	    public void renameClass(String name1, String name2, GUIView GUI) {
 	    	if(model.getClass(name2) == null) 
 			{
+				saveLocations(GUI);
 				model.renameClass(name1, name2);
 				GUI.classRename(name1, name2);
 				//GUI.changeBoxName(name1, name2);
@@ -1588,16 +1591,7 @@ public class GUIController {
 
 
 	public void refreshDiagram (GUIView view) {
-		Iterator<MyFrame> posItr = view.diagramArea.getFrames().iterator();
-		while (posItr.hasNext()) {
-			MyFrame frm = posItr.next();
-			Class cls = model.getClass(frm.getName());
-			if (cls == null) {
-				break;
-			}
-			cls.addX(frm.getX());
-			cls.addY(frm.getY());
-		}
+		saveLocations(view);
 
 		Iterator<MyFrame> removeItr = view.diagramArea.getFrames().iterator();
 		while (removeItr.hasNext()) {
@@ -1638,6 +1632,19 @@ public class GUIController {
 			text.setEditable(false);
 			classBox.add(text);
 			view.diagramArea.addNewFrame(classBox);
+		}
+	}
+
+	public void saveLocations (GUIView view) {
+		Iterator<MyFrame> itr = view.diagramArea.getFrames().iterator();
+		while (itr.hasNext()) {
+			MyFrame frm = itr.next();
+			Class cls = model.getClass(frm.getName());
+			if (cls == null) {
+				break;
+			}
+			cls.addX(frm.getX());
+			cls.addY(frm.getY());
 		}
 	}
 }
