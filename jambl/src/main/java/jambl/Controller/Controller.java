@@ -859,7 +859,7 @@ public class Controller {
                     // else save to inputted file
                     save(model, fileName);
                 }
-                
+                view.saved();
                 break;
 
 
@@ -976,7 +976,7 @@ public class Controller {
             // turns object to string and save to file
             file.write(fileObj.toJSONString());
             file.close();
-            //System.out.println("UML Diagram Saved!");
+            
         }catch(Exception e){
             System.out.println("Could not write file" + e);
         }

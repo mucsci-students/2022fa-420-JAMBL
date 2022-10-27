@@ -36,7 +36,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Graphics;
 
-public class GUIView extends View  {
+public class GUIView{
 	
 	// Basic frame for small pop-ups
 	JFrame f=new JFrame(); 
