@@ -167,10 +167,6 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.5</version>
-	<configuration>
-          <destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
-          <datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
-        </configuration>
         <executions>
           <!--first execution : for preparing JaCoCo runtime agent-->
             <execution>
@@ -186,20 +182,6 @@
                     <goals>
                       <goal>report</goal>
                     </goals>
-              </execution>
-          </executions>
-      </plugin>
-      <plugin>
-          <groupId>dev.alexengrig</groupId>
-          <artifactId>codecov-maven-plugin</artifactId>
-          <version>1.0</version>
-          <executions>
-              <execution>
-                  <id>upload</id>
-                  <phase>test</phase>
-                  <goals>
-                      <goal>upload</goal>
-                  </goals>
               </execution>
           </executions>
       </plugin>
