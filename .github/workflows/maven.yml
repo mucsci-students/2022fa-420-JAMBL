@@ -29,11 +29,10 @@ jobs:
 #   - name: Run tests and collect coverage
 #      run: mvn -f jambl/pom.xml -B test
     - name: Create report
-      run: mvn -f jambl/pom.xml jacoco:report
+      run: mvn -f jambl/pom.xml clean jacoco:prepare-agent install jacoco:report
     - name: Codecov
       uses: codecov/codecov-action@v2
       with:
-          file: jambl/target/coverage-reports/jacoco.exec
           token: 1c2d278c-599d-4e69-acad-30e53e8280a0
           fail_ci_if_error: true
           verbose: true
