@@ -1,6 +1,7 @@
 package jambl.Controller;
 import jambl.Model.*;
 import jambl.Model.Class;
+import jambl.Model.Relationship.Type;
 import jambl.View.*;
 import jambl.View.jamblPanel.MyFrame;
 
@@ -453,8 +454,7 @@ public class GUIController {
 				cls.addRelationship(model.getClass(destination), typeName.toUpperCase());
 				GUI.addedRel(origin, destination);
 				Class dest = model.getClass(destination);
-				//GUI.setLineCoordinates(cls.getX(), cls.getY(), dest.getX(), dest.getY());
-				/****TO-DO! refreshDiagram() relationship integration????*****/
+				refreshDiagram(GUI);
 			}
 		}
 
@@ -467,7 +467,7 @@ public class GUIController {
 			} else {
 				cls.deleteRelationship(destination);
 				GUI.relDeleted();
-			/****TO-DO! refreshDiagram() relationship integration????*****/
+				refreshDiagram(GUI);
 			}
 				
 		}
@@ -483,7 +483,7 @@ public class GUIController {
 				rel.setRelType(newType);     
 
 		   	    GUI.relTypeEdited(model.getClass(destination).TypefullName(newType.toUpperCase()));
-			/****TO-DO! refreshDiagram() relationship integration????*****/
+				refreshDiagram(GUI);
 			}
 		}
 
@@ -1605,7 +1605,7 @@ public class GUIController {
 		
 
 		for (Class cls: model.getClasses()) {
-			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), cls.getX(), cls.getY());
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), getRelInfo(cls), cls.getX(), cls.getY());
 			JTextArea text = new JTextArea(cls.prepareContents());
 			text.setEditable(false);
 			classBox.add(text);
@@ -1627,7 +1627,8 @@ public class GUIController {
 		
 
 		for (Class cls: model.getClasses()) {
-			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), cls.getX(), cls.getY());
+			ArrayList<String> relInfo = getRelInfo(cls);
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), relInfo, cls.getX(), cls.getY());
 			JTextArea text = new JTextArea(cls.prepareContents());
 			text.setEditable(false);
 			classBox.add(text);
@@ -1646,6 +1647,16 @@ public class GUIController {
 			cls.addX(frm.getX());
 			cls.addY(frm.getY());
 		}
+	}
+
+	//method to create the relationship info of a class in format [dest1,type1,dest2,type2, ....]
+	public ArrayList<String> getRelInfo (Class cls) {
+		ArrayList<String> info = new ArrayList<String>();
+		for (Relationship rel: cls.getRelationships()) {
+			info.add(rel.getDestination().getClassName());
+			info.add(rel.getRelType());
+		}
+		return info;
 	}
 }
 
