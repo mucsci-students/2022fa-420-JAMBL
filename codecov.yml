@@ -1,3 +1,6 @@
+codecov: 
+ token: 1c2d278c-599d-4e69-acad-30e53e8280a0
+
 ignore:
   - "jambl/src/main/java/jambl/Controller"
   - "jambl/src/main/java/jambl/View"
