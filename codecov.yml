@@ -1,0 +1,5 @@
+ignore:
+  - "jambl/src/main/java/jambl/Controller"
+  - "jambl/src/main/java/jambl/View"
+  - "jambl/src/main/java/jambl/GUIMain.java"
+  - "jambl/src/main/java/jambl/Main.java"
