@@ -8,10 +8,13 @@
  * @classDescription A draggable box to graphically represent a class
  */
 
-package jambl.Model;
+package jambl.View;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
+
+import jambl.Model.Class;
+
 import java.awt.Point;
 import java.awt.Cursor;
 import java.awt.Font;

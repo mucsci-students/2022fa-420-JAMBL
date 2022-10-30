@@ -17,6 +17,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import jambl.View.draggableBox;
+
 public class Class {
 
     private String className = "DEFAULT";
@@ -25,14 +27,13 @@ public class Class {
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
     public int x;
     public int y;
-    draggableBox classBox;
+
 
     //constructor with name as parameter
     public Class(String name){
         this.className = name;
         this.fields = new HashSet<Field>();
         this.relationships = new HashSet<Relationship>();
-        this.classBox = new draggableBox(this, name, name + "\n=======\n\n");
         x = 250;
         y = 250;
     }
@@ -132,7 +133,7 @@ public class Class {
         return null;
     }
 
-    // this method eidts the relationship type to a new type.
+    // this method edits the relationship type to a new type.
     //@param newType - the new relationship type that is changing 
     public void editRelationshipType(String destination, String newType) {
         Iterator<Relationship> relItr = relationships.iterator();
@@ -283,49 +284,5 @@ public class Class {
         
     }
 
-    public String prepareContents(){
-        String contents = this.className + "\n========\n\n";
-        contents = contents +"     Fields:\n";
-        
-        for (Field fld: this.fields) {
-            String fieldType = fld.getFieldType();
-            String fieldName = fld.getFieldName();
-			contents = contents +"     * " + fieldType + " " + fieldName + "\n";
-        }
-        
-        contents = contents +"\n     Methods:\n";
-        
-        for (Method mtd: this.methods) {
-            String returnType = mtd.getReturnType();
-            String methodName = mtd.getMethodName();
-            contents = contents +"     * " + returnType + " " + methodName + " (";
-            HashSet<Parameter> params = mtd.getParameters();
-            int count = params.size();
-            if (count == 0) {
-                contents = contents + ")\n";
-            } else {
-                for (Parameter par: params) {
-                    contents = contents + par.getParamType() + " " + par.getParamName();
-                    count --;
-                    if (count > 0) {
-                        contents = contents +", ";
-                    } else {
-                       contents = contents + ")\n";
-                    }
-                }
-            }
-        }
-
-        //classBox.setText(contents);
-        //classBox.setLocation((int)getX(), (int)getY());
-        return contents;
-    }
-
-    /**
-     * @param n/a
-     * @return A new JTextArea to eventually be displayed in the view
-     */
-    public draggableBox getBox(){
-        return classBox;
-    }
+    
 }

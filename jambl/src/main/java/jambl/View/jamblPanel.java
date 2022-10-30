@@ -22,7 +22,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JTextArea;
 
 import jambl.Model.Relationship;
-import jambl.Model.draggableBox;
 
 
 
