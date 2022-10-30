@@ -22,8 +22,10 @@ import java.util.*;
 import javax.swing.JButton;
 import javax.swing.event.SwingPropertyChangeSupport;
 import javax.swing.text.View;
+import javax.swing.text.AttributeSet.FontAttribute;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;

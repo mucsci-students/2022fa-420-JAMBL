@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -31,22 +32,24 @@ public class jamblPanel extends JDesktopPane {
     private HashSet<MyFrame> frames = new HashSet<MyFrame>();
     private static final Stroke s = new BasicStroke(3.0f);
     private static final Stroke dash = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 3.0f, new float[] { 7.0f, 5.0f }, 0.0f);
-    
 
     public jamblPanel() {
         this.setPreferredSize(new Dimension(640, 480));
         
     }
 
-    public void  addNewFrame(MyFrame frm/*String name, JTextArea stuff*/){
+    public void  addNewFrame(MyFrame frm){
         frames.add(frm);
         add(frm);
+        
         /*MyFrame newF = new MyFrame(name, 100, 100);
         newF.add(stuff);
         add(newF);
         frames.add(newF);*/
         revalidate();
         repaint();
+
+        frm.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
     }
 
     public void removeBox(MyFrame frm){
@@ -100,7 +103,7 @@ public class jamblPanel extends JDesktopPane {
             super(name);
             this.className = name;
             this.relInfo = relInfo;
-            this.setSize(160, 100);
+            this.setSize(200, 130);
             this.setLocation(x, y);
             this.setVisible(true);
             this.resizable = true;
