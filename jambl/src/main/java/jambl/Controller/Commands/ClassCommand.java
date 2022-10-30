@@ -8,13 +8,14 @@ import jambl.Model.Class;
 public class ClassCommand implements Command2 {
     History history;
     Model model;
-    View view = new View();
+    View view;
     String name1;
     Class classCheck;
 
-    public ClassCommand(History hist, Model mod){
+    public ClassCommand(History hist, Model mod, View v){
         history = hist;
         model = mod;
+        view = v;
     }
 
     public void execute(){

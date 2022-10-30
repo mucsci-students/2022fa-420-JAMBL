@@ -11,13 +11,14 @@ import jambl.View.*;
 
 public class SaveCommand implements Command1{
     
-    View view = new View();
+    View view;
     Model model;
     String fileName;
 
-    public SaveCommand(Model mod){
+    public SaveCommand(Model mod, View v){
         
         model = mod;
+        view =v;
     }
 
     public void execute(){

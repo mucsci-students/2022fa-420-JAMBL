@@ -126,20 +126,20 @@ public class Controller {
 
             case ADDCL:
                 // creates a class command object and adds class by executing the command
-                ClassCommand addcl = new ClassCommand(history, model);
+                ClassCommand addcl = new ClassCommand(history, model, view);
                 addcl.execute();
                 break;
 
             case DELCL:
 
                 // creates a class command object and deletes class by unexecuting the addcl
-                ClassCommand delcl = new ClassCommand(history, model);
+                ClassCommand delcl = new ClassCommand(history, model, view);
                 delcl.unexecute();
                 break;
 
             case RENCL:
 
-                RenameCommand rencl = new RenameCommand(history, model, "cl");
+                RenameCommand rencl = new RenameCommand(history, model, "cl", view);
                 rencl.execute();
                 break;
 
@@ -147,119 +147,119 @@ public class Controller {
             case ADDFLD:
 
                 // Created Field commmand object adds class by executing
-                FieldCommand addfld = new FieldCommand(history, model);
+                FieldCommand addfld = new FieldCommand(history, model, view);
                 addfld.execute();
                 break;
                 
             case DELFLD:
 
                 // Created Field commmand object deleted class by unexecuting
-                FieldCommand delfld = new FieldCommand(history, model);
+                FieldCommand delfld = new FieldCommand(history, model, view);
                 delfld.unexecute();
                 break;
 
             case RENFLD:
 
-                RenameCommand renfld = new RenameCommand(history, model, "fld");
+                RenameCommand renfld = new RenameCommand(history, model, "fld", view);
                 renfld.execute();
                 break;
 
             case FLDTYPE:
 
-                RetypeCommand fldtype = new RetypeCommand(history, model,"fld");
+                RetypeCommand fldtype = new RetypeCommand(history, model,"fld", view);
                 fldtype.execute();
                 break;
 
             case ADDMTD:
 
                 // Create a Method command object can add method by executing
-                MethodCommand addmtd = new MethodCommand(history, model);
+                MethodCommand addmtd = new MethodCommand(history, model, view);
                 addmtd.execute();
                 break; 
         
             case DELMTD:
 
                 // Creates a Method command object and deletes by unexecuting command
-                MethodCommand delmtd = new MethodCommand(history, model);
+                MethodCommand delmtd = new MethodCommand(history, model, view);
                 delmtd.unexecute();
                 break; 
     
             case RENMTD:
 
-                RenameCommand renmtd = new RenameCommand(history, model, "mtd");
+                RenameCommand renmtd = new RenameCommand(history, model, "mtd", view);
                 renmtd.execute();
                 break;
 
             case MTDTYPE:
             
-                RetypeCommand mtdtype = new RetypeCommand(history, model,"mtd");
+                RetypeCommand mtdtype = new RetypeCommand(history, model,"mtd", view);
                 mtdtype.execute();
                 break; 
 
             case ADDREL:
                 
-                RelCommand addrel = new RelCommand(history, model);
+                RelCommand addrel = new RelCommand(history, model, view);
                 addrel.execute();
                 break;
 
             case DELREL:
 
-                RelCommand delrel = new RelCommand(history, model);
+                RelCommand delrel = new RelCommand(history, model, view);
                 delrel.unexecute();
                 break;
 
             case RELTYPE:
 
-                RetypeCommand reltype = new RetypeCommand(history, model,"rel");
+                RetypeCommand reltype = new RetypeCommand(history, model,"rel", view);
                 reltype.execute();
                 break;
 
            case ADDPAR:
 
-                ParCommand addpar = new ParCommand(history, model);
+                ParCommand addpar = new ParCommand(history, model, view);
                 addpar.execute();
                 break;
 
             case DELPAR:
 
-                ParCommand delpar = new ParCommand(history, model);
+                ParCommand delpar = new ParCommand(history, model, view);
                 delpar.unexecute();
                 break;
 
             case CHGPAR:
 
-               RenameCommand chgpar = new RenameCommand(history, model, "par");
+               RenameCommand chgpar = new RenameCommand(history, model, "par", view);
                chgpar.execute();
                break;
             
             case SAVE:
 
-                SaveCommand save = new SaveCommand(model);
+                SaveCommand save = new SaveCommand(model, view);
                 save.execute(); 
                 break;
 
             case LOAD:
 
-                LoadCommand load = new LoadCommand(history, model);
+                LoadCommand load = new LoadCommand(history, model, view);
                 load.execute();
                 this.model = load.getModel();
                 break;
 
             case LISTALL:
 
-                ListCommand listall = new ListCommand(model, "all");
+                ListCommand listall = new ListCommand(model, "all", view);
                 listall.execute();
                 break;
 
             case LISTCLA:
 
-                ListCommand listcla = new ListCommand(model, "cla");
+                ListCommand listcla = new ListCommand(model, "cla", view);
                 listcla.execute();
                 break;
             
             case LISTREL:
 
-                ListCommand listrel = new ListCommand(model, "rel");
+                ListCommand listrel = new ListCommand(model, "rel", view);
                 listrel.execute();
                 break;
             
@@ -279,13 +279,13 @@ public class Controller {
                 
             case HELP:
 
-                HelpCommand help = new HelpCommand();
+                HelpCommand help = new HelpCommand(view);
                 help.execute();
                 break;
 
             case EXIT:
 
-                ExitCommand exit = new ExitCommand(model);
+                ExitCommand exit = new ExitCommand(model, view);
                 exit.execute();
                 break;
 
@@ -324,7 +324,7 @@ public class Controller {
             // turns object to string and save to file
             file.write(fileObj.toJSONString());
             file.close();
-            //System.out.println("UML Diagram Saved!");
+            
         }catch(Exception e){
             System.out.println("Could not write file" + e);
         }

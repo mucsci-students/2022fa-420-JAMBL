@@ -8,16 +8,17 @@ public class ListCommand implements Command1{
     String name1;
     String name2;
     String name3;
-    View view = new View();
+    View view;
     Class class1;
     
     Model model;
     String element;
 
-    public ListCommand(Model mod, String ele){
+    public ListCommand(Model mod, String ele, View v){
         
         model = mod;
         element = ele;
+        view = v;
     }
 
     public void execute(){

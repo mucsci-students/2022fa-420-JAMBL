@@ -10,15 +10,16 @@ public class RelCommand implements Command2{
     String name3;
     String typeName;
     Boolean returned;
-    View view = new View();
+    View view;
     Class class1;
     Class class2;
     History history;
     Model model;
 
-    public RelCommand(History hist, Model mod){
+    public RelCommand(History hist, Model mod, View v){
         history = hist;
         model = mod;
+        view = v;
     }
 
     

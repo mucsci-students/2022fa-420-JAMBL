@@ -8,7 +8,7 @@ public class RetypeCommand implements Command1{
     String name1;
     String name2;
     String name3;
-    View view = new View();
+    View view;
     Class classCheck;
     Class class1;
     Class class2;
@@ -19,10 +19,11 @@ public class RetypeCommand implements Command1{
     String element;
     String typeName;
 
-    public RetypeCommand(History hist, Model mod, String ele){
+    public RetypeCommand(History hist, Model mod, String ele, View v){
         history = hist;
         model = mod;
         element = ele;
+        view = v;
     }
 
     public void execute(){

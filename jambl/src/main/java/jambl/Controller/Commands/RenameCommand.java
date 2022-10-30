@@ -11,7 +11,7 @@ public class RenameCommand implements Command1{
     String name4;
     String name5;
     Method method1;
-    View view = new View();
+    View view;
     Class classCheck;
     Class class1;
     Method methodCheck;
@@ -20,10 +20,11 @@ public class RenameCommand implements Command1{
     Model model;
     String element;
 
-    public RenameCommand(History hist, Model mod, String ele){
+    public RenameCommand(History hist, Model mod, String ele, View v){
         history = hist;
         model = mod;
         element = ele;
+        view = v;
     }
 
     public void execute(){

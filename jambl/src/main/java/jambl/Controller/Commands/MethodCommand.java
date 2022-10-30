@@ -8,15 +8,16 @@ public class MethodCommand implements Command2{
     String name1;
     String name2;
     String name3;
-    View view = new View();
+    View view;
     Class classCheck;
     History history;
     Model model;
     Method methodCheck;
 
-    public MethodCommand(History hist, Model mod){
+    public MethodCommand(History hist, Model mod, View v){
         history = hist;
         model = mod;
+        view = v;
     }
 
     public void execute(){

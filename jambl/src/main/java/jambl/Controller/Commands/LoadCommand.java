@@ -11,15 +11,16 @@ import jambl.Model.Model;
 import jambl.View.View;
 
 public class LoadCommand implements Command1 {
-    View view = new View();
+    View view;
     History history;
     Model model;
     String fileName;
     Controller controller;
     
-    public LoadCommand(History hist, Model mod){
+    public LoadCommand(History hist, Model mod, View v){
         model = mod;
         history = hist;
+        view = v;
     }
 
 

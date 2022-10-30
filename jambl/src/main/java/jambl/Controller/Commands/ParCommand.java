@@ -11,15 +11,16 @@ public class ParCommand implements Command2{
     String name3;
     String name5;
     String name7;
-    View view = new View();
+    View view;
     Class class1;
     Method method1;
     History history;
     Model model;
 
-    public ParCommand(History hist, Model mod){
+    public ParCommand(History hist, Model mod, View v){
         history = hist;
         model = mod;
+        view = v;
     }
 
     @Override

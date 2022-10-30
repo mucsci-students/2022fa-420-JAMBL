@@ -8,14 +8,15 @@ public class FieldCommand implements Command2{
     String name1;
     String name2;
     String name3;
-    View view = new View();
+    View view;
     Class class1;
     History history;
     Model model;
 
-    public FieldCommand(History hist, Model mod){
+    public FieldCommand(History hist, Model mod, View v){
         history = hist;
         model = mod;
+        view = v;
     }
 
     public void execute(){
