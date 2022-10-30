@@ -21,6 +21,7 @@ import org.jline.terminal.Terminal;
 
 public class Main {
 
+
     
 
     public static void main (String args[]) throws IOException{
@@ -38,7 +39,8 @@ public class Main {
                                                                     "ADDMTD", "DELMTD", "RENMTD", "MTDTYPE",
                                                                     "ADDREL", "DELREL", "RELTYPE",
                                                                     "ADDPAR", "DELPAR","CHGPAR",
-                                                                    "SAVE", "LOAD", "HELP", "EXIT",
+                                                                    "SAVE", "LOAD", "HELP", "EXIT",                   
+                                                                    "UNDO", "undo","REDO", "Redo",
                                                                     "LISTALL", "LISTCLA", "LISTREL");
             
             LineReader reader = LineReaderBuilder.builder().terminal(terminal).completer(comp).build();
