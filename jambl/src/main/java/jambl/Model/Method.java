@@ -136,12 +136,8 @@ public class Method {
     *         were deleted
     *Prerequisites: Atleast one method must exist
     **********************************************************************/
-    public boolean deleteAllParameter(){
+    public void deleteAllParameter(){
         parameters = new HashSet<Parameter> ();
-        if(parameters.isEmpty()) { // Empty hash set
-            return true;
-        }
-        return false;
     }
 
 

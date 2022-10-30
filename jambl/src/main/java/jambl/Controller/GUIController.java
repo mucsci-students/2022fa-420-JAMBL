@@ -266,9 +266,17 @@ public class GUIController {
 			
 		}
 
-		public String[] getClassNames() {
-	    	return model.getClassList();
-	    }
+    	// Returns a string list of the class names.
+    	public String[] getClassList (Model model) {
+    		int s = model.getClasses().size();
+    		int i = 0;
+    		String[] names = new String[s];
+    		for(Class name : model.getClasses()) {
+    			names[i] = name.getClassName();
+    			i++;
+    		}
+    		return names;
+    	}
 	    
 	    /*
 	     *  Function for GUI to add class to model
@@ -318,26 +326,46 @@ public class GUIController {
 	    }
 
 	    
-	    /*
-	     * Function for getting list of fields from class
-	     */
-	    public String[] getFields(String className) {
-	    	return model.getFieldList(className);
-	    }
+    // Returns a string array of the fields in a class
+    public String[] getFieldList(String className) {
+    	
+    	int i = 0;
+    	Class need = model.getClass(className);
+    	HashSet<Field> fields = need.getFields();
+    	String[] f = new String[fields.size()];
+    	for(Field curr : fields) {
+    		f[i] = curr.getFieldName();
+    		i++;
+    	}
+    	return f;	
+    }
 	    
-	    /*
-	     * Function for getting list of fields from class
-	     */
-	    public String[] getMethods(String className) {
-	    	return model.getMethodList(className);
-	    }
-	    
-	    /*
-	     * Function for getting list of fields from class
-	     */
-	    public String[] getParameters(String className, String methodName) {
-	    	return model.getParameterList(className, methodName);
-	    }
+    //Returns a list of methods in this class
+    public String[] getMethodList(String className) {
+    	int i = 0;
+    	Class need = model.getClass(className);
+    	HashSet<Method> methods = need.getMethods();
+    	String[] m = new String[methods.size()];
+    	for(Method curr : methods) {
+    		m[i] = curr.getMethodName();
+    		i++;
+    	}
+    	return m;
+    }
+
+    //Returns a list of parameters in this class
+    public String[] getParameterList(String className, String methodName) {
+    	int i = 0;
+    	Class classN = model.getClass(className);
+    	Method method = classN.getMethod(methodName);
+    	HashSet<Parameter> params = method.getParameters();
+    	String[] p = new String[params.size()];
+    	for(Parameter curr : params) {
+    		p[i] = curr.getParamName();
+    		i++;
+    	}
+    	return p;
+    }
 	    
 	    
 	    
@@ -563,7 +591,8 @@ public class GUIController {
 		public void removeAllParameter(String class1, String method1, GUIView GUI){
 			Class class2 = model.getClass(class1);
 			Method method2 = class2.getMethod(method1);
-			if(method2.deleteAllParameter()){
+			method2.deleteAllParameter();
+			if(method2.getParameters().isEmpty()){
 				GUI.paramDeleteAll(method1);
 				//sendBox(class1, GUI);
 				refreshDiagram(GUI);
@@ -1493,7 +1522,7 @@ public class GUIController {
 	*/
 	public String[] getList(String type, String className, String methodName) {
 		if(type.equals("Class")) {
-			String[] classes = model.getClassList();
+			String[] classes = getClassList(model);
 			int j = 0;
 			String[] list = new String[classes.length + 1];
 			list[0] = "Choose a class:";
@@ -1504,7 +1533,7 @@ public class GUIController {
 	        }
 			return list;
 		} else if (type.equals("Field")) {
-			String[] fields = model.getFieldList(className);
+			String[] fields = getFieldList(className);
 			int j = 0;
 			String[] list = new String[fields.length + 1];
 			list[0] = "Choose a field:";
@@ -1515,7 +1544,7 @@ public class GUIController {
 	        }
 			return list;
 		} else if (type.equals("Method")) {
-			String[] methods = model.getMethodList(className);
+			String[] methods = getMethodList(className);
 			int j = 0;
 			String[] list = new String[methods.length + 1];
 			list[0] = "Choose a method:";
@@ -1526,7 +1555,7 @@ public class GUIController {
 	        }
 			return list;
 		} else if (type.equals("Param")) {
-			String[] params = model.getParameterList(className, methodName);
+			String[] params = getParameterList(className, methodName);
 			int j = 0;
 			String[] list = new String[params.length + 1];
 			list[0] = "Choose a parameter:";
@@ -1539,18 +1568,6 @@ public class GUIController {
 		}
 		
 		return null; // Shouldn't be able to return a string[] if otherwise
-	}
-
-	/**
-	 * 
-	 * @param className The name of the class to send a box of to the GUIView
-	 * @param gui The gui in question
-	 * @return n/a
-	 * @precondition The class "className" exists
-	 */
-	public void sendBox(String className, GUIView gui){
-		model.getClass(className).prepareContents();
-		gui.makeBox(model.getClass(className).getBox(), className);
 	}
 
     /*********************************************************************
@@ -1606,7 +1623,7 @@ public class GUIController {
 
 		for (Class cls: model.getClasses()) {
 			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), getRelInfo(cls), cls.getX(), cls.getY());
-			JTextArea text = new JTextArea(cls.prepareContents());
+			JTextArea text = new JTextArea(prepareContents(cls));
 			text.setEditable(false);
 			classBox.add(text);
 			view.diagramArea.addNewFrame(classBox);
@@ -1629,7 +1646,7 @@ public class GUIController {
 		for (Class cls: model.getClasses()) {
 			ArrayList<String> relInfo = getRelInfo(cls);
 			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), relInfo, cls.getX(), cls.getY());
-			JTextArea text = new JTextArea(cls.prepareContents());
+			JTextArea text = new JTextArea(prepareContents(cls));
 			text.setEditable(false);
 			classBox.add(text);
 			view.diagramArea.addNewFrame(classBox);
@@ -1658,5 +1675,40 @@ public class GUIController {
 		}
 		return info;
 	}
+
+	public String prepareContents(Class cls){
+        String contents = cls.getClassName() + "\n========\n\n";
+        contents = contents +"     Fields:\n";
+        
+        for (Field fld: cls.fields) {
+            String fieldType = fld.getFieldType();
+            String fieldName = fld.getFieldName();
+			contents = contents +"     * " + fieldType + " " + fieldName + "\n";
+        }
+        
+        contents = contents +"\n     Methods:\n";
+        
+        for (Method mtd: cls.getMethods()) {
+            String returnType = mtd.getReturnType();
+            String methodName = mtd.getMethodName();
+            contents = contents +"     * " + returnType + " " + methodName + " (";
+            HashSet<Parameter> params = mtd.getParameters();
+            int count = params.size();
+            if (count == 0) {
+                contents = contents + ")\n";
+            } else {
+                for (Parameter par: params) {
+                    contents = contents + par.getParamType() + " " + par.getParamName();
+                    count --;
+                    if (count > 0) {
+                        contents = contents +", ";
+                    } else {
+                       contents = contents + ")\n";
+                    }
+                }
+            }
+        }
+        return contents;
+    }
 }
 

@@ -13,7 +13,6 @@ import java.awt.EventQueue;
 
 import javax.swing.*;
 
-import jambl.Model.draggableBox;
 import jambl.View.jamblPanel;
 import jambl.View.jamblPanel.*;
 

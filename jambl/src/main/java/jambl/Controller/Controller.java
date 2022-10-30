@@ -767,7 +767,8 @@ public class Controller {
                         }
                         if(name7.toUpperCase().equals("YES")){
                             history.saveState(model);
-                            boolean removed = method1.deleteAllParameter(); //removes all parameters from the set
+                            method1.deleteAllParameter();
+                            boolean removed = method1.getParameters().isEmpty(); //removes all parameters from the set
                             if (removed) {
                                 view.Deleted("All", "Parameter"); //prints success message
                             }
