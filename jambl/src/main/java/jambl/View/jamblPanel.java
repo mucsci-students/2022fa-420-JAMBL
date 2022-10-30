@@ -24,7 +24,7 @@ import javax.swing.JTextArea;
 import jambl.Model.Relationship;
 import jambl.Model.draggableBox;
 
-import java.awt.RenderingHints;
+
 
 
 public class jamblPanel extends JDesktopPane {
