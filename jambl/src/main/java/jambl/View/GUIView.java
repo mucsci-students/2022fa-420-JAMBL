@@ -1638,13 +1638,7 @@ public class GUIView{
 		frmJambl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJambl.getContentPane().setLayout(null);
 		
-		diagramArea = new jamblPanel(){
-			@Override
-			public void paintComponents(Graphics g){
-				g.setColor(Color.BLACK);
-				g.drawLine(x1, y1, x2, y2);
-			}
-		};
+		diagramArea = new jamblPanel();
 
 		diagramArea.setBounds(359, 67, 678, 524);
 		diagramArea.setBorder(BorderFactory.createEtchedBorder());

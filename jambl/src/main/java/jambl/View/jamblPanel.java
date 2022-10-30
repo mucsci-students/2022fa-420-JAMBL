@@ -24,21 +24,19 @@ import javax.swing.JTextArea;
 import jambl.Model.Relationship;
 import jambl.Model.draggableBox;
 
-import java.awt.RenderingHints;
 
-/** @see http://stackoverflow.com/questions/3951383 */
+
+
 public class jamblPanel extends JDesktopPane {
 
     private HashSet<MyFrame> frames = new HashSet<MyFrame>();
-    private static final Stroke s = new BasicStroke(4.0f);
-    private static final Stroke dash = new BasicStroke(4.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 3.0f, new float[] { 7.0f, 5.0f }, 0.0f);
-    //private MyFrame one = new MyFrame("One", 100, 100);
-    //private MyFrame two = new MyFrame("Two", 400, 240);
+    private static final Stroke s = new BasicStroke(3.0f);
+    private static final Stroke dash = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 3.0f, new float[] { 7.0f, 5.0f }, 0.0f);
+    
 
     public jamblPanel() {
         this.setPreferredSize(new Dimension(640, 480));
-        //this.add(one);
-        //this.add(two);
+        
     }
 
     public void  addNewFrame(MyFrame frm/*String name, JTextArea stuff*/){
@@ -71,21 +69,15 @@ public class jamblPanel extends JDesktopPane {
         return frames;
     }
 
+    /**
+     * PaintCompinent - draws all graphical components
+     */
 
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON);
-        //g2d.setColor(Color.lightGray);
-        //g2d.fillRect(0, 0, getWidth(), getHeight());
-        //g2d.setColor(Color.blue);
-        //g2d.setStroke(s);
-        //int x1 = one.getX() + one.getWidth() / 2;
-        //int y1 = one.getY() + one.getHeight() / 2;
-        //int x2 = two.getX() + two.getWidth() / 2;
-        //int y2 = two.getY() + two.getHeight() / 2;
-        //g2d.drawLine(x1, y1, x2, y2);
+        
+        
         for (MyFrame frm: frames) { //loops thru all frames to interpret the relInfo to draw the arrows
             if (frm.relInfo != null) {
                 for (int i = 0; i < frm.relInfo.size(); i += 2) {
@@ -95,8 +87,11 @@ public class jamblPanel extends JDesktopPane {
                 }
             }
         }
-    }    
-    
+    }  
+
+    /**
+     * MyFrame - creates the frame box for each class
+     */
 
     public final class MyFrame extends JInternalFrame {
         String className;
@@ -125,22 +120,36 @@ public class jamblPanel extends JDesktopPane {
         }
     }
 
-     // aggregation relationship arrow
+     /**
+     * realArrow - draws a graphical aggregation relationship arrow
+     * @param g2d - provides graphics to the function
+     * @param x1,y1 - proviees the x and y cordinate of origin class
+     * @param x2,y2 - proviees the x and y cordinate of destination class
+     */
+
     public Graphics2D  aggrArrow (Graphics2D g2d,  int x1, int y1, int x2, int y2) {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.black);
         Polygon poly = new Polygon();
+        g2d.setStroke(s);
         poly.addPoint(x2-32, y2);
         poly.addPoint(x2-15, y2+10);
         poly.addPoint(x2, y2);
         poly.addPoint(x2-15, y2 -10);
         g2d.drawPolygon(poly);
-        g2d.setStroke(s);
-        g2d.draw(new Line2D.Double(x1, y1, x2-32, y2));    
+        g2d.draw(new Line2D.Double(x1, y1, x2-33, y2));    
         return  g2d;
     }
 
-    //composition relationship arrow
+    /**
+     * realArrow - draws a graphical composition relationship arrow
+     * @param g2d - provides graphics to the function
+     * @param x1,y1 - proviees the x and y cordinate of origin class
+     * @param x2,y2 - proviees the x and y cordinate of destination class
+     */
+    
     public Graphics2D  compArrow(Graphics2D g2d,  int x1, int y1, int x2, int y2) {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.black);
         Polygon poly = new Polygon();
         poly.addPoint(x2-32, y2);
@@ -149,12 +158,19 @@ public class jamblPanel extends JDesktopPane {
         poly.addPoint(x2-15, y2 -10);
         g2d.fillPolygon(poly);
         g2d.setStroke(s);
-        g2d.draw(new Line2D.Double(x1, y1, x2-32, y2));    
+        g2d.draw(new Line2D.Double(x1, y1, x2-31, y2));    
         return  g2d;
     }
-
-    // inheritance relationship arrow
+    
+    /**
+     * realArrow - draws a graphical inheritance relationship arrow
+     * @param g2d - provides graphics to the function
+     * @param x1,y1 - proviees the x and y cordinate of origin class
+     * @param x2,y2 - proviees the x and y cordinate of destination class
+     */
+    
     public void  inheArrow (Graphics2D g2d,  int x1, int y1, int x2, int y2) {
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.black);
         Polygon poly = new Polygon();
         poly.addPoint(x2-20, y2+10);
@@ -166,7 +182,13 @@ public class jamblPanel extends JDesktopPane {
      
     }
 
-    // realization relationship arrow
+    /**
+     * realArrow - draws a graphical realization relationship arrow
+     * @param g2d - provides graphics to the function
+     * @param x1,y1 - proviees the x and y cordinate of origin class
+     * @param x2,y2 - proviees the x and y cordinate of destination class
+     */
+     
     public void  realArrow (Graphics2D g2d,  int x1, int y1, int x2, int y2) {
  
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -180,8 +202,12 @@ public class jamblPanel extends JDesktopPane {
         g2d.draw(new Line2D.Double(x1, y1, x2-20, y2));
     
     }
+    /**
+     * getThisFrame - gets the frame of a class from sets of frmaes by name
+     * @param name - the name of the frame 
+     * @return -  frame of a class , null if not found.
+     */
 
-    //method that returns the frame with the name passed as parameter. null if not found.
     public MyFrame getThisFrame (String name) {
         Iterator<MyFrame> itr = frames.iterator();
         while (itr.hasNext()) {
@@ -193,19 +219,31 @@ public class jamblPanel extends JDesktopPane {
         return null;
     }
 
-    //method to choose which arrow type is drawn
+    /**
+     * drawArrow - choose which relationship type arrow is drawn
+     * @param g2d - provides  the method graphics to draw the arrow
+     * @param origin - origin class that the line will be starting from 
+     * @param destination - destination class that the line will be drawn to
+     * @param type - relationship type
+     */
+    
     public void drawArrow (Graphics2D g2d, MyFrame origin, MyFrame destination, Relationship.Type type) {
+
+        int x1 = origin.getX() + origin.getWidth()/2;
+        int y1 = origin.getY() + origin.getHeight()/2;
+        int y2 = destination.getY() + destination.getHeight()/2; 
+
         if (type.toString().equals("AGGR")) {
-            aggrArrow(g2d, origin.getX(), origin.getY(), destination.getX(), destination.getY());
+            aggrArrow(g2d, x1, y1, destination.getX(), y2);
         }
         if (type.toString().equals("COMP")) {
-            compArrow(g2d, origin.getX(), origin.getY(), destination.getX(), destination.getY());
+            compArrow(g2d, x1, y1, destination.getX(), y2);
         }
         if (type.toString().equals("INHE")) {
-            inheArrow(g2d, origin.getX(), origin.getY(), destination.getX(), destination.getY());
+            inheArrow(g2d, x1, y1, destination.getX(), y2);
         } 
         if (type.toString().equals("REAL")) {
-            realArrow(g2d, origin.getX(), origin.getY(), destination.getX(), destination.getY());
+            realArrow(g2d, x1, y1, destination.getX(), y2);
         }
     }
 }
