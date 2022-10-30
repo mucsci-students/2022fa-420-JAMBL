@@ -35,7 +35,8 @@ public class Main {
                                                                     "ADDREL", "DELREL", "RELTYPE",
                                                                     "ADDPAR", "DELPAR","CHGPAR",
                                                                     "SAVE", "LOAD", "HELP", "EXIT",
-                                                                    "LISTALL", "LISTCLA", "LISTREL");
+                                                                    "LISTALL", "LISTCLA", "LISTREL",
+                                                                    "UNDO", "undo","REDO", "Redo");
             LineReader reader = LineReaderBuilder.builder().completer(comp).build();
             System.out.println();
             System.out.println("Welcome to JAMBL UML Diagram Creator!");

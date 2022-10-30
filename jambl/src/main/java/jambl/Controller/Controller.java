@@ -1,4 +1,17 @@
 package jambl.Controller;
+import jambl.Controller.Commands.ClassCommand;
+import jambl.Controller.Commands.DoCommand;
+import jambl.Controller.Commands.ExitCommand;
+import jambl.Controller.Commands.FieldCommand;
+import jambl.Controller.Commands.HelpCommand;
+import jambl.Controller.Commands.ListCommand;
+import jambl.Controller.Commands.LoadCommand;
+import jambl.Controller.Commands.MethodCommand;
+import jambl.Controller.Commands.ParCommand;
+import jambl.Controller.Commands.RelCommand;
+import jambl.Controller.Commands.RenameCommand;
+import jambl.Controller.Commands.RetypeCommand;
+import jambl.Controller.Commands.SaveCommand;
 import jambl.Model.*;
 import jambl.Model.Class;
 import jambl.View.*;
@@ -112,834 +125,169 @@ public class Controller {
                 break;
 
             case ADDCL:
-            
-                // prompts user and stores input in name1 variable
-                name1 = view.inputAdd("Class");
-                classCheck = model.getClass(name1);
-                // if input not blank add class
-                if ((!name1.isBlank()) && (classCheck == null)) {
-                     history.saveState(model);
-                    // adds class
-                     model.addClass(name1);
-                     // Checks to see if class was succesfully added
-                     if(model.getClass(name1) != null){
-                        // if class successfully added notify user
-                        view.Added("Class", name1);
-                     }else{
-                        view.Failed("Class", "Adding");
-                     }
-                     
-                } else {
-
-                    if(classCheck != null){
-                        view.exists("Class", name1);
-                    }else{
-                        // if input is empty return invalid input message
-                        view.invalid();
-                    }  
-                }
+                // creates a class command object and adds class by executing the command
+                ClassCommand addcl = new ClassCommand(history, model);
+                addcl.execute();
                 break;
 
             case DELCL:
 
-                // prompts user and stores input in name1 variable
-               name1 = view.inputDel("Class");
-               classCheck = model.getClass(name1);
-                // checks to see if input was blank
-                if ((!name1.isBlank()) && (classCheck != null) ) {
-                    history.saveState(model);
-                    model.deleteClass(classCheck);
-                    // if class deleted returned equals true and user is notified
-                    if(model.getClass(name1) == null){
-                        view.Deleted("Class", name1);
-                        
-                    }else{ // if class not found returned is false and user is notified
-                        view.Failed("Class", "Deleting");
-                    }
-                
-                } else {
-                    //tells user input was invalid
-                    if(name1.isBlank()){
-                        
-                        view.invalid();
-                    }else{
-                        view.notExists("Class", name1);
-                    }  
-                }
+                // creates a class command object and deletes class by unexecuting the addcl
+                ClassCommand delcl = new ClassCommand(history, model);
+                delcl.unexecute();
                 break;
 
             case RENCL:
-              // prompts user and stores input in name1 variable
-              name1 = view.inputRen("Class");
-              classCheck = model.getClass(name1);
-                if (!name1.isBlank()) {
-                    // checks if class exists
-                    if(classCheck == null){
-                        view.notExists("Class", name1);
-                        return;
-                    }
-                    } else {
-                        view.invalid();
-                        return;
-                    }
-               
-                name2 = view.inputNewName("Class Name");
-                classCheck = model.getClass(name2);
-                if (!name2.isBlank()) {
-                    if(classCheck == null){
-                        history.saveState(model);
-                        model.renameClass(name1, name2);
-                        view.renamed("Class", name1 , name2);
-                    }else{
-                        view.exists("Class", name2);
-                    }
-                
-                } else {
-                    view.invalid();
-                }
+
+                RenameCommand rencl = new RenameCommand(history, model, "cl");
+                rencl.execute();
                 break;
 
 
             case ADDFLD:
-                name1 = view.inputClassName(); //gets class name from user
-                if (name1.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class1 = model.getClass(name1); //gets Class with name entered; null if not found
-                if (class1 == null) { //checks if class exists and exits if doesn't
-                    view.notExists("Class", name1);
-                    break;
-                } else {
-                    name2 = view.inputFieldName(); //gets the name for the field
-                    if (name2.isBlank()) { //checks for blank input
-                        view.invalid();
-                        break;
-                    }
-                    
-                    if (class1.getField(name2) != null) { //checks if field already exists and exits if does
-                        view.exists("Field", name2);
-                        break;
-                    } else {
-                        name3 = view.inputFieldType(); //gets type for the field
-                        if (name3.isBlank()) { //checks for blank input
-                            view.invalid();
-                            break;
-                        }
-                        history.saveState(model);
-                        boolean added = class1.addField(name2, name3); //adds it to the fields set
-                        if (added) {
-                            view.Added(name3, name2); //prints success messaage
-                        }
-                        break;
-                    }
-                }
+
+                // Created Field commmand object adds class by executing
+                FieldCommand addfld = new FieldCommand(history, model);
+                addfld.execute();
+                break;
                 
             case DELFLD:
-                name1 = view.inputClassName(); //gets class name from user
-                if (name1.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                if (name1.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class1 = model.getClass(name1); //gets Class with name entered; null if not found
-                if (class1 == null) { //checks if class exists and exits if doesn't
-                    view.notExists("Class", name1);
-                    break;
-                } else {
-                    name2 = view.inputFieldName(); //gets field name from user
-                    if (name2.isBlank()) { //checks for blank input
-                        view.invalid();
-                        break;
-                    }
-                    if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
-                        view.notExists("Field", name2);
-                        break;
-                    } else {
-                        history.saveState(model);
-                        boolean removed = class1.deleteField(name2); //removes the field from the set
-                        if (removed) {
-                            view.Deleted("Field", name2); //prints success message
-                        }
-                        break;
-                    }
-                } 
+
+                // Created Field commmand object deleted class by unexecuting
+                FieldCommand delfld = new FieldCommand(history, model);
+                delfld.unexecute();
+                break;
 
             case RENFLD:
-                name1 = view.inputClassName(); //gets class name from user
-                if (name1.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class1 = model.getClass(name1); //gets Class with name entered; null if not found
-                if (class1 == null) { //checks if class exists and exits if doesn't
-                    view.notExists("Class", name1);
-                    break;
-                } else {
-                    name2 = view.inputFieldName(); //gets old field name from user
-                    if (name2.isBlank()) { //checks for blank input
-                        view.invalid();
-                        break;
-                    }
-                    if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
-                        view.notExists("Field", name2);
-                        break;
-                    } else {
-                        name3 = view.inputNew("name", "Field"); //get new field name from user
-                        if (name3.isBlank()) { //checks for blank input
-                            view.invalid();
-                            break;
-                        }
-                        if (class1.getField(name3) != null) { //checks if a field already exists with that name exits if does
-                            view.exists("Field", name3);
-                            break;
-                        } else {
-                            history.saveState(model);
-                            boolean renamed = class1.renameField(name2, name3); //changes the field name
-                            if (renamed) {
-                                view.Renamed("Field", name2, name3); //prints success message
-                            }
-                            break;
-                        }
-                    }
-                }  
+
+                RenameCommand renfld = new RenameCommand(history, model, "fld");
+                renfld.execute();
+                break;
 
             case FLDTYPE:
-                name1 = view.inputClassName(); //gets class name from user
-                if (name1.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class1 = model.getClass(name1); //gets Class with name entered; null if not found
-                if (class1 == null) { //checks if class exists and exits if doesn't
-                    view.notExists("Class", name1);
-                    break;
-                } else {
-                    name2 = view.inputFieldName(); //gets field name from user
-                    if (name2.isBlank()) { //checks for blank input
-                        view.invalid();
-                        break;
-                    }
-                    if (class1.getField(name2) == null) { //checks if field exists and exits if doesn't
-                        view.notExists("Field", name2);
-                        break;
-                    } else {
-                        name3 = view.inputNew("type", "Field"); //get new field type from user
-                        if (name3.isBlank()) { //checks for blank input
-                            view.invalid();
-                            break;
-                        }
-                        if ((class1.getField(name2).getFieldType().toUpperCase()).equals(name3.toUpperCase())) { //checks if the current type is the new type, exits if same
-                            view.exists("Field type", name3);
-                            break;
-                        } else {
-                            history.saveState(model);
-                            boolean changed = class1.changefieldType(name2, name3); //changes the field type
-                            if (changed) {
-                                view.Retyped("Field type", name2, name3); //prints success message
-                            }
-                            break;
-                        }
-                    }
-                } 
+
+                RetypeCommand fldtype = new RetypeCommand(history, model,"fld");
+                fldtype.execute();
+                break;
 
             case ADDMTD:
-                 // prompts user for the class the method will be added to
-                 name1 = view.inputNameOf("Class" , "Method", "receiving");
-                 // finds the class
-                 classCheck = model.getClass(name1);
-                 
-                 // if input was blank of class not found it returns an error message and exits
-                 if ((name1.isBlank()) || (classCheck == null)) {
 
-                    if(name1.isBlank()){
-
-                        // if input is empty return invalid input message
-                        view.invalid();
-                        return;
-                    }else{
-                        
-                        view.notExists("Class", name1);
-                        return;
-                    }  
-                }
-
-                //prompts user for Method name
-                name2 = view.inputAdd("Method");
-                // tries to find method
-                methodCheck = classCheck.getMethod(name2);
-
-                // If method already exists or user input was empty prints error and exits
-                if ((name2.isBlank()) || (methodCheck != null)) {
-
-                    if(name2.isBlank()){
-
-                        // if input is empty return invalid input message
-                        view.invalid();
-                        return;
-                    }else{
-                        
-                        view.exists("Method", name2);
-                        return;
-                    }  
-                }else{
-                    // prompts user for method type and adds the method
-                    name3 = view.inputAdd("Method Return Type");
-                    history.saveState(model);
-                    classCheck.addMethod(name2, name3);
-                }
-
-                // Checks to see if the method was added successfully and notifies user
-                if(classCheck.getMethod(name2) != null){
-                    view.Added(name2, "Method");
-                }else {
-                    view.Failed("Method", "Adding");
-                }
-                
+                // Create a Method command object can add method by executing
+                MethodCommand addmtd = new MethodCommand(history, model);
+                addmtd.execute();
                 break; 
         
             case DELMTD:
 
-                 // prompts user for the class the method will be deleted from
-                 name1 = view.inputNameOf("Class" , "Method", "deleting");
-                 // finds the class
-                 classCheck = model.getClass(name1);
-                 
-                 // if input was blank of class not found it returns an error message and exits
-                 if ((name1.isBlank()) || (classCheck == null)) {
-
-                    if(name1.isBlank()){
-                        // if input is empty return invalid input message
-                        view.invalid();
-                        return;
-                    }else{
-                        
-                        view.notExists("Class", name1);
-                        return;
-                    }    
-                }
-
-                //prompts user for Method name
-                name2 = view.inputDel("Method");
-                // tries to find method
-                methodCheck = classCheck.getMethod(name2);
-
-                // If method doesn't exists or user input was empty prints error and exits
-                if ((name2.isBlank()) || (methodCheck == null)) {
-
-                    if(name2.isBlank()){
-                        
-                        view.invalid();
-                        return;
-                    }else{
-                        // if input is empty return invalid input message
-                        view.notExists("Method", name2);
-                        return;
-                    }  
-                }else{
-                    history.saveState(model);
-                    // deleted method
-                    classCheck.deleteMethod(methodCheck);
-                }
-
-                // Checks to see if the method was deleted successfully and notifies user
-                if(classCheck.getMethod(name2) == null){
-                    view.Deleted(name2, "Method");
-                }else {
-                    view.Failed("Method", "Deleting");
-                }
-                
-                
+                // Creates a Method command object and deletes by unexecuting command
+                MethodCommand delmtd = new MethodCommand(history, model);
+                delmtd.unexecute();
                 break; 
     
             case RENMTD:
-                 // prompts user for the class renmaing the method
-                 name1 = view.inputNameOf("Class" , "Method", "renaming");
-                 // finds the class
-                 classCheck = model.getClass(name1);
-                 
-                 // if input was blank of class not found it returns an error message and exits
-                 if ((name1.isBlank()) || (classCheck == null)) {
 
-                    if(name1.isBlank()){
-                        // if input is empty return invalid input message
-                        view.invalid();
-                        return;
-                    }else{
-                        
-                        view.notExists("Class", name1);
-                        return;
-                    }  
-                }
-
-                //prompts user for Method name
-                name2 = view.inputRen("Method");
-                // tries to find method
-                methodCheck = classCheck.getMethod(name2);
-
-                // If method doesn't exists or user input was empty prints error and exits
-                if ((name2.isBlank()) || (methodCheck == null)) {
-
-                    if(name2.isBlank()){
-                        
-                        view.invalid();
-                        return;
-                    }else{
-                        // if input is empty return invalid input message
-                        view.notExists("Method", name2);
-                        return;
-                    }  
-                }else{
-                    name3 = view.inputNewName("Method Name");
-                    methodCheck2 = classCheck.getMethod(name3);
-
-                    if ((name3.isBlank()) || (methodCheck2 != null)) {
-
-                        if(name2.isBlank()){
-                            view.invalid();
-                            return;
-                        }else{
-                            // if input is empty return invalid input message
-                            view.exists("Method", name3);
-                            return;
-                        }  
-                    }else{
-                        history.saveState(model);
-                        // rename method
-                        classCheck.renameMethod(methodCheck, name3);
-                    }          
-                }
-
-                // Checks to see if the method was renamed successfully and notifies user
-                if((classCheck.getMethod(name3) != null) && (classCheck.getMethod(name2)== null)){
-                    view.renamed("Method", name2, name3);
-                }else {
-                    view.Failed("Method", "Renaming");
-                }
+                RenameCommand renmtd = new RenameCommand(history, model, "mtd");
+                renmtd.execute();
                 break;
 
             case MTDTYPE:
-
-                 // prompts user for the class to change return type 
-                 name1 = view.inputNameOf("Class" , "Method", "Changing Return Type of");
-                 // finds the class
-                 classCheck = model.getClass(name1);
-                 
-                 // if input was blank of class not found it returns an error message and exits
-                 if ((name1.isBlank()) || (classCheck == null)) {
-
-                    if(name1.isBlank()){
-                        // if input is empty return invalid input message
-                        view.invalid();
-                        return;
-                    }else{
-                        
-                        view.notExists("Class", name1);
-                        return;
-                    }  
-                }
-
-                //prompts user for Method name
-                name2 = view.inputRen("Method");
-                // tries to find method
-                methodCheck = classCheck.getMethod(name2);
-
-                // If method doesn't exists or user input was empty prints error and exits
-                if ((name2.isBlank()) || (methodCheck == null)) {
-
-                    if(name2.isBlank()){
-                        
-                        view.invalid();
-                        return;
-                    }else{
-                        // if input is empty return invalid input message
-                        view.notExists("Method", name2);
-                        return;
-                    }  
-                }else{
-                    name3 = view.inputNewName("Return Type");
-
-                    if (name3.isBlank()) {
-                         view.invalid();
-                        return;
-                    }else{
-                        history.saveState(model);
-                        //changed Method reurn type
-                        classCheck.changeMethodreturn(methodCheck, name3);
-                        // Check to see if type succesfully changed
-                        if(classCheck.getMethod(name2).getReturnType().equals(name3)){
-                            view.renamed("Method Return Type", "", name3);
-                            return;
-                        }else{
-                            view.Failed("Method Return Type", "Changing");
-                        }
-                        
-                    }  
-             
-                }
-                
+            
+                RetypeCommand mtdtype = new RetypeCommand(history, model,"mtd");
+                mtdtype.execute();
                 break; 
 
             case ADDREL:
-                name1 =  view.inputAddOriginClass();
-               
-                class1 = model.getClass(name1);
-                if (class1 == null ) {
-                    view.originNotExist();
-                    break;
-                }
-                name2 = view.inputAddDestinationClass();
-                if (name2.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class2 = model.getClass(name2);
-                if (class2 == null) {
-                    view.destinationNotExist();
-                    break;
-                }
-
-                typeName = view.inputAddType();
-                if (typeName.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
                 
-                if (class1.isRelationshipExist(name2)){
-                    view.relExists();
-                    break;
-                } 
-                if (!class1.isValidType(typeName)){ 
-                    view.relTypeCheck(typeName);
-                } else {
-                    history.saveState(model);
-                    returned = class1.addRelationship(class2, typeName);
-                    // notifies user that relationship was added
-                    if(returned){
-                        view.AddedRel(class1.getClassName(), class2.getClassName(), class2.TypefullName(typeName));
-                    }
-                } 
+                RelCommand addrel = new RelCommand(history, model);
+                addrel.execute();
                 break;
 
             case DELREL:
-                
-                name1 = view.inputDelOriginClass();
-                
-                if (model.getClass(name1) == null) {
-                    view.originNotExist();
-                    break;
-                }
-                name2 = view.inputDelDestinationClass();
-                if (name2.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                if (model.getClass(name2) == null) {
-                    view.destinationNotExist();
-                    break;
-                } else {
-                    history.saveState(model);
-                    model.getClass(name1).deleteRelationship(name2);
-                    view.relDeleted();
-                } 
+
+                RelCommand delrel = new RelCommand(history, model);
+                delrel.unexecute();
                 break;
 
             case RELTYPE:
-                name1 =  view.inputAddOriginClass();
-                if (name1.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class1 = model.getClass(name1);           
-                if (class1 == null) {
-                    view.originNotExist();
-                    break;
-                }
-                name2 = view.inputAddDestinationClass();
-                if (name2.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class2 = model.getClass(name2); 
-                if (class2 == null) {
-                    view.destinationNotExist();
-                    break;
-                }
-                Relationship rel = class1.getRelationship(name2);
-                if (rel == null) {
-                    view.relNoExist();
-                break;
-            } 
-                typeName = view.inputAddType();
-                if (typeName.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                if (!class1.isValidType(typeName)) { 
-                    view.relTypeCheck(typeName);
-                    break;
-                }
-                if (rel.getRelType().equals(typeName.toUpperCase())) {
-                    view.exists("Relationship type", typeName);
-                    break;
-                }
-                history.saveState(model);
-                class1.editRelationshipType(name2, typeName);
-                view.relTypeEdited(class2.TypefullName(typeName));
-                
+
+                RetypeCommand reltype = new RetypeCommand(history, model,"rel");
+                reltype.execute();
                 break;
 
            case ADDPAR:
-                name5 = view.inputClassName(); //gets Class name from user
-                if (name5.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class1 = model.getClass(name5); //gets Class with name entered; null if not found
-                if (class1 == null) { //checks if class exists and exits if doesn't
-                    view.notExists("Class", name5);
-                    break;
-                } else {
-                    name1 = view.inputMethodName(); //gets Method name from user
-                    if (name1.isBlank()) { //checks for blank input
-                        view.invalid();
-                        break;
-                    }
-                    method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
-                    if (method1 == null) { //checks if method exists and exits if doesn't
-                        view.notExists("Method", name1);
-                        break;
-                    } else {
-                        name2 = view.inputParameterName(); //gets the name for the parameter
-                        if (name2.isBlank()) { //checks for blank input
-                            view.invalid();
-                            break;
-                        }
-                        if (method1.getParameter(name2) != null) { //checks if parameter already exists and exits if does
-                            view.exists("Parameter", name2);
-                            break;
-                        } else {
-                            name3 = view.inputParameterType(); //gets type for the parameter
-                            if (name3.isBlank()) { //checks for blank input
-                                view.invalid();
-                                break;
-                            }
-                            history.saveState(model);
-                            boolean added = method1.addParameter(name2, name3); //adds it to the parameters set
-                            if (added) {
-                                view.Added(name3, name2); //prints success messaage
-                            }
-                            break;
-                        }
-                    }
-                }
 
-
-
-            case DELPAR:
-                name5 = view.inputClassName(); //gets Class name from user
-                if (name5.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class1 = model.getClass(name5); //gets Class with name entered; null if not found
-                if (class1 == null) { //checks if class exists and exits if doesn't
-                    view.notExists("Class", name5);
-                    break;
-                } else {
-                    name1 = view.inputMethodName(); //gets Method name from user
-                    if (name1.isBlank()) { //checks for blank input
-                        view.invalid();
-                        break;
-                    }
-                    method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
-                    if (method1 == null) { //checks if method exists and exits if doesn't
-                        view.notExists("Method", name1);
-                        break;
-                    } else {
-                        name7 = view.inputDeleteAll();//gets whether user wants to delete all parameters or just one
-                        if (name7.isBlank()) { //checks for blank input
-                            view.invalid();
-                            break;
-                        }
-                        if(name7.toUpperCase().equals("YES")){
-                            history.saveState(model);
-                            boolean removed = method1.deleteAllParameter(); //removes all parameters from the set
-                            if (removed) {
-                                view.Deleted("All", "Parameter"); //prints success message
-                            }
-                            break;
-                        } else if(name7.toUpperCase().equals("NO")){
-                            name2 = view.inputParameterName(); //gets parameter name from user
-                            if (name2.isBlank()) { //checks for blank input
-                                view.invalid();
-                                break;
-                            }
-                            if (method1.getParameter(name2) == null) { //checks if parameter exists and exits if doesn't
-                                view.notExists("Parameter", name2);
-                                break;
-                            } else {
-                                history.saveState(model);
-                                boolean removed = method1.deleteParameter(name2); //removes the parameter from the set
-                                if (removed) {
-                                    view.Deleted("Parameter", name2); //prints success message
-                                }
-                                break;
-                            } 
-                        }
-                    }
-                } 
-
-            case CHGPAR:
-                name5 = view.inputClassName(); //gets Class name from user
-                if (name5.isBlank()) { //checks for blank input
-                    view.invalid();
-                    break;
-                }
-                class1 = model.getClass(name5); //gets Class with name entered; null if not found
-                if (class1 == null) { //checks if class exists and exits if doesn't
-                    view.notExists("Class", name5);
-                    break;
-                } else {
-                    name1 = view.inputMethodName(); //gets Method name from user
-                    if (name1.isBlank()) { //checks for blank input
-                        view.invalid();
-                        break;
-                    }
-                    method1 = class1.getMethod(name1); //gets Method with name entered; null if not found
-                    if (method1 == null) { //checks if method exists and exits if doesn't
-                        view.notExists("Method", name1);
-                        break;
-                    } else {
-                        name2 = view.inputParameterName(); //gets old parameter name from user
-                        if (name2.isBlank()) { //checks for blank input
-                            view.invalid();
-                            break;
-                        }
-                        if (method1.getParameter(name2) == null) { //checks if parameter exists and exits if doesn't
-                            view.notExists("Parameter", name2);
-                            break;
-                        } else {
-                            name3 = view.inputNew("name", "Parameter"); //get new parameter name from user
-                            if (name3.isBlank()) { //checks for blank input
-                                view.invalid();
-                                break;
-                            }
-                            if (method1.getParameter(name3) != null) { //checks if a parameter already exists with that name exits if does
-                                view.exists("Parameter", name3);
-                                break;
-                            } else {
-                                name4 = view.inputNew("type", "Parameter"); //get new parameter type from user
-                                if (name4.isBlank()) { //checks for blank input
-                                    view.invalid();
-                                    break;
-                                }
-                                history.saveState(model);
-                                boolean changed = method1.changeParameter(name2, name3, name4); //changes the parameter name and type
-                                if (changed) {
-                                    view.ParameterChange(name2, name3, name4); //prints success message
-                                }
-                                break;
-                            }
-                        }
-                    }
-                       } 
-            
-            case SAVE:
-                //Prompts user for file
-                fileName = view.savePrompt();
-                // Checks if user wants default file
-                if(fileName.isBlank()){
-                    
-                    save(model, "JAMBL.json");
-                }else{
-                    // else save to inputted file
-                    save(model, fileName);
-                }
-                
+                ParCommand addpar = new ParCommand(history, model);
+                addpar.execute();
                 break;
 
+            case DELPAR:
+
+                ParCommand delpar = new ParCommand(history, model);
+                delpar.unexecute();
+                break;
+
+            case CHGPAR:
+
+               RenameCommand chgpar = new RenameCommand(history, model, "par");
+               chgpar.execute();
+               break;
+            
+            case SAVE:
+
+                SaveCommand save = new SaveCommand(model);
+                save.execute(); 
+                break;
 
             case LOAD:
-                
-                //prompts user for file
-                fileName = view.loadPrompt();
-                // checks of its default
-                if(fileName.isBlank()){
-                    load("JAMBL.json");
-                }else{
-                    // otherwise loads file into current model
-                    load(fileName);
-                }
-                view.loaded();
-                history.newWorkflow();
+
+                LoadCommand load = new LoadCommand(history, model);
+                load.execute();
+                this.model = load.getModel();
                 break;
 
             case LISTALL:
-                view.listAllClasses(model);
+
+                ListCommand listall = new ListCommand(model, "all");
+                listall.execute();
                 break;
 
             case LISTCLA:
-                name1 = view.inputClassListed();
-                if (model.getClass(name1) == null) {
-                    view.notExists("Class", name1);
-                    break;
-                }else {
-                    Class cls = model.getClass(name1);
-                    view.listClass(cls);
-                }
+
+                ListCommand listcla = new ListCommand(model, "cla");
+                listcla.execute();
                 break;
             
             case LISTREL:
-                view.listRelationship(model);
+
+                ListCommand listrel = new ListCommand(model, "rel");
+                listrel.execute();
                 break;
             
             case REDO:
-                Memento redo = history.redoState(this.model); //saves the current state of model and gets the redo state
-                if (redo == null) { // if no redos available nothing happens
-                    break;
-                } else {
-                    Load newState = new Load(); //new loading object to load the redo state
-                    newState.loadClasses(redo.getState()); //loads that classes of the redo state
-                    this.model = newState.loadRelationships(redo.getState()); //loads the relationships of the redo state
-                }
+
+                DoCommand redo = new DoCommand(history, model);
+                redo.execute();
+                this.model = redo.getModel();
                 break;
             
             case UNDO:
-                Memento undo = history.undoState(this.model); //saves the current state of the model and gets the undo state
-                if (undo == null) { //if there are no undos available nothing happens
-                    break;
-                } else {
-                    Load newState = new Load(); // new loading object to load the undo state
-                    newState.loadClasses(undo.getState()); //loads the classes of the undo state
-                    this.model = newState.loadRelationships(undo.getState()); //loads the relationships of the undo state and
-                }
+
+                DoCommand undo = new DoCommand(history, model);
+                undo.unexecute();
+                this.model = undo.getModel();
                 break;
                 
             case HELP:
-                view.printHelp();
+
+                HelpCommand help = new HelpCommand();
+                help.execute();
                 break;
 
             case EXIT:
-            do {
-            name1 = view.exitPrompt();
-            if (name1.toUpperCase().equals("YES")) {
-                  //Prompts user for file
-                  fileName = view.savePrompt();
-                  // Checks if user wants default file
-                  if(fileName.isBlank()) {
-                      
-                      save(model, "JAMBL.json");
-                  }else{
-                      // else save to inputted file
-                      save(model, fileName);
-                  }
-            }
-            } while (!name1.toUpperCase().equals("YES") && !name1.toUpperCase().equals("NO"));
-            break;
+
+                ExitCommand exit = new ExitCommand(model);
+                exit.execute();
+                break;
 
         }
 
@@ -983,8 +331,8 @@ public class Controller {
     }
 
 
-
-    public void load(String fileName){
+    // CAN BE DELETED
+   /* public void load(String fileName){
         
          Load load = new Load();
          
@@ -995,9 +343,9 @@ public class Controller {
         load.loadClasses(file);
 
         // loads relationships into classes
-        this.model = load.loadRelationships(file); ;
+        this.model = load.loadRelationships(file);
 
-    }
+    } */
 
 
     // Get model for testing
