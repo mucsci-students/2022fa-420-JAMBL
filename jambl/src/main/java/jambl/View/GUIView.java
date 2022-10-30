@@ -35,7 +35,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Graphics;
 
-public class GUIView extends View  {
+public class GUIView{
 	
 	// Basic frame for small pop-ups
 	JFrame f=new JFrame(); 
@@ -1637,13 +1637,7 @@ public class GUIView extends View  {
 		frmJambl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmJambl.getContentPane().setLayout(null);
 		
-		diagramArea = new jamblPanel(){
-			@Override
-			public void paintComponents(Graphics g){
-				g.setColor(Color.BLACK);
-				g.drawLine(x1, y1, x2, y2);
-			}
-		};
+		diagramArea = new jamblPanel();
 
 		diagramArea.setBounds(359, 67, 678, 524);
 		diagramArea.setBorder(BorderFactory.createEtchedBorder());

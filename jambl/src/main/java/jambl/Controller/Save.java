@@ -19,7 +19,7 @@ public class Save {
     
     
 
-    Save(Model model){
+    public Save(Model model){
         this.model = model;
     }
 

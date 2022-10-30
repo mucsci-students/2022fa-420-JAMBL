@@ -5,104 +5,108 @@ import jambl.Model.Class;
 import java.util.Scanner;
 import java.util.*;
 
+import org.jline.reader.LineReader;
+
+
 public class View {
 
-    Scanner console = new Scanner(System.in);
+   // Scanner console = new Scanner(System.in);
     String input = "";
+    LineReader reader;
     
-    public View(){
-
+    public View(LineReader lineReader){
+        reader = lineReader;
     }
     /*****************************Inputs From User****************************************/
     public String inputAdd(String type){
-        System.out.println("Name of "+ type +" to be added: ");
-        input = console.nextLine();
+       // System.out.println("Name of "+ type +" to be added: ");
+        input = reader.readLine("Name of "+ type +" to be added: ");
         return input;
     }
 
     public String inputDel(String type){
-        System.out.println("Name of "+ type +" to be deleted: ");
-        input = console.nextLine();
+       // System.out.println("Name of "+ type +" to be deleted: ");
+        input = reader.readLine("Name of "+ type +" to be deleted: ");
         return input;
     }
 
     public String inputRen(String type){
-        System.out.println("Name of "+ type +" to be renamed: ");
-        input = console.nextLine();
+        //System.out.println("Name of "+ type +" to be renamed: ");
+        input = reader.readLine("Name of "+ type +" to be renamed: ");
         return input;
     }
 
     public String inputNewName(String element){
-        System.out.println("Enter New "+element+": ");
-        input = console.nextLine();
+        //System.out.println("Enter New "+element+": ");
+        input = reader.readLine("Enter New "+element+": ");
         return input;
     }
 
     public String inputNameOf(String element1 , String element2, String action){
-        System.out.println("Name of "+ element1 +" "+action +" "+ element2 +": ");
-        input = console.nextLine();
+        //System.out.println("Name of "+ element1 +" "+action +" "+ element2 +": ");
+        input = reader.readLine("Name of "+ element1 +" "+action +" "+ element2 +": ");
         return input;
 
     }
   
     public String inputClassListed() {
-        System.out.println("Name of Class to be listed: ");
-        input = console.nextLine();
+        //System.out.println("Name of Class to be listed: ");
+        input = reader.readLine("Name of Class to be listed: ");
         return input;
     }
 
     // a prompt for a Class name. Generic can be used in many functions
     public String inputClassName() {
-        System.out.println("Name of Class: ");
-        input = console.nextLine();
+       // System.out.println("Name of Class: ");
+        input = reader.readLine("Name of Class: ");
         return input;
     }
 
     // a prompt for a Field name. Generic can be used in many functions
     public String inputFieldName() {
-        System.out.println("Name of Field: ");
-        input = console.nextLine();
+       // System.out.println("Name of Field: ");
+        input = reader.readLine("Name of Field: ");
         return input;
     }
 
     //prompt for a Field type. Generic can be used in many functions
     public String inputFieldType() {
-        System.out.println("Type of Field: ");
-        input = console.nextLine();
+        //System.out.println("Type of Field: ");
+        input = reader.readLine("Type of Field: ");
         return input;
     }
 
     //promt for a new name or type based on parameters
     public String inputNew (String item, String object) {
-        System.out.println("New " + item + " of " + object + ": ");
-        input = console.nextLine();
+        //System.out.println("New " + item + " of " + object + ": ");
+        input = reader.readLine("New " + item + " of " + object + ": ");
         return input;
     } 
 
     // a prompt for a Method name. Generic can be used in many functions
     public String inputMethodName(){
-        System.out.println("Name of Method: ");
-        input = console.nextLine();
+       // System.out.println("Name of Method: ");
+        input = reader.readLine("Name of Method: ");
         return input;
     }
     
     //prompt for a Parameter type. Generic can be used in many functions
     public String inputParameterType(){
-        System.out.println("Type of Parameter: ");
-        input = console.nextLine();
+        //System.out.println("Type of Parameter: ");
+        input = reader.readLine("Type of Parameter: ");
         return input;
     }
 
     // a prompt for a Parameter name. Generic can be used in many functions
     public String inputParameterName(){
-        System.out.println("Name of Parameter: ");
-        input = console.nextLine();
+        //System.out.println("Name of Parameter: ");
+        input = reader.readLine("Name of Parameter: ");
         return input;
     }
 
     public String inputDeleteAll(){
-        System.out.println("Delete All Parameters?(yes/no): ");
-        input = console.nextLine();
+        //System.out.println("Delete All Parameters?(yes/no): ");
+        input = reader.readLine("Delete All Parameters?(yes/no): ");
         return input;
     }
 
@@ -405,28 +409,28 @@ public class View {
 
      // input from user to add origin class
      public String inputAddOriginClass(){
-        System.out.println("Name of origin Class in Relationship to be added: ");
-        input = console.nextLine();
+       // System.out.println("Name of origin Class in Relationship to be added: ");
+        input = reader.readLine("Name of origin Class in Relationship to be added: ");
         return input;
     }
     
     // input from user to add destination class
     public String inputAddDestinationClass(){
-        System.out.println("Name of destination Class in Relationship to be added: ");
-        input = console.nextLine();
+        //System.out.println("Name of destination Class in Relationship to be added: ");
+        input = reader.readLine("Name of destination Class in Relationship to be added: ");
         return input;
     }
     
     public String inputDelOriginClass(){
-        System.out.println("Name of origin Class in Relationship to be deleted: ");
-        input = console.nextLine();
+       // System.out.println("Name of origin Class in Relationship to be deleted: ");
+        input = reader.readLine("Name of origin Class in Relationship to be deleted: ");
         return input;
     }
     
     // input from user to add destination class
     public String inputDelDestinationClass(){
-        System.out.println("Name of destination Class in Relationship to be deleted: ");
-        input = console.nextLine();
+        //System.out.println("Name of destination Class in Relationship to be deleted: ");
+        input = reader.readLine("Name of destination Class in Relationship to be deleted: ");
         return input;
     }
     // add relationship parameter origin class doesnt exist
@@ -439,9 +443,9 @@ public class View {
     }
     //input for relationshop type (String)
     public String inputAddType(){
-        System.out.println("Name of Relationship Type to be added");
-        System.out.println("{AGGREGATION = \"AGGR\", COMPOSITION = \"COMP\", INHERITANCE = \"INHE\", REALIZATION = \"REAL\"}: ");
-        input = console.nextLine();
+       // System.out.println("Name of Relationship Type to be added");
+       // System.out.println("{AGGREGATION = \"AGGR\", COMPOSITION = \"COMP\", INHERITANCE = \"INHE\", REALIZATION = \"REAL\"}: ");
+        input = reader.readLine("Name of Relationship Type to be added \n{AGGREGATION = \"AGGR\", COMPOSITION = \"COMP\", INHERITANCE = \"INHE\", REALIZATION = \"REAL\"}: ");
         return input.toUpperCase();
     }
 
@@ -456,20 +460,24 @@ public class View {
     public void relTypeCheck(String typeName){
         System.out.println(typeName + " is invalid Relation type!");
     }  
+
+    public void saved(){
+        System.out.println("UML Diagram Saved!");
+    }
     
     public String savePrompt() {
-        System.out.println("Input file you want to save to or press enter for default file.");
-        return console.nextLine();
+        //System.out.println("Input file you want to save to or press enter for default file.");
+        return reader.readLine("Input file you want to save to or press enter for default file: ");
     }
 
     public String loadPrompt() {
-        System.out.println("Input file you want loaded or press enter for default file.");
-        return console.nextLine();
+        //System.out.println("Input file you want loaded or press enter for default file.");
+        return reader.readLine("Input file you want loaded or press enter for default file: ");
     }
 
     public String exitPrompt() {
-        System.out.println("Would you like to SAVE before quitting? (YES/NO)");
-        return console.nextLine();
+        //System.out.println("Would you like to SAVE before quitting? (YES/NO)");
+        return reader.readLine("Would you like to SAVE before quitting? (YES/NO): ");
     }
 
 }
