@@ -540,14 +540,20 @@ public class GUIController {
 			 
 			// get object of file contents
 			JSONObject file = load.getFile(fileName);
-	
-			// adds the classes with the fields, methods and parameters ect.
+
+			if(file == null){
+				return;
+			}else{
+				// adds the classes with the fields, methods and parameters ect.
 			load.loadClasses(file);
 	
 			// loads relationships into classes
 			this.model = load.loadRelationships(file);
 			loadDiagram(GUI);
 	
+			}
+	
+			
 		}
 
 
