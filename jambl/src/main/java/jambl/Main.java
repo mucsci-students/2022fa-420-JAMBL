@@ -39,7 +39,8 @@ public class Main {
                                                                     "ADDREL", "DELREL", "RELTYPE",
                                                                     "ADDPAR", "DELPAR","CHGPAR",
                                                                     "SAVE", "LOAD", "HELP", "EXIT",
-                                                                    "LISTALL", "LISTCLA", "LISTREL");
+                                                                    "LISTALL", "LISTCLA", "LISTREL",
+                                                                    "UNDO", "undo","REDO", "Redo");
             
             LineReader reader = LineReaderBuilder.builder().terminal(terminal).completer(comp).build();
             Model model  = new Model();
