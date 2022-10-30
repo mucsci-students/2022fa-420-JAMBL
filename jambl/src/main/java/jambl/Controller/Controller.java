@@ -216,11 +216,7 @@ public class Controller {
 
            case ADDPAR:
 
-<<<<<<< HEAD
                 ParCommand addpar = new ParCommand(history, model, view);
-=======
-                ParCommand addpar = new ParCommand(history, model);
->>>>>>> cd009ee36d4fd649041218e98c77caf9d1ae205e
                 addpar.execute();
                 break;
 
