@@ -15,7 +15,7 @@ public class Load {
 
     Model model;
 
-    Load(){
+    public Load(){
         this.model = new Model();
     }
 
