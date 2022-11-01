@@ -1,3 +1,8 @@
+package jambl;
+import jambl.Model.*;
+import jambl.Model.Class;
+import jambl.Controller.*;
+
 /*
  * @name JunitTest.java
  * @author John Shenk
@@ -5,9 +10,11 @@
  *  Note each method starts with '@Test' and the methods have an "assertEquals() function"
  */
 
+
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import java.util.*;
@@ -74,6 +81,17 @@ public class JunitTest {
 	 Class cls = new Class("Gym"); //this class doesnt exist inside the model so it cant be removed
      assertEquals(false, newModel.deleteClass(cls));
    }
+
+   //Test deleting a class that is in a relationship
+   @Test
+   public void testDeleteClassinRel () {
+		Model model = new Model();
+		model.addClass("Tire");
+		model.addClass("Car");
+		model.getClass("Tire").addRelationship(model.getClass("Car"), "AGGR");
+		model.deleteClass(model.getClass("Car"));
+		assertNull(model.getClass("Tire").getRelationship("Car"));
+   }
 	   
 		// Tests the functionality of getting class name
 	   @Test
@@ -91,13 +109,23 @@ public class JunitTest {
 		   String result = newClass.getClassName();
 		   assertEquals(expected, result);
 	   }
-	   
+
+	   //Tests getting the set of fields of a class
+	   @Test
+	   public void testGetFieldSet() {
+			Class cls = new Class("Class");
+			cls.addField("name", "String");
+			HashSet<Field> mtdSet = cls.getFields();
+			assertEquals(mtdSet.size(), 1);
+
+	   }
+
 	   // Tests the functionality of adding relationship to a class
 	   @Test 
 	   public void testaddRelationship() {
 		   newClass = new Class("Movie");
 		   newClass2 = new Class("Director");
-		   String typeName = "COMPOSITION";
+		   String typeName = "COMP";
 		   newClass.addRelationship(newClass2, typeName);
 		   HashSet<Relationship> result = newClass.getRelationships();
 		  assertEquals(1, result.size());
@@ -109,24 +137,113 @@ public class JunitTest {
 		   
 		   newClass = new Class("Movie");
 		   newClass2 = new Class("Director");
-		   String typeName = "COMPOSITION";
+		   String typeName = "COMP";
 		   newClass.addRelationship(newClass2, typeName);
 		   newClass.deleteRelationship("Director");
 		   HashSet<Relationship> result = newClass.getRelationships() ;
-		  assertEquals(0, result.size());
-		 
-		   
+		  assertEquals(0, result.size());		   
 	   }
 
 	    // Tests the functionality of getting class destination
 	   @Test
 	   public void testgetDestination() {
-			typeName = "COMPOSITION";
+			typeName = "COMP";
 		    newClass = new Class("Movie");
 			Relationship newRel = new Relationship(newClass, typeName);
 			assertEquals("Movie", newRel.getDestination().getClassName());
 			   
 	   }
+
+	//Test for a relationship that already exists to that class
+	@Test
+	public void testExistingRelationship () {
+		Class origin = new Class("Tire");
+		Class destination = new Class("Car");
+		origin.addRelationship(destination, "COMP");
+		assertTrue(origin.isRelationshipExist("Car"));
+	}
+
+	//Test for a relationship that already does not exist to that class
+	@Test
+	public void testNotExistingRelationship () {
+		Class origin = new Class("Tire");
+		Class destination = new Class("Car");
+		origin.addRelationship(destination, "COMP");
+		assertFalse(origin.isRelationshipExist("Door"));
+	}
+
+	//Test for getting an existing relationship
+	@Test
+	public void testGetExistingRelationship () {
+		Class origin = new Class("Tire");
+		Class destination = new Class("Car");
+		origin.addRelationship(destination, "COMP");
+		assertNotNull(origin.getRelationship("Car"));
+	}
+
+	//Test for getting an existing relationship
+	@Test
+	public void testGetNonExistingRelationship () {
+		Class origin = new Class("Tire");
+		Class destination = new Class("Car");
+		origin.addRelationship(destination, "COMP");
+		assertNull(origin.getRelationship("Door"));
+	}
+
+	//Test for getting an existing relationship
+	@Test
+	public void testEditRelationship () {
+		Class origin = new Class("Tire");
+		Class destination = new Class("Car");
+		origin.addRelationship(destination, "COMP");
+		origin.editRelationshipType("Car", "AGGR");
+		assertTrue(origin.getRelationship("car").getRelType().equals("AGGR"));
+	}
+
+	//Test for true valid Realtionship type
+	@Test
+	public void testValidRelType () {
+		Class origin = new Class("Tire");
+		assertTrue(origin.isValidType("AGGR"));
+	}
+
+	//Test for false valid Realtionship type
+	@Test
+	public void testNotValidRelType () {
+		Class origin = new Class("Tire");
+		assertFalse(origin.isValidType("Connection"));
+	}
+
+	//Test for getting full name of a given relationship
+	@Test
+	public void testFullRelName () {
+		Class origin  = new Class("Tire");
+		assertTrue(origin.TypefullName("AGGR").equals("AGGREGATION"));
+	}
+
+	//Test the Relationship Type enum string short nameconversion
+	@Test
+	public void testTypeToString () {
+		String testType = "AGGR";
+		assertTrue(Relationship.Type.AGGR.toString().equals(testType));
+	}
+
+	//Test Relationship Type enum string full name conversion
+	@Test
+	public void testTypeFullName () {
+		String testType = "AGGREGATION";
+		assertTrue(Relationship.Type.AGGR.fullName().equals(testType));
+	}
+
+	//Test getting the full relationship type name from a relationship that exists
+	@Test
+	public void testGetFullType () {
+		Class origin = new Class ("Tire");
+		Class destination = new Class ("Car");
+		origin.addRelationship(destination, "AGGR");
+		Relationship rel = origin.getRelationship(destination.getClassName());
+		assertTrue(rel.getFullType().equals("AGGREGATION"));
+	}
 
 	// Tests the functionality of adding a method to a class
 	@Test
@@ -198,6 +315,15 @@ public class JunitTest {
 			newClass.addField(fieldName, fieldType);
 			String result = newClass.getField(fieldName).getFieldType();
 			assertEquals(fieldType, result);
+		}
+
+		// Tests getting a field that does not exist in the class
+		@Test
+		public void testGetNonExistingField () {
+			newClass = new Class("Item");
+			newClass.addField("price", "double");
+			newClass.addField("weight", "double");
+			assertNull(newClass.getField("quantity"));
 		}
 
 		// Tests the functionality of deleting a Field that exists in a class
@@ -311,5 +437,39 @@ public class JunitTest {
 			newMethod.addParameter("name5", "int");
 			newMethod.deleteAllParameter();
 			assertEquals(true, newMethod.getParameters().isEmpty());
+		}
+
+		//Test changing a parameter that doesnt exist
+		@Test
+		public void testChangeParamNotExist () {
+			Method mtd = new Method("addItems", "void");
+			mtd.addParameter("item1", "int");
+			mtd.addParameter("item2", "int");
+			assertFalse(mtd.changeParameter("item3", "item4", "int"));
+		}
+
+		//Test deleting a parameter that doesnt exist
+		@Test
+		public void testDeleteParamNotExist () {
+			Method mtd = new Method("addItems", "void");
+			mtd.addParameter("item1", "int");
+			mtd.addParameter("item2", "int");
+			assertFalse(mtd.deleteParameter("item3"));
+		}
+
+		//Test setting the X of a class
+		@Test
+		public void testSetX () {
+			Class cls = new Class("Tire");
+			cls.addX(100);
+			assertEquals(100, cls.getX());
+		}
+
+		//Test setting the Y of a class
+		@Test
+		public void testSetY () {
+			Class cls = new Class("Tire");
+			cls.addY(100);
+			assertEquals(100, cls.getY());
 		}
 }

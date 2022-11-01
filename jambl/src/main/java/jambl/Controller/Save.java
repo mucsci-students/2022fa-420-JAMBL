@@ -1,3 +1,8 @@
+package jambl.Controller;
+import jambl.Model.*;
+import jambl.Model.Class;
+import jambl.View.*;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.util.*;
@@ -14,7 +19,7 @@ public class Save {
     
     
 
-    Save(Model model){
+    public Save(Model model){
         this.model = model;
     }
 
@@ -23,6 +28,7 @@ public class Save {
         JSONArray fields;
         JSONArray methods;
         JSONObject classObj;
+        JSONObject location;
         Iterator<Class> itClasses = model.getClasses().iterator();
         Class curr;
         String className;
@@ -34,15 +40,26 @@ public class Save {
             className = curr.getClassName();
             fields = fields(curr);
             methods = methods(curr);
+            location = location(curr);
             classObj.put("fields", fields);
             classObj.put("methods", methods);
             classObj.put("name", className);
+            classObj.put("location", location);
             classesArray.add(classObj);
         }
         return classesArray;
 
-    } 
+    }  
 
+    public JSONObject location(Class currClass){
+        JSONObject locObj = new JSONObject();
+        long x = currClass.getX();
+        long y = currClass.getY();
+
+        locObj.put("x", x);
+        locObj.put("y", y);
+        return locObj;
+    }
 
     public JSONArray fields(Class currClass){
         JSONArray fieldsArray = new JSONArray();

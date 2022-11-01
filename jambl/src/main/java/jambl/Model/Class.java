@@ -1,3 +1,5 @@
+package jambl.Model;
+
 /*
  * @projectDescription	A program to make UML diagrams
  * 
@@ -8,7 +10,14 @@
  * @classDescription This class represents a Class in a UML diagram
  */
  
+import java.awt.Font;
 import java.util.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+
+import jambl.View.draggableBox;
 
 public class Class {
 
@@ -16,8 +25,8 @@ public class Class {
     public HashSet<Field> fields = new HashSet<Field>();
     public HashSet<Method> methods = new HashSet<Method>();
     public HashSet<Relationship> relationships = new HashSet<Relationship>();
-
- 
+    public int x;
+    public int y;
 
 
     //constructor with name as parameter
@@ -25,6 +34,8 @@ public class Class {
         this.className = name;
         this.fields = new HashSet<Field>();
         this.relationships = new HashSet<Relationship>();
+        x = 250;
+        y = 250;
     }
 
     //get Method set
@@ -122,7 +133,7 @@ public class Class {
         return null;
     }
 
-    // this method eidts the relationship type to a new type.
+    // this method edits the relationship type to a new type.
     //@param newType - the new relationship type that is changing 
     public void editRelationshipType(String destination, String newType) {
         Iterator<Relationship> relItr = relationships.iterator();
@@ -244,4 +255,32 @@ public class Class {
         return validType;
     }
 
+    public String TypefullName (String otherName) {
+        String fullName = null;
+
+        for (Relationship.Type type: Relationship.Type.values()) {
+            if (type.toString().equals(otherName)) {
+                
+                fullName = type.fullName();
+            }
+        }
+        return fullName;
+    }
+
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public void addX(int addedX){
+        x = addedX;
+    }
+
+    public void addY(int addedY){
+        y = addedY;
+        
+    }
 }

@@ -1,3 +1,10 @@
+package jambl.Controller;
+import jambl.Model.*;
+import jambl.Model.Class;
+import jambl.Model.Relationship.Type;
+import jambl.View.*;
+import jambl.View.jamblPanel.MyFrame;
+
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -14,8 +21,11 @@ import java.util.*;
 
 import javax.swing.JButton;
 import javax.swing.event.SwingPropertyChangeSupport;
+import javax.swing.text.View;
+import javax.swing.text.AttributeSet.FontAttribute;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
@@ -31,6 +41,7 @@ import org.json.simple.parser.JSONParser;
 public class GUIController {
 	
 		Model model;
+		History history = new History();
 		//GUIView GUI;
 		
 		public HashSet<Relationship> relationships = new HashSet<Relationship>();
@@ -100,7 +111,6 @@ public class GUIController {
 						GUINow.btnChangeType.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								changingRelsAction(GUINow.changingRelsWindow(), GUINow);
-								System.out.println("todo");
 							}
 
 						});
@@ -225,6 +235,26 @@ public class GUIController {
 
 						});
 
+						
+						// undo button listener
+						GUINow.btnUndo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								saveLocations(GUINow);
+								undo(GUINow);
+							}
+
+						});
+
+						// redo button listener
+						GUINow.btnRedo.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								saveLocations(GUINow);
+								redo(GUINow);
+								
+							}
+
+						});
+
 
 
 					} catch (Exception e) {
@@ -238,9 +268,17 @@ public class GUIController {
 			
 		}
 
-		public String[] getClassNames() {
-	    	return model.getClassList();
-	    }
+    	// Returns a string list of the class names.
+    	public String[] getClassList (Model model) {
+    		int s = model.getClasses().size();
+    		int i = 0;
+    		String[] names = new String[s];
+    		for(Class name : model.getClasses()) {
+    			names[i] = name.getClassName();
+    			i++;
+    		}
+    		return names;
+    	}
 	    
 	    /*
 	     *  Function for GUI to add class to model
@@ -250,6 +288,8 @@ public class GUIController {
 			{		
 	    		model.addClass(name);
 	    		GUI.classCreate(name);
+				//sendBox(name, GUI);
+				refreshDiagram(GUI);
 			}
 			else
 			{
@@ -263,8 +303,12 @@ public class GUIController {
 	    public void renameClass(String name1, String name2, GUIView GUI) {
 	    	if(model.getClass(name2) == null) 
 			{
+				saveLocations(GUI);
 				model.renameClass(name1, name2);
 				GUI.classRename(name1, name2);
+				//GUI.changeBoxName(name1, name2);
+				//sendBox(name2, GUI);
+				refreshDiagram(GUI);
 			}
 			else
 			{
@@ -278,29 +322,52 @@ public class GUIController {
 	    public void deleteClass(String name, GUIView GUI) {
 	    		model.deleteClass(model.getClass(name));
 	    		GUI.classDelete(name);
+				GUI.removeBox(name);
+				refreshDiagram(GUI);
+			
 	    }
 
 	    
-	    /*
-	     * Function for getting list of fields from class
-	     */
-	    public String[] getFields(String className) {
-	    	return model.getFieldList(className);
-	    }
+    // Returns a string array of the fields in a class
+    public String[] getFieldList(String className) {
+    	
+    	int i = 0;
+    	Class need = model.getClass(className);
+    	HashSet<Field> fields = need.getFields();
+    	String[] f = new String[fields.size()];
+    	for(Field curr : fields) {
+    		f[i] = curr.getFieldName();
+    		i++;
+    	}
+    	return f;	
+    }
 	    
-	    /*
-	     * Function for getting list of fields from class
-	     */
-	    public String[] getMethods(String className) {
-	    	return model.getMethodList(className);
-	    }
-	    
-	    /*
-	     * Function for getting list of fields from class
-	     */
-	    public String[] getParameters(String className, String methodName) {
-	    	return model.getParameterList(className, methodName);
-	    }
+    //Returns a list of methods in this class
+    public String[] getMethodList(String className) {
+    	int i = 0;
+    	Class need = model.getClass(className);
+    	HashSet<Method> methods = need.getMethods();
+    	String[] m = new String[methods.size()];
+    	for(Method curr : methods) {
+    		m[i] = curr.getMethodName();
+    		i++;
+    	}
+    	return m;
+    }
+
+    //Returns a list of parameters in this class
+    public String[] getParameterList(String className, String methodName) {
+    	int i = 0;
+    	Class classN = model.getClass(className);
+    	Method method = classN.getMethod(methodName);
+    	HashSet<Parameter> params = method.getParameters();
+    	String[] p = new String[params.size()];
+    	for(Parameter curr : params) {
+    		p[i] = curr.getParamName();
+    		i++;
+    	}
+    	return p;
+    }
 	    
 	    
 	    
@@ -308,7 +375,12 @@ public class GUIController {
 	    public void addField(String className, String fieldName, String fieldType, GUIView GUI) {
 	    	Class get = model.getClass(className);
 	    	if(get.addField(fieldName, fieldType))
-	    		GUI.fieldAdd(fieldName, className);
+			{
+				GUI.fieldAdd(fieldName, className);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
+
+			}
 	    	else
 	    		GUI.fieldAdd(fieldName, className);
 	    }
@@ -321,13 +393,17 @@ public class GUIController {
 			} else {
 				cls.getField(oldName).setFieldName(newName);
 	    		GUI.fieldRename(oldName, newName, className);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 	    	}
 		}
 			
 	    
 	    public void deleteField(String className, String fieldName, GUIView GUI) {
 	    	if(model.getClass(className).deleteField(fieldName)) {
-	    		GUI.fieldDelete(fieldName, className);
+				GUI.fieldDelete(fieldName, className);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 	    	}
 	    	else
 	    	{
@@ -337,7 +413,10 @@ public class GUIController {
 	    
 	    public void changeFieldType(String className, String fieldName, String newFieldType, GUIView GUI) {
 	    	model.getClass(className).getField(fieldName).setFieldType(newFieldType);
+
 	    	GUI.fieldTypeChange(className, fieldName, newFieldType);
+			//sendBox(className, GUI);
+			refreshDiagram(GUI);
 	    }
 
 	    /////////// ***** Method methods ****** ////////////
@@ -347,6 +426,8 @@ public class GUIController {
 				GUI.methodExist();
 			}else if (cls.addMethod(methodName, methodReturn)) {
 				GUI.methodAdd(className, methodName);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 			} else {
 			GUI.methodActionFailure("add");
 			}
@@ -356,6 +437,8 @@ public class GUIController {
 			Method mtd = cls.getMethod(methodName);
 			if (cls.deleteMethod(mtd)) {
 				GUI.methodDelete(className, methodName);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.methodActionFailure("delete");
 			}
@@ -369,6 +452,8 @@ public class GUIController {
 				Method mtd = cls.getMethod(oldMtdName);
 				if (cls.renameMethod(mtd, newMtdName)) {
 					GUI.methodRename(className, oldMtdName, newMtdName);
+					//sendBox(className, GUI);
+					refreshDiagram(GUI);
 				}else {
 					GUI.methodActionFailure("rename");
 			}
@@ -380,11 +465,13 @@ public class GUIController {
 			Method mtd = cls.getMethod(methodName);
 			if (cls.changeMethodreturn(mtd, returnType)) {
 				GUI.methodRetype(className, methodName, returnType);
+				//sendBox(className, GUI);
+				refreshDiagram(GUI);
 			}else {
 				GUI.methodActionFailure("change return type of");
 			}
 		}
-	
+
    
 	     /////////// ***** Relationship Methods ****** ////////////
 
@@ -396,6 +483,8 @@ public class GUIController {
 			} else {
 				cls.addRelationship(model.getClass(destination), typeName.toUpperCase());
 				GUI.addedRel(origin, destination);
+				Class dest = model.getClass(destination);
+				refreshDiagram(GUI);
 			}
 		}
 
@@ -408,6 +497,7 @@ public class GUIController {
 			} else {
 				cls.deleteRelationship(destination);
 				GUI.relDeleted();
+				refreshDiagram(GUI);
 			}
 				
 		}
@@ -422,12 +512,11 @@ public class GUIController {
 			}else {
 				rel.setRelType(newType);     
 
-		   	    GUI.relTypeEdited(newType);
+		   	    GUI.relTypeEdited(model.getClass(destination).TypefullName(newType.toUpperCase()));
+				refreshDiagram(GUI);
 			}
 		}
 
-
-  
 		public void save( String fileName){
 			Save saving = new Save(model);
 			JSONObject fileObj = new JSONObject();
@@ -440,7 +529,6 @@ public class GUIController {
 				// turns object to string and save to file
 				file.write(fileObj.toJSONString());
 				file.close();
-				System.out.println("UML Diagram Saved!");
 			}catch(Exception e){
 				System.out.println("Could not write file" + e);
 			}
@@ -448,19 +536,26 @@ public class GUIController {
 	
 	
 	
-		public void load(String fileName){
+		public void load(String fileName, GUIView GUI){
 			
 			 Load load = new Load();
 			 
 			// get object of file contents
 			JSONObject file = load.getFile(fileName);
-	
-			// adds the classes with the fields, methods and parameters ect.
+
+			if(file == null){
+				return;
+			}else{
+				// adds the classes with the fields, methods and parameters ect.
 			load.loadClasses(file);
 	
 			// loads relationships into classes
 			this.model = load.loadRelationships(file);
+			loadDiagram(GUI);
 	
+			}
+	
+			
 		}
 
 
@@ -470,6 +565,8 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.addParameter(name, type)){
 				GUI.paramAdd(method1, name, type);
+				//sendBox(class1, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.addParamFailure();
 			}
@@ -480,6 +577,8 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.deleteParameter(name)){
 				GUI.paramDelete(method1, name);
+				//sendBox(class1, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.deleteParamFailure();
 			}
@@ -490,6 +589,8 @@ public class GUIController {
 			Method method2 = class2.getMethod(method1);
 			if(method2.changeParameter(oldname, newname, newtype)){
 				GUI.paramChange(method1, oldname, newname, newtype);
+				//sendBox(class1, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.changeParamFailure();
 			}
@@ -498,8 +599,11 @@ public class GUIController {
 		public void removeAllParameter(String class1, String method1, GUIView GUI){
 			Class class2 = model.getClass(class1);
 			Method method2 = class2.getMethod(method1);
-			if(method2.deleteAllParameter()){
+			method2.deleteAllParameter();
+			if(method2.getParameters().isEmpty()){
 				GUI.paramDeleteAll(method1);
+				//sendBox(class1, GUI);
+				refreshDiagram(GUI);
 			} else {
 				GUI.deleteAllParamFailure();
 			}
@@ -508,7 +612,7 @@ public class GUIController {
 
 	public String listAllClasses () {
         String list ="CLASSES \n===============\n";
-        for (Class ele: model.classes) {
+        for (Class ele: model.getClasses()) {
           list = list +  listClass(ele);
         }
 		return list;
@@ -552,7 +656,7 @@ public class GUIController {
         
         for (Relationship ele: cls.getRelationships()) {
             String dest = ele.getDestination().getClassName();
-            String type = ele.getRelType();
+            String type = ele.getFullType().toLowerCase();
         	list = list + "     * " + className + " --" + type + "--> " + dest + "\n"+ "\n\n";
 		}
 		list = list + "\n";
@@ -571,7 +675,7 @@ public class GUIController {
 	    for(Class cls : model.getClasses()) {
 	        for (Relationship ele: cls.getRelationships()) {
 	            String dest = ele.getDestination().getClassName();
-	            String type = ele.getRelType();
+	            String type = ele.getFullType().toLowerCase();
 	            list = list + "     * " + cls.getClassName() + " --" + type + "--> " + dest + "\n"+ "\n\n";
 	        }
 	    }
@@ -603,7 +707,8 @@ public class GUIController {
 					String text = view.getTextBox().getText();
 					if(!text.equals(""))
 					{
-						model.addClass(text);
+						history.saveState(model);
+						addClass(text, view);
 						frame.dispose();
 					}
 					view.saved = false;
@@ -627,6 +732,7 @@ public class GUIController {
 			view.btnDeleteClass.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.comboBoxClasses.getSelectedItem().equals("Choose a class:")) {
+						history.saveState(model);
 						deleteClass(view.comboBoxClasses.getSelectedItem().toString(), view);
 						frame.dispose();
 					}
@@ -662,10 +768,10 @@ public class GUIController {
 
 				view.btnRenameClass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						System.out.println("MAde it");
 						if(!view.cbClasses.getSelectedItem().toString().equals("Choose a class:")) {
 							
 							if(!view.textFieldClassName.getText().equals("")) {
+								history.saveState(model);
 								renameClass(view.cbClasses.getSelectedItem().toString(), view.textFieldClassName.getText(), view );
 								
 								frame.dispose();
@@ -707,12 +813,11 @@ public class GUIController {
 			view.btnAddRelationship.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.comboBoxClass1.getSelectedItem().equals("Choose a class:") || !view.comboBoxClass2.getSelectedItem().equals("Choose a class:") ) {
-
+						history.saveState(model);
 						////////////////////////////////////////////////////////
 						addRelationship(view.comboBoxClass1.getSelectedItem().toString(), 
 						view.comboBoxClass2.getSelectedItem().toString(), view.cbRelationships.getSelectedItem().toString(), view);
 						/////////////////////////////////////////////////////////////
-
 						frame.dispose();
 					}
 					else
@@ -749,7 +854,7 @@ public class GUIController {
 			view.btnDeleteRelationship.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.cbClass1.getSelectedItem().equals("Choose a class:") || !view.cdClass2.getSelectedItem().equals("Choose a class:") ) {
-
+						history.saveState(model);
 						////////////////////////////////////////////////////////
 						deleteRelationship(view.cbClass1.getSelectedItem().toString(), 
 						view.cdClass2.getSelectedItem().toString(), view);
@@ -796,6 +901,7 @@ public class GUIController {
 				public void actionPerformed(ActionEvent e) {
 					
 					if(!view.cbClass1.getSelectedItem().equals("Choose a class:") || !view.cbClass2.getSelectedItem().equals("Choose a class:") ) {
+						history.saveState(model);
 						////////////////////////////////////////////////////////
 						editRelationshipType(view.cbClass1.getSelectedItem().toString(), 
 						view.cbClass2.getSelectedItem().toString(), view.cbRelationships.getSelectedItem().toString(),view);
@@ -837,6 +943,7 @@ public class GUIController {
 
 				view.btnAddMethod.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						history.saveState(model);
 						addMethod(view.comboBoxClasses.getSelectedItem().toString(), view.methodNameBox.getText(), view.methodTypeBox.getText(), view);
 						view.frmJamblAdd.dispose();
 					}
@@ -875,6 +982,7 @@ public class GUIController {
 			view.btnDeleteMethod.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!(view.Classes.getSelectedIndex() == -1) && !(view.Methods.getSelectedIndex() == -1)) {
+						history.saveState(model);
 						deleteMethod(view.Classes.getSelectedItem().toString(), view.Methods.getSelectedItem().toString(), view);
 						frame.dispose();
 					}
@@ -916,6 +1024,7 @@ public class GUIController {
 				
 				view.btnChangeMethod.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						history.saveState(model);
 						renameMethod(view.Classes.getSelectedItem().toString(), view.Methods.getSelectedItem().toString(), view.textField.getText(), view);
 						view.frmJamblAdd2.dispose();
 					}
@@ -955,6 +1064,7 @@ public class GUIController {
 			
 			view.btnChangeMethod.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					history.saveState(model);
 					changeMethodReturn(view.Classes.getSelectedItem().toString(), view.Methods.getSelectedItem().toString(), view.textField.getText(), view);
 					view.frmJamblAdd.dispose();
 				}
@@ -987,6 +1097,7 @@ public class GUIController {
 				view.btnAddParameter.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(!view.textParameter.getText().equals("") && !view.textParamType.getText().equals("")) {
+							history.saveState(model);
 							addParameter(view.cbClasses.getSelectedItem().toString(), view.cbMethods.getSelectedItem().toString(), view.textParameter.getText(), view.textParamType.getText(), view);
 							frame.dispose();
 						}
@@ -1033,6 +1144,7 @@ public class GUIController {
 			view.btnRemoveParameter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!(view.cbClasses.getSelectedIndex() == -1) && !(view.cdMethods.getSelectedIndex() == -1) && !(view.cbParameter.getSelectedIndex() == -1)) {
+						history.saveState(model);
 						deleteParameter(view.cbClasses.getSelectedItem().toString(), view.cdMethods.getSelectedItem().toString(), view.cbParameter.getSelectedItem().toString(), view);
 						frame.dispose();
 					}
@@ -1050,6 +1162,7 @@ public class GUIController {
 			view.btnDeleteAll.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!(view.cbClasses.getSelectedIndex() == -1) && !(view.cdMethods.getSelectedIndex() == -1)){
+						history.saveState(model);
 						removeAllParameter(view.cbClasses.getSelectedItem().toString(), view.cdMethods.getSelectedItem().toString(), view);
 						frame.dispose();
 					}
@@ -1099,6 +1212,7 @@ public class GUIController {
 			
 			view.btnChangeParameter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					history.saveState(model);
 					changeParameter(view.cbClasses.getSelectedItem().toString(), view.cbMethods.getSelectedItem().toString(), view.cbParameters.getSelectedItem().toString(), view.textParameter.getText(), view.textParamType.getText(), view);
 					frame.dispose();
 				}
@@ -1134,6 +1248,7 @@ public class GUIController {
 			view.btnAddField.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.fieldNameBox.getText().equals("") && !view.fieldTypeBox.getText().equals("")) {
+						history.saveState(model);
 						addField(view.comboBoxClasses.getSelectedItem().toString(), view.fieldNameBox.getText(), view.fieldTypeBox.getText(), view);
 						frame.dispose();
 					}
@@ -1179,6 +1294,7 @@ public class GUIController {
 			view.btnDeleteField.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!(view.Classes.getSelectedIndex() == -1) && !(view.cbFields.getSelectedIndex() == -1)) {
+						history.saveState(model);
 						deleteField(view.Classes.getSelectedItem().toString(), view.cbFields.getSelectedItem().toString(), view);
 						view.frmJamblAdd3.dispose();
 					}
@@ -1221,6 +1337,7 @@ public class GUIController {
 			view.btnChangeMethod.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!view.textField.getText().equals("")) {
+						history.saveState(model);
 						renameField(view.Classes.getSelectedItem().toString(), view.Fields.getSelectedItem().toString(), view.textField.getText(), view);
 						view.frmJamblAdd4.dispose();
 					}
@@ -1259,6 +1376,7 @@ public class GUIController {
 			
 			view.btnChangeField.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					history.saveState(model);
 					changeFieldType(view.Classes.getSelectedItem().toString(), view.Fields.getSelectedItem().toString(), view.textFieldType.getText(), view);
 					view.frmJamblAdd5.dispose();
 				}
@@ -1282,6 +1400,14 @@ public class GUIController {
 				public void actionPerformed(ActionEvent e) {
 					String text = view.txtDefaulttxt.getText();
 					if(!text.equals("")){
+						HashSet<MyFrame> frames = view.diagramArea.getFrames();
+						for(MyFrame f : frames){
+
+							Class cls = model.getClass(f.getName());
+							cls.addX(f.getX());
+							cls.addY(f.getY());
+							
+						}
 						save(text);
 						frame.dispose();
 					}
@@ -1330,9 +1456,9 @@ public class GUIController {
 					
 					String text = view.textField.getText();
 					if(!text.equals("")){
-						
-						load(text);
-						frame.dispose();
+						history.newWorkflow(); // resets the undo/redo history for a new file
+						load(text, view);
+						frame.dispose();	
 					}
 					else
 					{}
@@ -1355,7 +1481,7 @@ public class GUIController {
 			view.cbClasses.setModel(new DefaultComboBoxModel<Object>(getList("Class", null, null)));
 			view.btnListClass.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					view.textAreaMain.setText(listClass(model.getClass(view.cbClasses.getSelectedItem().toString())));
+					//view.textAreaMain.setText(listClass(model.getClass(view.cbClasses.getSelectedItem().toString())));
 					frame.dispose();
 				}
 			});
@@ -1374,7 +1500,7 @@ public class GUIController {
 
 		public String listAllAction () {
 			String list ="CLASSES \n===============\n";
-			for (Class ele: model.classes) {
+			for (Class ele: model.getClasses()) {
 			  list = list +  listClass(ele);
 			}
 			return list;
@@ -1404,7 +1530,7 @@ public class GUIController {
 	*/
 	public String[] getList(String type, String className, String methodName) {
 		if(type.equals("Class")) {
-			String[] classes = model.getClassList();
+			String[] classes = getClassList(model);
 			int j = 0;
 			String[] list = new String[classes.length + 1];
 			list[0] = "Choose a class:";
@@ -1415,7 +1541,7 @@ public class GUIController {
 	        }
 			return list;
 		} else if (type.equals("Field")) {
-			String[] fields = model.getFieldList(className);
+			String[] fields = getFieldList(className);
 			int j = 0;
 			String[] list = new String[fields.length + 1];
 			list[0] = "Choose a field:";
@@ -1426,7 +1552,7 @@ public class GUIController {
 	        }
 			return list;
 		} else if (type.equals("Method")) {
-			String[] methods = model.getMethodList(className);
+			String[] methods = getMethodList(className);
 			int j = 0;
 			String[] list = new String[methods.length + 1];
 			list[0] = "Choose a method:";
@@ -1437,7 +1563,7 @@ public class GUIController {
 	        }
 			return list;
 		} else if (type.equals("Param")) {
-			String[] params = model.getParameterList(className, methodName);
+			String[] params = getParameterList(className, methodName);
 			int j = 0;
 			String[] list = new String[params.length + 1];
 			list[0] = "Choose a parameter:";
@@ -1451,7 +1577,146 @@ public class GUIController {
 		
 		return null; // Shouldn't be able to return a string[] if otherwise
 	}
-	
-	    
+
+    /*********************************************************************
+    *This method performs the undo functionality and loads it to the current state
+    *Parameters: 
+    *Returns:
+    *Prerequisites:
+    **********************************************************************/
+	public void undo(GUIView GUI) {
+		Memento undo = history.undoState(this.model); //save the current state and get the undo Memento
+		if (undo == null) { //if theres no undos then nothing happens and returns
+			return;
+		} else {
+			Load newState = new Load();
+			newState.loadClasses(undo.getState()); //loads the classes
+			this.model = newState.loadRelationships(undo.getState()); //loads the relationships and sets to current model
+			refreshDiagram(GUI);
+		}
+	}
+
+	/*********************************************************************
+    *This method performs the redo functionality and loads it to the current state
+    *Parameters: 
+    *Returns:
+    *Prerequisites:
+    **********************************************************************/
+	public void redo (GUIView GUI) {
+		Memento redo = history.redoState(this.model); //save the current state and get the redo Memento
+        if (redo == null) { //if theres no redos then nothing happens and returns
+            return;
+        } else {
+            Load newState = new Load();
+            newState.loadClasses(redo.getState()); //loads the classes
+            this.model = newState.loadRelationships(redo.getState()); //loads the relationships and sets to the current model.
+			refreshDiagram(GUI);
+		}
+	}
+
+
+	public void refreshDiagram (GUIView view) {
+		saveLocations(view);
+
+		Iterator<MyFrame> removeItr = view.diagramArea.getFrames().iterator();
+		while (removeItr.hasNext()) {
+			MyFrame frm = removeItr.next();
+			frm.dispose();
+			removeItr.remove();
+			view.diagramArea.remove(frm);
+			view.diagramArea.revalidate();
+			view.diagramArea.repaint();
+		}
+		
+
+		for (Class cls: model.getClasses()) {
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), getRelInfo(cls), cls.getX(), cls.getY());
+			JTextArea text = new JTextArea(prepareContents(cls));
+			text.setEditable(false);
+			classBox.add(text);
+			view.diagramArea.addNewFrame(classBox);
+		}
+	}
+
+	public void loadDiagram (GUIView view) {
+
+		Iterator<MyFrame> removeItr = view.diagramArea.getFrames().iterator();
+		while (removeItr.hasNext()) {
+			MyFrame frm = removeItr.next();
+			frm.dispose();
+			removeItr.remove();
+			view.diagramArea.remove(frm);
+			view.diagramArea.revalidate();
+			view.diagramArea.repaint();
+		}
+		
+
+		for (Class cls: model.getClasses()) {
+			ArrayList<String> relInfo = getRelInfo(cls);
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), relInfo, cls.getX(), cls.getY());
+			JTextArea text = new JTextArea(prepareContents(cls));
+			text.setEditable(false);
+			classBox.add(text);
+			view.diagramArea.addNewFrame(classBox);
+		}
+	}
+
+	public void saveLocations (GUIView view) {
+		Iterator<MyFrame> itr = view.diagramArea.getFrames().iterator();
+		while (itr.hasNext()) {
+			MyFrame frm = itr.next();
+			Class cls = model.getClass(frm.getName());
+			if (cls == null) {
+				break;
+			}
+			cls.addX(frm.getX());
+			cls.addY(frm.getY());
+		}
+	}
+
+	//method to create the relationship info of a class in format [dest1,type1,dest2,type2, ....]
+	public ArrayList<String> getRelInfo (Class cls) {
+		ArrayList<String> info = new ArrayList<String>();
+		for (Relationship rel: cls.getRelationships()) {
+			info.add(rel.getDestination().getClassName());
+			info.add(rel.getRelType());
+		}
+		return info;
+	}
+
+	public String prepareContents(Class cls){
+        String contents = cls.getClassName() + "\n========\n\n";
+        contents = contents +"     Fields:\n";
+        
+        for (Field fld: cls.fields) {
+            String fieldType = fld.getFieldType();
+            String fieldName = fld.getFieldName();
+			contents = contents +"     * " + fieldType + " " + fieldName + "\n";
+        }
+        
+        contents = contents +"\n     Methods:\n";
+        
+        for (Method mtd: cls.getMethods()) {
+            String returnType = mtd.getReturnType();
+            String methodName = mtd.getMethodName();
+            contents = contents +"     * " + returnType + " " + methodName + " (";
+            HashSet<Parameter> params = mtd.getParameters();
+            int count = params.size();
+            if (count == 0) {
+                contents = contents + ")\n";
+            } else {
+                for (Parameter par: params) {
+                    contents = contents + par.getParamType() + " " + par.getParamName();
+                    count --;
+                    if (count > 0) {
+                        contents = contents +", ";
+                    } else {
+                       contents = contents + ")\n";
+                    }
+                }
+            }
+        }
+        return contents;
+    }
 }
 

@@ -1,3 +1,7 @@
+package jambl.Controller;
+import jambl.Model.*;
+import jambl.Model.Class;
+import jambl.View.*;
 
 import java.util.*;
 import java.io.*;
@@ -11,7 +15,7 @@ public class Load {
 
     Model model;
 
-    Load(){
+    public Load(){
         this.model = new Model();
     }
 
@@ -67,10 +71,24 @@ public class Load {
             loadFields(classObj, className);
             // loads parameters of current class
             loadMethods(classObj, className);
+            // loads location of current class
+            loadLocations(classObj, className);
 
         }
     }
 
+
+    public void loadLocations(JSONObject aClass, String className){
+        // finds the class to add Locations to
+        Class currClass = model.getClass(className);
+
+        JSONObject coordinate = (JSONObject) aClass.get("location");
+        long x = (long) coordinate.get("x");
+        long y = (long) coordinate.get("y");
+
+        currClass.addX((int)x);
+        currClass.addY((int)y);
+    }
     public void loadFields(JSONObject aClass, String className){
         // finds the class to add fields to
         Class currClass = model.getClass(className);

@@ -17,6 +17,41 @@
   <dependencies>
 
     <dependency>
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi-windows32</artifactId>
+      <version>1.8</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi-windows64</artifactId>
+      <version>1.8</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.fusesource.jansi</groupId>
+      <artifactId>jansi</artifactId>
+      <version>2.4.0</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.jline</groupId>
+      <artifactId>jline-terminal-jansi</artifactId>
+      <version>3.21.0</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.jline</groupId>
+      <artifactId>jline</artifactId>
+      <version>3.21.0</version>
+    </dependency>
+
+
+    <dependency>
       <groupId>org.apiguardian</groupId>
       <artifactId>apiguardian-api</artifactId>
       <version>1.1.2</version>
@@ -69,9 +104,42 @@
               <release>11</release>  <!--or <release>10</release>-->
           </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.0.0-M7</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
+          <configuration>
+            <forkCount>1</forkCount>
+            <reuseForks>true</reuseForks>
+            <argLine>${argLine}</argLine>
+		        <systemPropertyVariables>
+		          <java.awt.headless>true</java.awt.headless>
+		        </systemPropertyVariables>
+		        <excludes>
+		        </excludes>
+          </configuration>
+          <executions>
+            <execution>
+                <id>default-test</id>
+                <phase>test</phase>
+                <goals>
+                    <goal>test</goal>
+                </goals>
+            </execution>
+          </executions>
+
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
@@ -101,7 +169,7 @@
               <archive>
                   <manifest>
                       <addClasspath>true</addClasspath>
-                      <mainClass>Main</mainClass>
+                      <mainClass>jambl.Main</mainClass>
                       <addClasspath>true</addClasspath>
                       <classpathPrefix>dependency/</classpathPrefix>
                   </manifest>
@@ -121,6 +189,44 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+	<configuration>
+		<excludes>
+			<exclude>Controller.java</exclude>
+			<exclude>GUIController.java</exclude>
+			<exclude>History.java</exclude>
+			<exclude>Load.java</exclude>
+			<exclude>Memento.java</exclude>
+			<exclude>Save.java</exclude>
+			<exclude>GUIView.java</exclude>
+			<exclude>View.java</exclude>
+			<exclude>jamblPanel.java</exclude>
+			<exclude>GUIMain.java</exclude>
+			<exclude>Main.java</exclude>
+		</excludes>
+	</configuration>
+        <version>0.8.5</version>
+        <executions>
+          <!--first execution : for preparing JaCoCo runtime agent-->
+            <execution>
+              <id>prepare-agent</id>
+                  <goals>
+                      <goal>prepare-agent</goal>
+                  </goals>
+            </execution>
+          <!--second execution : for creating code coverage reports-->
+            <execution>
+                  <id>report</id>
+                  <phase>test</phase>
+                    <goals>
+                      <goal>report</goal>
+                    </goals>
+              </execution>
+          </executions>
       </plugin>
       </plugins>
     </pluginManagement>
