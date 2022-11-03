@@ -110,6 +110,16 @@ public class JunitTest {
 		   assertEquals(expected, result);
 	   }
 
+	   //Tests getting the set of classes
+		@Test
+		public void testGetClassSet() {
+			Model newModel = new Model();
+			newModel.addClass("Class1");
+			newModel.addClass("Class2");
+			HashSet<Class> clsSet = newModel.getClasses();
+			assertEquals(2, clsSet.size());
+		}
+
 	   //Tests getting the set of fields of a class
 	   @Test
 	   public void testGetFieldSet() {
@@ -359,6 +369,17 @@ public class JunitTest {
 			assertEquals(newFieldName, result);
 		}
 
+		// Test whether the rename field method returns true when you correct rename field
+		@Test
+		public void testRenameFieldReturnsTrue() {
+			Class newClass = new Class("Keyboard");
+			oldFieldName = "escape";
+			fieldType = "Key";
+			newClass.addField(oldFieldName, fieldType);
+			newFieldName = "tab";
+			assertTrue(newClass.renameField(oldFieldName, newFieldName));
+		}
+
 		// Tests the functionality of renaming a Field that does not exist in a class
 		@Test 
 		public void testRenameFieldThatDoesNotExist(){
@@ -455,6 +476,14 @@ public class JunitTest {
 			mtd.addParameter("item1", "int");
 			mtd.addParameter("item2", "int");
 			assertFalse(mtd.deleteParameter("item3"));
+		}
+
+		//Test getParamName
+		@Test
+		public void testGetParameterName () {
+			Method mtd = new Method("method", "int");
+			mtd.addParameter("name1", "String");
+			assertEquals("name1", mtd.getParameter("name1").getParamName());
 		}
 
 		//Test setting the X of a class
