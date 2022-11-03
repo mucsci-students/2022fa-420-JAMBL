@@ -200,6 +200,17 @@ public class JunitTest {
 		assertNull(origin.getRelationship("Door"));
 	}
 
+	//Look for a relationship when there aren't any
+	@Test
+	public void testGetRelationshipWhenNoRelationshipsExist (){
+		typeName = "COMP";
+		newClass = new Class("Movie");
+		newClass.addRelationship(newClass, typeName);
+		newClass.deleteRelationship("Movie");
+		HashSet<Relationship> relSet = newClass.getRelationships();
+		assertEquals(0, relSet.size());
+	}
+
 	//Test for getting an existing relationship
 	@Test
 	public void testEditRelationship () {
@@ -334,6 +345,16 @@ public class JunitTest {
 			newClass.addField("price", "double");
 			newClass.addField("weight", "double");
 			assertNull(newClass.getField("quantity"));
+		}
+
+		//Look for a field when there aren't any
+		@Test
+		public void testGetFieldWhenNoFieldsExist (){
+			newClass = new Class("Item");
+			newClass.addField("price", "double");
+			newClass.deleteField("price");
+			HashSet<Field> fieldSet = newClass.getFields();
+			assertEquals(0, fieldSet.size());
 		}
 
 		// Tests the functionality of deleting a Field that exists in a class
@@ -484,6 +505,16 @@ public class JunitTest {
 			Method mtd = new Method("method", "int");
 			mtd.addParameter("name1", "String");
 			assertEquals("name1", mtd.getParameter("name1").getParamName());
+		}
+
+		//Look for a parameter when none exist
+		@Test
+		public void testGetParamWhenNoParamsExist (){
+			Method mtd = new Method("Item", "int");
+			mtd.addParameter("price", "double");
+			mtd.deleteParameter("price");
+			HashSet<Parameter> paramSet = mtd.getParameters();
+			assertEquals(0, paramSet.size());
 		}
 
 		//Test setting the X of a class
