@@ -183,8 +183,10 @@ public class GUIView{
 			    btnAddClass = new JButton("Add Class");
 				btnAddClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnAddClass.setBounds(85, 136, 132, 21);
+				frame.getRootPane().setDefaultButton(btnAddClass);
 				frame.getContentPane().add(btnAddClass);
 				btnAddClass.setName("AddClass");
+				
 
 				
 				//// Cancel Button
@@ -259,6 +261,7 @@ public class GUIView{
 		btnRenameClass = new JButton("Rename Class");
 		btnRenameClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnRenameClass.setBounds(10, 206, 178, 21);
+		frame.getRootPane().setDefaultButton(btnRenameClass);
 		frame.getContentPane().add(btnRenameClass);
 		
 		btnCancel = new JButton("Cancel");
@@ -312,6 +315,7 @@ public class GUIView{
 		btnDeleteClass.setForeground(new Color(255, 0, 0));
 		btnDeleteClass.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnDeleteClass.setBounds(85, 136, 132, 21);
+		frame.getRootPane().setDefaultButton(btnDeleteClass);
 		frame.getContentPane().add(btnDeleteClass);
 
 		////////////////////////////////////////////////////////////// Cancel Button
@@ -400,6 +404,7 @@ public class GUIView{
 		btnAddRelationship = new JButton("Add Relationship");
 		btnAddRelationship.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnAddRelationship.setBounds(10, 217, 190, 21);
+		frame.getRootPane().setDefaultButton(btnAddRelationship);
 		frame.getContentPane().add(btnAddRelationship);
 
 		// Cancel Button
@@ -462,6 +467,7 @@ public class GUIView{
 				btnDeleteRelationship = new JButton("Delete Relationship");
 				btnDeleteRelationship.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				btnDeleteRelationship.setBounds(10, 172, 186, 21);
+				frame.getRootPane().setDefaultButton(btnDeleteRelationship);
 				frame.getContentPane().add(btnDeleteRelationship);
 
 				btnCancel = new JButton("Cancel");
@@ -542,6 +548,7 @@ public class GUIView{
 		bteditRelType = new JButton("Change Type");
 		bteditRelType.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		bteditRelType.setBounds(10, 249, 178, 21);
+		frmJamblChange.getRootPane().setDefaultButton(bteditRelType);
 		frmJamblChange.getContentPane().add(bteditRelType);
 
 		btnCancel = new JButton("Cancel");
@@ -629,6 +636,7 @@ public class GUIView{
 		btnAddMethod = new JButton("Add Method");
 		btnAddMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnAddMethod.setBounds(85, 136, 132, 21);
+		frmJamblAdd.getRootPane().setDefaultButton(btnAddMethod);
 		frmJamblAdd.getContentPane().add(btnAddMethod);
 
 		// Cancel Button
@@ -713,6 +721,7 @@ public class GUIView{
 		btnChangeMethod = new JButton("Change Type");
 		btnChangeMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnChangeMethod.setBounds(10, 253, 190, 21);
+		frmJamblAdd.getRootPane().setDefaultButton(btnChangeMethod);
 		frmJamblAdd.getContentPane().add(btnChangeMethod);	
 		
 		// Cancel Button
@@ -798,6 +807,7 @@ public class GUIView{
 		btnChangeMethod = new JButton("Change Method Name");
 		btnChangeMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnChangeMethod.setBounds(10, 253, 190, 21);
+		frmJamblAdd2.getRootPane().setDefaultButton(btnChangeMethod);
 		frmJamblAdd2.getContentPane().add(btnChangeMethod);
 
 		// Cancel Button
@@ -860,6 +870,7 @@ public class GUIView{
 		btnDeleteMethod.setForeground(new Color(255, 0, 0));
 		btnDeleteMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnDeleteMethod.setBounds(85, 221, 132, 21);
+		frame.getRootPane().setDefaultButton(btnDeleteMethod);
 		frame.getContentPane().add(btnDeleteMethod);
 
 		// Cancel Button
@@ -947,6 +958,7 @@ public class GUIView{
 		btnAddParameter = new JButton("Add Parameter");
 		btnAddParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnAddParameter.setBounds(10, 260, 190, 21);
+		frmJamblAdd.getRootPane().setDefaultButton(btnAddParameter);
 		frmJamblAdd.getContentPane().add(btnAddParameter);
 
 		/// Cancel Button
@@ -1019,6 +1031,7 @@ public class GUIView{
 		btnRemoveParameter.setForeground(new Color(255, 0, 0));
 		btnRemoveParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnRemoveParameter.setBounds(10, 296, 190, 21);
+		frmJamblAdd.getRootPane().setDefaultButton(btnRemoveParameter);
 		frmJamblAdd.getContentPane().add(btnRemoveParameter);
 
 		/// Cancel Button
@@ -1134,6 +1147,7 @@ public class GUIView{
 		btnChangeParameter = new JButton("Change Parameter");
 		btnChangeParameter.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnChangeParameter.setBounds(11, 299, 190, 21);
+		frmJamblAdd.getRootPane().setDefaultButton(btnChangeParameter);
 		frmJamblAdd.getContentPane().add(btnChangeParameter);
 
 		// Cancel Button
@@ -1212,6 +1226,7 @@ public class GUIView{
 		btnAddField = new JButton("Add Field");
 		btnAddField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnAddField.setBounds(85, 204, 132, 21);
+		frame.getRootPane().setDefaultButton(btnAddField);
 		frame.getContentPane().add(btnAddField);
 
 		/// Cancel Button
@@ -1276,6 +1291,7 @@ public class GUIView{
 		btnDeleteField.setForeground(new Color(255, 0, 0));
 		btnDeleteField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnDeleteField.setBounds(10, 189, 190, 21);
+		frmJamblAdd3.getRootPane().setDefaultButton(btnDeleteField);
 		frmJamblAdd3.getContentPane().add(btnDeleteField);
 
 		 // Cancel Button
@@ -1357,6 +1373,7 @@ public class GUIView{
 		btnChangeMethod = new JButton("Change Field Name");
 		btnChangeMethod.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnChangeMethod.setBounds(10, 253, 190, 21);
+		frmJamblAdd4.getRootPane().setDefaultButton(btnChangeMethod);
 		frmJamblAdd4.getContentPane().add(btnChangeMethod);
 
 		// Cancel Button
@@ -1447,6 +1464,7 @@ public class GUIView{
 		btnChangeField = new JButton("Change Field");
 		btnChangeField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnChangeField.setBounds(10, 253, 190, 21);
+		frmJamblAdd5.getRootPane().setDefaultButton(btnChangeField);
 		frmJamblAdd5.getContentPane().add(btnChangeField);
 
 		// Cancel Button
@@ -1509,6 +1527,7 @@ public class GUIView{
 		btnLoad = new JButton("Load");
 		btnLoad.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnLoad.setBounds(113, 114, 85, 21);
+		frame.getRootPane().setDefaultButton(btnLoad);
 		frame.getContentPane().add(btnLoad);
 
 		
@@ -1561,6 +1580,7 @@ public class GUIView{
 		//JTextField textField = new JTextField();
 		btnSave.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnSave.setBounds(92, 158, 85, 21);
+		frame.getRootPane().setDefaultButton(btnSave);
 		frame.getContentPane().add(btnSave);
 
 		btnCancel = new JButton("Cancel");
