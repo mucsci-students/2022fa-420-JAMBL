@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.event.SwingPropertyChangeSupport;
 import javax.swing.text.View;
 import javax.swing.text.AttributeSet.FontAttribute;
+import javax.swing.border.*;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -30,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 import javax.swing.*;
 import java.io.*;
 import java.io.FileWriter;
@@ -1630,10 +1632,29 @@ public class GUIController {
 		
 
 		for (Class cls: model.getClasses()) {
-			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), getRelInfo(cls), cls.getX(), cls.getY());
-			JTextArea text = new JTextArea(prepareContents(cls));
-			text.setEditable(false);
-			classBox.add(text);
+			JPanel pane = new JPanel();
+			pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+			int numFields = Math.max(cls.getFields().size(), 1);
+			int numMethods = Math.max(cls.getMethods().size(), 1);
+			int longest = getLongest(cls);
+
+			JTextArea fields = new JTextArea(getFieldContent(cls), ((numFields - 1) * 15) + 15, Math.max(longest * 14, 50));
+			fields.setBorder(new MatteBorder(2,2,1,2,Color.black));
+			fields.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+			fields.setEditable(false);
+			pane.add(fields);
+
+			JTextArea methods = new JTextArea(getMethodContent(cls), ((numMethods - 1) * 15) + 15, Math.max(longest * 14, 50));
+			methods.setBorder(new MatteBorder(1,2,2,2,Color.black));
+			methods.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+			methods.setEditable(false);
+			pane.add(methods);
+
+			int boxWidth = Math.max(100,(Math.max(fields.getColumns(), methods.getColumns()) / 2));
+
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), getRelInfo(cls), cls.getX(), cls.getY(), boxWidth, (fields.getRows() + methods.getRows()) + 40);
+			classBox.add(pane);
+
 			view.diagramArea.addNewFrame(classBox);
 		}
 	}
@@ -1652,11 +1673,23 @@ public class GUIController {
 		
 
 		for (Class cls: model.getClasses()) {
-			ArrayList<String> relInfo = getRelInfo(cls);
-			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), relInfo, cls.getX(), cls.getY());
-			JTextArea text = new JTextArea(prepareContents(cls));
-			text.setEditable(false);
-			classBox.add(text);
+			JPanel pane = new JPanel();
+			pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+			int numFields = Math.max(cls.getFields().size(), 1);
+			int numMethods = Math.max(cls.getMethods().size(), 1);
+			int longest = getLongest(cls);
+			JTextArea fields = new JTextArea(getFieldContent(cls), ((numFields - 1) * 15) + 15, Math.max(longest * 14, 50));
+			fields.setBorder(new MatteBorder(2,2,1,2,Color.black));
+			fields.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+			pane.add(fields);
+			JTextArea methods = new JTextArea(getMethodContent(cls), ((numMethods - 1) * 15) + 15, Math.max(longest * 14, 50));
+			methods.setBorder(new MatteBorder(1,2,2,2,Color.black));
+			methods.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+			pane.add(methods);
+			int boxWidth = Math.max(100,(Math.max(fields.getColumns(), methods.getColumns()) / 2));
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), getRelInfo(cls), cls.getX(), cls.getY(), boxWidth, (fields.getRows() + methods.getRows()) + 40);
+			classBox.add(pane);
+
 			view.diagramArea.addNewFrame(classBox);
 		}
 	}
@@ -1684,39 +1717,103 @@ public class GUIController {
 		return info;
 	}
 
-	public String prepareContents(Class cls){
-        String contents = cls.getClassName() + "\n========\n\n";
-        contents = contents +"     Fields:\n";
-        
-        for (Field fld: cls.fields) {
-            String fieldType = fld.getFieldType();
-            String fieldName = fld.getFieldName();
-			contents = contents +"     * " + fieldType + " " + fieldName + "\n";
-        }
-        
-        contents = contents +"\n     Methods:\n";
-        
-        for (Method mtd: cls.getMethods()) {
-            String returnType = mtd.getReturnType();
-            String methodName = mtd.getMethodName();
-            contents = contents +"     * " + returnType + " " + methodName + " (";
-            HashSet<Parameter> params = mtd.getParameters();
-            int count = params.size();
-            if (count == 0) {
-                contents = contents + ")\n";
-            } else {
-                for (Parameter par: params) {
-                    contents = contents + par.getParamType() + " " + par.getParamName();
-                    count --;
-                    if (count > 0) {
-                        contents = contents +", ";
-                    } else {
-                       contents = contents + ")\n";
-                    }
-                }
-            }
-        }
-        return contents;
-    }
-}
+	/*********************************************************************
+    *This method creates the contents for the field area of a classbox
+    *Parameters: Class
+    *Returns: String to be added to JTextArea
+    *Prerequisites:
+    **********************************************************************/
+	public String getFieldContent (Class cls) {
+		String contents = "";
+		int count = cls.getFields().size();
+		if (count == 0) {
+			contents = " ";
+		} else {
+			for (Field fld: cls.getFields()) {
+				String fldType = fld.getFieldType();
+				String fldName = fld.getFieldName();
+				contents = contents + fldType + " " + fldName;
+				count --;
+				if (count != 0) {
+					contents = contents + "\n";
+				}		
+			}
+		}
+		return contents;
+	}
 
+	/*********************************************************************
+    *This method creates the contents for the method area of a classbox
+    *Parameters: Class
+    *Returns: String to be added to JTextArea
+    *Prerequisites:
+    **********************************************************************/
+	public String getMethodContent (Class cls) {
+		String contents = "";
+		int mtdCount = cls.getMethods().size();
+		if (mtdCount == 0) {
+			contents = " ";
+		} else {	
+			for (Method mtd: cls.getMethods()) {
+				String returnType = mtd.getReturnType();
+            	String methodName = mtd.getMethodName();
+            	contents = contents + returnType + " " + methodName + " (";
+            	HashSet<Parameter> params = mtd.getParameters();
+            	int parCount = params.size();
+            	if (parCount == 0) {
+                	contents = contents + ")";
+					mtdCount--;
+					if (mtdCount != 0) {
+						contents = contents + "\n";
+					}
+            	} else {
+                	for (Parameter par: params) {
+						String parType = par.getParamType();
+						String parName = par.getParamName();
+                    	contents = contents + parType + " " + parName;
+                    	parCount --;
+                    	if (parCount > 0) {
+                        	contents = contents +", ";
+                    	} else {
+                       		contents = contents + ")";
+							mtdCount--;
+							if (mtdCount != 0) {
+								contents = contents + "\n";
+							}
+                    	}
+                	}
+            	}
+        	}
+		}
+		return contents;
+	}
+
+	/*********************************************************************
+    *This method calculates the the longest string from the fields and methods
+    *Parameters: Class
+    *Returns: int of the longest string for any field or method
+    *Prerequisites:
+    **********************************************************************/
+	public int getLongest (Class cls) {
+		int longest  = 0;
+		for (Field fld: cls.getFields()) {
+			int fldLen = fld.getFieldType().length() + fld.getFieldName().length() + 1;
+			longest = Math.max(longest, fldLen);
+		}
+		for (Method mtd: cls.getMethods()) {
+			int mtdLen;
+			int parCount = mtd.getParameters().size();
+			int parLen = 0;
+			for (Parameter par: mtd.getParameters()) {
+				parLen = parLen + par.getParamType().length() + par.getParamName().length() + 1;
+				parCount--;
+				if (parCount > 0) {
+					parLen +=2;
+				}
+			}
+			mtdLen = mtd.getReturnType().length() + mtd.getMethodName().length() + parLen + 4;
+			longest = Math.max(longest, mtdLen);
+		}
+		return longest;
+	}
+}
