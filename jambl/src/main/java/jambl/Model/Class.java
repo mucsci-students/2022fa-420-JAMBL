@@ -168,8 +168,9 @@ public class Class {
     // pre-req. field to be changed must exist and new name must not already be a field
     public boolean renameField(String oldName, String newName) {
     	Iterator<Field> fldItr = fields.iterator();
+        Field ele = null;
     	while (fldItr.hasNext()) {
-            Field ele = fldItr.next();
+            ele = fldItr.next();
             if (ele.getFieldName().toUpperCase().equals(oldName.toUpperCase())) {
                 ele.setFieldName(newName);
                 return true;
