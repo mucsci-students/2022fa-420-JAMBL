@@ -142,7 +142,7 @@ public class Class {
             ele = relItr.next();
             if (((ele.getDestination()).getClassName().toUpperCase().equals(destination.toUpperCase()))) {
                 ele.setRelType(newType);
-                return;
+                break;
             }
         }      
          
