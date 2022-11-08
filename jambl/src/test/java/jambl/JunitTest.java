@@ -532,4 +532,18 @@ public class JunitTest {
 			cls.addY(100);
 			assertEquals(100, cls.getY());
 		}
+		
+		//Test hasNext on an empty set of fields
+		@Test
+		public void hasNextOnEmptyFields () {
+			Class clss = new Class("Item");
+			assertFalse(clss.fields.iterator().hasNext());
+		}
+		
+		//Test hasNext on an empty set of rels
+		@Test
+		public void hasNextOnEmptyRels () {
+			Class clss = new Class("Item");
+			assertFalse(clss.relationships.iterator().hasNext());
+		}
 }
