@@ -137,8 +137,9 @@ public class Class {
     //@param newType - the new relationship type that is changing 
     public void editRelationshipType(String destination, String newType) {
         Iterator<Relationship> relItr = relationships.iterator();
+        Relationship ele = null;
         while (relItr.hasNext()) {
-            Relationship ele = relItr.next();
+            ele = relItr.next();
             if (ele.getDestination().getClassName().toUpperCase().equals(destination.toUpperCase())) {
                 ele.setRelType(newType);
                 break;
