@@ -29,12 +29,14 @@ import jambl.Model.Relationship;
 
 public class jamblPanel extends JDesktopPane {
 
+    ArrowFactory arrowFactory = new ArrowFactory();
+    Arrow arrow;
     private HashSet<MyFrame> frames = new HashSet<MyFrame>();
-    private static final Stroke s = new BasicStroke(3.0f);
-    private static final Stroke dash = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 3.0f, new float[] { 7.0f, 5.0f }, 0.0f);
+   // private static final Stroke s = new BasicStroke(3.0f);
+    //private static final Stroke dash = new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 3.0f, new float[] { 7.0f, 5.0f }, 0.0f);
 
     public jamblPanel() {
-        this.setPreferredSize(new Dimension(640, 480));
+        //this.setPreferredSize(new Dimension(640, 480));
         
     }
 
@@ -130,7 +132,7 @@ public class jamblPanel extends JDesktopPane {
      * @param x2,y2 - proviees the x and y cordinate of destination class
      */
 
-    public Graphics2D  aggrArrow (Graphics2D g2d,  int x1, int y1, int x2, int y2) {
+  /*  public void  aggrArrow (Graphics2D g2d,  int x1, int y1, int x2, int y2) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.black);
         Polygon poly = new Polygon();
@@ -141,8 +143,8 @@ public class jamblPanel extends JDesktopPane {
         poly.addPoint(x2-15, y2 -10);
         g2d.drawPolygon(poly);
         g2d.draw(new Line2D.Double(x1, y1, x2-33, y2));    
-        return  g2d;
-    }
+        
+    }*/
 
     /**
      * realArrow - draws a graphical composition relationship arrow
@@ -151,7 +153,7 @@ public class jamblPanel extends JDesktopPane {
      * @param x2,y2 - proviees the x and y cordinate of destination class
      */
     
-    public Graphics2D  compArrow(Graphics2D g2d,  int x1, int y1, int x2, int y2) {
+   /* public void  compArrow(Graphics2D g2d,  int x1, int y1, int x2, int y2) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.black);
         Polygon poly = new Polygon();
@@ -162,8 +164,8 @@ public class jamblPanel extends JDesktopPane {
         g2d.fillPolygon(poly);
         g2d.setStroke(s);
         g2d.draw(new Line2D.Double(x1, y1, x2-31, y2));    
-        return  g2d;
-    }
+       
+    }*/
     
     /**
      * realArrow - draws a graphical inheritance relationship arrow
@@ -172,7 +174,7 @@ public class jamblPanel extends JDesktopPane {
      * @param x2,y2 - proviees the x and y cordinate of destination class
      */
     
-    public void  inheArrow (Graphics2D g2d,  int x1, int y1, int x2, int y2) {
+   /*  public void  inheArrow (Graphics2D g2d,  int x1, int y1, int x2, int y2) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.black);
         Polygon poly = new Polygon();
@@ -183,7 +185,7 @@ public class jamblPanel extends JDesktopPane {
         g2d.setStroke(s);
         g2d.draw(new Line2D.Double(x1, y1, x2-20, y2));
      
-    }
+    }*/
 
     /**
      * realArrow - draws a graphical realization relationship arrow
@@ -192,7 +194,7 @@ public class jamblPanel extends JDesktopPane {
      * @param x2,y2 - proviees the x and y cordinate of destination class
      */
      
-    public void  realArrow (Graphics2D g2d,  int x1, int y1, int x2, int y2) {
+  /*  public void  realArrow (Graphics2D g2d,  int x1, int y1, int x2, int y2) {
  
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.black);
@@ -204,7 +206,8 @@ public class jamblPanel extends JDesktopPane {
         g2d.setStroke(dash);
         g2d.draw(new Line2D.Double(x1, y1, x2-20, y2));
     
-    }
+    }*/
+
     /**
      * getThisFrame - gets the frame of a class from sets of frmaes by name
      * @param name - the name of the frame 
@@ -235,18 +238,30 @@ public class jamblPanel extends JDesktopPane {
         int x1 = origin.getX() + origin.getWidth()/2;
         int y1 = origin.getY() + origin.getHeight()/2;
         int y2 = destination.getY() + destination.getHeight()/2; 
+        
 
         if (type.toString().equals("AGGR")) {
-            aggrArrow(g2d, x1, y1, destination.getX(), y2);
+            //aggrArrow(g2d, x1, y1, destination.getX(), y2);
+            arrow = ArrowFactory.getArrow("Aggregation");
+            arrow.arrow(g2d, x1, y1, y1, y2, destination);
+            
         }
         if (type.toString().equals("COMP")) {
-            compArrow(g2d, x1, y1, destination.getX(), y2);
+            //compArrow(g2d, x1, y1, destination.getX(), y2);
+            arrow = ArrowFactory.getArrow("Composition");
+            arrow.arrow(g2d, x1, y1, y1, y2, destination);
         }
         if (type.toString().equals("INHE")) {
-            inheArrow(g2d, x1, y1, destination.getX(), y2);
+            //inheArrow(g2d, x1, y1, destination.getX(), y2);
+            arrow = ArrowFactory.getArrow("Inheritance");
+            arrow.arrow(g2d, x1, y1, y1, y2, destination);
         } 
         if (type.toString().equals("REAL")) {
-            realArrow(g2d, x1, y1, destination.getX(), y2);
+            //realArrow(g2d, x1, y1, destination.getX(), y2);
+            arrow = ArrowFactory.getArrow("Realization");
+            arrow.arrow(g2d, x1, y1, y1, y2, destination);
         }
     }
+
+   
 }
