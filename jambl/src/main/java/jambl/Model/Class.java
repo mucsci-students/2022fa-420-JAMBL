@@ -140,7 +140,7 @@ public class Class {
         Relationship ele = null;
         while (relItr.hasNext()) {
             ele = relItr.next();
-            if (ele.getDestination().getClassName().toUpperCase().equals(destination.toUpperCase())) {
+            if (((ele.getDestination()).getClassName().toUpperCase().equals(destination.toUpperCase()))) {
                 ele.setRelType(newType);
                 break;
             }
