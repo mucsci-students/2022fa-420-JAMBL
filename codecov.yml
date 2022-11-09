@@ -9,5 +9,5 @@ ignore:
   - "jambl/src/main/java/jambl/Main.java"
 
 coverage:
-  target: 96%
+  target: 97%
   threshold: 0%
