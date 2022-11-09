@@ -136,10 +136,10 @@ public class Class {
     // this method edits the relationship type to a new type.
     //@param newType - the new relationship type that is changing 
     public void editRelationshipType(String destination, String newType) {
-        Iterator<Relationship> relItr = relationships.iterator();
-        Relationship ele = null;
-        while (relItr.hasNext()) {
-            ele = relItr.next();
+        // Iterator<Relationship> relItr = relationships.iterator();
+        // Relationship ele = null;
+        // while (relItr.hasNext()) {
+        for(Relationship ele: relationships){
             if (((ele.getDestination()).getClassName().toUpperCase().equals(destination.toUpperCase()))) {
                 ele.setRelType(newType);
                 break;
