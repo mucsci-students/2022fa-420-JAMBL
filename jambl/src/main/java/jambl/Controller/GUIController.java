@@ -65,16 +65,143 @@ public class GUIController {
 						GUIView GUINow = new GUIView();
 						GUINow.setVisible();
 						
+						/* COMBO BOX ACTION LISTENERS */
+
+						GUINow.comboBoxFile.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxFile.getSelectedItem().toString().equals("Save")){
+											saveAction(GUINow.saveWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxFile.getSelectedItem().toString().equals("Load"))
+										{
+											loadAction(GUINow.loadWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxFile.getSelectedItem().toString().equals("Export as Image"))
+										{
+											// To be determined!
+										}
+
+										GUINow.comboBoxFile.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxClass.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+									if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxClass.getSelectedItem().toString().equals("Add")){
+											addClassAction(GUINow.addingClassWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxClass.getSelectedItem().toString().equals("Rename"))
+										{
+											renClassAction(GUINow.renamingClassWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxClass.getSelectedItem().toString().equals("Delete"))
+										{
+											deleteClassAction(GUINow.deletingClassWindow(), GUINow);
+										}
+
+										GUINow.comboBoxClass.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxField.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxField.getSelectedItem().toString().equals("Add")){
+											addingFieldAction(GUINow.addingFieldWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxField.getSelectedItem().toString().equals("Change Type"))
+										{
+											editingFieldAction(GUINow.editingFieldWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxField.getSelectedItem().toString().equals("Rename"))
+										{
+											renamingFieldAction(GUINow.renamingFieldWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxField.getSelectedItem().toString().equals("Delete"))
+										{
+											deletingFieldAction(GUINow.deletingFieldWindow(), GUINow);
+										}
+
+										GUINow.comboBoxField.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxMethod.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxMethod.getSelectedItem().toString().equals("Add")){
+											addingMethodAction(GUINow.addingMethodWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxMethod.getSelectedItem().toString().equals("Change Return"))
+										{
+											changingMethodAction(GUINow.changingMethodWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxMethod.getSelectedItem().toString().equals("Rename"))
+										{
+											renamingMethodAction(GUINow.renamingMethodWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxMethod.getSelectedItem().toString().equals("Delete"))
+										{
+											deletingMethodAction(GUINow.deletingMethodWindow(), GUINow);
+										}
+
+										GUINow.comboBoxMethod.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxParameter.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxParameter.getSelectedItem().toString().equals("Add")){
+											addingParamAction(GUINow.addingParamWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxParameter.getSelectedItem().toString().equals("Rename"))
+										{
+											changingParamAction(GUINow.changingParamWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxParameter.getSelectedItem().toString().equals("Delete"))
+										{
+											deletingParamAction(GUINow.deletingParamWindow(), GUINow);
+										}
+
+										GUINow.comboBoxParameter.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxRelationship.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxRelationship.getSelectedItem().toString().equals("Add")){
+											addingRelsAction(GUINow.addingRelsWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxRelationship.getSelectedItem().toString().equals("Change Type"))
+										{
+											changingRelsAction(GUINow.changingRelsWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxRelationship.getSelectedItem().toString().equals("Delete"))
+										{
+											deletingRelsAction(GUINow.deletingRelsWindow(), GUINow);
+										}
+
+										GUINow.comboBoxRelationship.setSelectedIndex(0);
+									}
+							}
+						});
+
+						/* BUTTON ACTION LISTENERS */
 
 						// Adding a Class Action Listener
 						GUINow.addClassBtn().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								
-								
 								addClassAction(GUINow.addingClassWindow(), GUINow);
-								
 							}
-
 						});
 
 						// Deleting Class Action Listener
@@ -82,7 +209,6 @@ public class GUIController {
 							public void actionPerformed(ActionEvent e) {
 								deleteClassAction(GUINow.deletingClassWindow(), GUINow);
 							}
-
 						});
 
 						// Renaming a Class Action Listener
@@ -256,8 +382,6 @@ public class GUIController {
 							}
 
 						});
-
-
 
 					} catch (Exception e) {
 						
@@ -975,7 +1099,7 @@ public class GUIController {
 				public void itemStateChanged(ItemEvent arg0) {
 					view.Methods.setModel(new DefaultComboBoxModel<Object>(getList("Method", view.Classes.getSelectedItem().toString(), null)));
 					view.Methods.setVisible(true);
-					view.lblMethods.setVisible(true);
+					//view.lblMethods.setVisible(true);
 				}
 			});
 
