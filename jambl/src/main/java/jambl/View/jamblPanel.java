@@ -99,11 +99,12 @@ public class jamblPanel extends JDesktopPane {
         String className;
         ArrayList<String> relInfo = new ArrayList<String>(); //list of strings that contain the destination and type for all relationships of that class [dest1,type1,dest2,type2,...]
 
-        public MyFrame(String name, ArrayList<String> relInfo, int x, int y) {
+        public MyFrame(String name, ArrayList<String> relInfo, int x, int y, int width, int height) {
             super(name);
             this.className = name;
             this.relInfo = relInfo;
-            this.setSize(200, 130);
+            this.setMinimumSize(new Dimension(50, 30));
+            this.setSize(width, height);
             this.setLocation(x, y);
             this.setVisible(true);
             this.resizable = true;
