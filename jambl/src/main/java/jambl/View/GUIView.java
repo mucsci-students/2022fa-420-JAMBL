@@ -380,7 +380,7 @@ public class GUIView{
 		
 		lblClass2 = new JLabel("Destination:");
 		lblClass2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblClass2.setBounds(239, 114, 45, 13);
+		lblClass2.setBounds(239, 114, 73, 13);
 		frame.getContentPane().add(lblClass2);
 		lblClass2.setVisible(false);
 
