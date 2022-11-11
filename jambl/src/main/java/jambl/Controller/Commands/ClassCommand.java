@@ -1,5 +1,7 @@
 package jambl.Controller.Commands;
 
+import java.util.ArrayList;
+
 import jambl.Controller.History;
 import jambl.Model.*;
 import jambl.View.*;
@@ -27,10 +29,18 @@ public class ClassCommand implements Command2 {
               history.saveState(model);
              // adds class
               model.addClass(name1);
+
               // Checks to see if class was succesfully added
               if(model.getClass(name1) != null){
+                
+                // updates tab completion
+                ArrayList<String> tabArray = view.getArray("Class");
+                tabArray.add(name1);
+                view.setArray(tabArray, "Class");
+
                  // if class successfully added notify user
                  view.Added("Class", name1);
+
               }else{
                  view.Failed("Class", "Adding");
               }
@@ -59,6 +69,11 @@ public class ClassCommand implements Command2 {
                // if class deleted returned equals true and user is notified
                if(model.getClass(name1) == null){
                    view.Deleted("Class", name1);
+
+                   // updates tab completion
+                    ArrayList<String> tabArray = view.getArray("Class");
+                    tabArray.remove(name1);
+                    view.setArray(tabArray, "Class");
                    
                }else{ // if class not found returned is false and user is notified
                    view.Failed("Class", "Deleting");

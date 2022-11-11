@@ -1,4 +1,6 @@
 package jambl.Controller.Commands;
+import java.util.ArrayList;
+
 import jambl.Controller.History;
 import jambl.Model.*;
 import jambl.View.*;
@@ -19,6 +21,7 @@ public class RenameCommand implements Command1{
     History history;
     Model model;
     String element;
+    ArrayList<String> tabArray;
 
     public RenameCommand(History hist, Model mod, String ele, View v){
         history = hist;
@@ -64,6 +67,16 @@ public class RenameCommand implements Command1{
                if(classCheck == null){
                    history.saveState(model);
                    model.renameClass(name1, name2);
+                   // updates tab completion
+                   tabArray = view.getArray("Class");
+                   tabArray.remove(name1);
+                   view.setArray(tabArray, "Class");
+
+                   // updates tab completion
+                   tabArray = view.getArray("Class");
+                   tabArray.add(name2);
+                   view.setArray(tabArray, "Class");
+
                    view.renamed("Class", name1 , name2);
                }else{
                    view.exists("Class", name2);
@@ -107,6 +120,16 @@ public class RenameCommand implements Command1{
                     history.saveState(model);
                     boolean renamed = class1.renameField(name2, name3); //changes the field name
                     if (renamed) {
+                        // updates tab completion
+                        tabArray = view.getArray("Field");
+                        tabArray.remove(name2);
+                        view.setArray(tabArray, "Field");
+
+                        // updates tab completion
+                        tabArray = view.getArray("Field");
+                        tabArray.add(name3);
+                        view.setArray(tabArray, "Field");
+
                         view.Renamed("Field", name2, name3); //prints success message
                     }
                     return;
@@ -125,15 +148,15 @@ public class RenameCommand implements Command1{
         // if input was blank of class not found it returns an error message and exits
         if ((name1.isBlank()) || (classCheck == null)) {
 
-           if(name1.isBlank()){
-               // if input is empty return invalid input message
-               view.invalid();
-               return;
-           }else{
-               
-               view.notExists("Class", name1);
-               return;
-           }  
+            if(name1.isBlank()){
+                // if input is empty return invalid input message
+                view.invalid();
+                return;
+            }else{
+                
+                view.notExists("Class", name1);
+                return;
+            }  
        }
 
        //prompts user for Method name
@@ -148,38 +171,51 @@ public class RenameCommand implements Command1{
                
                view.invalid();
                return;
-           }else{
-               // if input is empty return invalid input message
-               view.notExists("Method", name2);
-               return;
-           }  
-       }else{
-           name3 = view.inputNewName("Method Name");
-           methodCheck2 = classCheck.getMethod(name3);
+            }else{
+                // if input is empty return invalid input message
+                view.notExists("Method", name2);
+                return;
+            }  
+        }else{
+            name3 = view.inputNewName("Method Name");
+            methodCheck2 = classCheck.getMethod(name3);
 
-           if ((name3.isBlank()) || (methodCheck2 != null)) {
+            if ((name3.isBlank()) || (methodCheck2 != null)) {
 
-               if(name2.isBlank()){
-                   view.invalid();
-                   return;
-               }else{
-                   // if input is empty return invalid input message
-                   view.exists("Method", name3);
-                   return;
-               }  
-           }else{
-               history.saveState(model);
-               // rename method
-               classCheck.renameMethod(methodCheck, name3);
-           }          
-       }
+                if(name2.isBlank()){
+                    view.invalid();
+                    return;
+                }else{
+                    // if input is empty return invalid input message
+                    view.exists("Method", name3);
+                    return;
+                }  
+            }else{
+                history.saveState(model);
+                // rename method
+                classCheck.renameMethod(methodCheck, name3);
+            }          
+        }
 
-       // Checks to see if the method was renamed successfully and notifies user
-       if((classCheck.getMethod(name3) != null) && (classCheck.getMethod(name2)== null)){
-           view.renamed("Method", name2, name3);
-       }else {
-           view.Failed("Method", "Renaming");
-       }
+         // Checks to see if the method was renamed successfully and notifies user
+        if((classCheck.getMethod(name3) != null) && (classCheck.getMethod(name2)== null)){
+
+            // updates tab completion
+            tabArray = view.getArray("Method");
+            tabArray.remove(name2);
+            view.setArray(tabArray, "Method");
+
+            // updates tab completion
+            tabArray = view.getArray("Method");
+            tabArray.add(name3);
+            view.setArray(tabArray, "Method");
+
+            view.renamed("Method", name2, name3);
+        }else {
+            
+
+            view.Failed("Method", "Renaming");
+        }
 
     }
 
@@ -230,6 +266,24 @@ public class RenameCommand implements Command1{
                         history.saveState(model);
                         boolean changed = method1.changeParameter(name2, name3, name4); //changes the parameter name and type
                         if (changed) {
+                            
+                            // updates tab completion
+                            tabArray = view.getArray("Parameter");
+                            tabArray.remove(name2);
+                            view.setArray(tabArray, "Parameter");
+
+                            // updates tab completion
+                            tabArray = view.getArray("Parameter");
+                            tabArray.add(name3);
+                            view.setArray(tabArray, "Parameter");
+
+                            // updates tab completion
+                            tabArray = view.getArray("Type");
+                            if(!tabArray.contains(name4)){
+                                tabArray.add(name4);
+                                view.setArray(tabArray, "Type");
+                            }
+                            
                             view.ParameterChange(name2, name3, name4); //prints success message
                         }
                         return;
