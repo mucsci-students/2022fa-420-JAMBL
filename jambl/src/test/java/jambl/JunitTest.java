@@ -501,4 +501,22 @@ public class JunitTest {
 			cls.addY(100);
 			assertEquals(100, cls.getY());
 		}
+
+		@Test
+		public void testEditRelationshipNotExist () {
+			Class origin = new Class("Item");
+			Class destination = new Class("Car");
+			origin.addRelationship(destination, "COMP");
+			origin.editRelationshipType("Cat", "AGGR");
+			assertEquals("COMP", origin.getRelationship("Car").getRelType());
+		}
+
+		@Test
+		public void testRenameFieldNotExist () {
+			Class origin = new Class("Item");
+			origin.addField("fieldName", "int");
+			origin.renameField("fieldNot", "null");
+			assertEquals("fieldName", origin.getField("fieldName").getFieldName());
+		}
+
 }
