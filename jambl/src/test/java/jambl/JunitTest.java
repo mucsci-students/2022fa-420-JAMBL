@@ -510,7 +510,8 @@ public class JunitTest {
 			origin.addField("fieldName", "int");
 			origin.renameField("fieldNot", "null");
 			assertEquals("fieldName", origin.getField("fieldName").getFieldName());
-
+		}
+		
 		//Test edit relationship when class does not exist
 		@Test
 		public void testEditRelationshipNotExist () {
