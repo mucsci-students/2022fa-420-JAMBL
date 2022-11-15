@@ -93,6 +93,19 @@ public class JunitTest {
 		model.deleteClass(model.getClass("Car"));
 		assertNull(model.getClass("Tire").getRelationship("Car"));
    }
+
+   @Test
+   public void testDeleteClassNotinRel () {
+		Model model = new Model();
+		model.addClass("Tire");
+		model.addClass("Car");
+		model.addClass("Wheel");
+		model.getClass("Tire").addRelationship(model.getClass("Car"), "AGGR");
+		model.deleteClass(model.getClass("Wheel"));
+		assertNotNull(model.getClass("Tire").getRelationship("Car"));
+   }
+
+
 	   
 		// Tests the functionality of getting class name
 	   @Test
