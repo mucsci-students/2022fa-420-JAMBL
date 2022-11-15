@@ -1,4 +1,6 @@
 package jambl.Controller.Commands;
+import java.util.ArrayList;
+
 import jambl.Controller.History;
 import jambl.Model.*;
 import jambl.View.*;
@@ -18,6 +20,7 @@ public class RetypeCommand implements Command1{
     Model model;
     String element;
     String typeName;
+    ArrayList<String> tabArray;
 
     public RetypeCommand(History hist, Model mod, String ele, View v){
         history = hist;
@@ -116,7 +119,13 @@ public class RetypeCommand implements Command1{
                 } else {
                     history.saveState(model);
                     boolean changed = class1.changefieldType(name2, name3); //changes the field type
+                    // update type tab completion
                     if (changed) {
+                        tabArray = view.getArray("Type");
+                        if(!tabArray.contains(name3)){
+                            tabArray.add(name3);
+                            view.setArray(tabArray, "Type");
+                        }
                         view.Retyped("Field type", name2, name3); //prints success message
                     }
                     return;
@@ -164,7 +173,7 @@ public class RetypeCommand implements Command1{
                 return;
             }  
         }else{
-            name3 = view.inputNewName("Return Type");
+            name3 = view.inputType("Return Type");
 
             if (name3.isBlank()) {
                  view.invalid();
@@ -175,6 +184,12 @@ public class RetypeCommand implements Command1{
                 classCheck.changeMethodreturn(methodCheck, name3);
                 // Check to see if type succesfully changed
                 if(classCheck.getMethod(name2).getReturnType().equals(name3)){
+                    // update type tab completion
+                    tabArray = view.getArray("Type");
+                    if(!tabArray.contains(name3)){
+                        tabArray.add(name3);
+                        view.setArray(tabArray, "Type");
+                    }
                     view.renamed("Method Return Type", "", name3);
                     return;
                 }else{

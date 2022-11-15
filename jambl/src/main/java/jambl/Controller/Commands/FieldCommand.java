@@ -1,4 +1,6 @@
 package jambl.Controller.Commands;
+import java.util.ArrayList;
+
 import jambl.Controller.History;
 import jambl.Model.*;
 import jambl.View.*;
@@ -12,6 +14,7 @@ public class FieldCommand implements Command2{
     Class class1;
     History history;
     Model model;
+    ArrayList<String> tabArray;
 
     public FieldCommand(History hist, Model mod, View v){
         history = hist;
@@ -30,7 +33,7 @@ public class FieldCommand implements Command2{
             view.notExists("Class", name1);
             return;
         } else {
-            name2 = view.inputFieldName(); //gets the name for the field
+            name2 = view.inputAdd("Field"); //gets the name for the field
             if (name2.isBlank()) { //checks for blank input
                 view.invalid();
                 return;
@@ -48,6 +51,19 @@ public class FieldCommand implements Command2{
                 history.saveState(model);
                 boolean added = class1.addField(name2, name3); //adds it to the fields set
                 if (added) {
+                    // updates tab completion
+                    tabArray = view.getArray("Field");
+                    tabArray.add(name2);
+                    view.setArray(tabArray, "Field");
+
+                    // updates tab completion
+                    tabArray = view.getArray("Type");
+                    if(!tabArray.contains(name3)){
+                        tabArray.add(name3);
+                        view.setArray(tabArray, "Type");
+                    }
+                    
+
                     view.Added(name3, name2); //prints success messaage
                 }
                 return;
@@ -83,6 +99,12 @@ public class FieldCommand implements Command2{
                 history.saveState(model);
                 boolean removed = class1.deleteField(name2); //removes the field from the set
                 if (removed) {
+
+                    // updates tab completion
+                    tabArray = view.getArray("Field");
+                    tabArray.remove(name2);
+                    view.setArray(tabArray, "Field");
+
                     view.Deleted("Field", name2); //prints success message
                 }
                 return;
