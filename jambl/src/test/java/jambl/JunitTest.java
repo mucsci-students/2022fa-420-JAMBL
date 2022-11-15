@@ -502,6 +502,7 @@ public class JunitTest {
 			assertEquals(100, cls.getY());
 		}
 
+
 		// Test rename field when field does not exist
 		@Test
 		public void testRenameFieldNotExist () {
@@ -509,5 +510,15 @@ public class JunitTest {
 			origin.addField("fieldName", "int");
 			origin.renameField("fieldNot", "null");
 			assertEquals("fieldName", origin.getField("fieldName").getFieldName());
+
+		//Test edit relationship when class does not exist
+		@Test
+		public void testEditRelationshipNotExist () {
+			Class origin = new Class("Item");
+			Class destination = new Class("Car");
+			origin.addRelationship(destination, "COMP");
+			origin.editRelationshipType("Cat", "AGGR");
+			assertEquals("COMP", origin.getRelationship("Car").getRelType());
+
 		}
 }
