@@ -501,4 +501,13 @@ public class JunitTest {
 			cls.addY(100);
 			assertEquals(100, cls.getY());
 		}
+
+		// Test rename field when field does not exist
+		@Test
+		public void testRenameFieldNotExist () {
+			Class origin = new Class("Item");
+			origin.addField("fieldName", "int");
+			origin.renameField("fieldNot", "null");
+			assertEquals("fieldName", origin.getField("fieldName").getFieldName());
+		}
 }
