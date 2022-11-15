@@ -501,4 +501,19 @@ public class JunitTest {
 			cls.addY(100);
 			assertEquals(100, cls.getY());
 		}
+
+
+		//Test edit relationship when multiple relationships exist
+		@Test 
+		public void testEditManyRelationships () {
+			Class origin = new Class("Item");
+			Class destination = new Class("Car");
+			Class origin2 = new Class("Item2");
+			Class origin3 = new Class("Item3");
+			origin.addRelationship(destination, "COMP");
+			origin2.addRelationship(destination, "AGGR");
+			origin3.addRelationship(destination, "AGGR");
+			origin3.editRelationshipType("Car", "COMP");
+			assertEquals("COMP", origin3.getRelationship("Car").getRelType());
+		}
 }
