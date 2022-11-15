@@ -499,6 +499,13 @@ public class JunitTest {
 			mtd.addParameter("name1", "String");
 			assertEquals("name1", mtd.getParameter("name1").getParamName());
 		}
+		// test that getting a parameter that doesn't exist returns null
+		@Test
+		public void testGetParameterNotExists () {
+			Method mtd = new Method("method", "int");
+			mtd.addParameter("name1", "String");
+			assertEquals(null , mtd.getParameter("noName"));
+		}
 
 		//Test setting the X of a class
 		@Test
