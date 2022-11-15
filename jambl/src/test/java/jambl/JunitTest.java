@@ -70,8 +70,8 @@ public class JunitTest {
    public void testDeleteClass(){
       Model newModel = new Model();
       newModel.addClass("Gym");
-      newModel.deleteClass(newModel.getClass("Gym"));
-      assertEquals(null, newModel.getClass("Gym"));
+      ;
+      assertEquals(true,newModel.deleteClass(newModel.getClass("Gym")) );
    }
 
    // Tests to see if deleting a class that doesn't exist
@@ -80,6 +80,7 @@ public class JunitTest {
      Model newModel = new Model();
 	 Class cls = new Class("Gym"); //this class doesnt exist inside the model so it cant be removed
      assertEquals(false, newModel.deleteClass(cls));
+
    }
 
    //Test deleting a class that is in a relationship

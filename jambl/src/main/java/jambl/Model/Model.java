@@ -34,6 +34,8 @@ public class Model {
                 for (Relationship rel: ele.getRelationships()) {
                     if (rel.getDestination().getClassName().toUpperCase().equals(toDelete.getClassName().toUpperCase())) {
                         ele.deleteRelationship(toDelete.getClassName());
+                    }else{
+                        
                     }
                 }
             }
