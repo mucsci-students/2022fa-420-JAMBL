@@ -32,11 +32,16 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+
+import org.jline.reader.impl.completer.NullCompleter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -79,7 +84,7 @@ public class GUIController {
 										}
 										else if (GUINow.comboBoxFile.getSelectedItem().toString().equals("Export as Image"))
 										{
-											// To be determined!
+											imageSave(GUINow);
 										}
 
 										GUINow.comboBoxFile.setSelectedIndex(0);
@@ -684,6 +689,22 @@ public class GUIController {
 			
 		}
 
+ 		public void imageSave (GUIView view) {
+			final JFileChooser fc = new JFileChooser();
+			int returnVal = fc.showSaveDialog(null);
+					
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				BufferedImage image = new BufferedImage(view.diagramArea.getWidth(), view.diagramArea.getHeight(), BufferedImage.TYPE_INT_RGB);
+				Graphics2D graphics2D = image.createGraphics();
+				view.diagramArea.paint(graphics2D);
+				try {
+					ImageIO.write(image,"jpeg", new File (file.getAbsolutePath() + ".jpeg"));
+				} catch (IOException x) {
+					view.saveFailure();
+				} 
+			}
+		}
 
 
 		public void addParameter(String class1, String method1, String name, String type, GUIView GUI){
