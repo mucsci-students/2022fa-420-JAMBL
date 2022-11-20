@@ -65,8 +65,13 @@ public class MethodCommand implements Command2{
         }else{
             // prompts user for method type and adds the method
             name3 = view.inputType("Method Return Type");
+            if(name3.isBlank()){
+                view.invalid();
+            }else{
+                classCheck.addMethod(name2, name3);
+            }
             history.saveState(model);
-            classCheck.addMethod(name2, name3);
+            
 
         }
 

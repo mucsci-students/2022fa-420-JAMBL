@@ -182,7 +182,7 @@ public class RenameCommand implements Command1{
 
             if ((name3.isBlank()) || (methodCheck2 != null)) {
 
-                if(name2.isBlank()){
+                if(name3.isBlank()){
                     view.invalid();
                     return;
                 }else{
