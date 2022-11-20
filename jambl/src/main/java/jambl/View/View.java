@@ -50,8 +50,11 @@ public class View {
        
         input = reader.readLine("Name of "+ type +" to be deleted: ");
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
+       
         return input;
     }
 
@@ -63,8 +66,10 @@ public class View {
         input = reader.readLine("Name of "+ type +" to be renamed: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
         return input;
     }
 
@@ -76,8 +81,10 @@ public class View {
         input = reader.readLine("Enter New "+type+": ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -89,8 +96,10 @@ public class View {
          input = reader.readLine("Name of " + element + " to be added: ");
  
          // take away empty space if tab completion is used
-         StringTokenizer token = new StringTokenizer(input);
-         input = token.nextToken();
+         if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
  
          return input;
     }
@@ -103,8 +112,10 @@ public class View {
         input = reader.readLine("Name of "+ element1 +" "+action +" "+ element2 +": ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
 
@@ -118,8 +129,10 @@ public class View {
         input = reader.readLine("Name of Class to be listed: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -133,8 +146,10 @@ public class View {
         input = reader.readLine("Name of Class: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
         return input;
     }
 
@@ -147,8 +162,10 @@ public class View {
         input = reader.readLine("Name of Field: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -159,8 +176,10 @@ public class View {
         input = reader.readLine("Type of Field: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -177,8 +196,10 @@ public class View {
         input = reader.readLine("New " + item + " of " + object + ": ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
         
         return input;
     } 
@@ -190,8 +211,10 @@ public class View {
         input = reader.readLine("Name of Method: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -203,8 +226,10 @@ public class View {
         input = reader.readLine("Type of Parameter: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -217,8 +242,10 @@ public class View {
         input = reader.readLine("Name of Parameter: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -228,8 +255,10 @@ public class View {
         input = reader.readLine("Delete All Parameters?(yes/no): ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -241,8 +270,10 @@ public class View {
         input = reader.readLine("Name of origin Class in Relationship to be added: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -254,31 +285,37 @@ public class View {
         input = reader.readLine("Name of destination Class in Relationship to be added: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
     
     public String inputDelOriginClass(){
-        reader.setCompleter(new StringsCompleter(tabParams));
+        reader.setCompleter(new StringsCompleter(tabClasses));
         input = reader.readLine("Name of origin Class in Relationship to be deleted: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
     
     // input from user to add destination class
     public String inputDelDestinationClass(){
-        reader.setCompleter(new StringsCompleter(tabParams));
+        reader.setCompleter(new StringsCompleter(tabClasses));
         input = reader.readLine("Name of destination Class in Relationship to be deleted: ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -289,8 +326,10 @@ public class View {
          input = reader.readLine("Name of Relationship Type to be added \n{AGGREGATION = \"AGGR\", COMPOSITION = \"COMP\", INHERITANCE = \"INHE\", REALIZATION = \"REAL\"}: ");
 
          // take away empty space if tab completion is used
-         StringTokenizer token = new StringTokenizer(input);
-         input = token.nextToken();
+         if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
          return input.toUpperCase();
     }
@@ -310,8 +349,10 @@ public class View {
         input = reader.readLine("Would you like to SAVE before quitting? (YES/NO): ");
 
         // take away empty space if tab completion is used
-        StringTokenizer token = new StringTokenizer(input);
-        input = token.nextToken();
+        if(!input.isBlank()){
+            StringTokenizer token = new StringTokenizer(input);
+            input = token.nextToken();
+        }
 
         return input;
     }
@@ -616,11 +657,11 @@ public class View {
  
     // add relationship parameter origin class doesnt exist
     public void originNotExist() {
-    	System.out.println("Origin Class does not exists! Addition of Relationship failed!");
+    	System.out.println("Origin Class does not exists! Action failed!");
     }
     // add relationship parameter destination class doesnt exist
     public void destinationNotExist() {
-    	System.out.println("Destination Class does not exists! Addition of Relationship failed!");
+    	System.out.println("Destination Class does not exists! Action failed!");
     }
 
     public void relNotExists(){
