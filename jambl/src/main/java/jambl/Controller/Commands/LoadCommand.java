@@ -1,6 +1,10 @@
 package jambl.Controller.Commands;
 
 
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import org.json.simple.JSONObject;
 
 
@@ -8,6 +12,10 @@ import jambl.Controller.Controller;
 import jambl.Controller.History;
 import jambl.Controller.Load;
 import jambl.Model.Model;
+import jambl.Model.Parameter;
+import jambl.Model.Class;
+import jambl.Model.Field;
+import jambl.Model.Method;
 import jambl.View.View;
 
 public class LoadCommand implements Command1 {
@@ -55,6 +63,61 @@ public class LoadCommand implements Command1 {
 
        // loads relationships into classes
        this.model = load.loadRelationships(file);
+
+       String type;
+       ArrayList<String> tabClasses = new ArrayList<String>();
+       ArrayList<String> tabMethods = new ArrayList<String>();
+       ArrayList<String> tabFields = new ArrayList<String>();
+       ArrayList<String> tabParams = new ArrayList<String>();
+       ArrayList<String> tabTypes = new ArrayList<String>();
+       // sets tab completeion from a model
+       HashSet<Class> classes = this.model.getClasses();
+       if(classes != null){
+           for(Class aClass : classes){
+               tabClasses.add(aClass.getClassName());
+       
+               HashSet<Method> methods = aClass.getMethods();
+               if(methods != null){
+                   for(Method method : methods ){
+                       tabMethods.add(method.getMethodName());
+                       type = method.getReturnType();
+                       if(!tabTypes.contains(type)){
+                           tabTypes.add(type);
+                       }
+       
+                       HashSet<Parameter> params = method.getParameters();
+                       if(params != null){
+                           for(Parameter param : params){
+                               tabParams.add(param.getParamName());
+                               
+                               type = param.getParamType();
+                               if(!tabTypes.contains(type)){
+                                   tabTypes.add(type);
+                               }
+                           }
+                       }
+                       
+                   }
+
+               }
+              
+               
+               HashSet<Field> fields = aClass.getFields();
+               if(fields != null){
+                   for(Field field : fields ){
+                       tabFields.add(field.getFieldName());
+                       type = field.getFieldType();
+                       if(!tabTypes.contains(type)){
+                           tabTypes.add(type);
+                       }
+                   }
+               }
+               
+           }
+
+       }
+
+       view.setArrays(tabClasses, tabFields, tabMethods, tabParams, tabTypes);
 
        }
 

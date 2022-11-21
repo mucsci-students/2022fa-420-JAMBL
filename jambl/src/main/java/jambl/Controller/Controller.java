@@ -265,14 +265,14 @@ public class Controller {
             
             case REDO:
 
-                DoCommand redo = new DoCommand(history, model);
+                DoCommand redo = new DoCommand(history, model, view);
                 redo.execute();
                 this.model = redo.getModel();
                 break;
             
             case UNDO:
 
-                DoCommand undo = new DoCommand(history, model);
+                DoCommand undo = new DoCommand(history, model, view);
                 undo.unexecute();
                 this.model = undo.getModel();
                 break;

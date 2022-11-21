@@ -18,34 +18,43 @@ import org.jline.reader.LineReaderBuilder;
 import org.jline.terminal.impl.jansi.*;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.terminal.Terminal;
+import org.jline.reader.impl.history.*;
+import org.jline.reader.impl.LineReaderImpl;
+
 
 public class Main {
 
+                                                                   
 
     
 
     public static void main (String args[]) throws IOException{
     	if(args.length != 0 && args[0].equals("--cli")) {
             Terminal terminal = TerminalBuilder.terminal();
-            StringsCompleter comp = new StringsCompleter("addcl","delcl", "rencl",
-                                                                    "addfld", "delfld", "renfld", "fldtype",
-                                                                    "addmtd", "delmtd", "renmtd", "mtdtype",
-                                                                    "addrel", "delrel", "reltype",
-                                                                    "addpar", "delpar","chgpar",
-                                                                    "save", "load", "help", "exit",
-                                                                    "listall", "listcla", "listrel",
-                                                                    "ADDCL","DELCL", "RENCL",
-                                                                    "ADDFLD", "DELFLD","RENFLD", "FLDTYPE",
-                                                                    "ADDMTD", "DELMTD", "RENMTD", "MTDTYPE",
-                                                                    "ADDREL", "DELREL", "RELTYPE",
-                                                                    "ADDPAR", "DELPAR","CHGPAR",
-                                                                    "SAVE", "LOAD", "HELP", "EXIT",                   
-                                                                    "UNDO", "undo","REDO", "Redo",
-                                                                    "LISTALL", "LISTCLA", "LISTREL");
-            
-            LineReader reader = LineReaderBuilder.builder().terminal(terminal).completer(comp).build();
+           // DefaultHistory history = new DefaultHistory();
+            ArrayList<String>  commands = new ArrayList<String>(Arrays.asList( "addcl","delcl", "rencl",
+                                                                                    "addfld", "delfld", "renfld", "fldtype",
+                                                                                    "addmtd", "delmtd", "renmtd", "mtdtype",
+                                                                                    "addrel", "delrel", "reltype",
+                                                                                    "addpar", "delpar","chgpar",
+                                                                                    "save", "load", "help", "exit",
+                                                                                    "listall", "listcla", "listrel",
+                                                                                    "ADDCL","DELCL", "RENCL",
+                                                                                    "ADDFLD", "DELFLD","RENFLD", "FLDTYPE",
+                                                                                    "ADDMTD", "DELMTD", "RENMTD", "MTDTYPE",
+                                                                                    "ADDREL", "DELREL", "RELTYPE",
+                                                                                    "ADDPAR", "DELPAR","CHGPAR",
+                                                                                    "SAVE", "LOAD", "HELP", "EXIT",                   
+                                                                                    "UNDO", "undo","REDO", "Redo",
+                                                                                    "LISTALL", "LISTCLA", "LISTREL"));
+           
+        
+            StringsCompleter comp = new StringsCompleter(commands);
+           // LineReader reader = LineReaderBuilder.builder().terminal(terminal).completer(comp).history(history).build();
+            LineReaderImpl reader = new LineReaderImpl(terminal);
+            reader.setCompleter(comp);
             Model model  = new Model();
-            View view = new View(reader);
+            View view = new View(reader, commands);
             Controller controller = new Controller(model , view);
            
             System.out.println();
@@ -57,6 +66,7 @@ public class Main {
            // userCmd.trim();
             
             String userCmd = reader.readLine("JAMBL> ").toUpperCase();
+           //System.out.println("Current: " + history.get(history.index() - 1));
             if(!userCmd.equals("")){
                 StringTokenizer token = new StringTokenizer(userCmd);
                 userCmd = token.nextToken();
@@ -76,7 +86,8 @@ public class Main {
                     controller.commandExecute(currentCmd);
                 }
                 if (currentCmd != Controller.Command.EXIT) {
-                    
+                    // sets the completer back to command
+                    reader.setCompleter(new StringsCompleter(commands));
                     userCmd = reader.readLine("JAMBL> ").toUpperCase();
                     if(!userCmd.equals("")){
                         StringTokenizer token = new StringTokenizer(userCmd);

@@ -1,4 +1,6 @@
 package jambl.Controller.Commands;
+import java.util.ArrayList;
+
 import jambl.Controller.History;
 import jambl.Model.*;
 import jambl.View.*;
@@ -13,6 +15,7 @@ public class MethodCommand implements Command2{
     History history;
     Model model;
     Method methodCheck;
+    ArrayList<String> tabArray;
 
     public MethodCommand(History hist, Model mod, View v){
         history = hist;
@@ -61,13 +64,31 @@ public class MethodCommand implements Command2{
             }  
         }else{
             // prompts user for method type and adds the method
-            name3 = view.inputAdd("Method Return Type");
+            name3 = view.inputType("Method Return Type");
+            if(name3.isBlank()){
+                view.invalid();
+            }else{
+                classCheck.addMethod(name2, name3);
+            }
             history.saveState(model);
-            classCheck.addMethod(name2, name3);
+            
+
         }
 
         // Checks to see if the method was added successfully and notifies user
         if(classCheck.getMethod(name2) != null){
+
+            // updates tab completion
+            tabArray = view.getArray("Method");
+            tabArray.add(name2);
+            view.setArray(tabArray, "Method");
+
+            tabArray = view.getArray("Type");
+            if(!tabArray.contains(name3)){
+                tabArray.add(name3);
+                view.setArray(tabArray, "Type");
+            }
+
             view.Added(name2, "Method");
         }else {
             view.Failed("Method", "Adding");
@@ -121,9 +142,15 @@ public class MethodCommand implements Command2{
 
          // Checks to see if the method was deleted successfully and notifies user
          if(classCheck.getMethod(name2) == null){
-             view.Deleted(name2, "Method");
+
+            // updates tab completion
+            tabArray = view.getArray("Method");
+            tabArray.remove(name2);
+            view.setArray(tabArray, "Method");
+            
+            view.Deleted(name2, "Method");
          }else {
-             view.Failed("Method", "Deleting");
+            view.Failed("Method", "Deleting");
          }
     }
 }

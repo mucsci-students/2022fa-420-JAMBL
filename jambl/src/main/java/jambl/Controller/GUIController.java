@@ -23,6 +23,7 @@ import javax.swing.JButton;
 import javax.swing.event.SwingPropertyChangeSupport;
 import javax.swing.text.View;
 import javax.swing.text.AttributeSet.FontAttribute;
+import javax.swing.border.*;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -30,11 +31,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+
+import org.jline.reader.impl.completer.NullCompleter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -63,16 +70,143 @@ public class GUIController {
 						GUIView GUINow = new GUIView();
 						GUINow.setVisible();
 						
+						/* COMBO BOX ACTION LISTENERS */
+
+						GUINow.comboBoxFile.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxFile.getSelectedItem().toString().equals("Save")){
+											saveAction(GUINow.saveWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxFile.getSelectedItem().toString().equals("Load"))
+										{
+											loadAction(GUINow.loadWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxFile.getSelectedItem().toString().equals("Export as Image"))
+										{
+											imageSave(GUINow);
+										}
+
+										GUINow.comboBoxFile.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxClass.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+									if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxClass.getSelectedItem().toString().equals("Add")){
+											addClassAction(GUINow.addingClassWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxClass.getSelectedItem().toString().equals("Rename"))
+										{
+											renClassAction(GUINow.renamingClassWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxClass.getSelectedItem().toString().equals("Delete"))
+										{
+											deleteClassAction(GUINow.deletingClassWindow(), GUINow);
+										}
+
+										GUINow.comboBoxClass.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxField.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxField.getSelectedItem().toString().equals("Add")){
+											addingFieldAction(GUINow.addingFieldWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxField.getSelectedItem().toString().equals("Change Type"))
+										{
+											editingFieldAction(GUINow.editingFieldWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxField.getSelectedItem().toString().equals("Rename"))
+										{
+											renamingFieldAction(GUINow.renamingFieldWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxField.getSelectedItem().toString().equals("Delete"))
+										{
+											deletingFieldAction(GUINow.deletingFieldWindow(), GUINow);
+										}
+
+										GUINow.comboBoxField.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxMethod.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxMethod.getSelectedItem().toString().equals("Add")){
+											addingMethodAction(GUINow.addingMethodWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxMethod.getSelectedItem().toString().equals("Change Return"))
+										{
+											changingMethodAction(GUINow.changingMethodWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxMethod.getSelectedItem().toString().equals("Rename"))
+										{
+											renamingMethodAction(GUINow.renamingMethodWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxMethod.getSelectedItem().toString().equals("Delete"))
+										{
+											deletingMethodAction(GUINow.deletingMethodWindow(), GUINow);
+										}
+
+										GUINow.comboBoxMethod.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxParameter.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxParameter.getSelectedItem().toString().equals("Add")){
+											addingParamAction(GUINow.addingParamWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxParameter.getSelectedItem().toString().equals("Rename"))
+										{
+											changingParamAction(GUINow.changingParamWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxParameter.getSelectedItem().toString().equals("Delete"))
+										{
+											deletingParamAction(GUINow.deletingParamWindow(), GUINow);
+										}
+
+										GUINow.comboBoxParameter.setSelectedIndex(0);
+									}
+							}
+						});
+
+						GUINow.comboBoxRelationship.addItemListener(new ItemListener() {
+							public void itemStateChanged(ItemEvent e) {
+								   if (e.getStateChange() == ItemEvent.SELECTED) {
+										if(GUINow.comboBoxRelationship.getSelectedItem().toString().equals("Add")){
+											addingRelsAction(GUINow.addingRelsWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxRelationship.getSelectedItem().toString().equals("Change Type"))
+										{
+											changingRelsAction(GUINow.changingRelsWindow(), GUINow);
+										}
+										else if (GUINow.comboBoxRelationship.getSelectedItem().toString().equals("Delete"))
+										{
+											deletingRelsAction(GUINow.deletingRelsWindow(), GUINow);
+										}
+
+										GUINow.comboBoxRelationship.setSelectedIndex(0);
+									}
+							}
+						});
+
+						/* BUTTON ACTION LISTENERS */
 
 						// Adding a Class Action Listener
 						GUINow.addClassBtn().addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								
-								
 								addClassAction(GUINow.addingClassWindow(), GUINow);
-								
 							}
-
 						});
 
 						// Deleting Class Action Listener
@@ -80,7 +214,6 @@ public class GUIController {
 							public void actionPerformed(ActionEvent e) {
 								deleteClassAction(GUINow.deletingClassWindow(), GUINow);
 							}
-
 						});
 
 						// Renaming a Class Action Listener
@@ -254,8 +387,6 @@ public class GUIController {
 							}
 
 						});
-
-
 
 					} catch (Exception e) {
 						
@@ -558,6 +689,22 @@ public class GUIController {
 			
 		}
 
+ 		public void imageSave (GUIView view) {
+			final JFileChooser fc = new JFileChooser();
+			int returnVal = fc.showSaveDialog(null);
+					
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				BufferedImage image = new BufferedImage(view.diagramArea.getWidth(), view.diagramArea.getHeight(), BufferedImage.TYPE_INT_RGB);
+				Graphics2D graphics2D = image.createGraphics();
+				view.diagramArea.paint(graphics2D);
+				try {
+					ImageIO.write(image,"jpeg", new File (file.getAbsolutePath() + ".jpeg"));
+				} catch (IOException x) {
+					view.saveFailure();
+				} 
+			}
+		}
 
 
 		public void addParameter(String class1, String method1, String name, String type, GUIView GUI){
@@ -973,7 +1120,7 @@ public class GUIController {
 				public void itemStateChanged(ItemEvent arg0) {
 					view.Methods.setModel(new DefaultComboBoxModel<Object>(getList("Method", view.Classes.getSelectedItem().toString(), null)));
 					view.Methods.setVisible(true);
-					view.lblMethods.setVisible(true);
+					//view.lblMethods.setVisible(true);
 				}
 			});
 
@@ -1630,10 +1777,29 @@ public class GUIController {
 		
 
 		for (Class cls: model.getClasses()) {
-			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), getRelInfo(cls), cls.getX(), cls.getY());
-			JTextArea text = new JTextArea(prepareContents(cls));
-			text.setEditable(false);
-			classBox.add(text);
+			JPanel pane = new JPanel();
+			pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+			int numFields = Math.max(cls.getFields().size(), 1);
+			int numMethods = Math.max(cls.getMethods().size(), 1);
+			int longest = getLongest(cls);
+
+			JTextArea fields = new JTextArea(getFieldContent(cls), ((numFields - 1) * 15) + 15, Math.max(longest * 14, 50));
+			fields.setBorder(new MatteBorder(2,2,1,2,Color.black));
+			fields.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+			fields.setEditable(false);
+			pane.add(fields);
+
+			JTextArea methods = new JTextArea(getMethodContent(cls), ((numMethods - 1) * 15) + 15, Math.max(longest * 14, 50));
+			methods.setBorder(new MatteBorder(1,2,2,2,Color.black));
+			methods.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+			methods.setEditable(false);
+			pane.add(methods);
+
+			int boxWidth = Math.max(100,(Math.max(fields.getColumns(), methods.getColumns()) / 2));
+
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), getRelInfo(cls), cls.getX(), cls.getY(), boxWidth, (fields.getRows() + methods.getRows()) + 40);
+			classBox.add(pane);
+
 			view.diagramArea.addNewFrame(classBox);
 		}
 	}
@@ -1652,11 +1818,23 @@ public class GUIController {
 		
 
 		for (Class cls: model.getClasses()) {
-			ArrayList<String> relInfo = getRelInfo(cls);
-			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), relInfo, cls.getX(), cls.getY());
-			JTextArea text = new JTextArea(prepareContents(cls));
-			text.setEditable(false);
-			classBox.add(text);
+			JPanel pane = new JPanel();
+			pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+			int numFields = Math.max(cls.getFields().size(), 1);
+			int numMethods = Math.max(cls.getMethods().size(), 1);
+			int longest = getLongest(cls);
+			JTextArea fields = new JTextArea(getFieldContent(cls), ((numFields - 1) * 15) + 15, Math.max(longest * 14, 50));
+			fields.setBorder(new MatteBorder(2,2,1,2,Color.black));
+			fields.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+			pane.add(fields);
+			JTextArea methods = new JTextArea(getMethodContent(cls), ((numMethods - 1) * 15) + 15, Math.max(longest * 14, 50));
+			methods.setBorder(new MatteBorder(1,2,2,2,Color.black));
+			methods.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+			pane.add(methods);
+			int boxWidth = Math.max(100,(Math.max(fields.getColumns(), methods.getColumns()) / 2));
+			MyFrame classBox = view.diagramArea.new MyFrame(cls.getClassName(), getRelInfo(cls), cls.getX(), cls.getY(), boxWidth, (fields.getRows() + methods.getRows()) + 40);
+			classBox.add(pane);
+
 			view.diagramArea.addNewFrame(classBox);
 		}
 	}
@@ -1684,39 +1862,103 @@ public class GUIController {
 		return info;
 	}
 
-	public String prepareContents(Class cls){
-        String contents = cls.getClassName() + "\n========\n\n";
-        contents = contents +"     Fields:\n";
-        
-        for (Field fld: cls.fields) {
-            String fieldType = fld.getFieldType();
-            String fieldName = fld.getFieldName();
-			contents = contents +"     * " + fieldType + " " + fieldName + "\n";
-        }
-        
-        contents = contents +"\n     Methods:\n";
-        
-        for (Method mtd: cls.getMethods()) {
-            String returnType = mtd.getReturnType();
-            String methodName = mtd.getMethodName();
-            contents = contents +"     * " + returnType + " " + methodName + " (";
-            HashSet<Parameter> params = mtd.getParameters();
-            int count = params.size();
-            if (count == 0) {
-                contents = contents + ")\n";
-            } else {
-                for (Parameter par: params) {
-                    contents = contents + par.getParamType() + " " + par.getParamName();
-                    count --;
-                    if (count > 0) {
-                        contents = contents +", ";
-                    } else {
-                       contents = contents + ")\n";
-                    }
-                }
-            }
-        }
-        return contents;
-    }
-}
+	/*********************************************************************
+    *This method creates the contents for the field area of a classbox
+    *Parameters: Class
+    *Returns: String to be added to JTextArea
+    *Prerequisites:
+    **********************************************************************/
+	public String getFieldContent (Class cls) {
+		String contents = "";
+		int count = cls.getFields().size();
+		if (count == 0) {
+			contents = " ";
+		} else {
+			for (Field fld: cls.getFields()) {
+				String fldType = fld.getFieldType();
+				String fldName = fld.getFieldName();
+				contents = contents + fldType + " " + fldName;
+				count --;
+				if (count != 0) {
+					contents = contents + "\n";
+				}		
+			}
+		}
+		return contents;
+	}
 
+	/*********************************************************************
+    *This method creates the contents for the method area of a classbox
+    *Parameters: Class
+    *Returns: String to be added to JTextArea
+    *Prerequisites:
+    **********************************************************************/
+	public String getMethodContent (Class cls) {
+		String contents = "";
+		int mtdCount = cls.getMethods().size();
+		if (mtdCount == 0) {
+			contents = " ";
+		} else {	
+			for (Method mtd: cls.getMethods()) {
+				String returnType = mtd.getReturnType();
+            	String methodName = mtd.getMethodName();
+            	contents = contents + returnType + " " + methodName + " (";
+            	HashSet<Parameter> params = mtd.getParameters();
+            	int parCount = params.size();
+            	if (parCount == 0) {
+                	contents = contents + ")";
+					mtdCount--;
+					if (mtdCount != 0) {
+						contents = contents + "\n";
+					}
+            	} else {
+                	for (Parameter par: params) {
+						String parType = par.getParamType();
+						String parName = par.getParamName();
+                    	contents = contents + parType + " " + parName;
+                    	parCount --;
+                    	if (parCount > 0) {
+                        	contents = contents +", ";
+                    	} else {
+                       		contents = contents + ")";
+							mtdCount--;
+							if (mtdCount != 0) {
+								contents = contents + "\n";
+							}
+                    	}
+                	}
+            	}
+        	}
+		}
+		return contents;
+	}
+
+	/*********************************************************************
+    *This method calculates the the longest string from the fields and methods
+    *Parameters: Class
+    *Returns: int of the longest string for any field or method
+    *Prerequisites:
+    **********************************************************************/
+	public int getLongest (Class cls) {
+		int longest  = 0;
+		for (Field fld: cls.getFields()) {
+			int fldLen = fld.getFieldType().length() + fld.getFieldName().length() + 1;
+			longest = Math.max(longest, fldLen);
+		}
+		for (Method mtd: cls.getMethods()) {
+			int mtdLen;
+			int parCount = mtd.getParameters().size();
+			int parLen = 0;
+			for (Parameter par: mtd.getParameters()) {
+				parLen = parLen + par.getParamType().length() + par.getParamName().length() + 1;
+				parCount--;
+				if (parCount > 0) {
+					parLen +=2;
+				}
+			}
+			mtdLen = mtd.getReturnType().length() + mtd.getMethodName().length() + parLen + 4;
+			longest = Math.max(longest, mtdLen);
+		}
+		return longest;
+	}
+}

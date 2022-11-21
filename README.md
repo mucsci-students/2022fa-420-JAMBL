@@ -7,6 +7,8 @@ Users can use this command line interface to construct a class UML diagram. It c
 * Iterator - used to traverse the HashSets used within the Model components. We made use of the built-in Java Iterator class.
 * Memento - used to create a state of the Model to return to if needed. Memento was used in the implementation of the undo/redo functionality.
 * Command - used to encapsulate each type of function the program was performing with a uniform execution. Command design pattern was used in the Controller to actually run each command from the user.
+* Observer - used to perform functions upon a change in the state. The action listeners for each button implement the principles of the Observer design pattern.
+* Factory - used to provide a general interface for creating objects but they can be made into different types of that object as specified within the subclass. Factory pattern was used in the creation of the different arrow types to be drawn in the diagram.
 
 # How to run JAMBL UML Editor
 * Ensure that both Maven and Java JDK 19 are both installed correctly by typing in the command line "mvn -version" or "java -version" to show both the Maven version or the Java version currently running on the machine.

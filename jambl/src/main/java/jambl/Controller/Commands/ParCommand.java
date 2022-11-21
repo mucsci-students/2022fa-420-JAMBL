@@ -1,4 +1,6 @@
 package jambl.Controller.Commands;
+import java.util.ArrayList;
+
 import jambl.Controller.History;
 import jambl.Model.*;
 import jambl.View.*;
@@ -16,6 +18,7 @@ public class ParCommand implements Command2{
     Method method1;
     History history;
     Model model;
+    ArrayList<String> tabArray;
 
     public ParCommand(History hist, Model mod, View v){
         history = hist;
@@ -46,7 +49,7 @@ public class ParCommand implements Command2{
                 view.notExists("Method", name1);
                 return;
             } else {
-                name2 = view.inputParameterName(); //gets the name for the parameter
+                name2 = view.inputAdd("Parameter"); //gets the name for the parameter
                 if (name2.isBlank()) { //checks for blank input
                     view.invalid();
                     return;
@@ -64,6 +67,18 @@ public class ParCommand implements Command2{
                     boolean added = method1.addParameter(name2, name3); //adds it to the parameters set
                     if (added) {
                         view.Added(name3, name2); //prints success messaage
+
+                        // updates tab completion
+                        tabArray = view.getArray("Parameter");
+                        tabArray.add(name2);
+                        view.setArray(tabArray, "Parameter");
+
+                        // updates tab completion
+                        tabArray = view.getArray("Type");
+                        if(!tabArray.contains(name3)){
+                            tabArray.add(name3);
+                            view.setArray(tabArray, "Type");
+                        }
                     }
                     return;
                 }
@@ -122,6 +137,10 @@ public class ParCommand implements Command2{
                         history.saveState(model);
                         boolean removed = method1.deleteParameter(name2); //removes the parameter from the set
                         if (removed) {
+                            // updates tab completion
+                            tabArray = view.getArray("Parameter");
+                            tabArray.remove(name2);
+                            view.setArray(tabArray, "Parameter");
                             view.Deleted("Parameter", name2); //prints success message
                         }
                         return;

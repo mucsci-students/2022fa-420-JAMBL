@@ -70,8 +70,8 @@ public class JunitTest {
    public void testDeleteClass(){
       Model newModel = new Model();
       newModel.addClass("Gym");
-      newModel.deleteClass(newModel.getClass("Gym"));
-      assertEquals(null, newModel.getClass("Gym"));
+      ;
+      assertEquals(true,newModel.deleteClass(newModel.getClass("Gym")) );
    }
 
    // Tests to see if deleting a class that doesn't exist
@@ -80,6 +80,7 @@ public class JunitTest {
      Model newModel = new Model();
 	 Class cls = new Class("Gym"); //this class doesnt exist inside the model so it cant be removed
      assertEquals(false, newModel.deleteClass(cls));
+
    }
 
    //Test deleting a class that is in a relationship
@@ -92,6 +93,19 @@ public class JunitTest {
 		model.deleteClass(model.getClass("Car"));
 		assertNull(model.getClass("Tire").getRelationship("Car"));
    }
+
+   @Test
+   public void testDeleteClassNotinRel () {
+		Model model = new Model();
+		model.addClass("Tire");
+		model.addClass("Car");
+		model.addClass("Wheel");
+		model.getClass("Tire").addRelationship(model.getClass("Car"), "AGGR");
+		model.deleteClass(model.getClass("Wheel"));
+		assertNotNull(model.getClass("Tire").getRelationship("Car"));
+   }
+
+
 	   
 		// Tests the functionality of getting class name
 	   @Test
@@ -109,6 +123,16 @@ public class JunitTest {
 		   String result = newClass.getClassName();
 		   assertEquals(expected, result);
 	   }
+
+	   //Tests getting the set of classes
+		@Test
+		public void testGetClassSet() {
+			Model newModel = new Model();
+			newModel.addClass("Class1");
+			newModel.addClass("Class2");
+			HashSet<Class> clsSet = newModel.getClasses();
+			assertEquals(2, clsSet.size());
+		}
 
 	   //Tests getting the set of fields of a class
 	   @Test
@@ -359,6 +383,17 @@ public class JunitTest {
 			assertEquals(newFieldName, result);
 		}
 
+		// Test whether the rename field method returns true when you correct rename field
+		@Test
+		public void testRenameFieldReturnsTrue() {
+			Class newClass = new Class("Keyboard");
+			oldFieldName = "escape";
+			fieldType = "Key";
+			newClass.addField(oldFieldName, fieldType);
+			newFieldName = "tab";
+			assertTrue(newClass.renameField(oldFieldName, newFieldName));
+		}
+
 		// Tests the functionality of renaming a Field that does not exist in a class
 		@Test 
 		public void testRenameFieldThatDoesNotExist(){
@@ -457,6 +492,21 @@ public class JunitTest {
 			assertFalse(mtd.deleteParameter("item3"));
 		}
 
+		//Test getParamName
+		@Test
+		public void testGetParameterName () {
+			Method mtd = new Method("method", "int");
+			mtd.addParameter("name1", "String");
+			assertEquals("name1", mtd.getParameter("name1").getParamName());
+		}
+		// test that getting a parameter that doesn't exist returns null
+		@Test
+		public void testGetParameterNotExists () {
+			Method mtd = new Method("method", "int");
+			mtd.addParameter("name1", "String");
+			assertEquals(null , mtd.getParameter("noName"));
+		}
+
 		//Test setting the X of a class
 		@Test
 		public void testSetX () {
@@ -471,5 +521,24 @@ public class JunitTest {
 			Class cls = new Class("Tire");
 			cls.addY(100);
 			assertEquals(100, cls.getY());
+		}
+
+		//Test edit relationship when class does not exist
+		@Test
+		public void testEditRelationshipNotExist () {
+			Class origin = new Class("Item");
+			Class destination = new Class("Car");
+			origin.addRelationship(destination, "COMP");
+			origin.editRelationshipType("Cat", "AGGR");
+			assertEquals("COMP", origin.getRelationship("Car").getRelType());
+		}
+
+		//Test rename field when field does not exist
+		@Test
+		public void testRenameFieldNotExist () {
+			Class origin = new Class("Item");
+			origin.addField("fieldName", "int");
+			origin.renameField("fieldNot", "null");
+			assertEquals("fieldName", origin.getField("fieldName").getFieldName());
 		}
 }
